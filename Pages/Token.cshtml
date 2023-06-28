@@ -1,0 +1,39 @@
+﻿@page
+@model woodgrovedemo.Pages.TokenModel
+@{
+}
+<h1 style="color: green; padding-bottom: 15px; padding-top: 15px;">Your claims</h1>
+
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Claim</th>
+                <th scope="col">Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var claim in User.Claims)
+            {
+                <tr>
+                    <td scope="row" style="color: #1b1b1b;">@claim.Type</td>
+                    <td class="text-break">@claim.Value</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <a asp-area="" asp-page="/Profile" role="button" class="btn header-button"><i class="bi bi-card-text"></i> My
+        profile</a>
+</div>
+
+@section AboutThisDemo{
+    <div>
+        This demo shows the <b>ID token</b> user's <b>claims</b>. The ID token is the core extension that OpenID Connect
+        makes to OAuth 2.0. ID tokens are issued by Azure AD and contain claims that carry information about you.
+
+        <br />&nbsp;<br />
+        ID tokens are intended to be understood by your applications. Information in ID Tokens allows the applications to
+        verify that a user is who they claim to be.
+    </div>
+}

@@ -1,0 +1,85 @@
+﻿@page
+@model MyApp.Namespace.DeleteMyAccountModel
+@{
+    ViewData["Title"] = "Delete my account";
+}
+
+<h1 style="color: green; padding-bottom: 15px; padding-top: 15px;">Delete your account</h1>
+<div class="container">
+    <h4>What happens if you delete your account?</h4>
+    <ul>
+        <li>After you delete your account, the account remains in a suspended state for 30 days. During that 30-day
+            window,
+            Woodgrove administrators can restore your account, along with all its properties. After that 30-day window
+            passes, the
+            permanent deletion process is automatically started and can't be stopped.</li>
+        <li>In a couple of minutes you won't be able to sign-in to Woodgrove demo application with that account.</li>
+        <li>You won't be able to reactivate your account. But you will be able to sign-up again (in a couple of
+            minutes).</li>
+    </ul>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger" role="alert" style="padding-bottom: 25px; padding-top: 25px;">
+            @Model.ErrorMessage
+        </div>
+    }
+
+    @if (!string.IsNullOrEmpty(Model.Message))
+    {
+        <div class="alert alert-success" role="alert" style="padding-bottom: 25px; padding-top: 25px;">
+            @Model.Message
+        </div>
+    }
+
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        <form method="post">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i
+                    class="bi bi-trash"></i> Delete my account now</button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Delete my account</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to delete your account?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                            <button type="submit" class="btn btn-danger">Yes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    }
+    else
+    {
+        <div class="alert alert-secondary" role="alert" style="padding-bottom: 25px; padding-top: 25px;">
+            <i class="bi bi-info-circle"></i>&nbsp; To delete your account, please sign-in!
+        </div>
+    }
+</div>
+
+
+
+@section AboutThisDemo{
+    <div>
+        This demo shows how users can delete their account from Azure Active Directory. When deleted, their
+        account will be moved to a temporary container and can be restored only by the tenant administrator
+        within 30 days. After that time, they are permanently deleted.
+
+        <br />&nbsp;<br />
+        To delete a user account, use <a href="https://learn.microsoft.com/en-us/graph/api/user-delete">Microsoft Graph API
+            user
+            endpoint</a>.
+    </div>
+}

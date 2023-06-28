@@ -1,0 +1,73 @@
+﻿@using System.Security.Principal
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+
+<ul class="navbar-nav">
+    @{
+        bool hasAccessToOrders = false;
+
+        if (User.Identity?.IsAuthenticated == true)
+        {
+            hasAccessToOrders = User.IsInRole("Orders.Manager");
+        }
+
+        bool hasAccessToManageProducts = false;
+
+        if (User.Identity?.IsAuthenticated == true)
+        {
+            // Check if the user has access to manage products
+            hasAccessToManageProducts = User.IsInRole("Products.Contributor");
+            // In other languages:
+            // - validate token with a library and check audience
+            // - do exact string match on "roles" claim and expected value in the token json payload
+        }
+}
+
+@if (hasAccessToManageProducts)
+{
+    <li class="nav-item">
+        <a asp-area="" asp-page="/Products" role="button" class="nav-link header-button"><i class="bi bi-list-ul"></i> Products</a>
+    </li>
+
+    <li class="nav-item woodgrove-nav-space">
+        <div style="width: 10px;"></div>
+    </li>
+}
+
+@if (hasAccessToOrders)
+{
+    // Link to the orders available only to users with Orders.Manager role
+    <li class="nav-item">
+        <a class="nav-link header-button" role="button" asp-area="" asp-page="/Orders"><i class="bi bi-cart3"></i> Orders</a>
+    </li> 
+
+    <li class="nav-item woodgrove-nav-space">
+        <div style="width: 10px;"></div>
+    </li>
+}
+
+
+
+@if (User.Identity?.IsAuthenticated == true)
+{   
+    <li class="nav-item">
+        <a class="nav-link header-button" href="/profile"><i class="bi bi-person-fill"></i> Profile</a>
+    </li>
+    <li class="nav-item woodgrove-nav-space">
+        <div style="width: 10px;"></div>
+    </li>
+    <li class="nav-item" style="margin-right: 25px; margin-top: 4px;">
+        <a class="nav-link text-dark" href="/token" style="white-space: nowrap;">Hello @User.Identity.Name</a>
+    </li>
+    <li class="nav-item">
+        @* <a class="nav-link" asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignOut">Sign out</a> *@
+        <a class="nav-link header-button" href="/signout">Sign out</a>
+    </li>
+}
+else
+{
+    <li class="nav-item">
+        <a class="nav-link header-button" role="button" href="/SignIn?handler=Default">Sign in</a>
+    </li>
+}
+</ul>

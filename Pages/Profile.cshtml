@@ -1,0 +1,150 @@
+﻿@page
+@model MyApp.Namespace.ProfileModel
+@{
+}
+
+<h1 style="color: green; padding-bottom: 15px; padding-top: 15px;">Edit your profile</h1>
+
+<style>
+    .form-group {
+        margin-top: 10px;
+    }
+</style>
+
+<div class="container">
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger" role="alert" style="padding-bottom: 25px; padding-top: 25px;">
+            @Model.ErrorMessage
+        </div>
+    }
+
+    @if (!string.IsNullOrEmpty(Model.Message))
+    {
+        <div class="alert alert-success" role="alert" style="padding-bottom: 25px; padding-top: 25px;">
+            @Model.Message
+        </div>
+    }
+
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        <div class="text-left">
+            <form method="post">
+                <div class="form-group row">
+                    <label for="inputDisplayName" class="col-sm-2 col-form-label">Display name</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputDisplayName" asp-for="DisplayName" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputGivenName" class="col-sm-2 col-form-label">Given name</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputGivenName" asp-for="GivenName">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputSurname" class="col-sm-2 col-form-label">Surname</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputSurname" asp-for="Surname">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputCountry" class="col-sm-2 col-form-label">Country</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputCountry" asp-for="Country">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputCity" class="col-sm-2 col-form-label">City</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputCity" asp-for="City">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputSpecialDiet" class="col-sm-2 col-form-label">Special diet</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputSpecialDiet" asp-for="SpecialDiet">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Identities</label>
+                    <div class="col-sm-10">
+                        @Html.Raw(Model.Identities)
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="staticID" class="col-sm-2 col-form-label">ID</label>
+                    <div class="col-sm-10">
+                        <input type="text" readonly class="form-control-plaintext" id="staticID" asp-for="ObjectId">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <button type="submit" asp-page-handler="Profile" class="btn header-button"><i
+                                class="bi bi-save2"></i> Save</button>&nbsp;&nbsp;
+                        <a asp-area="" asp-page="/DeleteMyAccount" role="button" class="btn header-button"><i
+                                class="bi bi-trash"></i> Delete your account</a>
+                    </div>
+                </div>
+            </form>
+
+            <h2 style="color: green; padding-bottom: 15px; padding-top: 75px;">Your application roles and security groups
+            </h2>
+
+            You are eligible for activating the following application roles and security groups. You can request to activate
+            the roles and add yourself to the security groups when you need its privileges. Then you'll have Woodgrove
+            contributor or manage control for this demo application and have access to manage online orders, update the
+            products, or get discounts as a member of the 'Commercial Accounts' group.
+            <form method="post">
+                <div class="form-group">
+                    <h4 style="color: rgb(45, 45, 45); padding-bottom: 5px;">Security groups</h4>
+                    <div class="form-check">
+                        <input type="checkbox" value="true" class="form-check-input" name="MemberOfCommercialAccounts"
+                            checked="@(Model.MemberOfCommercialAccounts)">
+                        <label for="MemberOfCommercialAccounts">Member of 'Commercial Accounts' group</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <h4 style="color: rgb(45, 45, 45); padding-bottom: 5px; padding-top: 10px;">Application roles</h4>
+                    <div class="form-check">
+                        <input type="checkbox" value="true" class="form-check-input" name="HasProductsContributorRole"
+                            checked="@(Model.HasProductsContributorRole)">
+                        <label for="HasProductsContributorRole">Products.Contributor application role</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" value="true" class="form-check-input" name="HasOrdersManagerRole"
+                            checked="@(Model.HasOrdersManagerRole)">
+                        <label for="HasOrdersManagerRole">Orders.Manager Manager role</label>
+                    </div>
+                </div>
+                <div class="form-group" style="padding-top: 15px;">
+                    <button type="submit" class="btn header-button" asp-page-handler="Roles"><i class="bi bi-save2"></i>
+                        Update app roles and security groups</button>
+                </div>
+            </form>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-secondary" role="alert" style="padding-bottom: 25px; padding-top: 25px;">
+            <i class="bi bi-info-circle"></i>&nbsp; To edit your profile, please sign-in!
+        </div>
+    }
+
+</div>
+
+@section AboutThisDemo{
+    <div>
+        This demo shows how users can update the properties of their account. Profile editing lets users manage
+        their profile attributes, like display name, surname, given name, city, and others.
+
+        <br />&nbsp;<br />
+        To update a user account, use <a href="https://learn.microsoft.com/en-us/graph/api/user-update">Microsoft Graph API
+            user
+            endpoint</a>.
+
+        <br />&nbsp;<br />
+        Note, after you update your profile, sign-out and sign-in again. In this way, the application will get a
+        new ID token.
+    </div>
+}

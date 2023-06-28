@@ -1,0 +1,47 @@
+﻿@page
+@model woodgrovedemo.Pages.OrdersModel
+@{
+}
+
+<h1 style="color: green; padding-bottom: 15px; padding-top: 15px;">Online orders</h1>
+
+@if (User.Identity?.IsAuthenticated == true)
+{
+    @if (!Model.UserHasAccess)
+    {
+        <div class="alert alert-danger" role="alert" style="padding-bottom: 25px; padding-top: 25px;">
+            To manage online orders, you should have the 'Orders.Manager' application role. 
+        </div>
+    }
+    else
+    {
+        <table class="table table-hover">
+        <thead>
+            <tr>
+            <th scope="col">#</th>
+            <th scope="col">Account</th>
+            <th scope="col">Items</th>
+            <th scope="col">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model.Orders)
+            {
+            <tr>
+                <td scope="row">@order.ID</td>
+                <td>@order.account</td>
+                <td>@order.Items</td>
+                <td>@order.Total$</td>
+                <td></td>
+            </tr>
+            }
+        </tbody>
+        </table>
+    }
+}
+else
+{
+    <div class="alert alert-secondary" role="alert" style="padding-bottom: 25px; padding-top: 25px;">
+        <i class="bi bi-info-circle"></i>&nbsp; To manage orders, please login!
+    </div>
+}

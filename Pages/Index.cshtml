@@ -1,0 +1,339 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Woodgrove Groceries";
+}
+
+@section Jumbotron{
+    <!-- Welcome message-->
+    <div class="inner-header">
+        <div class="jumbotron" style="margin-top: 20px;">
+            <div class="container">
+                <div class="row align-items-center">
+                    <h1 style="margin-bottom: 5px; text-shadow: 1px 1px 10px rgb(3, 80, 2); w">Welcome to Woodgrove
+                        Groceries demo</h1>
+                </div>
+                <div class="row align-items-center">
+
+                    <div class="col col-lg-2 avatar-container">
+                        <div id="carouselExampleAutoplaying" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                            <div class="carousel-inner" style="width: 180px; padding-left: 20px">
+
+                                @for (var avatar = 0; avatar < Model.listOfAvatars.Count; avatar++)
+                                {
+                                    var avatarActive = (avatar == 0 ? " active" : "");
+
+                                    <div class='@($"carousel-item {avatarActive}")'>
+                                        <img src='@($"/images/Shopping/Shopping_{Model.listOfAvatars[avatar]}.png")'
+                                            class="d-block w-100 avatar" alt="A persong shopping illustration">
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col lead" style="text-align: left;">
+                        <span style="letter-spacing: 0.6px;">
+                            <a href="https://aka.ms/ciam/docs" class="link-without-underline">Microsoft Entra External
+                                ID</a> for your customers offers solutions that let you quickly add
+                            intuitive,
+                            user-friendly sign-up and sign-up experiences for your customer apps. The <b>Woodgrove
+                                Groceries</b>
+                            demo
+                            application illustrates the sign-up and sign-in authentication experiences for common retail
+                            scenarios.</span> <span style="font-weight: 600;">Wherever you are, shop online with us!</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Welcome message end-->
+
+    <!--Waves Container-->
+    <div>
+        <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+            viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+            <defs>
+                <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+            </defs>
+            <g class="parallax">
+                <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7" />
+                <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
+                <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
+                <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
+            </g>
+        </svg>
+    </div>
+    <!--Waves end-->
+}
+
+<!-- Numbers -->
+<div class="col-lg-9 z-index-2 border-radius-xl mt-n10 mx-auto py-1 blur shadow-blur homepage-numbers"
+    style="width: 100%;">
+    <div class="row">
+        <div class="col-md-4 position-relative">
+            <div class="p-3 text-center">
+                <h2 class="number-text h1"> <span class="countup">1350</span>+</h2>
+                <h3 class="mt-3 h5">Stores</h3>
+                <p class="text-sm number-description">With more than 1,350 local stores and 80 distribution centers,
+                    it's easier than ever to shop online and
+                    buy locally.</p>
+            </div>
+            <hr class="vertical dark">
+        </div>
+        <div class="col-md-4 position-relative">
+            <div class="p-3 text-center">
+                <h2 class="number-text h1" id="num3" num="39"><span class="countup">7500</span>+</h2>
+                <h3 class="mt-3 h5">Products</h3>
+                <p class="text-sm number-description">We offer a variety of products, top-quality fresh and healthy
+                    foods. Friendly to your wallet and a dynamic shopping experience.</p>
+            </div>
+            <hr class="vertical dark">
+        </div>
+        <div class="col-md-4">
+            <div class="p-3 text-center">
+                <h2 class="number-text h1" id="num3" num="39"><span class="countup">3200</span>+</h2>
+                <h3 class="mt-3 h5">Employees</h3>
+                <p class="text-sm number-description">Woodgrove is committed to build a diverse workforce that
+                    reflects
+                    our core values and the communities we serve.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Numbers end-->
+
+<section class="section pt-4" id="specials">
+    <h4 class="font-weight-bold mt-4 title-1" style="letter-spacing: 2px; color: rgb(3, 80, 2);">
+        <strong>Get in the groove for shopping</strong>
+    </h4>
+    <hr class="mb-5">
+</section>
+
+<!--First line of products-->
+<div class="row" style="margin-top: -50px;">
+    <div class="col-sm">
+        <div class="card hp_card">
+            <div class="card-body">
+                <img class="card-img-top" src="~/images/Products/grapes.jpg" alt="Grapes">
+                @if (Model.IsCommercialAccount)
+                {
+                    <div class="card-discount">20%</div>
+                }
+
+                <h5 class="card-title">Dark purple seedless grapes 1.5 kg</h5>
+                <p class="card-text">
+                <p class="card-price">$11.25</p>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-half"></i>
+                <i class="bi bi-star"></i>
+                <i class="bi bi-star"></i>
+                </p>
+
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <div class="reveal-details">
+                        <a href="#" class="btn card-button"><i class="bi bi-cart-plus"></i> Add to cart</a>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+    <div class="col-sm">
+        <div class="card hp_card">
+            <div class="card-body">
+                <img class="card-img-top" src="~/images/Products/tomatoes.jpg" alt="Tomatoes">
+                <h5 class="card-title">Organic sweet king tomato 1 kg</h5>
+                <p class="card-text">
+                <p class="card-price">$2.75</p>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star"></i>
+                </p>
+
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <div class="reveal-details">
+                        <a href="#" class="btn card-button"><i class="bi bi-cart-plus"></i> Add to cart</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-sm">
+        <div class="card hp_card">
+            <div class="card-body">
+                <img class="card-img-top" src="~/images/Products/bread.jpg" alt="Breads">
+                @if (Model.IsCommercialAccount)
+                {
+                    <div class="card-discount">15%</div>
+                }
+
+                <h5 class="card-title">French soft cream bread 12pcs 400 g</h5>
+
+                <p class="card-text">
+                <p class="card-price">$3.20</p>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-half"></i>
+                </p>
+
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <div class="reveal-details">
+                        <a href="#" class="btn card-button"><i class="bi bi-cart-plus"></i> Add to cart</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!--Second line of products-->
+    <div class="col-sm">
+        <div class="card hp_card">
+            <div class="card-body">
+                <img class="card-img-top" src="~/images/Products/eggs.jpg" alt="Eggs">
+                @if (Model.IsCommercialAccount)
+                {
+                    <div class="card-discount">25%</div>
+                }
+
+                @if (Model.HasEggsAllergy)
+                {
+                    <div class="card-allergy" role="button" data-toggle="popover" data-trigger="hover"
+                        title="Egg allergy warning">
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+                    </div>
+                }
+
+                <h5 class="card-title">Organic large brown eggs 12 count</h5>
+
+                <p class="card-text">
+                <p class="card-price">$34</p>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-half"></i>
+                <i class="bi bi-star"></i>
+                <i class="bi bi-star"></i>
+                <i class="bi bi-star"></i>
+                </p>
+
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <div class="reveal-details">
+                        <a href="#" class="btn card-button"><i class="bi bi-cart-plus"></i> Add to cart</a>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+    <div class="col-sm">
+        <div class="card hp_card">
+            <div class="card-body">
+                <img class="card-img-top" src="~/images/Products/corn.jpg" alt="Corns">
+                <h5 class="card-title">Sweet corn 1 count</h5>
+
+                <p class="card-text">
+                <p class="card-price">$5.25</p>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star"></i>
+                <i class="bi bi-star"></i>
+                <i class="bi bi-star"></i>
+                </p>
+
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <div class="reveal-details">
+                        <a href="#" class="btn card-button"><i class="bi bi-cart-plus"></i> Add to cart</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-sm">
+        <div class="card hp_card">
+            <div class="card-body">
+                <img class="card-img-top" src="~/images/Products/watermelon.jpg" alt="Watermelons">
+                <h5 class="card-title">Black beauty watermelon 1 count</h5>
+
+                <p class="card-text">
+                <p class="card-price">$12.5</p>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                </p>
+
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <div class="reveal-details">
+                        <a href="#" class="btn card-button"><i class="bi bi-cart-plus"></i> Add to cart</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="popover"]').popover({ trigger: "hover", content: "Please be aware that the food may contain or come into contact with eggs." });
+        });
+
+    </script>
+}
+
+<script>
+
+    // Calculate how long each ‘frame’ should last if we want to update the animation 60 times per second
+    const frameDuration = 15;
+    // Use that to calculate how many frames we need to complete the animation
+    const totalFrames = 120;
+    // An ease-out function that slows the count as it progresses
+    const easeOutQuad = t => t * (2 - t);
+
+    // The animation function, which takes an Element
+    const animateCountUp = el => {
+        let frame = 0;
+        const countTo = parseInt(el.innerHTML, 10);
+        // Start the animation running 60 times per second
+        const counter = setInterval(() => {
+            frame++;
+            // Calculate our progress as a value between 0 and 1
+            // Pass that value to our easing function to get our
+            // progress on a curve
+            const progress = easeOutQuad(frame / totalFrames);
+            // Use the progress value to calculate the current count
+            const currentCount = Math.round(countTo * progress);
+
+            // If the current count has changed, update the element
+            if (parseInt(el.innerHTML, 10) !== currentCount) {
+                el.innerHTML = currentCount;
+            }
+
+            // If we’ve reached our last frame, stop the animation
+            if (frame === totalFrames) {
+                clearInterval(counter);
+            }
+        }, frameDuration);
+    };
+
+    // Run the animation on all elements with a class of ‘countup’
+    const runAnimations = () => {
+        const countupEls = document.querySelectorAll('.countup');
+        countupEls.forEach(animateCountUp);
+    };
+
+    runAnimations();
+</script>

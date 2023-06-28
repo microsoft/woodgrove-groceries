@@ -1,0 +1,33 @@
+﻿@page
+@model woodgrovedemo.Pages.HelpModel
+@{
+    ViewData["Title"] = "Help";
+}
+<h1 style="color: green; padding-bottom: 15px; padding-top: 15px;">@ViewData["Title"]</h1>
+<div class="container">
+
+WoodGrove Groceries is a live demo web application created by Microsoft to demonstrate several Azure Active Directory features. WoodGrove simulates an online grocery store that sells groceries to both individual consumers and business customers. It allows you to sign-up and sign-in by using Microsoft Entra Exteranl ID and to explore Azure AD’s capabilities in scenarios that pertain to external identity managemen.
+
+<br />&nbsp;<br />
+
+<h3>Select a use case</h3>
+
+From the right corner of the page, select the <b>About the demo</b> button. <br />
+
+<img src="~/images/help/help-button.png" style="border-color: rgb(200, 200, 200); border-style: solid; border-width: 1px; border-radius: 5px 5px 5px 5px ; margin-top: 15px; margin-bottom: 15px; width: 65%;" >
+<br />
+Select a use case <br />
+
+<img src="~/images/help/select-button.png" style="border-color: rgb(200, 200, 200); border-style: solid; border-width: 1px; border-radius: 5px 5px 5px 5px; margin-bottom: 25px;" >
+<br />
+Read the instructions and start the use case<br />
+
+<img src="~/images/help/start-use-case.png" style="border-color: rgb(200, 200, 200); border-style: solid; border-width: 1px; border-radius: 5px 5px 5px 5px;" >
+
+<h3  style="padding-top: 25px;">Community Help and Support</h3>
+If you find a bug, notice something but are not sure how to solve it, or want to provide product feedback, please raise an issue on <a href="https://github.com/microsoft/woodgrove-groceries/issues">GitHub Issues</a>. 
+
+<br />&nbsp;<br />
+App version: @System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()
+</div>
+

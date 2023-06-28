@@ -1,0 +1,445 @@
+﻿
+            <div>
+                Welcome to the Woodgrove Groceries demo! This
+                dialog displays use cases, business context throughout each sign-in. To start, select a use case, read
+                the guidance and start the use case:
+                <div class="dropdown" style="margin-top: 15px">
+                    <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                        data-bs-toggle="dropdown" aria-expanded="false"
+                        style="width: 100%; text-align: left; border-color: gray;">
+                        Select a use case
+                    </a>
+
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <li><a class="dropdown-item" href="#" onclick="showUseCase('useCase_OnlineRetail')">Online
+                                retail use case</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="showUseCase('useCase_EmailAndPassword')">Email
+                                and password sign-in</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="showUseCase('useCase_SSPR')">Self-service
+                                password reset</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="showUseCase('useCase_Social')">Social
+                                account sign-in</a></li>
+                        @* <li><a class="dropdown-item" href="#" onclick="showUseCase('useCase_EmailOTP')">Email with
+                        one-time passcode sign-in</a></li> *@
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#" onclick="showUseCase('useCase_TokenAugmentation')">Token
+                                augmentation custom auth extension</a></li>
+                        @* <li><a class="dropdown-item" href="#"
+                        onclick="showUseCase('useCase_PostAttributeCollection')">Post attribute collection custom auth
+                        extension</a></li> *@
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#" onclick="showUseCase('useCase_ProfileEdit')">Edit your
+                                account</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="showUseCase('useCase_DeleteAccount')">Delete your
+                                account</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#"
+                                onclick="showUseCase('useCase_RoleBasedAccessControl')">Role-based access control</a>
+                        </li>
+                        @* <li><a class="dropdown-item" href="#" onclick="showUseCase('useCase_MFA')">Multi-factor
+                        authentication</a></li> *@
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#" onclick="showUseCase('useCase_CustomAttributes')">Collect
+                                user attributes during sign-up</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="showUseCase('useCase6')">Input constrained
+                                devices (Kiosk)</a></li>
+
+                    </ul>
+                    <div id="useCases">
+                        <div id="useCase_OnlineRetail" class="useCase">
+                            <h4>Online retail use case</h4>
+                            <p>
+                                Azure Active Directory for customers offers solutions that let you quickly add
+                                intuitive, user-friendly sign-up and sign-up experiences for your customer apps. The
+                                Woodgrove Groceries demo environment illustrates several of the most common
+                                authentication experiences that can be configured for your customer-facing apps. This
+                                example illustrates the most common use case, including the following features:
+                            <ul>
+                                <li><a class="link-underline-success" href="#"
+                                        onclick="showUseCase('useCase_EmailAndPassword')">Sign-up or sign-in with email
+                                        address and password</a></li>
+                                <li><a class="link-underline-success" href="#"
+                                        onclick="showUseCase('useCase_SSPR')">Self-service password
+                                        reset</a></li>
+                                <li><a class="link-underline-successm" href="#"
+                                        onclick="showUseCase('useCase_Social')">Sign-in with Facebook and Google social
+                                        accounts</a></li>
+                                <li><a class="link-underline-successm" href="#"
+                                        onclick="showUseCase('useCase_CustomAttributes')">Collect user attributes during
+                                        sign-up</a></li>
+                                    @* <li><a class="link-underline-success" href="#"
+                                onclick="showUseCase('useCase_PostAttributeCollection')">Custom claims provider
+                                validates the city is where Woodgrove operates</a></li> *@
+                                <li><a class="link-underline-success" href="#"
+                                        onclick="showUseCase('useCase_TokenAugmentation')">Custom claims provider
+                                        invokes a REST API to return the user's loyalty number</a></li>
+                                <li>The sign-in page is fully customized with the Woodgrove brand.</li>
+                            </ul>
+                            </p>
+                            <a href="/SignIn?handler=OnlineRetail" class="btn header-button" role="button"><i
+                                    class="bi bi-play-circle"></i> Start
+                                the use case</a>
+                        </div>
+                        <div id="useCase_EmailAndPassword" class="useCase">
+                            <h4>Sign-up or sign-in with email address and password</h4>
+                            <p>
+                            <h5>Create a new Woodgrove account</h5>
+                            <ol>
+                                <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                                <li>From the sign-in page select <b>No account? Create one.</b></li>
+                                <li>Enter your email address, which will be verified and becomes your login ID.</li>
+                                <li>Open your mailbox and copy the verification code sent to you. Then, on the sign-in
+                                    page enter the verification code and select <b>next</b>.</li>
+                                <li>After the email was verified, enter a password, and re-enter the password,
+                                    and enter your account details.</li>
+                                <li>Select <b>next</b> to complete the registration.</li>
+                            </ol>
+                            <h5>Sign-in with your email and password</h5>
+                            <ol>
+                                <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                                <li>On the sign-in page, enter your email, and select <b>next</b>.</li>
+                                <li>Enter your password and select <b>sign in</b>.</li>
+                            </ol>
+                            <h5>Forgot your password?</h5>
+                            <ol>
+                                <li>On the sign-in page, enter your email, and select <b>next</b>.</li>
+                                <li>Select the <b>Forgot password?</b> link.</li>
+                                <li>Open your mailbox and copy the verification code sent to you. Then, on the sign-in
+                                    page enter the verification code and select <b>next</b>.</li>
+                                <li>After the email was verified, enter a password, and re-enter the password and
+                                    select <b>next</b> to update your password.</li>
+                            </ol>
+                            </p>
+                            <a class="btn header-button" role="button" href="/SignIn?handler=EmailAndPassword"><i
+                                    class="bi bi-play-circle"></i> Start the use
+                                case</a>
+                        </div>
+
+                        <div id="useCase_SSPR" class="useCase">
+                            <h4>Self-service password reset</h4>
+                            <p>
+                                Self-service password reset (SSPR) gives users the ability to change or reset their
+                                password, with no administrator or help desk involvement. If a user's account is locked
+                                or they forget their password, they can follow prompts to unblock themselves and get
+                                back to work.
+
+                                <br />&nbsp;<br />
+                                Before you start, make sure you've run one of the sign-up use cases to create an account
+                                with Woodgrove Groceries.
+                            <ol>
+                                <li>On the sign-in page, enter your email, and select <b>next</b>.</li>
+                                <li>Select the <b>Forgot password?</b> link.</li>
+                                <li>Open your mailbox and copy the verification code sent to you. Then, on the sign-in
+                                    page enter the verification code and select <b>next</b>.</li>
+                                <li>After the email was verified, enter a password, and re-enter the password and
+                                    select <b>next</b> to update your password.</li>
+                            </ol>
+                            </p>
+                            <a class="btn header-button" role="button" href="/SignIn?handler=SSPR"><i
+                                    class="bi bi-play-circle"></i> Start the use
+                                case</a>
+                        </div>
+
+
+                        <div id="useCase_Social" class="useCase">
+                            <h4>Sign-in with social account</h4>
+                            <p>
+                                Users can sign in with their existing social accounts, without having to create a
+                                new account.
+
+                            <ol>
+                                <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                                <li>From the sign-in page, select one of the identity
+                                    providers, such as Google or Facebook. Then you will be redirected to the selected
+                                    provider's to sign-in.</b></li>
+                                <li>Upon first sign-in, enter your account details. Then, select <b>next</b> to complete
+                                    the registration.</li>
+                            </ol>
+                            </p>
+                            <a class="btn header-button" role="button" href="/SignIn?handler=Social"><i
+                                    class="bi bi-play-circle"></i> Start the use case</a>
+                        </div>
+                        <div id="useCase_EmailOTP" class="useCase">
+                            <h4>Sign-up with email one-time passcode</h4>
+                            <p>
+                                Email with one-time passcode is an option in your local account identity provider
+                                settings.
+                                With this option, the customer signs in with a temporary passcode instead of a stored
+                                password
+                                each time they sign in.
+
+                            <h5>Create a new Woodgrove account</h5>
+                            <ol>
+                                <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                                <li>From the sign-in page select <b>No account? Create one.</b></li>
+                                <li>Enter your email address, which will be verified and becomes your login ID.</li>
+                                <li>Open your mailbox and copy the verification code sent to you. Then, on the sign-in
+                                    page enter the verification code and select <b>next</b>.</li>
+                                <li>After the email was verified, enter your account details.</li>
+                                <li>Select <b>next</b> to complete the registration.</li>
+                            </ol>
+                            <h5>Sign-in with your email</h5>
+                            <ol>
+                                <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                                <li>On the sign-in page, enter your email, and select <b>next</b>.</li>
+                                <li>Open your mailbox and copy the verification code sent to you. Then, on the sign-in
+                                    page enter the verification code and select <b>next</b>.</li>
+                            </ol>
+                            </p>
+                            <a class="btn header-button" role="button" href="/SignInWithEmailOTP"><i
+                                    class="bi bi-play-circle"></i> Start the use case</a>
+                        </div>
+                        <div id="useCase_MFA" class="useCase">
+                            <h4>Sign-in with multi-factor authentication (email)</h4>
+                            <p>
+                                Multifactor authentication (MFA) adds a layer of security to your customer-facing
+                                applications.
+                                With MFA, customers are prompted for a one-time passcode in addition to their username
+                                and password when they sign up or sign in to your app.
+                                This demo shows to enforce MFA for your customers to the sign-up and sign-in using email
+                                and password.
+
+                                <br>&nbsp;<br>
+                                After you successfully authenticated, complete the MFA step.
+                            </p>
+                            <a class="btn header-button" role="button" href="/SignInWithEmailMFA">Start the
+                                use case</a>
+
+                        </div>
+                        <div id="useCase_TokenAugmentation" class="useCase">
+                            <h4>Token augmentation custom auth extension</h4>
+                            <p>
+                                When users authenticate to your application with Azure Active Directory, a security
+                                token is return to your application. The security token contains claims that are
+                                statements about the user, such as name, unique identifier, or application roles.
+                                <br>&nbsp;<br>
+                                Beyond the default set of claims that are contained in the security token you can define
+                                your own custom claims from external systems using a REST API you develop.
+
+                            <ol>
+                                <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                                <li>Sign-up or sign-in with your email, or a social account.</li>
+                                <li>From the Woodgrove header, select your name, which will take you to the <b>security
+                                        token page</b>.</li>
+                                <li>The security token page contains the claims that return by Azure AD for customers.
+                                    Locate the <b>loyaltyNumber</b>
+                                    claim and check its value. This claim was return by a custom authentication
+                                    extension REST API with a random value.</li>
+                            </ol>
+                            </p>
+                            <a class="btn header-button" role="button" href="/SignIn?handler=TokenAugmentation"><i
+                                    class="bi bi-play-circle"></i> Start the use
+                                case</a>
+                        </div>
+                        <div id="useCase_PostAttributeCollection" class="useCase">
+                            <h4>Post attribute collection custom auth extension</h4>
+                            <p>
+                                Custom authentication extensions (OnAttributeCollectionSubmit event) allow you to
+                                perform validation on attributes collected from the user during sign-up, along with
+                                showing the user a blocked or validation error page if needed.
+                            <h5>Show validation error response</h5>
+                            This input validation is done using a custom authentication extension that validates the
+                            city name, against a list of cities and countries we compiled.
+
+                            <ol>
+                                <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                                <li>Sign-<b>up</b> with your email, or a social account. Important: this flow
+                                    requires that you register a new account. If you already have an account, you should
+                                    first a <a class="link-underline-success" href="#"
+                                        onclick="showUseCase('useCase_DeleteAccount')">delete it</a>.
+                                <li>After you validate your email, or sign-in with your social account, complete the
+                                    registration by providing your details.</b>
+                                    For the country, select <b>Australia</b>, and then for the city type an incorrect on
+                                    (Berlin in Germany).</li>
+                                <li>Select <b>next</b> to create a Woodgrove online identity. And you should get an
+                                    error message that Woodgrove doesn’t operate in this city.</li>
+                                <li>Corrects the city name. For example, enter <b>Sydney</b> and try to complete the
+                                    registration again. This time you should be able to complete the registration.</li>
+                            </ol>
+
+                            <h5>Show block page response</h5>
+                            This demo uses the same custom authentication extensions as described above.
+                            If you enter a city name <b>block</b> and select <b>next</b>, instead of returning an error
+                            message for the city,
+                            the user is denied and shouldn't be allowed to request approval again.
+                            </p>
+                            <a class="btn header-button" role="button" href="/SignIn?handler=PostAttributeCollection"><i
+                                    class="bi bi-play-circle"></i> Start
+                                the use case</a>
+                        </div>
+
+                        <div id="useCase_RoleBasedAccessControl" class="useCase">
+                            <h4>Role-based and access control</h4>
+                            <p>
+                                Role-based access control is a popular mechanism to enforce authorization in
+                                applications. It helps you manage who has access to your application and what they can
+                                do in the application.
+                                When an organization uses role-based access control, an application developer defines
+                                the roles in the application. An administrator can then assign these roles to different
+                                users, which controls
+                                who has access to the application and what they can do with it.
+                                <br />
+                                Azure Active Directory for customers issues an access token for an authenticated user,
+                                which includes the names of the roles they have assigned to the application. Developers
+                                have the flexibility to decide how role assignments are to be used within the
+                                application. For example, show or hide some of the elements on the screen, or block
+                                access to certain functionalities based on the user’s role or security groups.
+                                <br />
+                                Usually, an administrator needs to approve your request. But for this demo, your request
+                                is automatically approved. To start the demo:
+                            <ol>
+                                <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                                <li>Sign-up or sign-in with your email, or a social account.</li>
+                                <li>From the Woodgrove header, select the profile, which will take you to the <b>edit
+                                        profile page</b>.</li>
+                                <li>In profile page you can update your profile data, but you can also assign yourself
+                                    the <b>Products.Contributor</b> and <b>Orders.Manager</b> roles. The
+                                    Orders.Managergrant role grants you access to manage the customer’s online orders.
+                                    And the Products.Contributor role grants you access to manage the Woodgrove
+                                    products. Select both roles and save the changes.</li>
+                                <li>To reflect the changes in the security token return to the Woodgrove application,
+                                    sign-out and sign-in again with the same account.</li>
+                                <li>Now that you have the Orders.Managergrant role the <b>Orders</b> button appears in
+                                    the header. You can select the Orders to manage the online orders.</li>
+                                <li>Since you also have the Products.Contributor role, in the home page, you should find
+                                    the <b>Manage products</b> button.</li>
+                                <li>If you select your name from the header, it shows the content of the access token
+                                    issued by Azure Active Directory for customers that was returned to the application.
+                                    It should contain the role claims you assigned.
+                                    This demo application checks the claim’s value and gives access to manage products
+                                    and online orders.</li>
+                            </ol>
+
+
+                            <h5>Group-base access control</h5>
+                            <ol>
+                                <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                                <li>Sign-up or sign-in with your email, or a social account.</li>
+                                <li>From the Woodgrove header, select the profile, which will take you to the <b>edit
+                                        profile page</b>.</li>
+                                <li>In profile page you can update your profile data, but you can also add yourself to
+                                    the <b>Commercial Accounts</b> security group. By doing so, you will get discounts
+                                    off some of the products. Select the <b>Commercial Accounts</b> security group and
+                                    <b>update your account</b>.
+                                </li>
+                                <li>To reflect the changes in the security token return to the Woodgrove application,
+                                    sign-out and sign-in again with the same account.</li>
+                                <li>Now that you are a member of the Commercial Accounts security group, some of the
+                                    items have a discount.</li>
+                                <li>If you select your name from the header, it shows the content of the access token
+                                    issued by Azure Active Directory for customers that was returned to the application.
+                                    It should contain the groups claims.
+                                    This demo application checks the claim’s value and gives you the discounts.</li>
+                            </ol>
+                            </p>
+                            <a class="btn header-button" role="button" href="/SignIn?handler=RBAC"><i
+                                    class="bi bi-play-circle"></i> Start the use case</a>
+                        </div>
+
+
+                        <div id="useCase_CustomAttributes" class="useCase">
+                            <h4>Collect user attributes during sign-up</h4>
+                            <p>
+                                User attributes are values collected from the user during self-service sign-up.
+                                In the user flow settings, you can select from a set of built-in user attributes you
+                                want to collect from customers.
+                                The customer enters the information on the sign-up page, and it's stored with their
+                                profile in your directory.
+                                If you want to collect information beyond the built-in attributes, you can create custom
+                                user attributes and add them to your sign-up user flow.
+
+                                This demo shows the use of built-in attribute and custom attribute called <b>special
+                                    diet</b>. To start the demo:
+
+                            <ol>
+                                <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                                <li>Sign-<b>up</b> with your email, or a social account. Important: this flow
+                                    requires that you register a new account. If you already have an account, you should
+                                    first <a class="link-underline-success" href="#"
+                                        onclick="showUseCase('useCase_DeleteAccount')">delete it</a>.</li>
+                                <li>After you validate your email, or sign-in with your social account, complete the
+                                    registration by providing your details.</b>
+                                    The <b>special diet</b> is a custom attribute you can provide. For the demo enter,
+                                    <b>Egg allergy</b> This attribute will be included in the security token that return
+                                    to the Woodgrove application.
+                                </li>
+                                <li>Select <b>next</b> to create a Woodgrove online identity. </li>
+                                <li>After you successfully sign-in, in the home page, the <b>Eggs</b> product shows the
+                                    allergy warning.</li>
+                            </ol>
+
+                            <h5>Show block page response</h5>
+                            This demo uses the same custom authentication extensions as described above.
+                            If you enter a city name <b>block</b> and select <b>next</b>, instead of returning an error
+                            message for the city,
+                            the user is denied and shouldn't be allowed to request approval again.
+                            </p>
+                            <a class="btn header-button" role="button" href="/SignIn?handler=CustomAttributes"><i
+                                    class="bi bi-play-circle"></i> Start the use
+                                case</a>
+                        </div>
+
+                        <div id="useCase6" class="useCase">
+                            <h4>Input constrained devices (Kiosk)</h4>
+
+                            <p>
+                                Input-constrained devices are devices that their screen or monitor is limited to
+                                text-only and they don't have a web browser. For example, smart TV, IoT device, robot,
+                                gaming console, printers. Or applications with limited user interface, such as a command
+                                line application.
+                                <br>&nbsp;<br>
+                                These devices are connected to the internet, but due to the input constrains, the
+                                authentication should be done on another device. The input constrained device gets a
+                                device code from Azure AD and asks the user to visit a webpage in a browser on a second
+                                (rich device), such as smartphone, tablets, or PCs.
+                                <br>&nbsp;<br>
+                                In this use case, from the Kiosk page select sign-in. Use the second device, such as
+                                smartphone and scan the QR code. On the sign-in page enters the <i>device code</i>, and
+                                completes the sign-in. Once you signed in, the Kiosk (input-constrained device) is able
+                                to get security tokens and authenticate you. Your name should be presented on the
+                                top-right corner of the page.
+                            </p>
+                            <a class="btn header-button" role="button" href="/SignIn?handler=kiosk"><i
+                                    class="bi bi-play-circle"></i> Start the use case</a>
+                        </div>
+
+                        <div id="useCase_ProfileEdit" class="useCase">
+                            <h4>Edit your account</h4>
+                            <p>
+                                Profile editing policy lets you manage you profile attributes, like display name, su
+                                r name, given name, city, and others. After you update your profile, sign-out and
+                                sign-in again.
+                            </p>
+                            <a class="btn header-button" role="button" href="/Profile">Edit your account</a>
+                        </div>
+
+                        <div id="useCase_DeleteAccount" class="useCase">
+                            <h4>Delete your account</h4>
+                            <p>
+                                If you would like to delete your account and personal information, visit the delete my
+                                account page. You won't be able to reactivate your account. In a couple of minutes you
+                                will be able to sign-up again with the same credentials.
+                            </p>
+                            <a class="btn header-button" role="button" href="/DeleteMyAccount">Delete your
+                                account</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+<script>
+    function showUseCase(useCaseId) {
+        $(".useCase").hide();
+        $("#" + useCaseId).show();
+    }
+
+</script>

@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/woodgrovedemo.styles.css" asp-append-version="true" />
+</head>
+
+<body>
+    <header class="header">
+        <div class="container" style="padding-top: 30px; padding-bottom: 30px;">
+            <nav class="navbar navbar-expand-xl">
+                <div class="container-fluid">
+                    <a asp-page="/Index"> 
+                        <img src="/images/logo.png" height="24" alt="Woodgrove logo" style="padding-left: 10px;" />
+                        </a> <a
+                        class="navbar-brand" asp-area="" asp-page="/Index" style="padding-left: 15px;">Woodgrove
+                        Groceries</a>
+                    <button id="navbarToggler" class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                        <span id="navbarClose" class="my-1 mx-2">X</span>
+                        <span id="navbarOpen" class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse">
+                        <ul class="navbar-nav flex-grow-1">
+                            @* <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
+                            </li> *@
+                        </ul>
+                        <partial name="_LoginPartial" />
+                    </div>
+                </div>
+        </div>
+        </nav>
+        @RenderSection("Jumbotron", required: false)
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <!-- About this demop -->
+    <button id="offcanvasButton" class="btn btn-success" type="button" data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"
+        onclick="showUseCase('useCase_OnlineRetail');"><i class="bi bi-arrow-up-circle fs-3"></i>&nbsp;&nbsp; <span
+            class="fs-5">About the demo</span></button>
+
+    <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasRight"
+        aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas-header">
+            <img src="/images/logo.png" height="34" alt="Woodgrove logo" />
+            <h3>About the demo</h3>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div id="scroller" style="transform: translate(0px, 0px) translateZ(0px);">
+                @if (IsSectionDefined("AboutThisDemo"))
+                {
+                    @RenderSection("AboutThisDemo", required: false)
+                }
+                else
+                {
+                    <partial name="AboutThisDemoPartial" />
+                }
+                
+            </div>
+        </div>
+    </div>
+
+    <div style="height: 80px;"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-top footer text-muted" style="border-top-style: none!important; height: 100px;">
+        <svg viewBox="0 -20 700 110" width="100%" height="110" preserveAspectRatio="none">
+            <path transform="translate(0, -20)" d="M0,10 c80,-22 240,0 350,18 c90,17 260,7.5 350,-20 v50 h-700"
+                fill="rgb(5, 166, 2)" />
+            <path d="M0,10 c80,-18 230,-12 350,7 c80,13 260,17 350,-5 v100 h-700z" fill="rgb(222, 238, 222)" />
+        </svg>
+        <div class="container-fluid footer-text"
+            style="width: 100%; top: -60px; position: relative; background-color: rgb(222, 238, 222);">
+            &copy; 2023 - Woodgrove Groceries &nbsp; - &nbsp;&nbsp;
+            <i class="bi bi-info-circle"></i> <a asp-area="" asp-page="/Help" style="padding-right: 10px;">Help</a>
+            <i class="bi bi-lock"></i> <a asp-area="" asp-page="/Privacy" style="padding-right: 10px;">Privacy</a>
+            <i class="bi bi-file-earmark-text"></i> <a asp-area="" asp-page="/tos" style="padding-right: 10px;">Terms of
+                service</a>
+            <i class="bi bi-github"></i> <a href="https://github.com/microsoft/woodgrove-groceries"
+                style="padding-right: 10px;">Source code</a>
+            <i class="bi bi-chat-quote"></i> <a href="https://github.com/microsoft/woodgrove-groceries/issues"
+                style="padding-right: 10px;">Raise an issue</a>
+            <i class="bi bi-github"></i> <a href="https://github.com/microsoft/woodgrove-api"
+                style="padding-right: 10px;">API</a>
+        </div>
+    </footer>
+
+    <script
+        src="https://code.jquery.com/jquery-3.7.0.slim.min.js"
+        integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE="
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>
