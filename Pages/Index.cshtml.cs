@@ -38,7 +38,7 @@ public class IndexModel : PageModel
             IsCommercialAccount = User.Claims.Any(c => c.Type == "groups" && c.Value == commercialAccountsSecurityGroup);
 
             // Check the Eggs allergy
-            string? specialDiet = User.Claims.FirstOrDefault(c => c.Type == "SpecialDiet")?.Value;
+            string? specialDiet = User.Claims.FirstOrDefault(c => c.Type.ToLower() == "specialdiet")?.Value;
             HasEggsAllergy = (string.IsNullOrEmpty(specialDiet) == false && specialDiet.ToLower().StartsWith("egg"));
         }
 
