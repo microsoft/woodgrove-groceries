@@ -14,6 +14,7 @@ namespace woodgrovedemo.Pages
         private TelemetryClient _telemetry;
         readonly IAuthorizationHeaderProvider _authorizationHeaderProvider;
         public string AccessToken { get; set; }
+        public string AccessTokenError { get; set; }
 
         public TokenModel(IConfiguration configuration, TelemetryClient telemetry, IAuthorizationHeaderProvider authorizationHeaderProvider)
         {
@@ -31,22 +32,37 @@ namespace woodgrovedemo.Pages
             string baseUrl = _configuration.GetSection("MyApi:BaseUrl").Value!;
             string[] scopes = _configuration.GetSection("MyApi:Scopes").Get<string[]>();
 
-            for (int i = 0; i < scopes.Length; i++)
+            if (scopes == null)
             {
-                scopes[i] = $"{baseUrl}/{scopes[i]}";
+                AccessTokenError = "Error: The MyApi:Scopes application setting is misconfigured or missing. Use the array format: [\"Account.Payment\", \"Account.Purchases\"]";
             }
+            else if (baseUrl == null)
+            {
+                AccessTokenError = "Error: The MyApi:BaseUrl application setting is misconfigured or missing. Check out your applications' scope base URL in Microsoft Entra admin center. For example: api://12345678-0000-0000-0000-000000000000";
+            }
+            else
+            {
+                for (int i = 0; i < scopes.Length; i++)
+                {
+                    scopes[i] = $"{baseUrl}/{scopes[i]}";
+                }
 
-            try
-            {
-                AccessToken = await _authorizationHeaderProvider.CreateAuthorizationHeaderForUserAsync(scopes);
-            }
-            catch (MsalUiRequiredException ex)
-            {
-                AccessToken = "Error: " + ex.Message;
-            }
-            catch (System.Exception ex)
-            {
-                AccessToken = "Error: " + ex.Message;
+                try
+                {
+                    AccessToken = await _authorizationHeaderProvider.CreateAuthorizationHeaderForUserAsync(scopes);
+                }
+                catch (System.Exception ex)
+                {
+                    if (ex.GetType().ToString().Contains("MicrosoftIdentityWebChallengeUserException"))
+                    {
+                        AccessTokenError = "Error: The token cache does not contain the token to access the web APIs. To get the access token, sign-out and sign-in again.";
+                    }
+                    else
+                    {
+                        AccessTokenError = "Error: " + ex.Message;
+                    }
+
+                }
             }
 
             return Page();
