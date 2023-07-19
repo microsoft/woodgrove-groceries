@@ -36,14 +36,6 @@ body {
   text-decoration: underline;
 }
 
-#intro {
-  background-image: url(../images/background.jpg);
-  border: 0;
-  border-radius: .55rem;
-  color: white;
-  text-align: left;
-}
-
 #lnkSignUp {
   padding: 15px 30px 15px 30px;
   font-size: larger;
