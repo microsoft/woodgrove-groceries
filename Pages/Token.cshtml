@@ -13,6 +13,8 @@
             </tr>
         </thead>
         <tbody>
+
+
             @foreach (var claim in User.Claims)
             {
                 <tr>
@@ -23,8 +25,23 @@
         </tbody>
     </table>
 
-    <a asp-area="" asp-page="/Profile" role="button" class="btn header-button"><i class="bi bi-card-text"></i> My
-        profile</a>
+    <p>
+        <button class="btn header-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
+            aria-expanded="false" aria-controls="collapseExample">
+            Access token to call a web API
+        </button>
+    </p>
+    <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+            <code>@Model.AccessToken @Model.AccessTokenError</code>
+        </div>
+
+        @if (!string.IsNullOrEmpty(@Model.AccessToken))
+        {
+            <a href='https://jwt.ms/#access_token=@Model.AccessToken.Replace("Bearer ", "")' target="_blank">https://jwt.ms</a>
+        }
+        
+    </div>
 </div>
 
 @section AboutThisDemo{

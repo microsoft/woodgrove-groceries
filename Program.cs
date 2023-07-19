@@ -16,7 +16,10 @@ JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
 
 // Default sign-in flow
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApp(AzureAd, OpenIdConnectDefaults.AuthenticationScheme);
+    .AddMicrosoftIdentityWebApp(AzureAd, OpenIdConnectDefaults.AuthenticationScheme)
+    .EnableTokenAcquisitionToCallDownstreamApi()
+    .AddDownstreamApi("MyApi", MyApi)
+    .AddInMemoryTokenCaches();
 builder.Services.Configure<OpenIdConnectOptions>(OpenIdConnectDefaults.AuthenticationScheme,
                                                  options => 
                                                  {   options.TokenValidationParameters.RoleClaimType = "roles";
