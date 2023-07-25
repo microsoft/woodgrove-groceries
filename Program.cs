@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddApplicationInsightsTelemetry();
 
 ConfigurationSection AzureAd = (ConfigurationSection)builder.Configuration.GetSection("AzureAd");
-ConfigurationSection MyApi = (ConfigurationSection)builder.Configuration.GetSection("MyApi");
+ConfigurationSection WoodgroveGroceriesApi = (ConfigurationSection)builder.Configuration.GetSection("WoodgroveGroceriesApi");
 
 // Avoid mapping of claims from short name to long (SAML like) claims.
 JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
@@ -18,7 +18,7 @@ JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApp(AzureAd, OpenIdConnectDefaults.AuthenticationScheme)
     .EnableTokenAcquisitionToCallDownstreamApi()
-    .AddDownstreamApi("MyApi", MyApi)
+    .AddDownstreamApi("WoodgroveGroceriesApi", WoodgroveGroceriesApi)
     .AddInMemoryTokenCaches();
 builder.Services.Configure<OpenIdConnectOptions>(OpenIdConnectDefaults.AuthenticationScheme,
                                                  options => 

@@ -2,7 +2,7 @@
 @model woodgrovedemo.Pages.TokenModel
 @{
 }
-<h1 style="color: green; padding-bottom: 15px; padding-top: 15px;">Your claims</h1>
+<h1 style="color: green; padding-bottom: 15px; padding-top: 15px;">Your claims and access token</h1>
 
 <div class="container">
     <table class="table table-striped">
@@ -32,13 +32,39 @@
         </button>
     </p>
     <div class="collapse" id="collapseExample">
-        <div class="card card-body">
-            <code>@Model.AccessToken @Model.AccessTokenError</code>
-        </div>
-
+        
         @if (!string.IsNullOrEmpty(@Model.AccessToken))
         {
-            <a href='https://jwt.ms/#access_token=@Model.AccessToken.Replace("Bearer ", "")' target="_blank">https://jwt.ms</a>
+            <span>The <a href='https://jwt.ms/#access_token=@Model.AccessToken.Replace("Bearer ", "")'
+                    target="_blank">https://jwt.ms</a> shows the access token used to call a web API (Account API).</span>
+        }
+
+        @if (!string.IsNullOrEmpty(@Model.AccessTokenError))
+        {
+            <div class="alert alert-danger" role="alert">
+                @Model.AccessTokenError
+            </div>
+        }
+
+        <br>&nbsp;<br>
+                
+
+        @if (!string.IsNullOrEmpty(@Model.DownstreamAccessToken))
+        {
+            <span>
+                For the <b>Account </b>API to make authenticated requests to the downstream <b>Payment</b> API, it needs an
+            access token for different audience and another set of scopes (permissions). To get that access token, the <b>Account</b> API utilizes the OAuth 2.0 On-Behalf-Of flow.
+
+            </span>
+            <span>The <a href='https://jwt.ms/#access_token=@Model.DownstreamAccessToken.Replace("Bearer ", "")'
+                    target="_blank">https://jwt.ms</a> shows the access token acquired by the <b>Account</b> API to call the downstream <b>Payment</b> API.</span>
+        }
+
+        @if (!string.IsNullOrEmpty(@Model.DownstreamAccessTokenError))
+        {
+            <div class="alert alert-danger" role="alert">
+                @Model.DownstreamAccessTokenError
+            </div>
         }
         
     </div>

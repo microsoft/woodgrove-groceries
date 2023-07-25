@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,8 @@ namespace woodgrovedemo.Pages
         readonly IAuthorizationHeaderProvider _authorizationHeaderProvider;
         public string AccessToken { get; set; }
         public string AccessTokenError { get; set; }
+        public string DownstreamAccessToken { get; set; }
+        public string DownstreamAccessTokenError { get; set; }
 
         public TokenModel(IConfiguration configuration, TelemetryClient telemetry, IAuthorizationHeaderProvider authorizationHeaderProvider)
         {
@@ -28,41 +31,84 @@ namespace woodgrovedemo.Pages
             _telemetry.TrackPageView("Token");
 
 
-            // Acquire the access token.
-            string baseUrl = _configuration.GetSection("MyApi:BaseUrl").Value!;
-            string[] scopes = _configuration.GetSection("MyApi:Scopes").Get<string[]>();
+            // Read app settings
+            string baseUrl = _configuration.GetSection("WoodgroveGroceriesApi:BaseUrl").Value!;
+            string[] scopes = _configuration.GetSection("WoodgroveGroceriesApi:Scopes").Get<string[]>();
+            string endpoint = _configuration.GetSection("WoodgroveGroceriesApi:Endpoint").Value!;
 
+            // Check the scopes application settings
             if (scopes == null)
             {
-                AccessTokenError = "Error: The MyApi:Scopes application setting is misconfigured or missing. Use the array format: [\"Account.Payment\", \"Account.Purchases\"]";
+                AccessTokenError = "The WoodgroveGroceriesApi:Scopes application setting is misconfigured or missing. Use the array format: [\"Account.Payment\", \"Account.Purchases\"]";
+                return Page();
             }
-            else if (baseUrl == null)
+
+            // Check the base URL application settings
+            if (string.IsNullOrEmpty(baseUrl))
             {
-                AccessTokenError = "Error: The MyApi:BaseUrl application setting is misconfigured or missing. Check out your applications' scope base URL in Microsoft Entra admin center. For example: api://12345678-0000-0000-0000-000000000000";
+                AccessTokenError = "The WoodgroveGroceriesApi:BaseUrl application setting is misconfigured or missing. Check out your applications' scope base URL in Microsoft Entra admin center. For example: api://12345678-0000-0000-0000-000000000000";
+                return Page();
             }
-            else
+
+            // Check the endpoint application settings
+            if (string.IsNullOrEmpty(endpoint))
             {
-                for (int i = 0; i < scopes.Length; i++)
+                AccessTokenError = "The WoodgroveGroceriesApi:Endpoint application setting is misconfigured or missing.";
+                return Page();
+            }
+
+            // Set the scope full URL (temporary workaround should be fix)
+            for (int i = 0; i < scopes.Length; i++)
+            {
+                scopes[i] = $"{baseUrl}/{scopes[i]}";
+            }
+
+            try
+            {
+                // Get an access token to call the "Account" API (the first API in line)
+                AccessToken = await _authorizationHeaderProvider.CreateAuthorizationHeaderForUserAsync(scopes);
+            }
+            catch (System.Exception ex)
+            {
+                if (ex.GetType().ToString().Contains("MicrosoftIdentityWebChallengeUserException"))
                 {
-                    scopes[i] = $"{baseUrl}/{scopes[i]}";
+                    AccessTokenError = "The token cache does not contain the token to access the web APIs. To get the access token, sign-out and sign-in again.";
+                }
+                else
+                {
+                    AccessTokenError = ex.Message;
                 }
 
-                try
-                {
-                    AccessToken = await _authorizationHeaderProvider.CreateAuthorizationHeaderForUserAsync(scopes);
-                }
-                catch (System.Exception ex)
-                {
-                    if (ex.GetType().ToString().Contains("MicrosoftIdentityWebChallengeUserException"))
-                    {
-                        AccessTokenError = "Error: The token cache does not contain the token to access the web APIs. To get the access token, sign-out and sign-in again.";
-                    }
-                    else
-                    {
-                        AccessTokenError = "Error: " + ex.Message;
-                    }
+                return Page();
+            }
 
+
+            try
+            {
+                // Use the access token to call the Account API.
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Add("Authorization", AccessToken);
+                string jsonString = await client.GetStringAsync(endpoint);
+
+                // The Account API invokes the downstream "Payment" API. To call the Payment API, the Account API uses
+                // the OAuth2 on-behalf-of flow to exchange the access token to a new one that fits 
+                // the Payment API's audience and scopes (permissions). 
+                // The Account API returns the access token so you can compare the two access tokens.
+                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                AccountData accountData = JsonSerializer.Deserialize<AccountData>(jsonString, options)!;
+
+                if (string.IsNullOrEmpty(accountData.Error))
+                {
+                    DownstreamAccessToken = accountData.Payment.AccessTokenToCallThePaymentAPI;
                 }
+                else
+                {
+                    DownstreamAccessTokenError = "Woodgrove Groceries account API returned error: " + accountData.Error;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                DownstreamAccessTokenError = ex.Message;
             }
 
             return Page();
