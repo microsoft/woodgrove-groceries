@@ -19,10 +19,10 @@
         </div>
     }
 
-    @if (!string.IsNullOrEmpty(Model.Message))
+    @if (Model.UserNeedsToSignInAgain)
     {
         <div class="alert alert-success" role="alert" style="padding-bottom: 25px; padding-top: 25px;">
-            @Model.Message
+            Your account has been successfully updated. To reflect the changes, <a class="" href="/SignIn?handler=ProfileSignin">sing-in</a> again.
         </div>
     }
 

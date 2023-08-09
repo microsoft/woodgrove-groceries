@@ -20,7 +20,7 @@ namespace MyApp.Namespace
             _telemetry = telemetry;
         }
 
-        private IActionResult TrackAndAuth(string ID)
+        private IActionResult TrackAndAuth(string ID, string redirectUri = "/")
         {
             _telemetry.TrackPageView($"Sign-in:{ID}");
 
@@ -28,7 +28,7 @@ namespace MyApp.Namespace
                 OpenIdConnectDefaults.AuthenticationScheme,
                 new AuthenticationProperties
                 {
-                    RedirectUri = "/"
+                    RedirectUri = redirectUri
                 });
         }
 
@@ -41,6 +41,16 @@ namespace MyApp.Namespace
         public IActionResult OnGetOnlineRetail()
         {
             return this.TrackAndAuth("OnlineRetail");
+        }
+
+        public IActionResult OnGetProfileSignin()
+        {
+            return this.TrackAndAuth("ProfileSignin");
+        }
+
+        public IActionResult OnGetTokenSignin()
+        {
+            return this.TrackAndAuth("TokenSignin", "/token");
         }
 
         public IActionResult OnGetEmailAndPassword()
