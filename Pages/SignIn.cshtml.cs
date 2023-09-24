@@ -89,5 +89,12 @@ namespace MyApp.Namespace
 
             return Redirect("https://woodgroverestaurants.com");
         }
+
+        public IActionResult OnGetFinance()
+        {
+            _telemetry.TrackPageView($"Sign-in:Kiosk");
+
+            return Redirect("https://woodgrovebanking.com/");
+        }
     }
 }
