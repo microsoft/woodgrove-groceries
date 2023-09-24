@@ -87,7 +87,7 @@ namespace MyApp.Namespace
         {
             _telemetry.TrackPageView($"Sign-in:Kiosk");
 
-            return Redirect("https://kiosk.wggdemo.net");
+            return Redirect("https://woodgroverestaurants.com");
         }
     }
 }
