@@ -1,0 +1,84 @@
+﻿using System.Dynamic;
+using System.Net.Http.Headers;
+using System.Runtime.CompilerServices;
+using System.Text.Json;
+using Azure.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Abstractions;
+
+namespace woodgrovedemo.Controllers;
+
+[ApiController]
+[Route("[controller]")]
+public class UserInsightsController : ControllerBase
+{
+    private const string baseUrl = "https://graph.microsoft.com/beta/reports/userinsights";
+    string[] scopes = { "https://graph.microsoft.com/.default" };
+    private readonly IConfiguration _configuration;
+
+    private static readonly HttpClient client = new HttpClient();
+
+    private readonly ILogger<UserInsightsController> _logger;
+
+    public UserInsightsController(ILogger<UserInsightsController> logger, IConfiguration configuration)
+    {
+        _logger = logger;
+        _configuration = configuration;
+    }
+
+    /// <summary>
+    /// Get an access token to call the Microsoft Graph API
+    /// </summary>
+    /// <returns></returns>
+    private string GetAccessToken()
+    {
+        // Get an access token to call the "Account" API (the first API in line)
+        string TenantId = _configuration.GetSection("MicrosoftGraph:TenantId").Value!;
+        string ClientId = _configuration.GetSection("MicrosoftGraph:ClientId").Value!;
+        string ClientSecret = _configuration.GetSection("MicrosoftGraph:ClientSecret").Value!;
+        var clientSecretCredential = new ClientSecretCredential(TenantId, ClientId, ClientSecret);
+
+        var at = clientSecretCredential.GetToken(new Azure.Core.TokenRequestContext(
+            new[] { "https://graph.microsoft.com/.default" }));
+
+        return at.Token;
+    }
+
+    /// <summary>
+    /// Generic function to fetch data from Microsoft Graph API
+    /// </summary>
+    /// <param name="Url">The full ULR of the Graph API endpoint</param>
+    /// <returns>The body of the Microsoft Graph API response</returns>
+    private async Task<IActionResult> CallGraphAPI(string Url)
+    {
+
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GetAccessToken());
+
+        var response = await client.GetAsync(Url);
+        var responseString = await response.Content.ReadAsStringAsync();
+        return Ok(JsonSerializer.Deserialize<dynamic>(responseString));
+    }
+
+
+    /// <summary>
+    /// The monthly/summary endpoint
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("monthly/summary")]
+    public async Task<IActionResult> MonthlySummaryAsync()
+    {
+        return await CallGraphAPI($"{baseUrl}/monthly/summary");
+    }
+
+
+    /// <summary>
+    /// The monthly/summary endpoint
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("daily/summary")]
+    public async Task<IActionResult> DailySummaryAsync()
+    {
+        return await CallGraphAPI($"{baseUrl}/daily/summary");
+    }
+
+}

@@ -1,0 +1,26 @@
+﻿@page
+@model woodgrovedemo.Pages.DashboardModel
+@{
+    ViewData["Title"] = "User insights dashboard";
+}
+<h1 style="color: green; padding-bottom: 15px; padding-top: 15px;">@ViewData["Title"]</h1>
+<div class="container">
+    <code id="result">
+
+    </code>
+</div>
+
+@section Scripts{
+    <script>
+
+        $.ajax({
+            url: "/UserInsights/monthly/summary",
+                success: function (result) {
+                    console.log(result)
+                    $("#result").text(JSON.stringify(result));
+                }
+
+        });
+
+    </script>
+}
