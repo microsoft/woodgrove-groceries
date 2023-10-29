@@ -9,10 +9,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.22.0-beta3" />
-    <PackageReference Include="Microsoft.Graph" Version="5.19.0" />
-    <PackageReference Include="Microsoft.Identity.Web" Version="2.13.1" />
-    <PackageReference Include="Microsoft.Identity.Web.DownstreamApi" Version="2.13.1" />
-    <PackageReference Include="Microsoft.Identity.Web.UI" Version="2.13.1" />
+    <PackageReference Include="Microsoft.Graph" Version="5.32.0" />
+    <PackageReference Include="Microsoft.Identity.Web" Version="2.15.3" />
+    <PackageReference Include="Microsoft.Identity.Web.DownstreamApi" Version="2.15.3" />
+    <PackageReference Include="Microsoft.Identity.Web.UI" Version="2.15.3" />
   </ItemGroup>
 
 </Project>
