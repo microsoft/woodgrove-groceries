@@ -28,8 +28,11 @@
     <p>
         <button class="btn header-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
             aria-expanded="false" aria-controls="collapseExample">
-            Access token to call a web API
+            <i class="bi bi-file-earmark-lock" ></i> Access token to call a web API
         </button>
+
+
+        <a class="btn header-button" role="button" href="/SignIn?handler=TokenSignin"><i class="bi bi-person"></i> Sign-in with SSO</a>
     </p>
     <div class="collapse" id="collapseExample">
         
@@ -73,7 +76,7 @@
 @section AboutThisDemo{
     <div>
         This demo shows the <b>ID token</b> user's <b>claims</b>. The ID token is the core extension that OpenID Connect
-        makes to OAuth 2.0. ID tokens are issued by Azure AD and contain claims that carry information about you.
+        makes to OAuth 2.0. ID tokens are issued by Microsoft Entra ID for customers and contain claims that carry information about you.
 
         <br />&nbsp;<br />
         ID tokens are intended to be understood by your applications. Information in ID Tokens allows the applications to

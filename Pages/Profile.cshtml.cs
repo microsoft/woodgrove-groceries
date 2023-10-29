@@ -28,7 +28,7 @@ namespace MyApp.Namespace
 
         // User interface messages
         public string ErrorMessage { get; private set; } = "";
-        public string Message { get; private set; } = "";
+        public bool UserNeedsToSignInAgain { get; private set; } = false;
 
         /* User attributes*/
         [BindProperty]
@@ -171,7 +171,7 @@ namespace MyApp.Namespace
                 // Get user's roles and security groups
                 await GetRolesAndGroupsAsync(graphClient, userObjectId);
 
-                Message = "Your account has been successfully updated. Please sign-out and sign-in again.";
+                UserNeedsToSignInAgain = true;
             }
             catch (ODataError odataError)
             {
@@ -284,7 +284,7 @@ namespace MyApp.Namespace
                     HasProductsContributorRole = true;
                 }
 
-                Message = "Your account has been successfully updated. Please sign-out and sign-in again.";
+                UserNeedsToSignInAgain = true;
             }
             catch (ODataError odataError)
             {

@@ -1,0 +1,232 @@
+@font-face
+{
+    /* Custom font definition: CURRENTLY NOT SUPPORTED */
+}
+
+body
+{
+    /* Styles for the whole page */
+}
+
+a,
+a:link
+{
+    /* Styles for links */
+    color: gray;
+}
+
+a:hover
+{
+    /* Styles for links when the mouse is over the link */
+}
+
+a:focus
+{
+    /* Styles for links when the link has focus */
+}
+
+a:focus:hover
+{
+    /* Styles for links when the link has focus and the mouse is over the link */
+}
+
+a:active
+{
+    /* Styles for links when the link is being clicked */
+}
+
+.ext-background-image
+{
+    /* Styles for the holder that contains the background image in the default lightbox template */
+}
+
+.ext-header
+{
+    /* Styles for the header at the top of the page */
+    background-color: #1F6402!important;
+}
+
+.ext-header-logo
+{
+    /* Styles for the header logo at the top of the page */
+}
+
+.ext-middle
+{
+    /* Styles for the container in the default lightbox template that alligns the sign in box vertically to the middle and horizontally to the center */
+}
+
+.ext-vertical-split-main-section
+{
+    /* Styles for the container in the vertical split (ADFS) template that contains both a sign in box and a background */
+}
+
+.ext-vertical-split-background-image-container
+{
+    /* Styles for the background in the vertical split (ADFS) template */
+}
+
+.ext-sign-in-box
+{
+    /* Styles for the sign in box container */
+    margin-bottom: 15px;
+    border-style: solid;
+    border-radius: 15px;
+    border-width: 5px;
+    border-color: white;
+}
+
+.ext-title
+{
+    /* Styles for title text */
+    font-size: xx-large;
+    padding-bottom: 15px;
+    padding-top: 10px;
+    text-align: center;
+    color: #1F6402;
+    font-style: normal;
+    font-family: cursive;
+}
+
+.ext-subtitle
+{
+    /* Styles for subtitle text */
+}
+
+.ext-button.ext-primary
+{
+    /* Styles for primary buttons */
+    background-color: #277C0F;
+    border-radius: 40px
+}
+
+.ext-button.ext-primary:hover
+{
+    /* Styles for primary buttons when the mouse is over the button */
+}
+
+.ext-button.ext-primary:focus
+{
+    /* Styles for primary buttons when the button has focus */
+}
+
+.ext-button.ext-primary:focus:hover
+{
+    /* Styles for primary buttons when the button has focus and the mouse is over the button */
+}
+
+.ext-button.ext-primary:active
+{
+    /* Styles for primary buttons when the button is being clicked */
+    /* keep the same as primary buttons styles*/
+}
+
+.ext-button.ext-secondary
+{
+    /* Styles for secondary buttons */
+    /* Blue */
+    background-color: #1978D5;
+    color: white;
+    border-radius: 40px
+}
+
+.ext-button.ext-secondary:hover
+{
+    /* Styles for secondary buttons when the mouse is over the button */
+    /* keep the same as secondary buttons styles*/
+}
+
+.ext-button.ext-secondary:focus
+{
+    /* Styles for secondary buttons when the button has focus */
+     /* keep the same as secondary buttons styles*/
+}
+
+.ext-button.ext-secondary:focus:hover
+{
+    /* Styles for secondary buttons when the button has focus and the mouse is over the button */
+     /* keep the same as secondary buttons styles*/
+}
+
+.ext-button.ext-secondary:active
+{
+    /* Styles for secondary buttons when the button is being clicked */
+}
+
+.ext-error
+{
+    /* Styles for error text */
+}
+
+.ext-input.ext-text-box
+{
+    /* Styles for text boxes */
+}
+
+.ext-input.ext-text-box.ext-has-error
+{
+    /* Styles for text boxes when there is a validation error associated with the text box */
+}
+
+.ext-input.ext-text-box:hover
+{
+    /* Styles for text boxes when the mouse is over the text box */
+}
+
+.ext-input.ext-text-box:focus
+{
+    /* Styles for text boxes when the text box has focus */
+}
+
+.ext-input.ext-text-box:focus:hover
+{
+    /* Styles for text boxes when the text box has focus and the mouse is over the text box */
+}
+
+.ext-boilerplate-text
+{
+    /* Styles for the custom message text at the bottom of the sign in box */
+    margin-top: 55px;
+    padding: 15px;
+}
+
+.ext-promoted-fed-cred-box
+{
+    /* Styles for sign-in options text box */
+    margin-bottom: 15px;
+    border-style: solid;
+    border-radius: 5px;
+    border-width: 4px;
+    border-color: white;
+    box-shadow: 0px 0px white;
+}
+
+.ext-footer
+{
+    /* Styles for the footer at the bottom of the page */
+    background-color: #1F6402!important;
+    color: black;
+    /* height: 55px;
+    padding-top: 15px; */
+}
+
+.ext-footer-item
+{
+    color: white!important;
+}
+
+.ext-footer-content
+{
+    /* Styles for the links in the footer at the bottom of the page */
+}
+
+.ext-debug-item
+{
+    /* Styles for the debug details ellipsis in the footer at the bottom of the page */
+    color: black;
+}
+
+.banner-logo
+{
+    max-height: 150px;
+}
