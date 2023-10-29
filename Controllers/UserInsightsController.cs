@@ -59,26 +59,28 @@ public class UserInsightsController : ControllerBase
         return Ok(JsonSerializer.Deserialize<dynamic>(responseString));
     }
 
-
-    /// <summary>
-    /// The monthly/summary endpoint
-    /// </summary>
-    /// <returns></returns>
     [HttpGet("monthly/summary")]
     public async Task<IActionResult> MonthlySummaryAsync()
     {
         return await CallGraphAPI($"{baseUrl}/monthly/summary");
     }
 
-
-    /// <summary>
-    /// The monthly/summary endpoint
-    /// </summary>
-    /// <returns></returns>
-    [HttpGet("daily/summary")]
-    public async Task<IActionResult> DailySummaryAsync()
+    [HttpGet("monthly/activeUsers")]
+    public async Task<IActionResult> MonthlyActiveUsersCountAsync()
     {
-        return await CallGraphAPI($"{baseUrl}/daily/summary");
+        return await CallGraphAPI($"{baseUrl}/monthly/signUps");
+    }
+
+    [HttpGet("daily/authentications")]
+    public async Task<IActionResult> DailyAuthenticationsCountAsync()
+    {
+        return await CallGraphAPI($"{baseUrl}/daily/authentications");
+    }
+
+    [HttpGet("monthly/signUps")]
+    public async Task<IActionResult> MonthlySignUpsCountAsync()
+    {
+        return await CallGraphAPI($"{baseUrl}/monthly/signUps");
     }
 
 }
