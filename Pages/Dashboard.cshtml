@@ -16,8 +16,8 @@
   <canvas id="AuthenticationsChart"></canvas>
 
   <div style="padding-top: 80px;">
-    The following graph shows the sign-in request across geographical regions. The country attributeallows you to
-    investigate the authenticates data even further.
+    The following graph shows the authentications requests across geographical regions. The country attribute allows you to
+    investigate the authenticates trend even further. Note, unknown countries have been removed from the graph.
   </div>
   <canvas id="AuthenticationsPerCountryChart"></canvas>
 
@@ -259,7 +259,10 @@
               datasets: [
                 {
                   label: 'Authentications per country per day',
-                  data: data
+                  data: data,
+                  pointStyle: 'circle',
+                  pointRadius: 5,
+                  pointHoverRadius: 15
                 }
               ]
             }

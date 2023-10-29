@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Text.Json;
 using Azure.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Identity.Abstractions;
 
 namespace woodgrovedemo.Controllers;
@@ -19,11 +20,14 @@ public class UserInsightsController : ControllerBase
     private static readonly HttpClient client = new HttpClient();
 
     private readonly ILogger<UserInsightsController> _logger;
+    private readonly IMemoryCache _memoryCache;
 
-    public UserInsightsController(ILogger<UserInsightsController> logger, IConfiguration configuration)
+
+    public UserInsightsController(ILogger<UserInsightsController> logger, IConfiguration configuration, IMemoryCache memoryCache)
     {
         _logger = logger;
         _configuration = configuration;
+        _memoryCache = memoryCache;
     }
 
     /// <summary>
@@ -51,11 +55,21 @@ public class UserInsightsController : ControllerBase
     /// <returns>The body of the Microsoft Graph API response</returns>
     private async Task<IActionResult> CallGraphAPI(string Url)
     {
+        string responseString;
+        if (!_memoryCache.TryGetValue(Url, out responseString))
+        {
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GetAccessToken());
 
-        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GetAccessToken());
+            var response = await client.GetAsync(Url);
+            responseString = await response.Content.ReadAsStringAsync();
 
-        var response = await client.GetAsync(Url);
-        var responseString = await response.Content.ReadAsStringAsync();
+            // Add to the cache
+            var cacheEntryOptions = new MemoryCacheEntryOptions()
+            .SetSlidingExpiration(TimeSpan.FromDays(1));
+
+            _memoryCache.Set(Url, responseString, cacheEntryOptions);
+        }
+
         return Ok(JsonSerializer.Deserialize<dynamic>(responseString));
     }
 
