@@ -24,9 +24,10 @@
             </li>
             <li><a class="dropdown-item" href="#" onclick="showUseCase('useCase_TokenAugmentation')">Token
                     augmentation custom auth extension</a></li>
-            @* <li><a class="dropdown-item" href="#"
-            onclick="showUseCase('useCase_PostAttributeCollection')">Post attribute collection custom auth
-            extension</a></li> *@
+            <li><a class="dropdown-item" href="#"
+            onclick="showUseCase('useCase_PreAttributeCollection')">Prepopulate sign-up attributes</a></li>
+                        <li><a class="dropdown-item" href="#"
+            onclick="showUseCase('useCase_PostAttributeCollection')">Validate sign-up attributes</a></li>
             <li>
                 <hr class="dropdown-divider">
             </li>
@@ -77,9 +78,14 @@
                     <li><a class="link-underline-successm" href="#"
                             onclick="showUseCase('useCase_CustomAttributes')">Collect user attributes during
                             sign-up</a></li>
-                        @* <li><a class="link-underline-success" href="#"
-                    onclick="showUseCase('useCase_PostAttributeCollection')">Custom claims provider
-                    validates the city is where Woodgrove operates</a></li> *@
+                    <li><a class="link-underline-success" href="#"
+                            onclick="showUseCase('useCase_PreAttributeCollection')">Prepopulate sign-up attributes</a>
+                    </li>
+
+                    <li><a class="link-underline-success" href="#"
+                            onclick="showUseCase('useCase_PostAttributeCollection')">Validate sign-up attributes</a>
+                    </li>
+
                     <li><a class="link-underline-success" href="#"
                             onclick="showUseCase('useCase_TokenAugmentation')">Custom claims provider
                             invokes a REST API to return the user's loyalty number</a></li>
@@ -96,7 +102,8 @@
                     <li style="list-style-type: none;"><i class="bi bi-bank" style="font-size: larger;"></i> &nbsp; <a
                             href="https://woodgrovebanking.com/">Woodgrove banking</a> </li>
                     <li style="list-style-type: none;"><i class="bi bi-cup-hot" style="font-size: larger;"></i> &nbsp;
-                        <a href="https://woodgroverestaurants.com/">Woodgrove restaurants (private access)</a> </li>
+                        <a href="https://woodgroverestaurants.com/">Woodgrove restaurants (private access)</a>
+                    </li>
                 </ul>
             </div>
             <div id="useCase_EmailAndPassword" class="useCase">
@@ -250,8 +257,33 @@
                         class="bi bi-play-circle"></i> Start the use
                     case</a>
             </div>
+
+            <div id="useCase_PreAttributeCollection" class="useCase">
+                <h4>Pre-attribute collection custom authentication extension</h4>
+                <p>
+
+                <h5>Prepopulate sign-up attributes</h5>
+                This demo shows how to Prepopulate some of the values, including pre selecting the country attribute
+                with spain and generating and set the value of the promo code attribute. To start the demo:
+                <ol>
+                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                    <li>Sign-<b>up</b> with your email, or a social account. Important: this flow
+                        requires that you register a new account. If you already have an account, you should
+                        first a <a class="link-underline-success" href="#"
+                            onclick="showUseCase('useCase_DeleteAccount')">delete it</a>.
+                    <li>After you validate your email, or sign-in with your social account, complete the
+                        registration by providing your details.</b>
+                        For the country, you should notice that the <b>Spain</b> was selected for you. Also at the bottom of
+                        the page you can see that the promo code was generated and entered for you.</li>
+                </ol>
+
+                <a class="btn header-button" role="button" href="/SignIn?handler=PreAttributeCollection"><i
+                        class="bi bi-play-circle"></i> Start
+                    the use case</a>
+            </div>
+
             <div id="useCase_PostAttributeCollection" class="useCase">
-                <h4>Post attribute collection custom auth extension</h4>
+                <h4>Post attribute collection custom authentication extension</h4>
                 <p>
                     Custom authentication extensions (OnAttributeCollectionSubmit event) allow you to
                     perform validation on attributes collected from the user during sign-up, along with
@@ -409,7 +441,8 @@
                     <br>&nbsp;<br>
                     These devices are connected to the internet, but due to the input constrains, the
                     authentication should be done on another device. The input constrained device gets a
-                    device code from Microsoft Entra ID for customers and asks the user to visit a webpage in a browser on a second
+                    device code from Microsoft Entra ID for customers and asks the user to visit a webpage in a browser
+                    on a second
                     (rich device), such as smartphone, tablets, or PCs.
                     <br>&nbsp;<br>
                     In this use case, from the Kiosk page select sign-in. Use the second device, such as
@@ -427,7 +460,8 @@
 
                 <p>
                     The Woodgrove Bank demo
-                    application illustrates the sign-up and sign-in authentication experiences for financial scenarios. It also demonstrates the SAML protocol federation with Microsoft Entra External ID for customers.
+                    application illustrates the sign-up and sign-in authentication experiences for financial scenarios.
+                    It also demonstrates the SAML protocol federation with Microsoft Entra External ID for customers.
                 </p>
                 <a class="btn header-button" role="button" href="/SignIn?handler=finance"><i
                         class="bi bi-play-circle"></i> Start the use case</a>
