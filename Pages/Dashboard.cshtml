@@ -1,0 +1,323 @@
+﻿@page
+@model woodgrovedemo.Pages.DashboardModel
+@{
+  ViewData["Title"] = "User insights dashboard";
+}
+<h1 style="color: green; padding-bottom: 15px; padding-top: 15px;">@ViewData["Title"]</h1>
+<div class="container">
+  <code id="result">
+
+    </code>
+</div>
+
+<div>
+  <h2>Authentications</h2>
+  The authentications per day provides you with insights for all daily user authentications.
+  <canvas id="AuthenticationsChart"></canvas>
+
+  <div style="padding-top: 80px;">
+    The following graph shows the authentications requests across geographical regions. The country attribute allows you to
+    investigate the authenticates trend even further. Note, unknown countries have been removed from the graph.
+  </div>
+  <canvas id="AuthenticationsPerCountryChart"></canvas>
+
+</div>
+
+<div style="padding-top: 50px;">
+  <h2>Monthly active users</h2>
+  A monthly active user (MAU) is a unique user that performs an authentication within a given month. A user that
+  authenticates at least once within a given month is counted as one MAU.
+  Authentications may include:
+
+  Active, interactive sign in by the user. For example, sign-up or sign in, self-service password reset, or any type of
+  user flow.
+  Passive, non-interactive sign in such as single sign-on (SSO), or any type of token acquisition. For example,
+  authorization code flow, token refresh, or resource owner password credentials flow.
+  The graph below shows the monthly active users trend.
+  <canvas id="ActiveUsersChart"></canvas>
+</div>
+
+<div style="padding-top: 50px;">
+  <h2>Monthly new users</h2>
+  The monthly new users graph can help you understanding the behavior of new users in your tenant. It's important for
+  any business to determine the success of marketing campaigns, identify potential areas of improvement, and measure the
+  effectiveness of the website in attracting and retaining new customers.
+  <canvas id="NewUsersChart"></canvas>
+</div>
+
+<div style="padding-top: 50px;">
+  <h2>Operation systems of authentication requests</h2>
+  <canvas id="OperationSystemsOfAuthenticationRequestsChart"></canvas>
+</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+
+@section Scripts {
+  <script>
+
+    /***** Operation systems of authentication requests *****/
+    $.ajax({
+      url: "/UserInsights/monthly/summary",
+      success: function (result) {
+        console.log("/UserInsights/monthly/summary")
+        console.log(result)
+
+        var items = {};
+
+        for (var i = 0; i < result.value.length; i++) {
+          if (items[result.value[i].os])
+            items[result.value[i].os] = items[result.value[i].os] + result.value[i].authenticationRequests;
+          else
+            items[result.value[i].os] = result.value[i].authenticationRequests;
+        }
+
+        var labels = [];
+        var data = [];
+        var keys = Object.keys(items).sort();
+
+        for (var i = 0; i < keys.length; i++) {
+          labels.push(keys[i])
+          data.push(items[keys[i]])
+        }
+
+        const ctx = document.getElementById('OperationSystemsOfAuthenticationRequestsChart');
+
+        new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: labels,
+            datasets: [{
+              data: data
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              datalabels: {
+                formatter: function (value, context) {
+                  return context.chart.data.labels[
+                    context.dataIndex
+                  ];
+                },
+              },
+              legend: {
+                position: 'top',
+              },
+              title: {
+                color: "",
+                display: false,
+                text: 'Operation systems of authentication requests'
+              }
+            }
+          }
+        });
+      }
+    });
+
+    /***** Active users  *****/
+    $.ajax({
+      url: "/UserInsights/monthly/activeUsers",
+      success: function (result) {
+        console.log("/UserInsights/monthly/activeUsers")
+        console.log(result)
+
+
+        var items = {};
+
+        for (var i = 0; i < result.value.length; i++) {
+          if (items[result.value[i].factDate])
+            items[result.value[i].factDate] = items[result.value[i].factDate] + result.value[i].count;
+          else
+            items[result.value[i].factDate] = result.value[i].count;
+        }
+
+        var labels = [];
+        var data = [];
+        var keys = Object.keys(items).sort();
+
+        for (var i = 0; i < keys.length; i++) {
+          labels.push(keys[i])
+          data.push(items[keys[i]])
+        }
+
+        new Chart(
+          document.getElementById('ActiveUsersChart'),
+          {
+            type: 'line',
+            data: {
+              labels: labels,
+              datasets: [
+                {
+                  label: 'Monthly Active users',
+                  data: data,
+                  pointStyle: 'circle',
+                  pointRadius: 5,
+                  pointHoverRadius: 15,
+                  tension: 0.4
+                }
+              ]
+            },
+            options: {
+              responsive: true
+            }
+          }
+        );
+      }
+    });
+
+
+    /**** Authentications per day ******/
+    $.ajax({
+      url: "/UserInsights/daily/authentications",
+      success: function (result) {
+        console.log("/UserInsights/daily/authentications")
+        console.log(result)
+
+
+        var items = {};
+
+        for (var i = 0; i < result.value.length; i++) {
+          if (items[result.value[i].factDate] == null) {
+            items[result.value[i].factDate] = result.value[i].attemptsCount;
+
+          }
+          else {
+            items[result.value[i].factDate] = items[result.value[i].factDate] + result.value[i].attemptsCount;
+          }
+
+        }
+
+        var labels = [];
+        var data = [];
+        var keys = Object.keys(items).sort();
+
+        for (var i = 0; i < keys.length; i++) {
+          labels.push(keys[i])
+          data.push(items[keys[i]])
+        }
+
+        new Chart(
+          document.getElementById('AuthenticationsChart'),
+          {
+            type: 'bar',
+            data: {
+              labels: labels,
+              datasets: [
+                {
+                  label: 'Authentications per day',
+                  data: data
+                }
+              ]
+            }
+          }
+        );
+      }
+    });
+
+
+    /**** Authentications per counrty per day ******/
+    $.ajax({
+      url: "/UserInsights/daily/authentications",
+      success: function (result) {
+
+        var items = {};
+        var getCountryNames = new Intl.DisplayNames(['en'], { type: 'region' });
+
+        for (var i = 0; i < result.value.length; i++) {
+
+          var counrtyName = getCountryNames.of(result.value[i].country);
+          if (result.value[i].country != "") {
+            if (items[counrtyName] == null) {
+              items[counrtyName] = result.value[i].attemptsCount;
+
+            }
+            else {
+              items[counrtyName] = items[counrtyName] + result.value[i].attemptsCount;
+            }
+          }
+        }
+
+        var labels = [];
+        var data = [];
+        var keys = Object.keys(items).sort();
+
+        for (var i = 0; i < keys.length; i++) {
+          labels.push(keys[i])
+          data.push(items[keys[i]])
+        }
+
+        new Chart(
+          document.getElementById('AuthenticationsPerCountryChart'),
+          {
+            type: 'line',
+            data: {
+              labels: labels,
+              datasets: [
+                {
+                  label: 'Authentications per country per day',
+                  data: data,
+                  pointStyle: 'circle',
+                  pointRadius: 5,
+                  pointHoverRadius: 15
+                }
+              ]
+            }
+          }
+        );
+      }
+    });
+
+
+    /**** Monthly signUps ******/
+    $.ajax({
+      url: "/UserInsights/monthly/signUps",
+      success: function (result) {
+        console.log("/UserInsights/monthly/signUps")
+        console.log(result)
+
+
+        var items = {};
+
+        for (var i = 0; i < result.value.length; i++) {
+          if (items[result.value[i].factDate] == null) {
+            items[result.value[i].factDate] = result.value[i].count;
+
+          }
+          else {
+            items[result.value[i].factDate] = items[result.value[i].factDate] + result.value[i].count;
+          }
+
+        }
+
+        var labels = [];
+        var data = [];
+        var keys = Object.keys(items).sort();
+
+        for (var i = 0; i < keys.length; i++) {
+          labels.push(keys[i])
+          data.push(items[keys[i]])
+        }
+
+        new Chart(
+          document.getElementById('NewUsersChart'),
+          {
+            type: 'bar',
+            data: {
+              labels: labels,
+              datasets: [
+                {
+                  label: 'New users per month',
+                  data: data
+                }
+              ]
+            }
+          }
+        );
+      }
+    });
+  </script>
+}
