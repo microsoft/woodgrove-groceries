@@ -3,12 +3,20 @@
 @{
     ViewData["Title"] = "User insights dashboard";
 }
-@* <h1 style="color: green; padding-bottom: 15px; padding-top: 15px;">@ViewData["Title"]</h1>
+<h1 style="color: green; padding-bottom: 15px; padding-top: 15px;">@ViewData["Title"]</h1>
 <div class="container">
     <code id="result">
 
     </code>
 </div>
+
+<div>
+  <canvas id="myChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
 
 @section Scripts{
     <script>
@@ -17,10 +25,60 @@
             url: "/UserInsights/monthly/summary",
                 success: function (result) {
                     console.log(result)
-                    $("#result").text(JSON.stringify(result));
+
+                  var items = {};
+
+                  for (var i = 0; i < result.value.length; i++){
+                    if (items[result.value[i].os])
+                      items[result.value[i].os] = items[result.value[i].os] + result.value[i].authenticationRequests;
+                    else
+                      items[result.value[i].os] = result.value[i].authenticationRequests;
+                  }
+
+                  var labels = [];
+                  var data = [];
+                  var keys = Object.keys(items).sort();
+
+                  for (var i = 0; i < keys.length; i++)
+                  {
+                     labels.push(keys[i])
+                     data.push(items[keys[i]])
+                  }
+
+                    const ctx = document.getElementById('myChart');
+
+                    new Chart(ctx, {
+                      type: 'doughnut',
+                      data: {
+                        labels: labels,
+                        datasets: [{
+                          data: data
+                        }]
+                      },
+                      options: {
+                        plugins: {
+                          datalabels: {
+                              formatter: function (value, context) {
+                                  return context.chart.data.labels[
+                                      context.dataIndex
+                                  ];
+                              },
+                          },
+                          legend: {
+                            position: 'top',
+                          },
+                          title: {
+                            color: "",
+                            display: true,
+                            text: 'Operation systems of authentication requests'
+                          }
+                        }
+                      }
+                    });
+                    
                 }
 
         });
 
     </script>
-} *@
+}
