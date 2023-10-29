@@ -68,6 +68,11 @@ namespace MyApp.Namespace
             return this.TrackAndAuth("TokenAugmentation");
         }
 
+        public IActionResult OnGetPreAttributeCollection()
+        {
+            return this.TrackAndAuth("PreAttributeCollection");
+        }
+
         public IActionResult OnGetPostAttributeCollection()
         {
             return this.TrackAndAuth("PostAttributeCollection");
