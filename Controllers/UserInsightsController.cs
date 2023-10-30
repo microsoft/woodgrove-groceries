@@ -82,7 +82,7 @@ public class UserInsightsController : ControllerBase
     [HttpGet("monthly/activeUsers")]
     public async Task<IActionResult> MonthlyActiveUsersCountAsync()
     {
-        return await CallGraphAPI($"{baseUrl}/monthly/signUps");
+        return await CallGraphAPI($"{baseUrl}/monthly/activeUsers");
     }
 
     [HttpGet("daily/authentications")]
