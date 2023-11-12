@@ -538,14 +538,18 @@
         var useCases = ["OnlineRetail", "EmailAndPassword", "SSPR", "Social", "TokenAugmentation", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Finance"];
 
         if (usecase && (useCases.indexOf(usecase) > -1)) {
-            console.log("Start usecase: " + usecase)
-            document.getElementById('offcanvasRight').classList.add('show')
+
+            $("#offcanvasRight").offcanvas('show');
             showUseCase("useCase_" + usecase);
         }
         else {
-            document.getElementById('offcanvasRight').classList.remove('show')
+            $("#offcanvasRight").offcanvas('hide');
             window.location.hash = '';
         }
     }
 
+    const myOffcanvas = document.getElementById('offcanvasRight');
+    myOffcanvas.addEventListener('hidden.bs.offcanvas', () => {
+        window.location.hash = '';
+    }) 
 </script>

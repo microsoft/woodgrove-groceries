@@ -137,6 +137,10 @@ body {
 
 /***** offcanvas *****/
 
+.offcanvas-backdrop.show
+{
+  opacity: .75!important;
+}
 .offcanvas {
   width: 550px !important;
 }

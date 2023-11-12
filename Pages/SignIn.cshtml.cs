@@ -93,6 +93,11 @@ namespace MyApp.Namespace
             return this.TrackAndAuth("SSPR");
         }
 
+        public IActionResult OnGetCustomAttributes()
+        {
+            return this.TrackAndAuth("CustomAttributes");
+        }
+
         public IActionResult OnGetKiosk()
         {
             _telemetry.TrackPageView($"Sign-in:Kiosk");
