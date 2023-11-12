@@ -83,6 +83,11 @@ namespace MyApp.Namespace
             return this.TrackAndAuth("RBAC");
         }
 
+        public IActionResult OnGetGBAC()
+        {
+            return this.TrackAndAuth("GBAC");
+        }
+
         public IActionResult OnGetSSPR()
         {
             return this.TrackAndAuth("SSPR");

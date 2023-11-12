@@ -9,52 +9,55 @@
         </a>
 
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            <li><a class="dropdown-item" href="#" onclick="showUseCase('useCase_OnlineRetail')">Online
+            <li><a class="dropdown-item" href="/#usecase=OnlineRetail">Online
                     retail use case</a></li>
-            <li><a class="dropdown-item" href="#" onclick="showUseCase('useCase_EmailAndPassword')">Email
+            <li><a class="dropdown-item" href="/#usecase=EmailAndPassword">Email
                     and password sign-in</a></li>
-            <li><a class="dropdown-item" href="#" onclick="showUseCase('useCase_SSPR')">Self-service
+            <li><a class="dropdown-item" href="/#usecase=SSPR">Self-service
                     password reset</a></li>
-            <li><a class="dropdown-item" href="#" onclick="showUseCase('useCase_Social')">Social
+            <li><a class="dropdown-item" href="/#usecase=Social">Social
                     account sign-in</a></li>
-            @* <li><a class="dropdown-item" href="#" onclick="showUseCase('useCase_EmailOTP')">Email with
+            @* <li><a class="dropdown-item" href="/#usecase=" onclick="showUseCase('useCase_EmailOTP')">Email with
             one-time passcode sign-in</a></li> *@
             <li>
                 <hr class="dropdown-divider">
             </li>
-            <li><a class="dropdown-item" href="#" onclick="showUseCase('useCase_TokenAugmentation')">Token
+            <li><a class="dropdown-item" href="/#usecase=TokenAugmentation">Token
                     augmentation custom auth extension</a></li>
-            <li><a class="dropdown-item" href="#"
-            onclick="showUseCase('useCase_PreAttributeCollection')">Prepopulate sign-up attributes</a></li>
-                        <li><a class="dropdown-item" href="#"
-            onclick="showUseCase('useCase_PostAttributeCollection')">Validate sign-up attributes</a></li>
+            <li><a class="dropdown-item" href="/#usecase=PreAttributeCollection">Prepopulate
+                    sign-up attributes</a></li>
+            <li><a class="dropdown-item" href="/#usecase=PostAttributeCollection">Validate
+                    sign-up attributes</a></li>
             <li>
                 <hr class="dropdown-divider">
             </li>
-            <li><a class="dropdown-item" href="#" onclick="showUseCase('useCase_ProfileEdit')">Edit your
+            <li><a class="dropdown-item" href="/#usecase=ProfileEdit">Edit your
                     account</a></li>
-            <li><a class="dropdown-item" href="#" onclick="showUseCase('useCase_DeleteAccount')">Delete your
+            <li><a class="dropdown-item" href="/#usecase=DeleteAccount">Delete your
                     account</a></li>
             <li>
                 <hr class="dropdown-divider">
             </li>
-            <li><a class="dropdown-item" href="#" onclick="showUseCase('useCase_RoleBasedAccessControl')">Role-based
+            <li><a class="dropdown-item" href="/#usecase=RBAC">Role-based
                     access control</a>
             </li>
-            @* <li><a class="dropdown-item" href="#" onclick="showUseCase('useCase_MFA')">Multi-factor
+            <li><a class="dropdown-item" href="/#usecase=GBAC">Group-based
+                    access control</a>
+            </li>
+            @* <li><a class="dropdown-item" href="/#usecase=MFA">Multi-factor
             authentication</a></li> *@
             <li>
                 <hr class="dropdown-divider">
             </li>
-            <li><a class="dropdown-item" href="#" onclick="showUseCase('useCase_CustomAttributes')">Collect
+            <li><a class="dropdown-item" href="/#usecase=CustomAttributes">Collect
                     user attributes during sign-up</a></li>
-            <li><a class="dropdown-item" href="#" onclick="showUseCase('useCase6')">Input constrained
+            <li><a class="dropdown-item" href="/#usecase=Kiosk">Input constrained
                     devices (Kiosk)</a></li>
             <li>
                 <hr class="dropdown-divider">
             </li>
-            <li><a class="dropdown-item" href="#" onclick="showUseCase('useCase_Finance')">Finance</a></li>
-            <li><a class="dropdown-item" href="#" onclick="showUseCase('useCase_Finance')">SAML protocol</a></li>
+            <li><a class="dropdown-item" href="/#usecase=Finance">Finance</a></li>
+            <li><a class="dropdown-item" href="/#usecase=Finance">SAML protocol</a></li>
         </ul>
         <div id="useCases">
             <div id="useCase_OnlineRetail" class="useCase">
@@ -66,28 +69,26 @@
                     authentication experiences that can be configured for your customer-facing apps. This
                     example illustrates the most common use case, including the following features:
                 <ul>
-                    <li><a class="link-underline-success" href="#"
-                            onclick="showUseCase('useCase_EmailAndPassword')">Sign-up or sign-in with email
+                    <li><a class="link-underline-success" href="#usecase=EmailAndPassword">Sign-up or sign-in with email
                             address and password</a></li>
-                    <li><a class="link-underline-success" href="#" onclick="showUseCase('useCase_SSPR')">Self-service
+                    <li><a class="link-underline-success" href="/#usecase=SSPR">Self-service
                             password
                             reset</a></li>
-                    <li><a class="link-underline-successm" href="#" onclick="showUseCase('useCase_Social')">Sign-in with
+                    <li><a class="link-underline-successm" href="/#usecase=Social">Sign-in with
                             Facebook and Google social
                             accounts</a></li>
-                    <li><a class="link-underline-successm" href="#"
-                            onclick="showUseCase('useCase_CustomAttributes')">Collect user attributes during
+                    <li><a class="link-underline-successm" href="/#usecase=CustomAttributes">Collect user attributes
+                            during
                             sign-up</a></li>
-                    <li><a class="link-underline-success" href="#"
-                            onclick="showUseCase('useCase_PreAttributeCollection')">Prepopulate sign-up attributes</a>
+                    <li><a class="link-underline-success" href="/#usecase=PreAttributeCollection">Prepopulate sign-up
+                            attributes</a>
                     </li>
 
-                    <li><a class="link-underline-success" href="#"
-                            onclick="showUseCase('useCase_PostAttributeCollection')">Validate sign-up attributes</a>
+                    <li><a class="link-underline-success" href="/#usecase=PostAttributeCollection">Validate sign-up
+                            attributes</a>
                     </li>
 
-                    <li><a class="link-underline-success" href="#"
-                            onclick="showUseCase('useCase_TokenAugmentation')">Custom claims provider
+                    <li><a class="link-underline-success" href="/#usecase=TokenAugmentation">Custom claims provider
                             invokes a REST API to return the user's loyalty number</a></li>
                     <li>The sign-in page is fully customized with the Woodgrove brand.</li>
                 </ul>
@@ -273,7 +274,8 @@
                             onclick="showUseCase('useCase_DeleteAccount')">delete it</a>.
                     <li>After you validate your email, or sign-in with your social account, complete the
                         registration by providing your details.</b>
-                        For the country, you should notice that the <b>Spain</b> was selected for you. Also at the bottom of
+                        For the country, you should notice that the <b>Spain</b> was selected for you. Also at the
+                        bottom of
                         the page you can see that the promo code was generated and entered for you.</li>
                 </ol>
 
@@ -319,7 +321,7 @@
                     the use case</a>
             </div>
 
-            <div id="useCase_RoleBasedAccessControl" class="useCase">
+            <div id="useCase_RBAC" class="useCase">
                 <h4>Role-based and access control</h4>
                 <p>
                     Role-based access control is a popular mechanism to enforce authorization in
@@ -334,7 +336,7 @@
                     which includes the names of the roles they have assigned to the application. Developers
                     have the flexibility to decide how role assignments are to be used within the
                     application. For example, show or hide some of the elements on the screen, or block
-                    access to certain functionalities based on the user’s role or security groups.
+                    access to certain functionalities based on the user’s role.
                     <br />
                     Usually, an administrator needs to approve your request. But for this demo, your request
                     is automatically approved. To start the demo:
@@ -361,6 +363,26 @@
                         and online orders.</li>
                 </ol>
 
+                </p>
+                <a class="btn header-button" role="button" href="/SignIn?handler=RBAC"><i class="bi bi-play-circle"></i>
+                    Start the use case</a>
+            </div>
+
+            <div id="useCase_GBAC" class="useCase">
+                <h4>Group-based and access control</h4>
+                <p>
+                    Group-based access control is a popular mechanism to enforce authorization in
+                    applications. It helps you manage who has access to your application and what they can
+                    do in the application. You can also alter the UI based on the user's membership.
+                    <br />
+                    Microsoft Entra ID for customers issues an access token for an authenticated user,
+                    which includes the IDs of the groups users are member of. Developers
+                    have the flexibility to decide how group assignments are to be used within the
+                    application. For example, show or hide some of the elements on the screen, or block
+                    access to certain functionalities based on the user’s group membership.
+                    <br />
+                    Usually, an administrator needs to approve your request. But for this demo, your request
+                    is automatically approved. To start the demo:
 
                 <h5>Group-base access control</h5>
                 <ol>
@@ -383,10 +405,9 @@
                         This demo application checks the claim’s value and gives you the discounts.</li>
                 </ol>
                 </p>
-                <a class="btn header-button" role="button" href="/SignIn?handler=RBAC"><i class="bi bi-play-circle"></i>
+                <a class="btn header-button" role="button" href="/SignIn?handler=GBAC"><i class="bi bi-play-circle"></i>
                     Start the use case</a>
             </div>
-
 
             <div id="useCase_CustomAttributes" class="useCase">
                 <h4>Collect user attributes during sign-up</h4>
@@ -430,7 +451,7 @@
                     case</a>
             </div>
 
-            <div id="useCase6" class="useCase">
+            <div id="useCase_Kiosk" class="useCase">
                 <h4>Input constrained devices (Kiosk)</h4>
 
                 <p>
@@ -496,6 +517,35 @@
     function showUseCase(useCaseId) {
         $(".useCase").hide();
         $("#" + useCaseId).show();
+    }
+
+    window.addEventListener("hashchange", function () {
+        loaldUseCaseFromUrl();
+    });
+
+    var waitForJQuery = setInterval(function () {
+        if (typeof $ != 'undefined') {
+
+            clearInterval(waitForJQuery);
+            loaldUseCaseFromUrl();
+        }
+    }, 500);
+
+    function loaldUseCaseFromUrl() {
+        var myUrl = new URL(window.location.href.replace(/#/g, "?"));
+        var usecase = myUrl.searchParams.get("usecase");
+
+        var useCases = ["OnlineRetail", "EmailAndPassword", "SSPR", "Social", "TokenAugmentation", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Finance"];
+
+        if (usecase && (useCases.indexOf(usecase) > -1)) {
+            console.log("Start usecase: " + usecase)
+            document.getElementById('offcanvasRight').classList.add('show')
+            showUseCase("useCase_" + usecase);
+        }
+        else {
+            document.getElementById('offcanvasRight').classList.remove('show')
+            window.location.hash = '';
+        }
     }
 
 </script>
