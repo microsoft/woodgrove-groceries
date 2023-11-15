@@ -221,6 +221,16 @@ body {
 }
 
 /***** Header section *******/
+.woodgrove-header-link span{
+  text-decoration-line: underline;
+  color: black;
+}
+
+.woodgrove-header-link:hover span{
+  color: green;
+}
+
+
 .navbar {
   position: relative;
   text-align: center;
@@ -454,3 +464,5 @@ hr.vertical {
 }
 
 /*** Footer ends ****/
+
+
