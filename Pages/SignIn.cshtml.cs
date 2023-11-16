@@ -38,9 +38,19 @@ namespace MyApp.Namespace
             return this.TrackAndAuth("Default");
         }
 
+        public IActionResult OnGetBlockSignUp()
+        {
+            return this.TrackAndAuth("BlockSignUp");
+        }
+
         public IActionResult OnGetOnlineRetail()
         {
             return this.TrackAndAuth("OnlineRetail");
+        }
+
+        public IActionResult OnGetCompanyBranding()
+        {
+            return this.TrackAndAuth("CompanyBranding");
         }
 
         public IActionResult OnGetProfileSignin()
