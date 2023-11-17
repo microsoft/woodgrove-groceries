@@ -73,16 +73,11 @@ public class UserInsightsController : ControllerBase
         return Ok(JsonSerializer.Deserialize<dynamic>(responseString));
     }
 
-    [HttpGet("monthly/summary")]
-    public async Task<IActionResult> MonthlySummaryAsync()
-    {
-        return await CallGraphAPI($"{baseUrl}/monthly/summary");
-    }
 
-    [HttpGet("monthly/activeUsers")]
-    public async Task<IActionResult> MonthlyActiveUsersCountAsync()
+    [HttpGet("daily/userCount")]
+    public async Task<IActionResult> DailyUserCountAsync()
     {
-        return await CallGraphAPI($"{baseUrl}/monthly/activeUsers");
+        return await CallGraphAPI($"{baseUrl}/daily/userCount");
     }
 
     [HttpGet("daily/authentications")]
@@ -91,10 +86,45 @@ public class UserInsightsController : ControllerBase
         return await CallGraphAPI($"{baseUrl}/daily/authentications");
     }
 
+    [HttpGet("daily/activeUsers")]
+    public async Task<IActionResult> DailyActiveUsersCountAsync()
+    {
+        return await CallGraphAPI($"{baseUrl}/daily/activeUsers");
+    }
+
+    [HttpGet("daily/inactiveUsers")]
+    public async Task<IActionResult> DailyInactiveUsersCountAsync()
+    {
+        return await CallGraphAPI($"{baseUrl}/daily/inactiveUsers");
+    }
+
+    [HttpGet("monthly/summary")]
+    public async Task<IActionResult> MonthlySummaryAsync()
+    {
+        return await CallGraphAPI($"{baseUrl}/monthly/summary");
+    }
+
     [HttpGet("monthly/signUps")]
     public async Task<IActionResult> MonthlySignUpsCountAsync()
     {
         return await CallGraphAPI($"{baseUrl}/monthly/signUps");
     }
 
+    [HttpGet("monthly/activeUsers")]
+    public async Task<IActionResult> MonthlyActiveUsersCountAsync()
+    {
+        return await CallGraphAPI($"{baseUrl}/monthly/activeUsers");
+    }
+
+    [HttpGet("monthly/authentications")]
+    public async Task<IActionResult> MonthlyAuthenticationsCountAsync()
+    {
+        return await CallGraphAPI($"{baseUrl}/monthly/authentications");
+    }
+
+    [HttpGet("monthly/requests")]
+    public async Task<IActionResult> DailyRequestsCountAsync()
+    {
+        return await CallGraphAPI($"{baseUrl}/monthly/requests");
+    }
 }

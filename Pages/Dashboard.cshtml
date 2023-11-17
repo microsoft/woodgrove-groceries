@@ -1,7 +1,7 @@
 ﻿@page
 @model woodgrovedemo.Pages.DashboardModel
 @{
-  ViewData["Title"] = "User insights dashboard";
+  ViewData["Title"] = "Application user activity";
 }
 <h1 style="color: green; padding-bottom: 15px; padding-top: 15px;">@ViewData["Title"]</h1>
 <div class="container">
@@ -10,12 +10,82 @@
     </code>
 </div>
 
+
+<div class="row">
+  <div class="col-sm-4 text-center">
+    <h4>Total users</h4>
+    <h2 id="TotalUsers"></h2>
+    This value represents the total number of active users in your tenant in <span id="TotalUsersDate"></span>. 
+  </div>
+  
+  <div class="col-sm-4 text-center">
+    <h4>Monthly active users</h4>
+    <h2 id="TotalMonthlyActiveUsers"></h2>
+    This value represents the total number of users who signed in to your apps in <span id="TotalMonthlyActiveUsersDate"></span>. 
+  </div>
+  
+  <div class="col-sm-4 text-center">
+    <h4>New users added</h4>
+    <h2 id="TotalNewUsersAdded"></h2>
+    This value represents the total number of new users added to your tenant in <span id="TotalNewUsersAddedDate"></span>. 
+    It reflects all users added through self-service sign-up or account creation.
+  </div>
+</div>
+
+<h2>Daily active users over time</h2>
+<div class="text-center"><div id="DailyActiveUsersSpinner" class="spinner-border woodgrove-spinner" role="status"></div></div>
+<canvas id="DailyActiveUsersChart"></canvas>
+
+<h2 style="padding-top: 50px;">Daily inactive users over time</h2>
+<div class="text-center"><div id="DailyInactiveUsersSpinner" class="spinner-border woodgrove-spinner" role="status"></div></div>
+<canvas id="DailyInactiveUsersChart"></canvas>
+
+<div style="padding-top: 50px;">
+  <h2>Monthly users over time</h2>
+  A monthly active user (MAU) is a unique user that performs an authentication within a given month. A user that
+  authenticates at least once within a given month is counted as one MAU.
+  Authentications may include:
+
+  Active, interactive sign in by the user. For example, sign-up or sign in, self-service password reset, or any type of
+  user flow.
+  Passive, non-interactive sign in such as single sign-on (SSO), or any type of token acquisition. For example,
+  authorization code flow, token refresh, or resource owner password credentials flow.
+  The graph below shows the monthly active users trend.
+
+  <div class="text-center"><div id="MonthlyActiveUsersSpinner" class="spinner-border woodgrove-spinner" role="status"></div></div>
+  <canvas id="MonthlyActiveUsersChart"></canvas>
+</div>
+
+<div style="padding-top: 50px;">
+  <h2>New users added over time</h2>
+  The monthly new users graph can help you understanding the behavior of new users in your tenant. It's important for
+  any business to determine the success of marketing campaigns, identify potential areas of improvement, and measure the
+  effectiveness of the website in attracting and retaining new customers.
+
+  <div class="text-center"><div id="NewUsersSpinner" class="spinner-border woodgrove-spinner" role="status"></div></div>
+  <canvas id="NewUsersChart"></canvas>
+</div>
+
+<h1 style="color: green; padding-bottom: 15px; padding-top: 85px;">Requests report</h1>
+
+
+
+<h4>Monthly Requests</h4>
+<h2 id="TotalRequests"></h2>
+This value represents the total number of requests processed through sign-in and sign-up flows in <span id="TotalRequestsDate"></span>. 
+It includes all requests associated with conditional access policies, password reset flows, MFA, language customization, and so on. 
+Refer to the detailed graphs for a breakdown.
+
+<div class="text-center"><div id="RequestsSpinner" class="spinner-border woodgrove-spinner" role="status"></div></div>
+<canvas id="RequestsChart"></canvas>
+
+<h1 style="color: green; padding-bottom: 15px; padding-top: 85px;">Authentications report</h1>
 <div>
-  <h2>Authentications</h2>
+  <h2>Monthly Authentications over time</h2>
   The authentications per day provides you with insights for all daily user authentications.
   
-  <div class="text-center"><div id="AuthenticationsSpinner" class="spinner-border woodgrove-spinner" role="status"></div></div>
-  <canvas id="AuthenticationsChart">
+  <div class="text-center"><div id="MonthlyAuthenticationsSpinner" class="spinner-border woodgrove-spinner" role="status"></div></div>
+  <canvas id="MonthlyAuthenticationsChart">
     
   </canvas>
 
@@ -29,34 +99,9 @@
 
 </div>
 
-<div style="padding-top: 50px;">
-  <h2>Monthly active users</h2>
-  A monthly active user (MAU) is a unique user that performs an authentication within a given month. A user that
-  authenticates at least once within a given month is counted as one MAU.
-  Authentications may include:
-
-  Active, interactive sign in by the user. For example, sign-up or sign in, self-service password reset, or any type of
-  user flow.
-  Passive, non-interactive sign in such as single sign-on (SSO), or any type of token acquisition. For example,
-  authorization code flow, token refresh, or resource owner password credentials flow.
-  The graph below shows the monthly active users trend.
-
-  <div class="text-center"><div id="ActiveUsersSpinner" class="spinner-border woodgrove-spinner" role="status"></div></div>
-  <canvas id="ActiveUsersChart"></canvas>
-</div>
 
 <div style="padding-top: 50px;">
-  <h2>Monthly new users</h2>
-  The monthly new users graph can help you understanding the behavior of new users in your tenant. It's important for
-  any business to determine the success of marketing campaigns, identify potential areas of improvement, and measure the
-  effectiveness of the website in attracting and retaining new customers.
-
-  <div class="text-center"><div id="NewUsersSpinner" class="spinner-border woodgrove-spinner" role="status"></div></div>
-  <canvas id="NewUsersChart"></canvas>
-</div>
-
-<div style="padding-top: 50px;">
-  <h2>Operation systems of authentication requests</h2>
+  <h2>Operation systems of authentications</h2>
 
   <div class="text-center"><div id="OperationSystemsOfAuthenticationRequestsSpinner" class="spinner-border woodgrove-spinner" role="status"></div></div>
   <canvas id="OperationSystemsOfAuthenticationRequestsChart"></canvas>
@@ -90,11 +135,16 @@
         var labels = [];
         var data = [];
         var keys = Object.keys(items).sort();
+        var count  = 0;
 
         for (var i = 0; i < keys.length; i++) {
           labels.push(keys[i])
           data.push(items[keys[i]])
+
+          count =  count + items[keys[i]];
         }
+        
+        console.log(count);
 
         const ctx = document.getElementById('OperationSystemsOfAuthenticationRequestsChart');
         $("#OperationSystemsOfAuthenticationRequestsSpinner").hide();
@@ -137,7 +187,6 @@
         console.log("/UserInsights/monthly/activeUsers")
         console.log(result)
 
-
         var items = {};
 
         for (var i = 0; i < result.value.length; i++) {
@@ -152,80 +201,101 @@
         var keys = Object.keys(items).sort();
 
         for (var i = 0; i < keys.length; i++) {
-          labels.push(keys[i])
+          labels.push(toShortDate(keys[i]))
           data.push(items[keys[i]])
         }
 
-        $("#ActiveUsersSpinner").hide();
+        // Hide the spinner
+        $("#MonthlyActiveUsersSpinner").hide();
 
+        // Get the total from the last day
+        $("#TotalMonthlyActiveUsers").text(data[data.length-1]);
+        $("#TotalMonthlyActiveUsersDate").text(labels[labels.length-1]);
+        
+        // Render the chart
         new Chart(
-          document.getElementById('ActiveUsersChart'),
-          {
-            type: 'line',
-            data: {
-              labels: labels,
-              datasets: [
-                {
-                  label: 'Monthly Active users',
-                  data: data,
-                  pointStyle: 'circle',
-                  pointRadius: 5,
-                  pointHoverRadius: 15,
-                  tension: 0.4
-                }
-              ]
-            },
-            options: {
-              responsive: true
-            }
-          }
-        );
-      }
-    });
-
-
-    /**** Authentications per day ******/
-    $.ajax({
-      url: "/UserInsights/daily/authentications",
-      success: function (result) {
-        console.log("/UserInsights/daily/authentications")
-        console.log(result)
-
-
-        var items = {};
-
-        for (var i = 0; i < result.value.length; i++) {
-          if (items[result.value[i].factDate] == null) {
-            items[result.value[i].factDate] = result.value[i].attemptsCount;
-
-          }
-          else {
-            items[result.value[i].factDate] = items[result.value[i].factDate] + result.value[i].attemptsCount;
-          }
-
-        }
-
-        var labels = [];
-        var data = [];
-        var keys = Object.keys(items).sort();
-
-        for (var i = 0; i < keys.length; i++) {
-          labels.push(keys[i])
-          data.push(items[keys[i]])
-        }
-
-        $("#AuthenticationsSpinner").hide();
-
-        new Chart(
-          document.getElementById('AuthenticationsChart'),
+          document.getElementById('MonthlyActiveUsersChart'),
           {
             type: 'bar',
             data: {
               labels: labels,
               datasets: [
                 {
-                  label: 'Authentications per day',
-                  data: data
+                  label: 'Active users',
+                  data: data,
+                  pointStyle: 'circle',
+                  pointRadius: 5,
+                  pointHoverRadius: 15,
+                  tension: 0.4,
+                  backgroundColor: "#1F640270",
+                  borderRadius: 4,
+                  borderWidth: 2,
+                  borderColor: "#1F6402"
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          }
+        );
+      }
+    });
+
+  
+    /**** Monthly Authentications over time ******/
+    $.ajax({
+      url: "/UserInsights/monthly/authentications",
+      success: function (result) {
+        console.log("/UserInsights/monthly/authentications")
+        console.log(result)
+
+        var items = {};
+
+        for (var i = 0; i < result.value.length; i++) {
+          if (items[result.value[i].factDate] == null) {
+            items[result.value[i].factDate] = result.value[i].successCount;
+
+          }
+          else {
+            items[result.value[i].factDate] = items[result.value[i].factDate] + result.value[i].successCount;
+          }
+
+        }
+
+        var labels = [];
+        var data = [];
+        var keys = Object.keys(items); //.sort();
+
+        var count  = 0; 
+
+        for (var i = 0; i < keys.length; i++) {
+          labels.push(toShortDate(keys[i]))
+          data.push(items[keys[i]])
+          count +=items[keys[i]];
+        }
+
+        $("#MonthlyAuthenticationsSpinner").hide();
+
+        new Chart(
+          document.getElementById('MonthlyAuthenticationsChart'),
+          {
+            type: 'bar',
+            data: {
+              labels: labels,
+              datasets: [
+                {
+                  label: 'Authentications ' + count.toLocaleString(),
+                  data: data,
+                  backgroundColor: "#EB332470",
+                  borderRadius: 4,
+                  borderWidth: 2,
+                  borderColor: "#EB3324"
                 }
               ]
             }
@@ -321,12 +391,81 @@
         var keys = Object.keys(items).sort();
 
         for (var i = 0; i < keys.length; i++) {
+          labels.push(toShortDate(keys[i]))
+          data.push(items[keys[i]])
+        }
+
+        // Hide the spinner
+        $("#NewUsersSpinner").hide();
+        
+        // Get the total from the last day
+        $("#TotalNewUsersAdded").text(data[data.length-1]);
+        $("#TotalNewUsersAddedDate").text(labels[labels.length-1]);
+        
+        // Render the chart
+        new Chart(
+          document.getElementById('NewUsersChart'),
+          {
+            type: 'bar',
+            data: {
+              labels: labels,
+              datasets: [
+                {
+                  label: 'New users',
+                  data: data,
+                  backgroundColor: "#5C2D9170",
+                  borderRadius: 4,
+                  borderWidth: 2,
+                  borderColor: "#5C2D91"
+                }
+              ]
+            }
+          }
+        );
+      }
+    });
+
+
+
+    /**** Total users ******/
+    $.ajax({
+      url: "/UserInsights/daily/userCount",
+      success: function (result) {
+        console.log("/UserInsights/daily/userCount")
+        console.log(result)
+
+
+        var items = {};
+
+        for (var i = 0; i < result.value.length; i++) {
+          if (items[result.value[i].factDate] == null) {
+            items[result.value[i].factDate] = result.value[i].count;
+
+          }
+          else {
+            items[result.value[i].factDate] = items[result.value[i].factDate] + result.value[i].count;
+          }
+
+        }
+
+        var labels = [];
+        var data = [];
+        var keys = Object.keys(items).sort();
+
+        for (var i = 0; i < keys.length; i++) {
           labels.push(keys[i])
           data.push(items[keys[i]])
         }
 
+        // Hide the spinner
         $("#NewUsersSpinner").hide();
-
+        
+        // Get the total from the last day
+        $("#TotalUsers").text(data[data.length-1]);
+        $("#TotalUsersDate").text(labels[labels.length-1]);
+        
+        return
+        // Render the chart
         new Chart(
           document.getElementById('NewUsersChart'),
           {
@@ -344,5 +483,198 @@
         );
       }
     });
+
+
+
+
+    /***** Monthly authentications  *****/
+    $.ajax({
+      url: "/UserInsights/monthly/requests",
+      success: function (result) {
+        console.log("/UserInsights/monthly/requests")
+        console.log(result)
+
+        var items = {};
+
+        for (var i = 0; i < result.value.length; i++) {
+          if (items[result.value[i].factDate])
+            items[result.value[i].factDate] = items[result.value[i].factDate] + result.value[i].count;
+          else
+            items[result.value[i].factDate] = result.value[i].count;
+        }
+
+        var labels = [];
+        var data = [];
+        var keys = Object.keys(items).sort();
+        var count = 0; 
+
+        for (var i = 0; i < result.value.length; i++) {
+          labels.push(toShortDate(result.value[i].factDate))
+          data.push(result.value[i].requestCount)
+
+          count += result.value[i].requestCount;
+        }
+
+        // Hide the spinner
+        $("#RequestsSpinner").hide();
+
+        // Get the total from the last day
+        $("#TotalRequests").text(data[data.length-1].toLocaleString());
+        $("#TotalRequestsDate").text(labels[labels.length-1]);
+        
+        // Render the chart
+        new Chart(
+          document.getElementById('RequestsChart'),
+          {
+            type: 'line',
+            data: {
+              labels: labels,
+              datasets: [
+                {
+                  label: 'Total requests ' + count.toLocaleString(),
+                  data: data,
+                  pointStyle: 'circle',
+                  pointRadius: 5,
+                  pointHoverRadius: 15,
+                  tension: 0.4
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          }
+        );
+      }
+    });
+
+    /***** Daily active users  *****/
+    $.ajax({
+      url: "/UserInsights/daily/activeUsers",
+      success: function (result) {
+        console.log("/UserInsights/daily/activeUsers")
+        console.log(result)
+        
+
+        var labels = [];
+        var data = [];
+
+        var count = 0; 
+
+        for (var i = 0; i < result.value.length; i++) {
+          labels.push(result.value[i].factDate)
+          data.push(result.value[i].count)
+
+          count += result.value[i].count;
+        }
+
+        // Hide the spinner
+        $("#DailyActiveUsersSpinner").hide();
+        
+        // Render the chart
+        new Chart(
+          document.getElementById('DailyActiveUsersChart'),
+          {
+            type: 'line',
+            data: {
+              labels: labels,
+              datasets: [
+                {
+                  label: 'Users ' + count.toLocaleString(),
+                  data: data,
+                  pointStyle: 'circle',
+                  pointRadius: 5,
+                  pointHoverRadius: 15,
+                  tension: 0.4,
+                  backgroundColor: "#1F640270",
+                  borderRadius: 4,
+                  borderWidth: 2,
+                  borderColor: "#1F6402"
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          }
+        );
+      }
+    });
+
+    /***** Daily inactive users  *****/
+    $.ajax({
+      url: "/UserInsights/daily/inactiveUsers",
+      success: function (result) {
+        console.log("/UserInsights/daily/inactiveUsers")
+        console.log(result)
+        
+
+        var labels = [];
+        var data = [];
+
+        var count = 0; 
+
+        for (var i = 0; i < result.value.length; i++) {
+          labels.push(result.value[i].factDate)
+          data.push(result.value[i].inactive1DayCount)
+
+          count += result.value[i].inactive1DayCount;
+        }
+
+        // Hide the spinner
+        $("#DailyInactiveUsersSpinner").hide();
+        
+        // Render the chart
+        new Chart(
+          document.getElementById('DailyInactiveUsersChart'),
+          {
+            type: 'line',
+            data: {
+              labels: labels,
+              datasets: [
+                {
+                  label: 'Users ' + count.toLocaleString(),
+                  data: data,
+                  pointStyle: 'circle',
+                  pointRadius: 5,
+                  pointHoverRadius: 15,
+                  tension: 0.4//,
+                  // backgroundColor: "#1F640270",
+                  // borderRadius: 4,
+                  // borderWidth: 2,
+                  // borderColor: "#1F6402"
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          }
+        );
+      }
+    });
+
+    function toShortDate(date)
+    {
+      const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+      const d = new Date(date);
+      return months[d.getMonth()] + " " + d.getFullYear();
+    }
   </script>
 }
