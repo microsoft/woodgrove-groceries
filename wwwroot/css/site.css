@@ -466,3 +466,11 @@ hr.vertical {
 /*** Footer ends ****/
 
 
+/***** Spiner ******/
+.woodgrove-spinner{
+  width: 5rem; 
+  height: 5rem;
+  margin-top: 100px;
+}
+
+/***** Spiner ends ******/

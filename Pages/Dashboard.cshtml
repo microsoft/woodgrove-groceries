@@ -13,12 +13,18 @@
 <div>
   <h2>Authentications</h2>
   The authentications per day provides you with insights for all daily user authentications.
-  <canvas id="AuthenticationsChart"></canvas>
+  
+  <div class="text-center"><div id="AuthenticationsSpinner" class="spinner-border woodgrove-spinner" role="status"></div></div>
+  <canvas id="AuthenticationsChart">
+    
+  </canvas>
 
   <div style="padding-top: 80px;">
     The following graph shows the authentications requests across geographical regions. The country attribute allows you to
     investigate the authenticates trend even further. Note, unknown countries have been removed from the graph.
   </div>
+
+  <div class="text-center"><div id="AuthenticationsPerCountrySpinner" class="spinner-border woodgrove-spinner" role="status"></div></div>
   <canvas id="AuthenticationsPerCountryChart"></canvas>
 
 </div>
@@ -34,6 +40,8 @@
   Passive, non-interactive sign in such as single sign-on (SSO), or any type of token acquisition. For example,
   authorization code flow, token refresh, or resource owner password credentials flow.
   The graph below shows the monthly active users trend.
+
+  <div class="text-center"><div id="ActiveUsersSpinner" class="spinner-border woodgrove-spinner" role="status"></div></div>
   <canvas id="ActiveUsersChart"></canvas>
 </div>
 
@@ -42,11 +50,15 @@
   The monthly new users graph can help you understanding the behavior of new users in your tenant. It's important for
   any business to determine the success of marketing campaigns, identify potential areas of improvement, and measure the
   effectiveness of the website in attracting and retaining new customers.
+
+  <div class="text-center"><div id="NewUsersSpinner" class="spinner-border woodgrove-spinner" role="status"></div></div>
   <canvas id="NewUsersChart"></canvas>
 </div>
 
 <div style="padding-top: 50px;">
   <h2>Operation systems of authentication requests</h2>
+
+  <div class="text-center"><div id="OperationSystemsOfAuthenticationRequestsSpinner" class="spinner-border woodgrove-spinner" role="status"></div></div>
   <canvas id="OperationSystemsOfAuthenticationRequestsChart"></canvas>
 </div>
 
@@ -85,7 +97,7 @@
         }
 
         const ctx = document.getElementById('OperationSystemsOfAuthenticationRequestsChart');
-
+        $("#OperationSystemsOfAuthenticationRequestsSpinner").hide();
         new Chart(ctx, {
           type: 'doughnut',
           data: {
@@ -118,7 +130,7 @@
       }
     });
 
-    /***** Active users  *****/
+    /***** Monthly Active users  *****/
     $.ajax({
       url: "/UserInsights/monthly/activeUsers",
       success: function (result) {
@@ -143,6 +155,8 @@
           labels.push(keys[i])
           data.push(items[keys[i]])
         }
+
+        $("#ActiveUsersSpinner").hide();
 
         new Chart(
           document.getElementById('ActiveUsersChart'),
@@ -200,6 +214,8 @@
           data.push(items[keys[i]])
         }
 
+        $("#AuthenticationsSpinner").hide();
+
         new Chart(
           document.getElementById('AuthenticationsChart'),
           {
@@ -255,6 +271,7 @@
           data.push(items[keys[i]])
         }
 
+        $("#AuthenticationsPerCountrySpinner").hide();
         // Render the chart
         new Chart(
           document.getElementById('AuthenticationsPerCountryChart'),
@@ -307,6 +324,8 @@
           labels.push(keys[i])
           data.push(items[keys[i]])
         }
+
+        $("#NewUsersSpinner").hide();
 
         new Chart(
           document.getElementById('NewUsersChart'),
