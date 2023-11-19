@@ -15,30 +15,30 @@
   <div class="col-sm-4 text-center">
     <h4>Total users</h4>
     <h2 id="TotalUsers"></h2>
-    This value represents the total number of active users in your tenant in <span id="TotalUsersDate"></span>. 
+    This value represents the total number of active users in your tenant in <span id="TotalUsersDate"></span>.
   </div>
-  
+
   <div class="col-sm-4 text-center">
     <h4>Monthly active users</h4>
     <h2 id="TotalMonthlyActiveUsers"></h2>
-    This value represents the total number of users who signed in to your apps in <span id="TotalMonthlyActiveUsersDate"></span>. 
+    This value represents the total number of users who signed in to your apps in <span
+      id="TotalMonthlyActiveUsersDate"></span>.
   </div>
-  
+
   <div class="col-sm-4 text-center">
     <h4>New users added</h4>
     <h2 id="TotalNewUsersAdded"></h2>
-    This value represents the total number of new users added to your tenant in <span id="TotalNewUsersAddedDate"></span>. 
+    This value represents the total number of new users added to your tenant in <span
+      id="TotalNewUsersAddedDate"></span>.
     It reflects all users added through self-service sign-up or account creation.
   </div>
 </div>
 
-<h2>Daily active users over time</h2>
-<div class="text-center"><div id="DailyActiveUsersSpinner" class="spinner-border woodgrove-spinner" role="status"></div></div>
+<h2>Daily user activity over time</h2>
+<div class="text-center">
+  <div id="DailyActiveUsersSpinner" class="spinner-border woodgrove-spinner" role="status"></div>
+</div>
 <canvas id="DailyActiveUsersChart"></canvas>
-
-<h2 style="padding-top: 50px;">Daily inactive users over time</h2>
-<div class="text-center"><div id="DailyInactiveUsersSpinner" class="spinner-border woodgrove-spinner" role="status"></div></div>
-<canvas id="DailyInactiveUsersChart"></canvas>
 
 <div style="padding-top: 50px;">
   <h2>Monthly users over time</h2>
@@ -52,7 +52,9 @@
   authorization code flow, token refresh, or resource owner password credentials flow.
   The graph below shows the monthly active users trend.
 
-  <div class="text-center"><div id="MonthlyActiveUsersSpinner" class="spinner-border woodgrove-spinner" role="status"></div></div>
+  <div class="text-center">
+    <div id="MonthlyActiveUsersSpinner" class="spinner-border woodgrove-spinner" role="status"></div>
+  </div>
   <canvas id="MonthlyActiveUsersChart"></canvas>
 </div>
 
@@ -62,7 +64,9 @@
   any business to determine the success of marketing campaigns, identify potential areas of improvement, and measure the
   effectiveness of the website in attracting and retaining new customers.
 
-  <div class="text-center"><div id="NewUsersSpinner" class="spinner-border woodgrove-spinner" role="status"></div></div>
+  <div class="text-center">
+    <div id="NewUsersSpinner" class="spinner-border woodgrove-spinner" role="status"></div>
+  </div>
   <canvas id="NewUsersChart"></canvas>
 </div>
 
@@ -72,29 +76,38 @@
 
 <h4>Monthly Requests</h4>
 <h2 id="TotalRequests"></h2>
-This value represents the total number of requests processed through sign-in and sign-up flows in <span id="TotalRequestsDate"></span>. 
-It includes all requests associated with conditional access policies, password reset flows, MFA, language customization, and so on. 
+This value represents the total number of requests processed through sign-in and sign-up flows in <span
+  id="TotalRequestsDate"></span>.
+It includes all requests associated with conditional access policies, password reset flows, MFA, language customization,
+and so on.
 Refer to the detailed graphs for a breakdown.
 
-<div class="text-center"><div id="RequestsSpinner" class="spinner-border woodgrove-spinner" role="status"></div></div>
+<div class="text-center">
+  <div id="RequestsSpinner" class="spinner-border woodgrove-spinner" role="status"></div>
+</div>
 <canvas id="RequestsChart"></canvas>
 
 <h1 style="color: green; padding-bottom: 15px; padding-top: 85px;">Authentications report</h1>
 <div>
   <h2>Monthly Authentications over time</h2>
   The authentications per day provides you with insights for all daily user authentications.
-  
-  <div class="text-center"><div id="MonthlyAuthenticationsSpinner" class="spinner-border woodgrove-spinner" role="status"></div></div>
+
+  <div class="text-center">
+    <div id="MonthlyAuthenticationsSpinner" class="spinner-border woodgrove-spinner" role="status"></div>
+  </div>
   <canvas id="MonthlyAuthenticationsChart">
-    
+
   </canvas>
 
   <div style="padding-top: 80px;">
-    The following graph shows the authentications requests across geographical regions. The country attribute allows you to
+    The following graph shows the authentications requests across geographical regions. The country attribute allows you
+    to
     investigate the authenticates trend even further. Note, unknown countries have been removed from the graph.
   </div>
 
-  <div class="text-center"><div id="AuthenticationsPerCountrySpinner" class="spinner-border woodgrove-spinner" role="status"></div></div>
+  <div class="text-center">
+    <div id="AuthenticationsPerCountrySpinner" class="spinner-border woodgrove-spinner" role="status"></div>
+  </div>
   <canvas id="AuthenticationsPerCountryChart"></canvas>
 
 </div>
@@ -103,7 +116,10 @@ Refer to the detailed graphs for a breakdown.
 <div style="padding-top: 50px;">
   <h2>Operation systems of authentications</h2>
 
-  <div class="text-center"><div id="OperationSystemsOfAuthenticationRequestsSpinner" class="spinner-border woodgrove-spinner" role="status"></div></div>
+  <div class="text-center">
+    <div id="OperationSystemsOfAuthenticationRequestsSpinner" class="spinner-border woodgrove-spinner" role="status">
+    </div>
+  </div>
   <canvas id="OperationSystemsOfAuthenticationRequestsChart"></canvas>
 </div>
 
@@ -135,13 +151,13 @@ Refer to the detailed graphs for a breakdown.
         var labels = [];
         var data = [];
         var keys = Object.keys(items).sort();
-        var count  = 0;
+        var count = 0;
 
         for (var i = 0; i < keys.length; i++) {
           labels.push(keys[i])
           data.push(items[keys[i]])
 
-          count =  count + items[keys[i]];
+          count = count + items[keys[i]];
         }
 
         const ctx = document.getElementById('OperationSystemsOfAuthenticationRequestsChart');
@@ -207,9 +223,9 @@ Refer to the detailed graphs for a breakdown.
         $("#MonthlyActiveUsersSpinner").hide();
 
         // Get the total from the last day
-        $("#TotalMonthlyActiveUsers").text(data[data.length-1]);
-        $("#TotalMonthlyActiveUsersDate").text(labels[labels.length-1]);
-        
+        $("#TotalMonthlyActiveUsers").text(data[data.length - 1]);
+        $("#TotalMonthlyActiveUsersDate").text(labels[labels.length - 1]);
+
         // Render the chart
         new Chart(
           document.getElementById('MonthlyActiveUsersChart'),
@@ -245,7 +261,7 @@ Refer to the detailed graphs for a breakdown.
       }
     });
 
-  
+
     /**** Monthly Authentications over time ******/
     $.ajax({
       url: "/UserInsights/monthly/authentications",
@@ -270,12 +286,12 @@ Refer to the detailed graphs for a breakdown.
         var data = [];
         var keys = Object.keys(items); //.sort();
 
-        var count  = 0; 
+        var count = 0;
 
         for (var i = 0; i < keys.length; i++) {
           labels.push(toShortDate(keys[i]))
           data.push(items[keys[i]])
-          count +=items[keys[i]];
+          count += items[keys[i]];
         }
 
         $("#MonthlyAuthenticationsSpinner").hide();
@@ -312,7 +328,7 @@ Refer to the detailed graphs for a breakdown.
         var getCountryNames = new Intl.DisplayNames(['en'], { type: 'region' });
 
         for (var i = 0; i < result.value.length; i++) {
-          
+
           // Add only known countries
           if (result.value[i].country != "") {
 
@@ -395,11 +411,11 @@ Refer to the detailed graphs for a breakdown.
 
         // Hide the spinner
         $("#NewUsersSpinner").hide();
-        
+
         // Get the total from the last day
-        $("#TotalNewUsersAdded").text(data[data.length-1]);
-        $("#TotalNewUsersAddedDate").text(labels[labels.length-1]);
-        
+        $("#TotalNewUsersAdded").text(data[data.length - 1]);
+        $("#TotalNewUsersAddedDate").text(labels[labels.length - 1]);
+
         // Render the chart
         new Chart(
           document.getElementById('NewUsersChart'),
@@ -457,11 +473,11 @@ Refer to the detailed graphs for a breakdown.
 
         // Hide the spinner
         $("#NewUsersSpinner").hide();
-        
+
         // Get the total from the last day
-        $("#TotalUsers").text(data[data.length-1]);
-        $("#TotalUsersDate").text(labels[labels.length-1]);
-        
+        $("#TotalUsers").text(data[data.length - 1]);
+        $("#TotalUsersDate").text(labels[labels.length - 1]);
+
         return
         // Render the chart
         new Chart(
@@ -504,7 +520,7 @@ Refer to the detailed graphs for a breakdown.
         var labels = [];
         var data = [];
         var keys = Object.keys(items).sort();
-        var count = 0; 
+        var count = 0;
 
         for (var i = 0; i < result.value.length; i++) {
           labels.push(toShortDate(result.value[i].factDate))
@@ -517,9 +533,9 @@ Refer to the detailed graphs for a breakdown.
         $("#RequestsSpinner").hide();
 
         // Get the total from the last day
-        $("#TotalRequests").text(data[data.length-1].toLocaleString());
-        $("#TotalRequestsDate").text(labels[labels.length-1]);
-        
+        $("#TotalRequests").text(data[data.length - 1].toLocaleString());
+        $("#TotalRequestsDate").text(labels[labels.length - 1]);
+
         // Render the chart
         new Chart(
           document.getElementById('RequestsChart'),
@@ -554,151 +570,121 @@ Refer to the detailed graphs for a breakdown.
     /***** Daily active users  *****/
     $.ajax({
       url: "/UserInsights/daily/activeUsers",
-      success: function (result) {
+      success: function (activeResult) {
         console.log("/UserInsights/daily/activeUsers")
-        console.log(result)
-        
+        console.log(activeResult)
 
-        var labels = [];
-        var data = [];
+        /***** Daily inactive users  *****/
+        $.ajax({
+          url: "/UserInsights/daily/inactiveUsers",
+          success: function (inactiveResult) {
+            console.log("/UserInsights/daily/inactiveUsers")
+            console.log(inactiveResult)
 
-        var count = 0; 
 
-        for (var i = 0; i < result.value.length; i++) {
-          labels.push(toLongDate(result.value[i].factDate))
-          data.push(result.value[i].count)
+            var labels = [];
+            var activeData = [];
 
-          count += result.value[i].count;
-        }
+            var activeCount = 0;
 
-        // Hide the spinner
-        $("#DailyActiveUsersSpinner").hide();
-        
-        // Render the chart
-        new Chart(
-          document.getElementById('DailyActiveUsersChart'),
-          {
-            type: 'line',
-            data: {
-              labels: labels,
-              datasets: [
-                {
-                  label: 'Users ' + count.toLocaleString(),
-                  data: data,
-                  pointStyle: 'circle',
-                  pointRadius: 2,
-                  pointHoverRadius: 7,
-                  tension: 0.4,
-                  backgroundColor: "#1F640270",
-                  borderRadius: 4,
-                  borderWidth: 2,
-                  borderColor: "#1F6402"
+            // Iterate throut the active result
+            for (var i = 0; i < activeResult.value.length; i++) {
+              labels.push(toLongDate(activeResult.value[i].factDate))
+              activeData.push(activeResult.value[i].count)
+
+              activeCount += activeResult.value[i].count;
+            }
+
+
+            var inactiveData = [];
+            var inactiveCount = 0;
+            var cDate;
+            var nDate;
+
+            for (var i = 0; i < inactiveResult.value.length; i++) {
+              cDate = new Date(inactiveResult.value[i].factDate);
+              if ((i + 1) < inactiveResult.value.length) {
+                // Get the next date
+                nDate = new Date(inactiveResult.value[i + 1].factDate);
+
+                // Iterate through the missing dates. 
+                // Start with current date until it reaches the next nDate
+                for (var d = cDate; d < nDate; d.setDate(d.getDate() + 1)) {
+                  //labels.push(toLongDate(d));
+                  inactiveData.push(inactiveResult.value[i].inactive1DayCount)
                 }
-              ]
-            },
-            options: {
-              responsive: true,
-              scales: {
-                y: {
-                  beginAtZero: true
+
+              }
+              else {
+                //labels.push(toLongDate(cDate));
+                inactiveData.push(inactiveResult.value[i].inactive1DayCount)
+              }
+
+              inactiveCount += inactiveResult.value[i].inactive1DayCount;
+            }
+
+            // Hide the spinner
+            $("#DailyActiveUsersSpinner").hide();
+
+            // Render the chart
+            new Chart(
+              document.getElementById('DailyActiveUsersChart'),
+              {
+                type: 'line',
+                data: {
+                  labels: labels,
+                  datasets: [
+                    {
+                      label: 'Active users (' + activeCount.toLocaleString() + ")",
+                      data: activeData,
+                      pointStyle: 'circle',
+                      pointRadius: 1,
+                      pointHoverRadius: 7,
+                      tension: 0.4,
+                      backgroundColor: "#0078D470",
+                      borderRadius: 4,
+                      borderWidth: 2,
+                      borderColor: "#0078D4"
+                    },
+                    {
+                      label: 'Inactive users (' + inactiveCount.toLocaleString() + ")",
+                      data: inactiveData,
+                      pointStyle: 'circle',
+                      pointRadius: 1,
+                      pointHoverRadius: 7,
+                      tension: 0.4,
+                      backgroundColor: "#E3008C70",
+                      borderRadius: 4,
+                      borderWidth: 2,
+                      borderColor: "#E3008C"
+                    }
+                  ]
+                },
+                options: {
+                  responsive: true,
+                  scales: {
+                    y: {
+                      beginAtZero: true
+                    }
+                  }
                 }
               }
-            }
+            );
           }
-        );
+        });
+
+
       }
     });
 
-    /***** Daily inactive users  *****/
-    $.ajax({
-      url: "/UserInsights/daily/inactiveUsers",
-      success: function (result) {
-        console.log("/UserInsights/daily/inactiveUsers")
-        console.log(result)
-        
-
-        var labels = [];
-        var data = [];
-
-        var count = 0; 
-        var cDate;
-        var nDate;
-
-        for (var i = 0; i < result.value.length; i++) {  
-          cDate = new Date(result.value[i].factDate);
-          if ( (i+1) < result.value.length)
-          {
-            // Get the next date
-            nDate = new Date(result.value[i+1].factDate);
-
-            // Iterate through the missing dates. 
-            // Start with current date until it reaches the next nDate
-            for(var d = cDate; d < nDate; d.setDate(d.getDate() + 1))
-            {
-              labels.push(toLongDate(d));
-              data.push(result.value[i].inactive1DayCount)
-            }
-
-          }
-          else
-          {
-            labels.push(toLongDate(cDate));
-            data.push(result.value[i].inactive1DayCount)
-          }
-
-          
-
-          count += result.value[i].inactive1DayCount;
-        }
-
-        // Hide the spinner
-        $("#DailyInactiveUsersSpinner").hide();
-        
-        // Render the chart
-        new Chart(
-          document.getElementById('DailyInactiveUsersChart'),
-          {
-            type: 'line',
-            data: {
-              labels: labels,
-              datasets: [
-                {
-                  label: 'Users ' + count.toLocaleString(),
-                  data: data,
-                  pointStyle: 'circle',
-                  pointRadius: 2,
-                  pointHoverRadius: 7,
-                  tension: 0.4//,
-                  // backgroundColor: "#1F640270",
-                  // borderRadius: 4,
-                  // borderWidth: 2,
-                  // borderColor: "#1F6402"
-                }
-              ]
-            },
-            options: {
-              responsive: true,
-              scales: {
-                y: {
-                  beginAtZero: true
-                }
-              }
-            }
-          }
-        );
-      }
-    });
-
-    function toShortDate(date)
-    {
+    function toShortDate(date) {
       const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
       const d = new Date(date);
       return months[d.getMonth()] + " " + d.getFullYear();
     }
 
-    function toLongDate(date)
-    {
+    function toLongDate(date) {
       const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
       const d = new Date(date);
