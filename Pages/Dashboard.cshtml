@@ -143,8 +143,6 @@ Refer to the detailed graphs for a breakdown.
 
           count =  count + items[keys[i]];
         }
-        
-        console.log(count);
 
         const ctx = document.getElementById('OperationSystemsOfAuthenticationRequestsChart');
         $("#OperationSystemsOfAuthenticationRequestsSpinner").hide();
@@ -567,7 +565,7 @@ Refer to the detailed graphs for a breakdown.
         var count = 0; 
 
         for (var i = 0; i < result.value.length; i++) {
-          labels.push(result.value[i].factDate)
+          labels.push(toLongDate(result.value[i].factDate))
           data.push(result.value[i].count)
 
           count += result.value[i].count;
@@ -588,8 +586,8 @@ Refer to the detailed graphs for a breakdown.
                   label: 'Users ' + count.toLocaleString(),
                   data: data,
                   pointStyle: 'circle',
-                  pointRadius: 5,
-                  pointHoverRadius: 15,
+                  pointRadius: 2,
+                  pointHoverRadius: 7,
                   tension: 0.4,
                   backgroundColor: "#1F640270",
                   borderRadius: 4,
@@ -623,10 +621,32 @@ Refer to the detailed graphs for a breakdown.
         var data = [];
 
         var count = 0; 
+        var cDate;
+        var nDate;
 
-        for (var i = 0; i < result.value.length; i++) {
-          labels.push(result.value[i].factDate)
-          data.push(result.value[i].inactive1DayCount)
+        for (var i = 0; i < result.value.length; i++) {  
+          cDate = new Date(result.value[i].factDate);
+          if ( (i+1) < result.value.length)
+          {
+            // Get the next date
+            nDate = new Date(result.value[i+1].factDate);
+
+            // Iterate through the missing dates. 
+            // Start with current date until it reaches the next nDate
+            for(var d = cDate; d < nDate; d.setDate(d.getDate() + 1))
+            {
+              labels.push(toLongDate(d));
+              data.push(result.value[i].inactive1DayCount)
+            }
+
+          }
+          else
+          {
+            labels.push(toLongDate(cDate));
+            data.push(result.value[i].inactive1DayCount)
+          }
+
+          
 
           count += result.value[i].inactive1DayCount;
         }
@@ -646,8 +666,8 @@ Refer to the detailed graphs for a breakdown.
                   label: 'Users ' + count.toLocaleString(),
                   data: data,
                   pointStyle: 'circle',
-                  pointRadius: 5,
-                  pointHoverRadius: 15,
+                  pointRadius: 2,
+                  pointHoverRadius: 7,
                   tension: 0.4//,
                   // backgroundColor: "#1F640270",
                   // borderRadius: 4,
@@ -676,5 +696,14 @@ Refer to the detailed graphs for a breakdown.
       const d = new Date(date);
       return months[d.getMonth()] + " " + d.getFullYear();
     }
+
+    function toLongDate(date)
+    {
+      const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+      const d = new Date(date);
+      return d.getDate() + " " + months[d.getMonth()] + ", " + d.getFullYear();
+    }
+
   </script>
 }
