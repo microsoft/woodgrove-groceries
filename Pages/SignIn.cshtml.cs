@@ -73,6 +73,19 @@ namespace MyApp.Namespace
             return this.TrackAndAuth("Social");
         }
 
+        public IActionResult OnGetSSO1()
+        {
+            return this.TrackAndAuth("SSO-Start");
+        }
+
+        public IActionResult OnGetSSO2()
+        {
+
+            _telemetry.TrackPageView($"Sign-in:SSO-Continue");
+
+            return Redirect("https://woodgrovebanking.com");
+        }
+
         public IActionResult OnGetTokenAugmentation()
         {
             return this.TrackAndAuth("TokenAugmentation");
