@@ -83,7 +83,7 @@ namespace MyApp.Namespace
 
             _telemetry.TrackPageView($"Sign-in:SSO-Continue");
 
-            return Redirect("https://woodgrovebanking.com");
+            return Redirect("https://bank.woodgrovedemo.com/Auth/Login");
         }
 
         public IActionResult OnGetTokenAugmentation()
