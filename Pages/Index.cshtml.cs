@@ -32,7 +32,16 @@ public class IndexModel : PageModel
         {
             // Check the referer of the request
             string referer = Request.Headers["Referer"].ToString();
-            pageView.Properties.Add("Referral", referer);
+            try
+            {
+                // Get the host name
+                var uri = new System.Uri(referer);
+                pageView.Properties.Add("Referral", uri.Host.ToLower());
+            }
+            catch (System.Exception ex)
+            {
+                pageView.Properties.Add("Referral", "Invalid");
+            }
         }
         else
         {
