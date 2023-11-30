@@ -1,4 +1,5 @@
 ﻿using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -24,7 +25,21 @@ public class IndexModel : PageModel
 
     public IActionResult OnGet()
     {
-        _telemetry.TrackPageView("Home page");
+        // Application insights telemetry
+        PageViewTelemetry pageView = new PageViewTelemetry("Home page");
+
+        if (Request.Headers.ContainsKey("Referer"))
+        {
+            // Check the referer of the request
+            string referer = Request.Headers["Referer"].ToString();
+            pageView.Properties.Add("Referral", referer);
+        }
+        else
+        {
+            pageView.Properties.Add("Referral", "Unknown");
+        }
+        
+        _telemetry.TrackPageView(pageView);
 
         this.listOfAvatars = new List<string>() { "01", "02", "03", "04", "05", "06", "07" };
 
