@@ -48,17 +48,17 @@ namespace MyApp.Namespace
 
         public IActionResult OnGetBlockSignUp()
         {
-            return this.TrackAndAuth("BlockSignUp");
+            return this.TrackAndAuth("BlockSignUp", "/", true);
         }
 
         public IActionResult OnGetOnlineRetail()
         {
-            return this.TrackAndAuth("OnlineRetail");
+            return this.TrackAndAuth("OnlineRetail", "/", true);
         }
 
         public IActionResult OnGetCompanyBranding()
         {
-            return this.TrackAndAuth("CompanyBranding");
+            return this.TrackAndAuth("CompanyBranding", "/", true);
         }
 
         public IActionResult OnGetProfileSignin()
@@ -73,12 +73,12 @@ namespace MyApp.Namespace
 
         public IActionResult OnGetEmailAndPassword()
         {
-            return this.TrackAndAuth("EmailAndPassword");
+            return this.TrackAndAuth("EmailAndPassword", "/", true);
         }
 
         public IActionResult OnGetSocial()
         {
-            return this.TrackAndAuth("Social");
+            return this.TrackAndAuth("Social", "/", true);
         }
 
         public IActionResult OnGetSSO1()
@@ -100,37 +100,37 @@ namespace MyApp.Namespace
 
         public IActionResult OnGetTokenAugmentation()
         {
-            return this.TrackAndAuth("TokenAugmentation");
+            return this.TrackAndAuth("TokenAugmentation", "/", true);
         }
 
         public IActionResult OnGetPreAttributeCollection()
         {
-            return this.TrackAndAuth("PreAttributeCollection");
+            return this.TrackAndAuth("PreAttributeCollection", "/", true);
         }
 
         public IActionResult OnGetPostAttributeCollection()
         {
-            return this.TrackAndAuth("PostAttributeCollection");
+            return this.TrackAndAuth("PostAttributeCollection", "/", true);
         }
 
         public IActionResult OnGetRBAC()
         {
-            return this.TrackAndAuth("RBAC");
+            return this.TrackAndAuth("RBAC", "/", true);
         }
 
         public IActionResult OnGetGBAC()
         {
-            return this.TrackAndAuth("GBAC");
+            return this.TrackAndAuth("GBAC", "/", true);
         }
 
         public IActionResult OnGetSSPR()
         {
-            return this.TrackAndAuth("SSPR");
+            return this.TrackAndAuth("SSPR", "/", true);
         }
 
         public IActionResult OnGetCustomAttributes()
         {
-            return this.TrackAndAuth("CustomAttributes");
+            return this.TrackAndAuth("CustomAttributes", "/", true);
         }
 
         public IActionResult OnGetKiosk()

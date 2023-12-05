@@ -37,6 +37,9 @@ public class IndexModel : PageModel
                 // Get the host name
                 var uri = new System.Uri(referer);
                 pageView.Properties.Add("Referral", uri.Host.ToLower());
+
+                // Add the full URL
+                pageView.Properties.Add("ReferralURL", referer);
             }
             catch (System.Exception ex)
             {
