@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Graph;
 using Microsoft.Graph.Models;
 using Microsoft.Graph.Models.ODataErrors;
+using Microsoft.Identity.Abstractions;
 using Microsoft.Identity.Web;
 
 namespace MyApp.Namespace
@@ -18,6 +19,7 @@ namespace MyApp.Namespace
         // Dependency injection
         private readonly IConfiguration Configuration;
         private TelemetryClient _telemetry;
+        readonly IAuthorizationHeaderProvider _authorizationHeaderProvider;
 
         // Graph API settings
         private readonly string[] scopes = new[] { "https://graph.microsoft.com/.default" };
@@ -29,6 +31,7 @@ namespace MyApp.Namespace
         // User interface messages
         public string ErrorMessage { get; private set; } = "";
         public bool UserNeedsToSignInAgain { get; private set; } = false;
+        public bool UserNeedsToSignInAgainAfterSignUp { get; private set; } = false;
 
         /* User attributes*/
         [BindProperty]
@@ -58,7 +61,7 @@ namespace MyApp.Namespace
         private string ProductsContributorAssignmentId { get; set; } = "";
 
 
-        public ProfileModel(IConfiguration configuration, TelemetryClient telemetry)
+        public ProfileModel(IConfiguration configuration, TelemetryClient telemetry, IAuthorizationHeaderProvider authorizationHeaderProvider)
         {
             Configuration = configuration;
             _telemetry = telemetry;
@@ -68,6 +71,7 @@ namespace MyApp.Namespace
             ClientId = Configuration.GetSection("MicrosoftGraph:ClientId").Value!;
             ClientSecret = Configuration.GetSection("MicrosoftGraph:ClientSecret").Value!;
             ExtensionAttributes = Configuration.GetSection("MicrosoftGraph:ExtensionAttributes").Value!;
+            _authorizationHeaderProvider = authorizationHeaderProvider;
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -198,8 +202,15 @@ namespace MyApp.Namespace
                 throw;
             }
 
+            if (UserNeedsToSignInAgain)
+            {
+                this.UserNeedsToSignInAgainAfterSignUp = await CheckSignUpIssue();
+            }
+
             return Page();
         }
+
+
 
         public async Task<IActionResult> OnPostRolesAsync(bool hasProductsContributorRole,
                                       bool hasOrdersManagerRole,
@@ -297,6 +308,11 @@ namespace MyApp.Namespace
 
             await ReadProfile(userObjectId);
 
+            if (UserNeedsToSignInAgain)
+            {
+                this.UserNeedsToSignInAgainAfterSignUp = await CheckSignUpIssue();
+            }
+            
             return Page();
         }
 
@@ -358,6 +374,23 @@ namespace MyApp.Namespace
             {
                 ErrorMessage = $"Can't read the profile due to the following error: {ex.Message}";
             }
+        }
+
+        private async Task<bool> CheckSignUpIssue()
+        {
+            try
+            {
+                // Workaround for the sign-up issue
+                string[] ApiScopes = this.Configuration.GetSection("WoodgroveGroceriesApi:Scopes").Get<string[]>();
+                await _authorizationHeaderProvider.CreateAuthorizationHeaderForUserAsync(ApiScopes);
+            }
+            catch (System.Exception)
+            {
+
+                return true;
+            }
+
+            return false;
         }
 
     }

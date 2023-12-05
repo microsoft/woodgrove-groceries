@@ -21,9 +21,21 @@
 
     @if (Model.UserNeedsToSignInAgain)
     {
-        <div class="alert alert-success" role="alert" style="padding-bottom: 25px; padding-top: 25px;">
-            Your account has been successfully updated. To reflect the changes, <a class="" href="/SignIn?handler=ProfileSignin">sign-in</a> again.
-        </div>
+        @if (Model.UserNeedsToSignInAgainAfterSignUp)
+        {
+            <div class="alert alert-success" role="alert" style="padding-bottom: 25px; padding-top: 25px;">
+                Your account has been successfully updated. To reflect the changes, <a class=""
+                    href="/SignIn?handler=ProfileSignin&force=true">sign-in</a> again.
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-success" role="alert" style="padding-bottom: 25px; padding-top: 25px;">
+                Your account has been successfully updated. To reflect the changes, <a class=""
+                    href="/SignIn?handler=ProfileSignin">sign-in</a> again.
+            </div>
+        }
+
     }
 
     @if (User.Identity?.IsAuthenticated == true)
@@ -133,7 +145,7 @@
 
 </div>
 
-@section AboutThisDemo{
+@section AboutThisDemo {
     <div>
         This demo shows how users can update the properties of their account. Profile editing lets users manage
         their profile attributes, like display name, surname, given name, city, and others.

@@ -22,11 +22,14 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .EnableTokenAcquisitionToCallDownstreamApi()
     .AddDownstreamApi("WoodgroveGroceriesApi", WoodgroveGroceriesApi)
     .AddInMemoryTokenCaches();
+
 builder.Services.Configure<OpenIdConnectOptions>(OpenIdConnectDefaults.AuthenticationScheme,
-                                                 options => 
-                                                 {   options.TokenValidationParameters.RoleClaimType = "roles";
+                                                 options =>
+                                                 {
+                                                     options.TokenValidationParameters.RoleClaimType = "roles";
                                                      options.TokenValidationParameters.NameClaimType = "name";
-                                                 }); 
+                                                     options.Events.OnRedirectToIdentityProvider += OnRedirectToIdentityProviderFunc;
+                                                 });
 
 builder.Services.AddAuthentication();
 
@@ -64,3 +67,18 @@ app.MapControllerRoute(
     pattern: "{controller}/{action=Index}/{id?}");
 
 app.Run();
+
+async Task OnRedirectToIdentityProviderFunc(RedirectContext context)
+{
+    // Read the custom parameter
+    var forceSignIn = context.Properties.Items.FirstOrDefault(x => x.Key == "force").Value;
+
+    // Add your custom code here
+    if (forceSignIn != null)
+    {
+        context.ProtocolMessage.Prompt = "login";
+    }
+
+    // Don't remove this line
+    await Task.CompletedTask.ConfigureAwait(false);
+}

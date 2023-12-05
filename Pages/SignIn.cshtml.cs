@@ -20,16 +20,24 @@ namespace MyApp.Namespace
             _telemetry = telemetry;
         }
 
-        private IActionResult TrackAndAuth(string ID, string redirectUri = "/")
+        private IActionResult TrackAndAuth(string ID, string redirectUri = "/", bool reauth = false)
         {
             _telemetry.TrackPageView($"Sign-in:{ID}");
 
-            return new ChallengeResult(
+            ChallengeResult challengeResult = new ChallengeResult(
                 OpenIdConnectDefaults.AuthenticationScheme,
                 new AuthenticationProperties
                 {
                     RedirectUri = redirectUri
                 });
+
+            // Force re-authentication
+            if (this.Request.Query["force"].Count > 0 || reauth)
+            {
+                challengeResult.Properties.Items.Add("force", "true");
+            }
+
+            return challengeResult;
         }
 
 
@@ -76,6 +84,10 @@ namespace MyApp.Namespace
         public IActionResult OnGetSSO1()
         {
             return this.TrackAndAuth("SSO-Start");
+        }
+        public IActionResult OnGetForceSignIn()
+        {
+            return this.TrackAndAuth("ForceSignIn", "/", true);
         }
 
         public IActionResult OnGetSSO2()
