@@ -61,6 +61,11 @@ namespace MyApp.Namespace
             return this.TrackAndAuth("CompanyBranding", "/", true);
         }
 
+        public IActionResult OnGetLanguage()
+        {
+            return this.TrackAndAuth("Language", "/", true);
+        }
+
         public IActionResult OnGetProfileSignin()
         {
             return this.TrackAndAuth("ProfileSignin");

@@ -53,6 +53,7 @@
                 <hr class="dropdown-divider">
             </li>
             <li><a class="dropdown-item" href="/#usecase=CompanyBranding">Customize the look and feel</a></li>
+            <li><a class="dropdown-item" href="/#usecase=Language">Customize the language</a></li>
             <li><a class="dropdown-item" href="/#usecase=SSO">Single sign-on (SSO)</a></li>
             <li><a class="dropdown-item" href="/#usecase=ForceSignIn">Force sign-in</a></li>
             <li><a class="dropdown-item" href="/#usecase=UserInsights">Insights into your app's user activity</a></li>
@@ -89,6 +90,10 @@
                     <li style="list-style-type: none;"><i class="bi bi-arrow-right-circle"></i> &nbsp;<a
                             class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
                             href="/#usecase=CompanyBranding">Customize the look and feel of the sign-in pages</a></li>
+                    <li style="list-style-type: none;"><i class="bi bi-arrow-right-circle"></i> &nbsp;<a
+                            class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+                            href="/#usecase=Language">Customize the language of the sign-in pages</a></li>
+
                     <li style="list-style-type: none;"><i class="bi bi-arrow-right-circle"></i> &nbsp;<a
                             class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
                             href="/#usecase=CustomAttributes">Collect user attributes
@@ -199,6 +204,34 @@
                     Start the use
                     case</a>
             </div>
+
+            <div id="useCase_Language" class="useCase">
+                <h4>Language customization</h4>
+                <p>
+                    You can create a personalized sign-in experience for users who sign in using a specific browser
+                    language by customizing the branding elements for that browser language. This customization
+                    overrides any configurations made to the <b>default</b> branding.
+                    For more information, learn <a class="link-dark"
+                        href="https://learn.microsoft.com/entra/external-id/customers/how-to-customize-branding-customers#to-customize-user-attributes">how
+                        to customize the language of the authentication experience</a>.
+
+                    <br>
+
+                <ol>
+                    <li>Make sure your browser is configure to any language other than German</li>
+                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                    <li>On the sign-in page take a look on the login text that appears <a href="/images/help/login-text.png" target="_blank"></a> under the login button.</li>
+                    <li>The sign-in text appears with some guidance for the users in English. It will remain in English for other languages as well.</li>
+                    <li>Now, change your browser settings to German and refresh the page</li>
+                    <li>The sign-in text now should appear in German. This is because we configured a special branding for the German language</li>
+                </ol>
+                </p>
+                <a class="btn header-button" role="button" href="/SignIn?handler=Language"><i
+                        class="bi bi-play-circle"></i>
+                    Start the use
+                    case</a>
+            </div>
+
 
             <div id="useCase_SSPR" class="useCase">
                 <h4>Self-service password reset</h4>
@@ -448,7 +481,7 @@
             </div>
 
             <div id="useCase_RBAC" class="useCase">
-                <h4>Role-based and access control</h4>
+                <h4>Role-based access control</h4>
                 <p>
                     Role-based access control is a popular mechanism to enforce authorization in
                     applications. It helps you manage who has access to your application and what they can
@@ -493,7 +526,7 @@
             </div>
 
             <div id="useCase_GBAC" class="useCase">
-                <h4>Group-based and access control</h4>
+                <h4>Group-based access control</h4>
                 <p>
                     Group-based access control is a popular mechanism to enforce authorization in
                     applications. It helps you manage who has access to your application and what they can
@@ -742,7 +775,7 @@
         var myUrl = new URL(window.location.href.replace(/#/g, "?"));
         var usecase = myUrl.searchParams.get("usecase");
 
-        var useCases = ["OnlineRetail", "EmailAndPassword", "SSO", "ForceSignIn", "UserInsights", "BlockSignUp", "CompanyBranding", "SSPR", "Social", "TokenAugmentation", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Finance"];
+        var useCases = ["OnlineRetail", "EmailAndPassword", "SSO", "ForceSignIn", "UserInsights", "BlockSignUp", "CompanyBranding", "Language", "SSPR", "Social", "TokenAugmentation", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Finance"];
 
         if (usecase && (useCases.indexOf(usecase) > -1)) {
 
