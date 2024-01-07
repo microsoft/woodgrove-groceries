@@ -44,6 +44,7 @@ public class IndexModel : PageModel
             catch (System.Exception ex)
             {
                 pageView.Properties.Add("Referral", "Invalid");
+                pageView.Properties.Add("Referral", referer);
             }
         }
         else
