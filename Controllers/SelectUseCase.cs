@@ -62,6 +62,16 @@ public class SelectUseCaseController : ControllerBase
             EventTelemetry eventTelemetry = new EventTelemetry("Unknown");
             eventTelemetry.Properties.Add("Referral", referralDomain);
             eventTelemetry.Properties.Add("ReferralURL", referral);
+
+            if (ID.Length > 26)
+            {
+                eventTelemetry.Properties.Add("UnknownValue", referral);
+            }
+            else
+            {
+                eventTelemetry.Properties.Add("UnknownValue", referral.Substring(0, 25));
+            }
+
             _telemetry.TrackEvent(eventTelemetry); ;
         }
     }
