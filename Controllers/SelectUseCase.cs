@@ -63,13 +63,14 @@ public class SelectUseCaseController : ControllerBase
             eventTelemetry.Properties.Add("Referral", referralDomain);
             eventTelemetry.Properties.Add("ReferralURL", referral);
 
+            // Check the length of the unsupported use case
             if (ID.Length > 26)
             {
-                eventTelemetry.Properties.Add("UnknownValue", referral);
+                eventTelemetry.Properties.Add("UnknownValue", ID);
             }
             else
             {
-                eventTelemetry.Properties.Add("UnknownValue", referral.Substring(0, 25));
+                eventTelemetry.Properties.Add("UnknownValue", ID.Substring(0, 25));
             }
 
             _telemetry.TrackEvent(eventTelemetry); ;
