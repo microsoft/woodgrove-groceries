@@ -771,7 +771,7 @@
         $("#" + useCaseToShow).show();
 
         // Telemetry to improve the demo 
-        $.get("/SelectUseCase/usecase?id=" + useCaseId, function (data) {
+        $.get("/SelectUseCase/usecase?id=" + useCaseId + "&referral=" + document.referrer, function (data) {
             
         });
     }
