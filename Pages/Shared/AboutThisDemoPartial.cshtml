@@ -41,14 +41,14 @@
             <li>
                 <hr class="dropdown-divider">
             </li>
+            <li><a class="dropdown-item" href="/#usecase=MFA">Multifactor authentication (MFA)</a>
+            </li>
             <li><a class="dropdown-item" href="/#usecase=RBAC">Role-based
                     access control</a>
             </li>
             <li><a class="dropdown-item" href="/#usecase=GBAC">Group-based
                     access control</a>
             </li>
-                @* <li><a class="dropdown-item" href="/#usecase=MFA">Multi-factor
-            authentication</a></li> *@
             <li>
                 <hr class="dropdown-divider">
             </li>
@@ -87,6 +87,11 @@
                     <li style="list-style-type: none;"><i class="bi bi-arrow-right-circle"></i> &nbsp;<a
                             class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
                             href="/#usecase=Social">Sign-in with a social account</a></li>
+                    
+                    <li style="list-style-type: none;"><i class="bi bi-arrow-right-circle"></i> &nbsp;<a
+                            class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+                            href="/#usecase=MFA">Multi-factor authentication (email)</a></li>
+
                     <li style="list-style-type: none;"><i class="bi bi-arrow-right-circle"></i> &nbsp;<a
                             class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
                             href="/#usecase=CompanyBranding">Customize the look and feel of the sign-in pages</a></li>
@@ -321,20 +326,35 @@
                     Start the use case</a>
             </div>
             <div id="useCase_MFA" class="useCase">
-                <h4>Sign-in with multi-factor authentication (email)</h4>
+                <h4>Multi-factor authentication (email)</h4>
                 <p>
                     Multifactor authentication (MFA) adds a layer of security to your customer-facing
                     applications.
                     With MFA, customers are prompted for a one-time passcode in addition to their username
-                    and password when they sign up or sign in to your app.
-                    This demo shows to enforce MFA for your customers to the sign-up and sign-in using email
-                    and password.
+                    and password when they sign in to your app.
 
-                    <br>&nbsp;<br>
-                    After you successfully authenticated, complete the MFA step.
+                <p>
+                    This demo shows sign-in with MFA user experience. For more information,
+                    learn <a class="link-dark"
+                        href="https://learn.microsoft.com/entra/external-id/customers/how-to-multifactor-authentication-customers">
+                        how to add multifactor authentication (MFA) to a customer-facing app</a>.
                 </p>
-                <a class="btn header-button" role="button" href="/SignInWithEmailMFA">Start the
-                    use case</a>
+                <ol>
+                    <li>Select the <b>start the use case</b> button at the bottom of this page. Sign-up or sign-in with your email and password.</li>
+                    <li> After an created your account (with email and
+                        password), proceed to the next step.</li>
+                    <li>For this demo, download and run the <a href="https://www.torproject.org/" target="_blank">Tor
+                            Browse</a>. It's an open-source web browser that helps people use the internet anonymously.
+                        Therefore, Microsoft Entra ID may consider your sign-in request as suspicious.</li>
+                    <li>In the Tor browser Navigate to <b>https://woodgrovedemo.com</b></li>
+                    <li>Select the <b>sign-in</b> button.</li>
+                    <li>Sign-in with your email and password.</li>
+                    <li>Then complete the MFA as required.</li>
+                </ol>
+                </p>
+                 <a class="btn header-button" role="button" href="/SignIn?handler=MFA"><i
+                        class="bi bi-play-circle"></i> Start the use
+                    case</a>
 
             </div>
             <div id="useCase_TokenAugmentation" class="useCase">
@@ -759,11 +779,10 @@
 <script>
     function showUseCase(useCaseId) {
 
-        var useCaseToShow =  useCaseId;
+        var useCaseToShow = useCaseId;
 
         // Load the defaul use case
-        if (useCaseId === 'Default')
-        {
+        if (useCaseId === 'Default') {
             useCaseToShow = 'useCase_OnlineRetail';
         }
 
@@ -772,7 +791,7 @@
 
         // Telemetry to improve the demo 
         $.get("/SelectUseCase/usecase?id=" + useCaseId.replace('useCase_', '') + "&referral=" + document.referrer, function (data) {
-            
+
         });
     }
 
@@ -792,7 +811,7 @@
         var myUrl = new URL(window.location.href.replace(/#/g, "?"));
         var usecase = myUrl.searchParams.get("usecase");
 
-        var useCases = ["OnlineRetail", "EmailAndPassword", "SSO", "ForceSignIn", "UserInsights", "BlockSignUp", "CompanyBranding", "Language", "SSPR", "Social", "TokenAugmentation", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Finance"];
+        var useCases = ["OnlineRetail", "EmailAndPassword", "SSO", "MFA", "ForceSignIn", "UserInsights", "BlockSignUp", "CompanyBranding", "Language", "SSPR", "Social", "TokenAugmentation", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Finance"];
 
         if (usecase && (useCases.indexOf(usecase) > -1)) {
 
