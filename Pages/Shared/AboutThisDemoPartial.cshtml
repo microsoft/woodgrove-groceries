@@ -392,15 +392,18 @@
                 <h4>Add claims to security tokens from a REST API</h4>
                 <p>
                     The on-behalf-of (OBO) flow describes the scenario of a web API using an identity other than its own
-                    to call another downstream web API. For the middle-tier web API to make authenticated requests to the
-                    downstream web API it needs a different audience and another set of scopes (permissions). For more information, <a class="link-dark"
+                    to call another downstream web API. For the middle-tier web API to make authenticated requests to
+                    the
+                    downstream web API it needs a different audience and another set of scopes (permissions). For more
+                    information, <a class="link-dark"
                         href="https://learn.microsoft.com/entra/identity-platform/v2-oauth2-on-behalf-of-flow">
                         Microsoft identity platform and OAuth 2.0 On-Behalf-Of flow</a>
                     <br>&nbsp;<br>
                     This demo shows how the <a href="https://github.com/microsoft/woodgrove-groceries-api">Account web
                         API</a> makes authenticated requests to a downstream <b>Payment web API</b>.
                     To call the Payment web API, the Account web API acquires an access
-                    token for the Payment web API  (audience or aud claim) and another set of scopes (permissions) that require by the Payment web API.
+                    token for the Payment web API (audience or aud claim) and another set of scopes (permissions) that
+                    require by the Payment web API.
 
                 <ol>
                     <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
@@ -408,8 +411,10 @@
                     <li>After you sign-in you will be redirected to the <b>token</b> page. You can also select your name
                         from the header.</li>
                     <li>Then, select the <b> Access token to call a web API</b> button.</li>
-                    <li>It shows you two links to the https://jwt.ms app with the corresponding access tokens. The first access
-                        token is the one returned to the Woodgrove demo application and used to call the first web API (Account).
+                    <li>It shows you two links to the https://jwt.ms app with the corresponding access tokens. The first
+                        access
+                        token is the one returned to the Woodgrove demo application and used to call the first web API
+                        (Account).
                         The second one shows the access token the the Account web API acquires to call the Payment web
                         API.</li>
                     <li>Compare the access tokens to understand the on-behalf-of flow.</li>
@@ -801,7 +806,15 @@
                 <p>
                     The user insights provides data analytics into user activity and engagement for your registered
                     applications within your customer tenant.
-                    Use Microsoft Graph and the Entra Admin Center to view, query and analyze user activity data.
+                    <br>&nbsp;<br>
+                    Use Microsoft Graph and the Microsoft Entra Admin Center to view, query and analyze user activity
+                    data. For more information, learn <a
+                        href="https://learn.microsoft.com/entra/external-id/customers/how-to-user-insights" class="link-dark">Gain
+                        insights into your app users’ activity</a>.
+
+                    <br>&nbsp;<br>
+                    This demo uses Microsoft Graph API to query the usage & insights (<a href="https://learn.microsoft.com/graph/api/resources/dailyuserinsightmetricsroot?view=graph-rest-beta" class="link-dark">daily</a> and <a href="https://learn.microsoft.com/graph/api/resources/monthlyuserinsightmetricsroot?view=graph-rest-beta" class="link-dark">monthly</a>) to uncover valuable insights that can aid
+                    strategic decisions and drive business growth. 
                 </p>
                 <a class="btn header-button" role="button" href="/dashboard"> Start the use case</a>
             </div>
