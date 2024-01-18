@@ -56,6 +56,11 @@ namespace MyApp.Namespace
             return this.TrackAndAuth("MFA", "/", true);
         }
 
+        public IActionResult OnGetCa()
+        {
+            return this.TrackAndAuth("CA", "/", true);
+        }
+
         public IActionResult OnGetObo()
         {
             return this.TrackAndAuth("OBO", "/token", true);

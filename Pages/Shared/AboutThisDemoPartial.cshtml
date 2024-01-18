@@ -41,6 +41,7 @@
             <li>
                 <hr class="dropdown-divider">
             </li>
+            <li><a class="dropdown-item" href="/#usecase=CA">Conditional access</a>
             <li><a class="dropdown-item" href="/#usecase=MFA">Multifactor authentication (MFA)</a>
             </li>
             <li><a class="dropdown-item" href="/#usecase=RBAC">Role-based
@@ -327,18 +328,24 @@
                     Start the use case</a>
             </div>
             <div id="useCase_MFA" class="useCase">
-                <h4>Multi-factor authentication (email)</h4>
+                <h4>Conditional Access and Multifactor authentication (MFA)</h4>
                 <p>
-                    Multifactor authentication (MFA) adds a layer of security to your customer-facing
-                    applications.
-                    With MFA, customers are prompted for a one-time passcode in addition to their username
-                    and password when they sign in to your app.
+                    Microsoft Entra Conditional Access brings signals together, to make decisions, and enforce security
+                    policies.
 
-                <p>
-                    This demo shows sign-in with MFA user experience. For more information,
+                    Multifactor authentication (MFA) protects customers who sign-in with a username and password. Prompt
+                    them for
+                    a one-time passcode as a second verification method. For more information,
                     learn <a class="link-dark"
                         href="https://learn.microsoft.com/entra/external-id/customers/how-to-multifactor-authentication-customers">
-                        how to add multifactor authentication (MFA) to a customer-facing app</a>.
+                        how to add MFA</a>.
+
+                    <br>&nbsp;<br>
+
+                    In this demo a Conditional Access policy that's targeted to all users when the sign-in risk level is
+                    medium or high, prompts for MFA.
+
+                <p>
                 </p>
                 <ol>
                     <li>Select the <b>start the use case</b> button at the bottom of this page. Sign-up or sign-in with
@@ -354,11 +361,12 @@
                     <li>Then complete the MFA as required.</li>
                 </ol>
                 </p>
-                <a class="btn header-button" role="button" href="/SignIn?handler=MFA"><i class="bi bi-play-circle"></i>
+                <a class="btn header-button" role="button" href="/SignIn?handler=MFA" id="ca_and_mfa"><i
+                        class="bi bi-play-circle"></i>
                     Start the use
                     case</a>
-
             </div>
+
             <div id="useCase_TokenAugmentation" class="useCase">
                 <h4>Add claims to security tokens from a REST API</h4>
                 <p>
@@ -809,12 +817,17 @@
                     <br>&nbsp;<br>
                     Use Microsoft Graph and the Microsoft Entra Admin Center to view, query and analyze user activity
                     data. For more information, learn <a
-                        href="https://learn.microsoft.com/entra/external-id/customers/how-to-user-insights" class="link-dark">Gain
+                        href="https://learn.microsoft.com/entra/external-id/customers/how-to-user-insights"
+                        class="link-dark">Gain
                         insights into your app users’ activity</a>.
 
                     <br>&nbsp;<br>
-                    This demo uses Microsoft Graph API to query the usage & insights (<a href="https://learn.microsoft.com/graph/api/resources/dailyuserinsightmetricsroot?view=graph-rest-beta" class="link-dark">daily</a> and <a href="https://learn.microsoft.com/graph/api/resources/monthlyuserinsightmetricsroot?view=graph-rest-beta" class="link-dark">monthly</a>) to uncover valuable insights that can aid
-                    strategic decisions and drive business growth. 
+                    This demo uses Microsoft Graph API to query the usage & insights (<a
+                        href="https://learn.microsoft.com/graph/api/resources/dailyuserinsightmetricsroot?view=graph-rest-beta"
+                        class="link-dark">daily</a> and <a
+                        href="https://learn.microsoft.com/graph/api/resources/monthlyuserinsightmetricsroot?view=graph-rest-beta"
+                        class="link-dark">monthly</a>) to uncover valuable insights that can aid
+                    strategic decisions and drive business growth.
                 </p>
                 <a class="btn header-button" role="button" href="/dashboard"> Start the use case</a>
             </div>
@@ -831,6 +844,16 @@
         // Load the defaul use case
         if (useCaseId === 'Default') {
             useCaseToShow = 'useCase_OnlineRetail';
+        }
+
+        // Multiple use cases with one shared demo
+        if (useCaseId === "useCase_CA") {
+            $("#ca_and_mfa").attr("href", "/SignIn?handler=CA");
+            useCaseId = "useCase_MFA";
+            useCaseToShow = useCaseId;
+        }
+        else if (useCaseId === "useCase_MFA") {
+            $("#ca_and_mfa").attr("href", "/SignIn?handler=MFA");
         }
 
         $(".useCase").hide();
@@ -858,7 +881,7 @@
         var myUrl = new URL(window.location.href.replace(/#/g, "?"));
         var usecase = myUrl.searchParams.get("usecase");
 
-        var useCases = ["OnlineRetail", "EmailAndPassword", "OBO", "SSO", "MFA", "ForceSignIn", "UserInsights", "BlockSignUp", "CompanyBranding", "Language", "SSPR", "Social", "TokenAugmentation", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Finance"];
+        var useCases = ["OnlineRetail", "EmailAndPassword", "OBO", "SSO", "MFA", "CA", "ForceSignIn", "UserInsights", "BlockSignUp", "CompanyBranding", "Language", "SSPR", "Social", "TokenAugmentation", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Finance"];
 
         if (usecase && (useCases.indexOf(usecase) > -1)) {
 
