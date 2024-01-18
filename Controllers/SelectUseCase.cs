@@ -66,11 +66,11 @@ public class SelectUseCaseController : ControllerBase
             // Check the length of the unsupported use case
             if (ID.Length > 26)
             {
-                eventTelemetry.Properties.Add("UnknownValue", ID);
+                eventTelemetry.Properties.Add("UnknownValue", ID.Substring(0, 25));
             }
             else
             {
-                eventTelemetry.Properties.Add("UnknownValue", ID.Substring(0, 25));
+                eventTelemetry.Properties.Add("UnknownValue", ID);
             }
 
             _telemetry.TrackEvent(eventTelemetry); ;
