@@ -27,7 +27,8 @@ public class SelectUseCaseController : ControllerBase
     [HttpGet("usecase")]
     public void RecordUseCase(string ID, string referral = null)
     {
-        string[] useCases = { "Default", "OnlineRetail", "EmailAndPassword", "SSO", "ForceSignIn", "UserInsights", "BlockSignUp", "CompanyBranding", "Language", "SSPR", "Social", "TokenAugmentation", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Finance" };
+        string[] useCases = { "Default", "OnlineRetail", "EmailAndPassword", "OBO", "SSO", "MFA", "CA", "ForceSignIn", "UserInsights", "BlockSignUp", "CompanyBranding", "Language", "SSPR", "Social", "TokenAugmentation", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Finance" };
+     
         string referralDomain = string.Empty;
 
         // Check if the referral is available
@@ -52,6 +53,7 @@ public class SelectUseCaseController : ControllerBase
 
         if (useCases.Contains(ID))
         {
+            // Known use case ID
             EventTelemetry eventTelemetry = new EventTelemetry(ID);
             eventTelemetry.Properties.Add("Referral", referralDomain);
             eventTelemetry.Properties.Add("ReferralURL", referral);
@@ -59,6 +61,7 @@ public class SelectUseCaseController : ControllerBase
         }
         else
         {
+            //Unknown use case ID
             EventTelemetry eventTelemetry = new EventTelemetry("Unknown");
             eventTelemetry.Properties.Add("Referral", referralDomain);
             eventTelemetry.Properties.Add("ReferralURL", referral);

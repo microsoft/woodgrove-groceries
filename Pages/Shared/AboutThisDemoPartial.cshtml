@@ -849,8 +849,7 @@
         // Multiple use cases with one shared demo
         if (useCaseId === "useCase_CA") {
             $("#ca_and_mfa").attr("href", "/SignIn?handler=CA");
-            useCaseId = "useCase_MFA";
-            useCaseToShow = useCaseId;
+            useCaseToShow = "useCase_MFA";
         }
         else if (useCaseId === "useCase_MFA") {
             $("#ca_and_mfa").attr("href", "/SignIn?handler=MFA");
