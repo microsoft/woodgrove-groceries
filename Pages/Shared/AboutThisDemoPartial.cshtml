@@ -17,9 +17,8 @@
                     account</a></li>
             <li><a class="dropdown-item" href="/#usecase=CustomAttributes">Collect
                     user attributes during sign-up</a></li>
-            <li>
-                @* <li><a class="dropdown-item" href="/#usecase=" onclick="showUseCase('useCase_EmailOTP')">Email with
-                one-time passcode sign-in</a></li> *@
+
+            <li><a class="dropdown-item" href="/#usecase=PolicyAgreement">Add links to terms of use and privacy policies</a></li>
             <li>
                 <hr class="dropdown-divider">
             </li>
@@ -324,7 +323,7 @@
                         page enter the verification code and select <b>next</b>.</li>
                 </ol>
                 </p>
-                <a class="btn header-button" role="button" href="/SignInWithEmailOTP"><i class="bi bi-play-circle"></i>
+                <a class="btn header-button" role="button" href="#"><i class="bi bi-play-circle"></i>
                     Start the use case</a>
             </div>
             <div id="useCase_MFA" class="useCase">
@@ -682,6 +681,46 @@
                     case</a>
             </div>
 
+            <div id="useCase_PolicyAgreement" class="useCase">
+                <h4>Add links to terms of use and privacy policies</h4>
+                <p>
+                    Terms of use, also known as terms and conditions or terms of service, are rules, specifications, and requirements for the use of your app.
+                    Microsoft Entra external ID allows you to add a custom attribute (type of Boolean) to the sign-up page.
+                    Before completing the sign-up, users should read and accept your policies. 
+                    
+                    
+                    For more information, learn how to collect user attributes during sign-up <a
+                        class="link-dark"
+                        href="https://learn.microsoft.com/entra/external-id/customers/how-to-define-custom-attributes#to-configure-a-single-select-checkbox-checkboxsingleselect">and configure a single-select checkbox</a>.
+
+                    <br />&nbsp;<br />
+                    This demo shows to add links to  <b>terms of use and privacy policies</b>. To start the demo:
+
+                <ol>
+                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                    <li>Sign-up with your email, or a social account. For more information, <a
+                            class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+                            href="#usecase=EmailAndPassword">sign-up or sign-in with email
+                            and password</a>. If you already have an account,
+                        <a class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+                            href="#" onclick="showUseCase('useCase_DeleteAccount')">delete it</a>.
+                    </li>
+                    <li>After you validate your email, or sign-in with your social account, complete the
+                        registration by providing your details.</b>
+                    </li>
+                    <li>
+                        Select the <b>terms of use and privacy policies</b> links which will be opened in a new browser tab. Then, close the tabs and go back to the sign-up page,
+                        and select the checkbox.
+                    </li>
+                    <li>Select <b>next</b> to create a Woodgrove online identity. </li>
+                </ol>
+
+                <a class="btn header-button" role="button" href="/SignIn?handler=PolicyAgreement"><i
+                        class="bi bi-play-circle"></i> Start the use
+                    case</a>
+            </div>
+
+
             <div id="useCase_SSO" class="useCase">
                 <h4>Single sign-on (SSO)</h4>
 
@@ -880,7 +919,7 @@
         var myUrl = new URL(window.location.href.replace(/#/g, "?"));
         var usecase = myUrl.searchParams.get("usecase");
 
-        var useCases = ["OnlineRetail", "EmailAndPassword", "OBO", "SSO", "MFA", "CA", "ForceSignIn", "UserInsights", "BlockSignUp", "CompanyBranding", "Language", "SSPR", "Social", "TokenAugmentation", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Finance"];
+        var useCases = ["PolicyAgreement", "OnlineRetail", "EmailAndPassword", "OBO", "SSO", "MFA", "CA", "ForceSignIn", "UserInsights", "BlockSignUp", "CompanyBranding", "Language", "SSPR", "Social", "TokenAugmentation", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Finance"];
 
         if (usecase && (useCases.indexOf(usecase) > -1)) {
 
