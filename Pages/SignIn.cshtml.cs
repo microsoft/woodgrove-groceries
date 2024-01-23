@@ -51,7 +51,7 @@ namespace MyApp.Namespace
             return this.TrackAndAuth("BlockSignUp", "/", true);
         }
 
-        public IActionResult OnGetPolicyAgreementp()
+        public IActionResult OnGetPolicyAgreement()
         {
             return this.TrackAndAuth("PolicyAgreement", "/", true);
         }
