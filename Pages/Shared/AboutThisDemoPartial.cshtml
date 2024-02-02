@@ -18,7 +18,8 @@
             <li><a class="dropdown-item" href="/#usecase=CustomAttributes">Collect
                     user attributes during sign-up</a></li>
 
-            <li><a class="dropdown-item" href="/#usecase=PolicyAgreement">Add links to terms of use and privacy policies</a></li>
+            <li><a class="dropdown-item" href="/#usecase=PolicyAgreement">Add links to terms of use and privacy
+                    policies</a></li>
             <li>
                 <hr class="dropdown-divider">
             </li>
@@ -42,6 +43,7 @@
             </li>
             <li><a class="dropdown-item" href="/#usecase=CA">Conditional access</a>
             <li><a class="dropdown-item" href="/#usecase=MFA">Multifactor authentication (MFA)</a>
+            <li><a class="dropdown-item" href="/#usecase=StepUp">Step-up authentication (MFA)</a>
             </li>
             <li><a class="dropdown-item" href="/#usecase=RBAC">Role-based
                     access control</a>
@@ -349,8 +351,8 @@
                 <ol>
                     <li>Select the <b>start the use case</b> button at the bottom of this page. Sign-up or sign-in with
                         your email and password.</li>
-                    <li> After an created your account (with email and
-                        password), proceed to the next step.</li>
+                    <li> After you signed-in with your email and
+                        password, proceed to the next step.</li>
                     <li>For this demo, download and run the <a href="https://www.torproject.org/" target="_blank">Tor
                             Browse</a>. It's an open-source web browser that helps people use the internet anonymously.
                         Therefore, Microsoft Entra ID may consider your sign-in request as suspicious.</li>
@@ -364,6 +366,55 @@
                         class="bi bi-play-circle"></i>
                     Start the use
                     case</a>
+            </div>
+
+            <div id="useCase_StepUp" class="useCase">
+                <h4>Step-up authentication upon risky action (MFA)</h4>
+                <p>
+                    Use the Microsoft Entra Conditional Access engine's <a class="link-dark"
+                        href="https://learn.microsoft.com/entra/identity-platform/developer-guide-conditional-access-authentication-context">authentication
+                        context</a> to trigger a demand for step-up authentication from within your application.
+
+
+                    <br>&nbsp;<br>
+
+                    This demo allows users to access apps and purchase items. However, upon risky action, for example
+                    when the sum of the intems in the cart is higher than usual it requires the user to sign-in with
+                    a second factor authentication.
+                <p>
+                </p>
+                <ol>
+                        @if (User.Identity?.IsAuthenticated == false)
+                        {
+                        <li>Select the <b>start the use case</b> button at the bottom of this page. Sign-up or sign-in with
+                            your email and password.</li>
+                        <li> After you singed-in with email and
+                            password, select this use-case again.</li>
+                        }
+                        else
+                        {
+                        <li> Looks like you already signed-in. Good! Now let's demonstrate a step up with MFA.</li>
+                        <li> Select the <b>Start the use case</b> button and proceed with the sign-in request and complete
+                            the MFA.</li>
+                        <li> After you sign-in with the MFA, from the header select your name which takes you to the access
+                            token page.</li>
+                        <li> In the access token page, check the value of the <b>acrs</b> claim. It should be <b>c1</b> and
+                            an indicator that you complied with the authentication context policy 'c1'. </li>
+                        }
+                </ol>
+                </p>
+
+                @if (User.Identity?.IsAuthenticated == false)
+                {
+                    <a class="btn header-button" role="button" href="/SignIn?handler=StepUpIntro" id="ca_and_mfa"><i
+                            class="bi bi-play-circle"></i> Start the use case</a>
+                }
+                else
+                {
+                    <a class="btn header-button" role="button" href="/SignIn?handler=StepUp" id="ca_and_mfa"><i
+                            class="bi bi-play-circle"></i> Start the use case</a>
+                }
+
             </div>
 
             <div id="useCase_TokenAugmentation" class="useCase">
@@ -684,17 +735,19 @@
             <div id="useCase_PolicyAgreement" class="useCase">
                 <h4>Add links to terms of use and privacy policies</h4>
                 <p>
-                    Terms of use, also known as terms and conditions or terms of service, are rules, specifications, and requirements for the use of your app.
-                    Microsoft Entra external ID allows you to add a custom attribute (type of Boolean) to the sign-up page.
-                    Before completing the sign-up, users should read and accept your policies. 
-                    
-                    
-                    For more information, learn how to collect user attributes during sign-up <a
-                        class="link-dark"
-                        href="https://learn.microsoft.com/entra/external-id/customers/how-to-define-custom-attributes#to-configure-a-single-select-checkbox-checkboxsingleselect">and configure a single-select checkbox</a>.
+                    Terms of use, also known as terms and conditions or terms of service, are rules, specifications, and
+                    requirements for the use of your app.
+                    Microsoft Entra external ID allows you to add a custom attribute (type of Boolean) to the sign-up
+                    page.
+                    Before completing the sign-up, users should read and accept your policies.
+
+
+                    For more information, learn how to collect user attributes during sign-up <a class="link-dark"
+                        href="https://learn.microsoft.com/entra/external-id/customers/how-to-define-custom-attributes#to-configure-a-single-select-checkbox-checkboxsingleselect">and
+                        configure a single-select checkbox</a>.
 
                     <br />&nbsp;<br />
-                    This demo shows to add links to  <b>terms of use and privacy policies</b>. To start the demo:
+                    This demo shows to add links to <b>terms of use and privacy policies</b>. To start the demo:
 
                 <ol>
                     <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
@@ -709,7 +762,8 @@
                         registration by providing your details.</b>
                     </li>
                     <li>
-                        Select the <b>terms of use and privacy policies</b> links which will be opened in a new browser tab. Then, close the tabs and go back to the sign-up page,
+                        Select the <b>terms of use and privacy policies</b> links which will be opened in a new browser
+                        tab. Then, close the tabs and go back to the sign-up page,
                         and select the checkbox.
                     </li>
                     <li>Select <b>next</b> to create a Woodgrove online identity. </li>
@@ -919,7 +973,7 @@
         var myUrl = new URL(window.location.href.replace(/#/g, "?"));
         var usecase = myUrl.searchParams.get("usecase");
 
-        var useCases = ["PolicyAgreement", "OnlineRetail", "EmailAndPassword", "OBO", "SSO", "MFA", "CA", "ForceSignIn", "UserInsights", "BlockSignUp", "CompanyBranding", "Language", "SSPR", "Social", "TokenAugmentation", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Finance"];
+        var useCases = ["StepUp", "PolicyAgreement", "OnlineRetail", "EmailAndPassword", "OBO", "SSO", "MFA", "CA", "ForceSignIn", "UserInsights", "BlockSignUp", "CompanyBranding", "Language", "SSPR", "Social", "TokenAugmentation", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Finance"];
 
         if (usecase && (useCases.indexOf(usecase) > -1)) {
 

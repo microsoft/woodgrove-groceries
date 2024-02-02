@@ -70,7 +70,7 @@ app.Run();
 
 async Task OnRedirectToIdentityProviderFunc(RedirectContext context)
 {
-    // Read the custom parameter
+    // Read the 'force' custom parameter
     var forceSignIn = context.Properties.Items.FirstOrDefault(x => x.Key == "force").Value;
 
     // Add your custom code here
@@ -78,6 +78,17 @@ async Task OnRedirectToIdentityProviderFunc(RedirectContext context)
     {
         context.ProtocolMessage.Prompt = "login";
     }
+
+    // Read the 'StepUp' custom parameter
+    var stepUp = context.Properties.Items.FirstOrDefault(x => x.Key == "StepUp").Value;
+
+    // Add your custom code here
+    if (stepUp != null)
+    {
+        context.ProtocolMessage.Parameters.Add("claims", "%7B%22access_token%22%3A%7B%22acrs%22%3A%7B%22essential%22%3Atrue%2C%22value%22%3A%22c1%22%7D%7D%7D");;
+    }
+
+    
 
     // Don't remove this line
     await Task.CompletedTask.ConfigureAwait(false);

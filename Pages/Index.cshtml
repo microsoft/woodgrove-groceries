@@ -4,7 +4,7 @@
     ViewData["Title"] = "Woodgrove Groceries";
 }
 
-@section Jumbotron{
+@section Jumbotron {
     <!-- Welcome message-->
     <div class="inner-header">
         <div class="jumbotron" style="margin-top: 20px;">
@@ -104,12 +104,19 @@
 </div>
 <!-- Numbers end-->
 
-<section class="section pt-4" id="specials">
-    <h4 class="font-weight-bold mt-4 title-1" style="letter-spacing: 2px; color: rgb(3, 80, 2);">
-        <strong>Get in the groove for shopping</strong>
-    </h4>
+<div class="" id="specials">
+    <div class="d-flex justify-content-between">
+        <div>
+            <div class="font-weight-bold h4" style="letter-spacing: 2px; color: rgb(3, 80, 2);">
+                <strong>Get in the groove for shopping</strong>
+            </div>
+        </div>
+        <div>
+            <div id="checkoutContainer" style="display: none;"><i class="bi bi-cart4"></i> <span id="total">0</span>$ <a style="margin-left: 20px;" href="#" class="btn btn-warning" role="button" id="checkout">Checkout</a></div>
+        </div>
+    </div>
     <hr class="mb-5">
-</section>
+</div>
 
 <!--First line of products-->
 <div class="row" style="margin-top: -50px;">
@@ -135,7 +142,7 @@
                 @if (User.Identity?.IsAuthenticated == true)
                 {
                     <div class="reveal-details">
-                        <a href="#" class="btn card-button"><i class="bi bi-cart-plus"></i> Add to cart</a>
+                        <a href="#" class="btn card-button" onclick="return addItem(11.25)"><i class="bi bi-cart-plus"></i> Add to cart</a>
                     </div>
                 }
 
@@ -159,7 +166,7 @@
                 @if (User.Identity?.IsAuthenticated == true)
                 {
                     <div class="reveal-details">
-                        <a href="#" class="btn card-button"><i class="bi bi-cart-plus"></i> Add to cart</a>
+                        <a href="#" class="btn card-button" onclick="return addItem(2.75)"><i class="bi bi-cart-plus"></i> Add to cart</a>
                     </div>
                 }
             </div>
@@ -188,7 +195,7 @@
                 @if (User.Identity?.IsAuthenticated == true)
                 {
                     <div class="reveal-details">
-                        <a href="#" class="btn card-button"><i class="bi bi-cart-plus"></i> Add to cart</a>
+                        <a href="#" class="btn card-button" onclick="return addItem(3.20)"><i class="bi bi-cart-plus"></i> Add to cart</a>
                     </div>
                 }
             </div>
@@ -227,7 +234,7 @@
                 @if (User.Identity?.IsAuthenticated == true)
                 {
                     <div class="reveal-details">
-                        <a href="#" class="btn card-button"><i class="bi bi-cart-plus"></i> Add to cart</a>
+                        <a href="#" class="btn card-button" onclick="return addItem(34)"><i class="bi bi-cart-plus"></i> Add to cart</a>
                     </div>
                 }
 
@@ -252,7 +259,7 @@
                 @if (User.Identity?.IsAuthenticated == true)
                 {
                     <div class="reveal-details">
-                        <a href="#" class="btn card-button"><i class="bi bi-cart-plus"></i> Add to cart</a>
+                        <a href="#" class="btn card-button" onclick="return addItem(5.25)"><i class="bi bi-cart-plus"></i> Add to cart</a>
                     </div>
                 }
             </div>
@@ -276,7 +283,7 @@
                 @if (User.Identity?.IsAuthenticated == true)
                 {
                     <div class="reveal-details">
-                        <a href="#" class="btn card-button"><i class="bi bi-cart-plus"></i> Add to cart</a>
+                        <a href="#" class="btn card-button" onclick="return addItem(12.5)"><i class="bi bi-cart-plus"></i> Add to cart</a>
                     </div>
                 }
             </div>
@@ -284,13 +291,21 @@
     </div>
 </div>
 
-@section Scripts{
+@section Scripts {
 
     <script>
         $(document).ready(function () {
             $('[data-toggle="popover"]').popover({ trigger: "hover", content: "Please be aware that the food may contain or come into contact with eggs." });
         });
 
+        function addItem(price)
+        {
+            var total = parseInt($("#total").text(), 0) + price;
+            $("#total").text(total);
+            $("#checkoutContainer").show();
+
+            return false;
+        }
     </script>
 }
 

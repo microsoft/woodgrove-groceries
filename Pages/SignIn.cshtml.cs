@@ -37,6 +37,12 @@ namespace MyApp.Namespace
                 challengeResult.Properties.Items.Add("force", "true");
             }
 
+            // Step up flow
+            if (ID == "StepUp")
+            {
+                challengeResult.Properties.Items.Add("StepUp", "true");
+            }
+
             return challengeResult;
         }
 
@@ -51,6 +57,16 @@ namespace MyApp.Namespace
             return this.TrackAndAuth("BlockSignUp", "/", true);
         }
 
+        public IActionResult OnGetStepUp()
+        {
+            return this.TrackAndAuth("StepUp", "/", true);
+        }
+
+        public IActionResult OnGetStepUpIntro()
+        {
+            return this.TrackAndAuth("StepUpIntro", "/#usecase=StepUp", true);
+        }
+        
         public IActionResult OnGetPolicyAgreement()
         {
             return this.TrackAndAuth("PolicyAgreement", "/", true);
