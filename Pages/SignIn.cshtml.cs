@@ -64,7 +64,7 @@ namespace MyApp.Namespace
 
         public IActionResult OnGetStepUpIntro()
         {
-            return this.TrackAndAuth("StepUpIntro", "/#usecase=StepUp", true);
+            return this.TrackAndAuth("StepUp-Start", "/#usecase=StepUp", true);
         }
         
         public IActionResult OnGetPolicyAgreement()
