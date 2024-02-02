@@ -378,7 +378,7 @@
 
                     <br>&nbsp;<br>
 
-                    This demo allows users to access apps and purchase items. However, upon risky action, for example
+                    This demo allows users to access the app and purchase items. However, upon risky action, for example
                     when the sum of the intems in the cart is higher than usual it requires the user to sign-in with
                     a second factor authentication.
                 <p>
@@ -393,13 +393,12 @@
                         }
                         else
                         {
-                        <li> Looks like you already signed-in. Good! Now let's demonstrate a step up with MFA.</li>
-                        <li> Select the <b>Start the use case</b> button and proceed with the sign-in request and complete
-                            the MFA.</li>
-                        <li> After you sign-in with the MFA, from the header select your name which takes you to the access
-                            token page.</li>
-                        <li> In the access token page, check the value of the <b>acrs</b> claim. It should be <b>c1</b> and
-                            an indicator that you complied with the authentication context policy 'c1'. </li>
+                        <li> Looks like you already signed-in. Good! Now let's demonstrate a step-up with MFA.</li>
+                        <li> Select the <b>Start the use case</b> button and proceed with the sign-in and complete
+                            the MFA. Note, you can sign-in with the same account or another one.</li>
+                        <li> After you sign-in with the MFA, from the header select your name which takes you to the <a class="link-dark" href="/token">access
+                            token page</a>.</li>
+                        <li> In the access token page, check the value of the <b>acrs</b> claim. It should be <b>c1</b> which indicates that you complied with the authentication context policy 'c1'. </li>
                         }
                 </ol>
                 </p>
