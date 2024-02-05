@@ -112,7 +112,10 @@
             </div>
         </div>
         <div>
-            <div id="checkoutContainer" style="display: none;"><i class="bi bi-cart4"></i> <span id="total">0</span>$ <a style="margin-left: 20px;" href="#" class="btn btn-warning" role="button" id="checkout">Checkout</a></div>
+            <span id="stepUpFulfilled" style="display: none;">@Model.StepUpFulfilled</span>
+            <div id="checkoutContainer" style="display: none;"><i class="bi bi-cart4"></i> <span id="total">0</span>$ <a
+                    style="margin-left: 20px;" href="#" class="btn btn-warning" role="button" id="checkout"
+                    onclick="return checkout();">Checkout</a></div>
         </div>
     </div>
     <hr class="mb-5">
@@ -142,7 +145,8 @@
                 @if (User.Identity?.IsAuthenticated == true)
                 {
                     <div class="reveal-details">
-                        <a href="#" class="btn card-button" onclick="return addItem(11.25)"><i class="bi bi-cart-plus"></i> Add to cart</a>
+                        <a href="#" class="btn card-button" onclick="return addItem(11.25)"><i class="bi bi-cart-plus"></i>
+                            Add to cart</a>
                     </div>
                 }
 
@@ -166,7 +170,8 @@
                 @if (User.Identity?.IsAuthenticated == true)
                 {
                     <div class="reveal-details">
-                        <a href="#" class="btn card-button" onclick="return addItem(2.75)"><i class="bi bi-cart-plus"></i> Add to cart</a>
+                        <a href="#" class="btn card-button" onclick="return addItem(2.75)"><i class="bi bi-cart-plus"></i>
+                            Add to cart</a>
                     </div>
                 }
             </div>
@@ -184,7 +189,7 @@
                 <h5 class="card-title">French soft cream bread 12pcs 400 g</h5>
 
                 <p class="card-text">
-                <p class="card-price">$3.20</p>
+                <p class="card-price">$13.0</p>
                 <i class="bi bi-star-fill"></i>
                 <i class="bi bi-star-fill"></i>
                 <i class="bi bi-star-fill"></i>
@@ -195,7 +200,8 @@
                 @if (User.Identity?.IsAuthenticated == true)
                 {
                     <div class="reveal-details">
-                        <a href="#" class="btn card-button" onclick="return addItem(3.20)"><i class="bi bi-cart-plus"></i> Add to cart</a>
+                        <a href="#" class="btn card-button" onclick="return addItem(13.0)"><i class="bi bi-cart-plus"></i>
+                            Add to cart</a>
                     </div>
                 }
             </div>
@@ -234,7 +240,8 @@
                 @if (User.Identity?.IsAuthenticated == true)
                 {
                     <div class="reveal-details">
-                        <a href="#" class="btn card-button" onclick="return addItem(34)"><i class="bi bi-cart-plus"></i> Add to cart</a>
+                        <a href="#" class="btn card-button" onclick="return addItem(34)"><i class="bi bi-cart-plus"></i> Add
+                            to cart</a>
                     </div>
                 }
 
@@ -259,7 +266,8 @@
                 @if (User.Identity?.IsAuthenticated == true)
                 {
                     <div class="reveal-details">
-                        <a href="#" class="btn card-button" onclick="return addItem(5.25)"><i class="bi bi-cart-plus"></i> Add to cart</a>
+                        <a href="#" class="btn card-button" onclick="return addItem(5.25)"><i class="bi bi-cart-plus"></i>
+                            Add to cart</a>
                     </div>
                 }
             </div>
@@ -283,9 +291,45 @@
                 @if (User.Identity?.IsAuthenticated == true)
                 {
                     <div class="reveal-details">
-                        <a href="#" class="btn card-button" onclick="return addItem(12.5)"><i class="bi bi-cart-plus"></i> Add to cart</a>
+                        <a href="#" class="btn card-button" onclick="return addItem(12.5)"><i class="bi bi-cart-plus"></i>
+                            Add to cart</a>
                     </div>
                 }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal" tabindex="-1" id="thanksModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-megaphone"></i> Checkout completed</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Thank you for your order! Your purchase is complete. <b>Thanks for choosing us!</b></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" id="stepUpModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-shield-check"></i> Additional step is required</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Your shopping cart currently contains items that require you to sign-in with a strong factor
+                    authentication (MFA).</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a class="btn btn-primary" href="/SignIn?handler=StepUp">Continue</a>
             </div>
         </div>
     </div>
@@ -294,18 +338,53 @@
 @section Scripts {
 
     <script>
+        var thanksModal, stepUpModal;
         $(document).ready(function () {
             $('[data-toggle="popover"]').popover({ trigger: "hover", content: "Please be aware that the food may contain or come into contact with eggs." });
+
+            thanksModal = new bootstrap.Modal(document.getElementById('thanksModal'), {
+                keyboard: false
+            });
+
+            stepUpModal = new bootstrap.Modal(document.getElementById('stepUpModal'), {
+                keyboard: false
+            });
         });
 
-        function addItem(price)
-        {
+        function addItem(price) {
             var total = parseInt($("#total").text(), 0) + price;
             $("#total").text(total);
             $("#checkoutContainer").show();
 
             return false;
         }
+
+        function checkout() {
+            var total = parseInt($("#total").text(), 0);
+
+            if (total > 50 && $("#stepUpFulfilled").text() != "True") {
+                stepUpModal.show();
+            }
+            else {
+                completeOrder();
+            }
+
+            return false;
+        }
+
+        function completeOrder() {
+            $("#total").text(0);
+            $("#checkoutContainer").hide();
+
+            thanksModal.show();
+            window.location.hash = '';
+            const myTimeout = setTimeout(completeOrderHide, 5000);
+        }
+
+        function completeOrderHide() {
+            thanksModal.hide();
+        }
+
     </script>
 }
 

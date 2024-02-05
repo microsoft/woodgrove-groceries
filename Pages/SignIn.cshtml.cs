@@ -59,7 +59,7 @@ namespace MyApp.Namespace
 
         public IActionResult OnGetStepUp()
         {
-            return this.TrackAndAuth("StepUp", "/", false);
+            return this.TrackAndAuth("StepUp", "/#event=StepUpCompleted", false);
         }
 
         public IActionResult OnGetStepUpIntro()

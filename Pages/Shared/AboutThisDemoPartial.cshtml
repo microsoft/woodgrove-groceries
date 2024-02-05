@@ -394,11 +394,8 @@
                         else
                         {
                         <li> Looks like you already signed-in. Good! Now let's demonstrate a step-up with MFA.</li>
-                        <li> Select the <b>Start the use case</b> button and proceed with the sign-in and complete
-                            the MFA. Note, you can sign-in with the same account or another one.</li>
-                        <li> After you sign-in with the MFA, from the header select your name which takes you to the <a class="link-dark" href="/token">access
-                            token page</a>.</li>
-                        <li> In the access token page, check the value of the <b>acrs</b> claim. It should be <b>c1</b> which indicates that you complied with the authentication context policy 'c1'. </li>
+                        <li> In the home page, add some items to the shopping cart, until the <b>total</b> is more that 50$.</li>
+                        <li> Then, select the <b>checkout</b> button. If you have not signed-in with MFA, you will be asked to do so.</li>
                         }
                 </ol>
                 </p>
@@ -971,6 +968,12 @@
     function loaldUseCaseFromUrl() {
         var myUrl = new URL(window.location.href.replace(/#/g, "?"));
         var usecase = myUrl.searchParams.get("usecase");
+        var event = myUrl.searchParams.get("event");
+
+        if (event === "StepUpCompleted") {
+            completeOrder();
+            return;
+        }
 
         var useCases = ["StepUp", "PolicyAgreement", "OnlineRetail", "EmailAndPassword", "OBO", "SSO", "MFA", "CA", "ForceSignIn", "UserInsights", "BlockSignUp", "CompanyBranding", "Language", "SSPR", "Social", "TokenAugmentation", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Finance"];
 

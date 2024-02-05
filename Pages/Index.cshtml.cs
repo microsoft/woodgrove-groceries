@@ -9,7 +9,7 @@ public class IndexModel : PageModel
 {
     public bool IsCommercialAccount { get; set; } = false;
     public bool HasEggsAllergy { get; set; } = false;
-
+    public bool StepUpFulfilled { get; set; } = false;
     public List<string> listOfAvatars { get; set; }
 
     private readonly ILogger<IndexModel> _logger;
@@ -51,7 +51,7 @@ public class IndexModel : PageModel
         {
             pageView.Properties.Add("Referral", "Unknown");
         }
-        
+
         _telemetry.TrackPageView(pageView);
 
         this.listOfAvatars = new List<string>() { "01", "02", "03", "04", "05", "06", "07" };
@@ -68,6 +68,9 @@ public class IndexModel : PageModel
             // Check the Eggs allergy
             string? specialDiet = User.Claims.FirstOrDefault(c => c.Type.ToLower() == "specialdiet")?.Value;
             HasEggsAllergy = (string.IsNullOrEmpty(specialDiet) == false && specialDiet.ToLower().StartsWith("egg"));
+
+            // Check if the step up completed
+            StepUpFulfilled = User.Claims.Any(c => c.Type == "acrs" && c.Value == "c1");
         }
 
         return Page();
