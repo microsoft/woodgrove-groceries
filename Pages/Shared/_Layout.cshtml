@@ -6,10 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
     <link rel="icon" type="image/x-icon" href="~/woodgrove-favicon.ico">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/woodgrovedemo.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/bs-stepper.min.css">
 </head>
 
 <body>
@@ -17,10 +19,9 @@
         <div class="container" style="padding-top: 30px; padding-bottom: 30px;">
             <nav class="navbar navbar-expand-xl">
                 <div class="container-fluid">
-                    <a asp-page="/Index"> 
+                    <a asp-page="/Index">
                         <img src="/images/logo.png" height="24" alt="Woodgrove logo" style="padding-left: 10px;" />
-                        </a> <a
-                        class="navbar-brand" asp-area="" asp-page="/Index" style="padding-left: 15px;">Woodgrove
+                    </a> <a class="navbar-brand" asp-area="" asp-page="/Index" style="padding-left: 15px;">Woodgrove
                         Groceries</a>
                     <button id="navbarToggler" class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -53,9 +54,8 @@
 
     <!-- About this demop -->
     <button id="offcanvasButton" class="btn btn-success" type="button" data-bs-toggle="offcanvas"
-        data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"
-        onclick="showUseCase('Default');"><i class="bi bi-arrow-up-circle fs-3"></i>&nbsp;&nbsp; <span
-            class="fs-5">Select a use case</span></button>
+        data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" onclick="showUseCase('Default');"><i
+            class="bi bi-arrow-up-circle fs-3"></i>&nbsp;&nbsp; <span class="fs-5">Select a use case</span></button>
 
     <div class="offcanvas offcanvas-end" data-bs-scroll="false" tabindex="-1" id="offcanvasRight"
         aria-labelledby="offcanvasRightLabel">
@@ -75,7 +75,7 @@
                 {
                     <partial name="AboutThisDemoPartial" />
                 }
-                
+
             </div>
         </div>
     </div>
@@ -105,17 +105,18 @@
                 style="padding-right: 10px;">API</a>
             <i class="bi bi-github"></i> <a href="https://github.com/microsoft/woodgrove-auth-api"
                 style="padding-right: 10px;">Authentication API</a>
-            <i class="bi bi-graph-up"></i> <a href="/dashboard"
-                style="padding-right: 10px;">Insights</a>
+            <i class="bi bi-graph-up"></i> <a href="/dashboard" style="padding-right: 10px;">Insights</a>
         </div>
     </footer>
 
-   <script
-  src="https://code.jquery.com/jquery-3.7.1.min.js"
-  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-  crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bs-stepper/dist/js/bs-stepper.min.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
