@@ -100,7 +100,7 @@
                 </div>
             </form>
 
-            <h2 style="color: green; padding-bottom: 15px; padding-top: 75px;">Your application roles and security groups
+            <h2 style="color: green; padding-bottom: 15px; padding-top: 75px;">Your Woodgrove app roles and security groups
             </h2>
 
             You are eligible for activating the following application roles and security groups. You can request to activate
@@ -134,6 +134,36 @@
                         Update app roles and security groups</button>
                 </div>
             </form>
+
+            <h2 style="color: green; padding-bottom: 5px; padding-top: 75px;">Sign-in activity
+            </h2>
+            <p>
+                Your last sign-in date and time. Woodgrove can use <a
+                    href="https://learn.microsoft.com/graph/api/resources/signinactivity?view=graph-rest-1.0"
+                    target="_blank" class="link link-secondary">this information</a> to calculate the last
+                time you attempted (either successfully or unsuccessfully) to sign-in to the Microsoft Entra ID directory
+                (any application in the Woodgrove tenant).
+                This field can be used to build reports, such as inactive users. So, we can delete inactive users.<br>
+                The created field shows the date and time when your account was created. The
+                timestamp represents date and time information is in UTC time.
+            </p>
+
+            <p>
+                <b>Created</b>: @Model.CreatedDateTime <br>
+                <b>Last sign-in</b>: @Model.LastSignInDateTime <br>
+                <b>Last sign-in request ID</b>: @Model.LastSignInRequestId
+            </p>
+
+            <h2 style="color: green; padding-bottom: 5px; padding-top: 35px;">Password change date and time
+            </h2>
+            <p>
+                The time when you last changed your password or when your account created,
+                whichever date the latest action was performed. The
+                timestamp represents date and time information is in UTC time.
+            <p>
+                <b>Last time</b>: @Model.LastPasswordChangeDateTime <br>
+            </p>
+            </p>
         </div>
     }
     else

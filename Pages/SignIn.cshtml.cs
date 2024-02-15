@@ -66,7 +66,7 @@ namespace MyApp.Namespace
         {
             return this.TrackAndAuth("StepUp-Start", "/#usecase=StepUp", true);
         }
-        
+
         public IActionResult OnGetPolicyAgreement()
         {
             return this.TrackAndAuth("PolicyAgreement", "/", true);
@@ -75,6 +75,11 @@ namespace MyApp.Namespace
         public IActionResult OnGetMfa()
         {
             return this.TrackAndAuth("MFA", "/", true);
+        }
+
+        public IActionResult OnGetActivity()
+        {
+            return this.TrackAndAuth("Activity", "/profile", true);
         }
 
         public IActionResult OnGetCa()

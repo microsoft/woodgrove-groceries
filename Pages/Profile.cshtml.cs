@@ -60,6 +60,11 @@ namespace MyApp.Namespace
         public bool HasProductsContributorRole { get; private set; } = false;
         private string ProductsContributorAssignmentId { get; set; } = "";
 
+        // Sign in activity
+        public string CreatedDateTime { get; set; } = "";
+        public string LastSignInDateTime { get; set; } = "";
+        public string LastSignInRequestId { get; set; } = "";
+        public string LastPasswordChangeDateTime { get; set; } = "";
 
         public ProfileModel(IConfiguration configuration, TelemetryClient telemetry, IAuthorizationHeaderProvider authorizationHeaderProvider)
         {
@@ -100,7 +105,7 @@ namespace MyApp.Namespace
 
                 User profile = await graphClient.Users[userObjectId].GetAsync(requestConfiguration =>
                     {
-                        requestConfiguration.QueryParameters.Select = new string[] { "Id", "identities", "displayName", "GivenName", "Surname", "Country", "City", $"{ExtensionAttributes}_SpecialDiet" };
+                        requestConfiguration.QueryParameters.Select = new string[] { "Id", "identities", "displayName", "GivenName", "Surname", "Country", "City", "CreatedDateTime", "lastPasswordChangeDateTime", "signInActivity", $"{ExtensionAttributes}_SpecialDiet" };
                         requestConfiguration.QueryParameters.Expand = new string[] { "Extensions" };
                     });
 
@@ -122,6 +127,34 @@ namespace MyApp.Namespace
 
                 // Get the user identities
                 GetIdentities(profile!.Identities!);
+
+                // Get the account creation time
+                if (profile.CreatedDateTime != null)
+                {
+                    this.CreatedDateTime = profile.CreatedDateTime.ToString();
+                }
+
+                // Get the sign-in activity
+                if (profile.SignInActivity != null)
+                {
+                    this.LastSignInDateTime = profile!.SignInActivity!.LastSignInDateTime!.ToString()!;
+                    this.LastSignInRequestId = profile!.SignInActivity.LastSignInRequestId!;
+                }
+                else
+                {
+                    this.LastSignInDateTime = "Data is not yet available.";
+                    this.LastSignInRequestId = this.LastSignInDateTime;
+                }
+
+                // Get the last time user changed their password
+                if (profile.LastPasswordChangeDateTime != null)
+                {
+                    this.LastPasswordChangeDateTime = profile.LastPasswordChangeDateTime.ToString();
+                }
+                else
+                {
+                    this.LastPasswordChangeDateTime = "Data is not available. It might be because you sign-in with a federated account, or email and one time passcode.";
+                }
 
                 // Get user's roles and security groups
                 await GetRolesAndGroupsAsync(graphClient, userObjectId);
@@ -312,7 +345,7 @@ namespace MyApp.Namespace
             {
                 this.UserNeedsToSignInAgainAfterSignUp = await CheckSignUpIssue();
             }
-            
+
             return Page();
         }
 
