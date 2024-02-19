@@ -57,6 +57,14 @@ namespace MyApp.Namespace
             return this.TrackAndAuth("BlockSignUp", "/", true);
         }
 
+        public IActionResult OnGetCSA()
+        {
+
+            _telemetry.TrackPageView($"Sign-in:CSA");
+
+            return Redirect(this.Configuration.GetSection("Demos:CustomSecurityAttributesURL").Value);
+        }
+
         public IActionResult OnGetStepUp()
         {
             return this.TrackAndAuth("StepUp", "/#event=StepUpCompleted", false);

@@ -1,0 +1,16 @@
+﻿<div class="bs-stepper-header" role="tablist" style="display: none;">
+
+    @for (var i = 1; i <= @Model; i++)
+    {
+        <div class="step" data-target="#step-@i">
+            <button type="button" class="step-trigger" role="tab" id="steppertrigger@i" aria-controls="step-@i">
+                <span class="bs-stepper-circle">@i</span>
+                @* <span class="bs-stepper-label">Start</span> *@
+            </button>
+        </div>
+        @if (i < @Model)
+        {
+            <div class="bs-stepper-line"></div>
+        }
+    }
+</div>

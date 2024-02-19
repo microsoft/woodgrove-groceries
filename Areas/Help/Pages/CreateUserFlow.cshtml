@@ -5,119 +5,42 @@
     Layout = "_Layout";
 }
 
-<h1 style="margin-top: 25px; margin-bottom: 50px;">Create a sign-up and sign-in user flow</h1>
+<h1 style="margin-top: 25px; margin-bottom: 25px;">Create a sign-up and sign-in user flow</h1>
 
-<div class="mb-5">
+<div>
 
-    <div class="bs-stepper vertical" style="margin-top: 50px;">
-        <div class="bs-stepper-header" role="tablist">
-            <div class="step" data-target="#step-1">
-                <button type="button" class="step-trigger" role="tab" id="steppertrigger1" aria-controls="step-1">
-                    <span class="bs-stepper-circle">1</span>
-                    @* <span class="bs-stepper-label">Start</span> *@
-                </button>
-            </div>
-            <div class="bs-stepper-line"></div>
-            <div class="step" data-target="#step-2">
-                <button type="button" class="step-trigger" role="tab" id="steppertrigger2" aria-controls="step-2">
-                    <span class="bs-stepper-circle">2</span>
-                    @* <span class="bs-stepper-label">Create a <br> user flow</span> *@
-                </button>
-            </div>
-            <div class="bs-stepper-line"></div>
-            <div class="step" data-target="#step-3">
-                <button type="button" class="step-trigger" role="tab" id="steppertrigger3" aria-controls="step-3">
-                    <span class="bs-stepper-circle">3</span>
-                    @* <span class="bs-stepper-label">Enter a <br> name and <br> select IDP</span> *@
-                </button>
-            </div>
-            <div class="bs-stepper-line"></div>
-            <div class="step" data-target="#step-4">
-                <button type="button" class="step-trigger" role="tab" id="steppertrigger4" aria-controls="step-4">
-                    <span class="bs-stepper-circle">4</span>
-                    @* <span class="bs-stepper-label">Select <br> attributes <br> and create</span> *@
-                </button>
-            </div>
-            <div class="bs-stepper-line"></div>
-            <div class="step" data-target="#step-5">
-                <button type="button" class="step-trigger" role="tab" id="steppertrigger5" aria-controls="step-5">
-                    <span class="bs-stepper-circle">5</span>
-                    @* <span class="bs-stepper-label">Select <br> attributes <br> and create</span> *@
-                </button>
-            </div>
-            <div class="bs-stepper-line"></div>
-            <div class="step" data-target="#step-6">
-                <button type="button" class="step-trigger" role="tab" id="steppertrigger6" aria-controls="step-6">
-                    <span class="bs-stepper-circle">6</span>
-                    @* <span class="bs-stepper-label">Select <br> attributes <br> and create</span> *@
-                </button>
-            </div>
-            <div class="bs-stepper-line"></div>
-            <div class="step" data-target="#step-7">
-                <button type="button" class="step-trigger" role="tab" id="steppertrigger7" aria-controls="step-7">
-                    <span class="bs-stepper-circle">7</span>
-                    @* <span class="bs-stepper-label">Select <br> attributes <br> and create</span> *@
-                </button>
-            </div>
-            <div class="bs-stepper-line"></div>
-            <div class="step" data-target="#step-8">
-                <button type="button" class="step-trigger" role="tab" id="steppertrigger8" aria-controls="step-8">
-                    <span class="bs-stepper-circle">8</span>
-                    @* <span class="bs-stepper-label">Select <br> attributes <br> and create</span> *@
-                </button>
-            </div>
-            <div class="bs-stepper-line"></div>
-            <div class="step" data-target="#step-9">
-                <button type="button" class="step-trigger" role="tab" id="steppertrigger9" aria-controls="step-9">
-                    <span class="bs-stepper-circle">9</span>
-                    @* <span class="bs-stepper-label">Select <br> attributes <br> and create</span> *@
-                </button>
-            </div>
-        </div>
+    @await Html.PartialAsync("_StepsButtons.cshtml")
+
+    <div class="bs-stepper vertical">
+        @await Html.PartialAsync("_Steps.cshtml", 9)
+
         <div class="bs-stepper-content">
             <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
-                <h4>Select External Identities</h4>
                 <p>
-                    Sign in to the <a href="https://entra.microsoft.com/" target="_blank"
+                    To start, sign in to the <a href="https://entra.microsoft.com/" target="_blank"
                         class="link-dark link-offset-2">Microsoft Entra admin center</a>
                     and browse to <b>Identity</b> > <b>External Identities</b>.
                 </p>
-                <img class="img-fluid border" src="~/Help/Shared/home-select-external-identities.png"><br>
-                <button class="btn btn-primary" style="margin-top: 20px;" onclick="stepper.next()"><i
-                        class="bi bi-arrow-right-circle"></i> Next</button>
+                <img class="img-fluid border" src="~/Help/Shared/home-select-external-identities.png">
             </div>
             <div id="step-2" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger2">
-                <h4>Select user flows</h4>
                 <p>
                     From the menu, select <b>User flows</b>. Then, select <b>New user flow</b>.
                 </p>
-                <img class="img-fluid border" src="~/Help/CreateUserFlow/userflows-create.png"><br>
+                <img class="img-fluid border" src="~/Help/CreateUserFlow/userflows-create.png">
 
-                <button class="btn btn-primary" style="margin-top: 20px;" onclick="stepper.previous()"><i
-                        class="bi bi-arrow-left-circle"></i> Previous</button>
-                <button class="btn btn-primary" style="margin-top: 20px;" onclick="stepper.next()"><i
-                        class="bi bi-arrow-right-circle"></i> Next</button>
             </div>
             <div id="step-3" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger3">
-                <h4>User flow settings</h4>
                 <p>
                     On the <b>Create</b> page, enter a <b>Name</b> for the user flow (for example, "SignUpSignIn").
                     Then, under <b>Identity providers</b>, select the <b>Email Accounts</b> check box, and then select
                     one of these options.
                     If you configured other identity providers, you can select them.
-
-
                 </p>
-                <img class="img-fluid border" src="~/Help/CreateUserFlow/userflows-create-name-and-idp.png"><br>
-
-                <button class="btn btn-primary" style="margin-top: 20px;" onclick="stepper.previous()"><i
-                        class="bi bi-arrow-left-circle"></i> Previous</button>
-                <button class="btn btn-primary" style="margin-top: 20px;" onclick="stepper.next()"><i
-                        class="bi bi-arrow-right-circle"></i> Next</button>
+                <img class="img-fluid border" src="~/Help/CreateUserFlow/userflows-create-name-and-idp.png">
             </div>
 
             <div id="step-4" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger4">
-                <h4>Add attributes and create</h4>
                 <p>
                     Under <b>User attributes</b>, choose the attributes you want to collect from the user during
                     sign-up.
@@ -125,29 +48,17 @@
                     Name, and Postal Code and more.
                     Then, select <b>Create</b> to create the user flow.
                 </p>
-                <img class="img-fluid border" src="~/Help/CreateUserFlow/userflows-create-select-attributes.png"><br>
-
-                <button class="btn btn-primary" style="margin-top: 20px;" onclick="stepper.previous()"><i
-                        class="bi bi-arrow-left-circle"></i> Previous</button>
-                <button class="btn btn-primary" style="margin-top: 20px;" onclick="stepper.next()"><i
-                        class="bi bi-arrow-right-circle"></i> Next</button>
+                <img class="img-fluid border" src="~/Help/CreateUserFlow/userflows-create-select-attributes.png">
             </div>
 
             <div id="step-5" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger5">
-                <h4>Select the user flow</h4>
                 <p>
                     From the list, select the user flow you created.
                 </p>
-                <img class="img-fluid border" src="~/Help/CreateUserFlow/userflows-create-select-from-list.png"><br>
-
-                <button class="btn btn-primary" style="margin-top: 20px;" onclick="stepper.previous()"><i
-                        class="bi bi-arrow-left-circle"></i> Previous</button>
-                <button class="btn btn-primary" style="margin-top: 20px;" onclick="stepper.next()"><i
-                        class="bi bi-arrow-right-circle"></i> Next</button>
+                <img class="img-fluid border" src="~/Help/CreateUserFlow/userflows-create-select-from-list.png">
             </div>
 
             <div id="step-6" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger6">
-                <h4>Add your application to the user flow</h4>
                 <p>
                     The following steps activate the sign-up and sign-in experience (the user flow) for users who visit
                     your
@@ -155,68 +66,33 @@
                     In the left menu, under <b>Use</b>, select <b>Applications</b>.
 
                 </p>
-                <img class="img-fluid border" src="~/Help/CreateUserFlow/userflows-select-apps.png"><br>
-
-                <button class="btn btn-primary" style="margin-top: 20px;" onclick="stepper.previous()"><i
-                        class="bi bi-arrow-left-circle"></i> Previous</button>
-                <button class="btn btn-primary" style="margin-top: 20px;" onclick="stepper.next()"><i
-                        class="bi bi-arrow-right-circle"></i> Next</button>
+                <img class="img-fluid border" src="~/Help/CreateUserFlow/userflows-select-apps.png">
             </div>
 
             <div id="step-7" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger7">
-                <h4>Select <b>Add application</b></h4>
                 <p>
 
                 </p>
-                <img class="img-fluid border" src="~/Help/CreateUserFlow/userflows-add-apps-1.png"><br>
-
-                <button class="btn btn-primary" style="margin-top: 20px;" onclick="stepper.previous()"><i
-                        class="bi bi-arrow-left-circle"></i> Previous</button>
-                <button class="btn btn-primary" style="margin-top: 20px;" onclick="stepper.next()"><i
-                        class="bi bi-arrow-right-circle"></i> Next</button>
+                <img class="img-fluid border" src="~/Help/CreateUserFlow/userflows-add-apps-1.png">
             </div>
 
             <div id="step-8" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger8">
-                <h4>Add your application</h4>
                 <p>
                     Select the application from the list. Or use the search box to find the application, and then select
                     it. Choose <b>Select</b>.
 
                 </p>
-                <img class="img-fluid border" src="~/Help/CreateUserFlow/userflows-add-apps-2.png" width="90%"><br>
-
-                <button class="btn btn-primary" style="margin-top: 20px;" onclick="stepper.previous()"><i
-                        class="bi bi-arrow-left-circle"></i> Previous</button>
-                <button class="btn btn-primary" style="margin-top: 20px;" onclick="stepper.next()"><i
-                        class="bi bi-arrow-right-circle"></i> Next</button>
+                <img class="img-fluid border" src="~/Help/CreateUserFlow/userflows-add-apps-2.png" width="90%">
             </div>
             <div id="step-9" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger9">
-                <h4>Done!</h4>
                 <p>
                     The Woodgrove application is linked to the user flow. When users sign-in to the Woodgrove
                     application
                     they will come across the sign-in and sign-up experience configured in the user flow.
 
                 </p>
-                <img class="img-fluid border" src="~/Help/CreateUserFlow/userflows-select-apps-done.png"><br>
-
-                <button class="btn btn-primary" style="margin-top: 20px;" onclick="stepper.previous()"><i
-                        class="bi bi-arrow-left-circle"></i> Previous</button>
+                <img class="img-fluid border" src="~/Help/CreateUserFlow/userflows-select-apps-done.png">
             </div>
         </div>
     </div>
 </div>
-
-
-@section Scripts
-{
-    <script>
-        var stepper
-        $(document).ready(function () {
-            stepper = new Stepper($('.bs-stepper')[0], {
-                linear: false,
-                animation: true
-            })
-        });
-    </script>
-}

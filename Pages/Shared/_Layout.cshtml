@@ -118,7 +118,46 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bs-stepper/dist/js/bs-stepper.min.js"></script>
 
-    @await RenderSectionAsync("Scripts", required: false)
+    @await RenderSectionAsync("Scripts", required: false);
+
+    <script>
+        var stepper
+        $(document).ready(function () {
+
+            if ($('.bs-stepper').length > 0) {
+
+                stepper = new Stepper($('.bs-stepper')[0], {
+                    linear: false,
+                    animation: true
+                })
+
+                $('.bs-stepper')[0].addEventListener('shown.bs-stepper', function (event) {
+
+                    $("#stepNumber").html(event.detail.indexStep + 1)
+
+                    if (event.detail.indexStep == 0) {
+                        // First step
+                        $("#movePrevious").css("pointer-events", "none");
+                        $("#movePrevious").css("color", "gray");
+                    }
+                    else if (event.detail.indexStep + 1 == $('.bs-stepper-pane').length) {
+                        // Last step
+                        $("#moveNext").css("pointer-events", "none");
+                        $("#moveNext").css("color", "gray");
+                    }
+                    else {
+                        // Other steps
+                        $("#movePrevious").css("pointer-events", "auto");
+                        $("#movePrevious").css("color", "");
+                        $("#moveNext").css("pointer-events", "auto");
+                        $("#moveNext").css("color", "");
+                    }
+
+                })
+            }
+        });
+
+    </script>
 </body>
 
 </html>

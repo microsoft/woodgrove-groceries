@@ -46,6 +46,8 @@
             <li><a class="dropdown-item" href="#usecase=MFA">Multifactor authentication (MFA)</a>
             <li><a class="dropdown-item" href="#usecase=StepUp">Step-up authentication (MFA)</a>
             </li>
+            <li><a class="dropdown-item" href="#usecase=CSA">Custom security attribute based conditional access</a>
+            </li>
             <li><a class="dropdown-item" href="#usecase=RBAC">Role-based
                     access control</a>
             </li>
@@ -132,7 +134,7 @@
                             href="#usecase=UserInsights">Data analytics and insights into user activity</a></li>
                 </ul>
                 </p>
-                <a href="SignIn?handler=OnlineRetail" class="btn header-button" role="button"><i
+                <a href="/SignIn?handler=OnlineRetail" class="btn header-button" role="button"><i
                         class="bi bi-play-circle"></i> Start
                     the use case</a>
 
@@ -180,7 +182,7 @@
                         select <b>next</b> to update your password.</li>
                 </ol>
                 </p>
-                <a class="btn header-button" role="button" href="SignIn?handler=EmailAndPassword"><i
+                <a class="btn header-button" role="button" href="/SignIn?handler=EmailAndPassword"><i
                         class="bi bi-play-circle"></i> Start the use
                     case</a>
             </div>
@@ -208,7 +210,7 @@
                     <li>Every text on the screen can be localized.</li>
                 </ol>
                 </p>
-                <a class="btn header-button" role="button" href="SignIn?handler=CompanyBranding"><i
+                <a class="btn header-button" role="button" href="/SignIn?handler=CompanyBranding"><i
                         class="bi bi-play-circle"></i>
                     Start the use
                     case</a>
@@ -238,7 +240,7 @@
                         for the German language</li>
                 </ol>
                 </p>
-                <a class="btn header-button" role="button" href="SignIn?handler=Language"><i
+                <a class="btn header-button" role="button" href="/SignIn?handler=Language"><i
                         class="bi bi-play-circle"></i>
                     Start the use
                     case</a>
@@ -271,7 +273,7 @@
                         select <b>next</b> to update your password.</li>
                 </ol>
                 </p>
-                <a class="btn header-button" role="button" href="SignIn?handler=SSPR"><i class="bi bi-play-circle"></i>
+                <a class="btn header-button" role="button" href="/SignIn?handler=SSPR"><i class="bi bi-play-circle"></i>
                     Start the use
                     case</a>
             </div>
@@ -296,7 +298,7 @@
                     <li>Select <b>next</b> to create the Woodgrove account.</li>
                 </ol>
                 </p>
-                <a class="btn header-button" role="button" href="SignIn?handler=Social"><i
+                <a class="btn header-button" role="button" href="/SignIn?handler=Social"><i
                         class="bi bi-play-circle"></i> Start the use case</a>
             </div>
             <div id="useCase_EmailOTP" class="useCase">
@@ -363,11 +365,12 @@
                     <li>Then complete the MFA as required.</li>
                 </ol>
                 </p>
-                <a class="btn header-button" role="button" href="SignIn?handler=MFA" id="ca_and_mfa"><i
+                <a class="btn header-button" role="button" href="/SignIn?handler=MFA" id="ca_and_mfa"><i
                         class="bi bi-play-circle"></i>
                     Start the use
                     case</a>
             </div>
+
 
             <div id="useCase_StepUp" class="useCase">
                 <h4>Step-up authentication upon risky action (MFA)</h4>
@@ -405,15 +408,44 @@
 
                 @if (User.Identity?.IsAuthenticated == false)
                 {
-                    <a class="btn header-button" role="button" href="SignIn?handler=StepUpIntro" id="ca_and_mfa"><i
+                    <a class="btn header-button" role="button" href="/SignIn?handler=StepUpIntro" id="ca_and_mfa"><i
                             class="bi bi-play-circle"></i> Start the use case</a>
                 }
                 else
                 {
                     <p>To start the demo again, select the <b>Start over</b> button.</p>
-                    <a class="btn header-button" role="button" href="SignIn?handler=StepUpIntro" id="ca_and_mfa"><i
+                    <a class="btn header-button" role="button" href="/SignIn?handler=StepUpIntro" id="ca_and_mfa"><i
                             class="bi bi-play-circle"></i> Start Over</a>
                 }
+
+            </div>
+
+
+            <div id="useCase_CSA" class="useCase">
+                <h4>Custom security attribute based conditional access</h4>
+                <p>
+
+                    <a href="https://learn.microsoft.com/entra/identity/conditional-access/concept-filter-for-applications"  class="link-dark" target="_blank">
+                    Application filters for Conditional Access</a> allow you to tag your application with custom
+                    attributes. These custom attributes are then added to their Conditional Access policies. Filters for
+                    applications are evaluated at token issuance runtime.
+
+                    <br>&nbsp;<br>
+
+                    In this demo a conditional access block access to all applications tagged as <b>BlockGuestsUsers</b>. 
+                <p>
+                </p>
+                <ol>
+                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                    <li>Sign-up or sign-in with your email, or a social account.</li>
+                    <li>Upon successful sign-in you will get an error message that you don't have access to the app.</li>
+                </ol>
+                </p>
+
+                <a class="btn header-button" role="button" href="/SignIn?handler=CSA"><i
+                            class="bi bi-play-circle"></i> Start the use case</a><br>&nbsp;<br>
+                <a class="" style="margin-top: 100px;" role="button" href="/help/CustomSecurityAttributes"><i
+                            class="bi bi-play-circle"></i> Learn how we configured the Woodgrove tenant</a>
 
             </div>
 
@@ -441,7 +473,7 @@
                         extension REST API with some random values.</li>
                 </ol>
                 </p>
-                <a class="btn header-button" role="button" href="SignIn?handler=TokenAugmentation"><i
+                <a class="btn header-button" role="button" href="/SignIn?handler=TokenAugmentation"><i
                         class="bi bi-play-circle"></i> Start the use
                     case</a>
             </div>
@@ -478,7 +510,7 @@
                     <li>Compare the access tokens to understand the on-behalf-of flow.</li>
                 </ol>
                 </p>
-                <a class="btn header-button" role="button" href="SignIn?handler=OBO"><i class="bi bi-play-circle"></i>
+                <a class="btn header-button" role="button" href="/SignIn?handler=OBO"><i class="bi bi-play-circle"></i>
                     Start the use
                     case</a>
             </div>
@@ -516,7 +548,7 @@
                         were provided by a custom authentication extension.</li>
                 </ol>
 
-                <a class="btn header-button" role="button" href="SignIn?handler=PreAttributeCollection"><i
+                <a class="btn header-button" role="button" href="/SignIn?handler=PreAttributeCollection"><i
                         class="bi bi-play-circle"></i> Start
                     the use case</a>
             </div>
@@ -556,7 +588,7 @@
                         registration again. This time you should be able to complete the registration.</li>
                 </ol>
 
-                <a class="btn header-button" role="button" href="SignIn?handler=PostAttributeCollection"><i
+                <a class="btn header-button" role="button" href="/SignIn?handler=PostAttributeCollection"><i
                         class="bi bi-play-circle"></i> Start
                     the use case</a>
             </div>
@@ -595,7 +627,7 @@
 
                 </ol>
 
-                <a class="btn header-button" role="button" href="SignIn?handler=BlockSignUp"><i
+                <a class="btn header-button" role="button" href="/SignIn?handler=BlockSignUp"><i
                         class="bi bi-play-circle"></i> Start
                     the use case</a>
             </div>
@@ -633,7 +665,7 @@
                 </ol>
 
                 </p>
-                <a class="btn header-button" role="button" href="SignIn?handler=RBAC"><i class="bi bi-play-circle"></i>
+                <a class="btn header-button" role="button" href="/SignIn?handler=RBAC"><i class="bi bi-play-circle"></i>
                     Start the use case</a>
 
                 <br />&nbsp;<br>
@@ -678,7 +710,7 @@
                         items have a discount.</li>
                 </ol>
                 </p>
-                <a class="btn header-button" role="button" href="SignIn?handler=GBAC"><i class="bi bi-play-circle"></i>
+                <a class="btn header-button" role="button" href="/SignIn?handler=GBAC"><i class="bi bi-play-circle"></i>
                     Start the use case</a>
 
                 <br>&nbsp;<br>
@@ -727,7 +759,7 @@
                         allergy warning.</li>
                 </ol>
 
-                <a class="btn header-button" role="button" href="SignIn?handler=CustomAttributes"><i
+                <a class="btn header-button" role="button" href="/SignIn?handler=CustomAttributes"><i
                         class="bi bi-play-circle"></i> Start the use
                     case</a>
             </div>
@@ -769,7 +801,7 @@
                     <li>Select <b>next</b> to create a Woodgrove online identity. </li>
                 </ol>
 
-                <a class="btn header-button" role="button" href="SignIn?handler=PolicyAgreement"><i
+                <a class="btn header-button" role="button" href="/SignIn?handler=PolicyAgreement"><i
                         class="bi bi-play-circle"></i> Start the use
                     case</a>
             </div>
@@ -800,7 +832,7 @@
                             prompting to sign in again.</li>
                     </ol>
 
-                    <a class="btn header-button" role="button" href="SignIn?handler=sso2"><i class="bi bi-play-circle"></i>
+                    <a class="btn header-button" role="button" href="/SignIn?handler=sso2"><i class="bi bi-play-circle"></i>
                         Start the use case</a>
                 }
                 else
@@ -814,7 +846,7 @@
                         <li>After you sign-in, come back to this dialog page and follow the instructions.</li>
                     </ol>
 
-                    <a class="btn header-button" role="button" href="SignIn?handler=sso1"><i class="bi bi-play-circle"></i>
+                    <a class="btn header-button" role="button" href="/SignIn?handler=sso1"><i class="bi bi-play-circle"></i>
                         Start the use case</a>
                 }
             </div>
@@ -840,7 +872,7 @@
                     To do so, select the <b>start the use case</b> button at the bottom of this page.
                 </p>
 
-                <a class="btn header-button" role="button" href="SignIn?handler=ForceSignIn"><i
+                <a class="btn header-button" role="button" href="/SignIn?handler=ForceSignIn"><i
                         class="bi bi-play-circle"></i> Start the use case</a>
 
             </div>
@@ -865,8 +897,8 @@
                     to get security tokens and authenticate you. Your name should be presented on the
                     top-right corner of the page.
                 </p>
-                <a class="btn header-button" role="button" href="SignIn?handler=kiosk"><i
-                        class="bi bi-play-circle"></i> Start the use case</a>
+                <a class="btn header-button" role="button" href="/SignIn?handler=kiosk"><i class="bi bi-play-circle"></i>
+                    Start the use case</a>
             </div>
 
             <div id="useCase_Finance" class="useCase">
@@ -877,7 +909,7 @@
                     application illustrates the sign-up and sign-in authentication experiences for financial scenarios.
                     It also demonstrates the SAML protocol federation with Microsoft Entra External ID for customers.
                 </p>
-                <a class="btn header-button" role="button" href="SignIn?handler=finance"><i
+                <a class="btn header-button" role="button" href="/SignIn?handler=finance"><i
                         class="bi bi-play-circle"></i> Start the use case</a>
             </div>
 
@@ -920,15 +952,16 @@
                     {
                         <li>Looks like you already signed-in. Good!</li>
                     }
-                    
-                    <li>From the Woodgrove header select the profile icon, or select the <b>Check your activity</b> button below which will take you to the <b>edit
+
+                    <li>From the Woodgrove header select the profile icon, or select the <b>Check your activity</b>
+                        button below which will take you to the <b>edit
                             profile page</b>.</li>
                     <li>Scroll down to the <b>Sign-in activity</b> to check your activity information.</li>
                 </ol>
 
                 @if (User.Identity?.IsAuthenticated == false)
                 {
-                    <a class="btn header-button" role="button" href="SignIn?handler=activity"><i
+                    <a class="btn header-button" role="button" href="/SignIn?handler=activity"><i
                             class="bi bi-play-circle"></i> Start the use case</a>
                 }
                 else
@@ -1015,7 +1048,7 @@
             return;
         }
 
-        var useCases = ["StepUp", "PolicyAgreement", "OnlineRetail", "EmailAndPassword", "OBO", "SSO", "MFA", "CA", "ForceSignIn", "UserInsights", "BlockSignUp", "CompanyBranding", "Language", "SSPR", "Social", "TokenAugmentation", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "Activity", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Finance"];
+        var useCases = ["StepUp", "CSA", "PolicyAgreement", "OnlineRetail", "EmailAndPassword", "OBO", "SSO", "MFA", "CA", "ForceSignIn", "UserInsights", "BlockSignUp", "CompanyBranding", "Language", "SSPR", "Social", "TokenAugmentation", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "Activity", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Finance"];
 
         if (usecase && (useCases.indexOf(usecase) > -1)) {
 
