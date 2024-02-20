@@ -131,6 +131,16 @@
                     animation: true
                 })
 
+                // Add the links to the pages
+                if ($('#stepNavigator').length > 0) {
+                    
+                    var items = $('.bs-stepper-pane').length;
+
+                    for (let i = 0; i < items; i++) {
+                        $('#stepNavigator').append('<li><a class="dropdown-item" onclick="stepper.to(' + (i + 1) +'); return false;" href="#">' + (i+1) + '</a></li>')
+                    }
+                }
+
                 $('.bs-stepper')[0].addEventListener('shown.bs-stepper', function (event) {
 
                     $("#stepNumber").html(event.detail.indexStep + 1)

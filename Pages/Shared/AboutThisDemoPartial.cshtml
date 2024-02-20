@@ -1053,7 +1053,7 @@
 
         var useCases = ["StepUp", "CSA", "PolicyAgreement", "OnlineRetail", "EmailAndPassword", "OBO", "SSO", "MFA", "CA", "ForceSignIn", "UserInsights", "BlockSignUp", "CompanyBranding", "Language", "SSPR", "Social", "TokenAugmentation", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "Activity", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Finance"];
 
-        if (usecase && (useCases.indexOf(usecase) > -1)) {
+        if ( ($('#offcanvasRight').length > 0) && usecase && (useCases.indexOf(usecase) > -1)) {
 
             $("#offcanvasRight").offcanvas('show');
             showUseCase("useCase_" + usecase);
