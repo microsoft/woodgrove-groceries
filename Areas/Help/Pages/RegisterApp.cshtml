@@ -7,4 +7,126 @@
 
 <h1 style="margin-top: 25px; margin-bottom: 25px;">App registrations</h1>
 
-Comming soon...
+
+<div>
+
+    <p>
+        To enable your app to sign in with Microsoft Entra external ID you need to register the application in Microsoft
+        Entra external ID directory.
+        This page shows how we configured the Woodgrove Groceries application.
+    </p>
+    @await Html.PartialAsync("_StepsButtons.cshtml")
+
+    <div class="bs-stepper vertical" id="Stepper">
+        @await Html.PartialAsync("_Steps.cshtml", 10)
+
+        <div class="bs-stepper-content">
+            <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
+
+                <p>
+                    To register your own application, sign in to the <a href="https://entra.microsoft.com/"
+                        target="_blank" class="link-dark link-offset-2">Microsoft Entra admin center</a>
+                    and browse to <b>Applications </b> > <b> App registrations</b>. Then, select <b>+ New
+                        registration</b>.
+                </p>
+
+                <img class="img-fluid border" src="~/Help/RegisterApp/New-registration.png">
+            </div>
+
+            <div id="step-2" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger2">
+                <p>
+                    In the <b>Register an application</b> page that appears, enter a meaningful application <b>Name</b>
+                    that is
+                    displayed to users of the app,
+                    for example <b>Woodgrove Groceries</b>. Under <b>Supported account types</b>, select <b>Accounts in
+                        this organizational directory only</b>.
+                    In the <b>Platform</b> select the <b>Web</b> option and enter your app <b>Redirect URI</b>. The
+                    redirect URI is the endpoint to which users are redirected by Microsoft Entra external ID after
+                    their
+                    authentication with Microsoft Entra ID external is completed.
+                </p>
+                <img class="img-fluid border" src="~/Help/RegisterApp/Register-an-application.png">
+            </div>
+            <div id="step-3" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger3">
+                <p>
+                    The application's <b>Overview</b> pane displays upon successful registration. Record the
+                    <b>Application
+                        (client) ID</b> to be used in your application source code.
+                </p>
+                <img class="img-fluid border" src="~/Help/RegisterApp/App-ID.png">
+            </div>
+
+            <div id="step-4" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger4">
+                <p>
+                    To add more <b>Redirect URIs</b>, or <b>Front-channel logout URL</b>, under <b>Manage</b> select
+                    <b>Authentication</b>.
+                    The <b>Front-channel logout URL</b> is where we send a request to have the application clear the
+                    user's session data.
+                    This is required for single sign-out to work correctly.
+                </p>
+                <img class="img-fluid border" src="~/Help/RegisterApp/Authentication.png">
+            </div>
+
+            <div id="step-5" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger5">
+                <p>
+                    For a web application (Conditional client) to acquire an access token it needs a credential to prove
+                    its identity to Microsoft Entra ID. You can add certificates, client secrets (a string), or federated
+                    identity credentials as
+                    credentials to your confidential client app registration. In the Woodgrove
+                    live demo we use a certificate. To add a certificate, select <b>Certificates & secrets</b> >
+                    <b>Certificates</b> > <b>Upload certificate</b>.
+                </p>
+                <img class="img-fluid border" src="~/Help/RegisterApp/Add-certificate.png">
+            </div>
+
+            <div id="step-6" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger6">
+                <p>
+                    Select the file you want to upload. It must be one of the following file types: .cer, .pem, .crt.
+                    then select <b>Add</b>.
+
+                </p>
+                <img class="img-fluid border" src="~/Help/RegisterApp/Select-certificate.png">
+            </div>
+
+            <div id="step-7" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger7">
+                <p>
+                    In the following steps you add the required permission for any web application.
+                    Under <b>Manage</b>, select <b>API permissions</b> then, select <b>Add a permission</b>.
+                </p>
+                <img class="img-fluid border" src="~/Help/RegisterApp/Api-permissions1.png">
+            </div>
+
+            <div id="step-8" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger8">
+                <p>
+                    In the <b>Request API permissions</b>, select <b>Microsoft APIs</b> tab and then <b>Microsoft
+                        Graph</b>.
+
+                </p>
+                <img class="img-fluid border" src="~/Help/RegisterApp/Api-permissions2.png" width="90%">
+            </div>
+
+            <div id="step-9" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger9">
+                <p>
+                    Select the <b>Delegated permissions</b> option. Then, under <b>Select permissions</b> section,
+                    search for and select both <b>openid</b> and <b>offline_access</b> permissions. To complete, select
+                    the <b>Add permissions</b> button..
+                </p>
+                <img class="img-fluid border" src="~/Help/RegisterApp/Api-permissions3.png" width="90%">
+            </div>
+
+            <div id="step-10" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger10">
+                <p>
+                    At this point, you've assigned the permissions correctly. However, since the tenant is a customer's
+                    tenant, the consumer users themselves can't consent to these permissions. You as the admin must
+                    consent to these permissions on behalf of all the users in the tenant:
+
+                    Select <b>Grant admin consent for &lt;your tenant name&gt;</b>, then select <b>Yes</b>.
+
+                    That's all! now your application is ready to use.
+
+                </p>
+                <img class="img-fluid border" src="~/Help/RegisterApp/Api-permissions4.png" width="90%">
+            </div>
+        </div>
+    </div>
+</div>

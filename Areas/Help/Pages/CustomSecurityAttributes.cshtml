@@ -31,6 +31,8 @@
 
         <div class="bs-stepper-content">
             <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
+                
+                @await Html.PartialAsync("_Prerequisites.cshtml")
                 <p>
                     To start, sign in to the <a href="https://entra.microsoft.com/" target="_blank"
                         class="link-dark link-offset-2">Microsoft Entra admin center</a>
