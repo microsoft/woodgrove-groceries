@@ -7,69 +7,114 @@
         </a>
 
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            <li><a class="dropdown-item" href="#usecase=OnlineRetail">Online
+            <li>
+                <h6 class="dropdown-header" style="color: var(--color-very-dark);">Sign-in</h6>
+            </li>
+            <li> <a class="dropdown-item" href="#usecase=OnlineRetail"><i class="bi bi-shop"></i>&nbsp; Online
                     retail use case</a></li>
-            <li><a class="dropdown-item" href="#usecase=EmailAndPassword">Sign-up or sign-in with email
+            <li><a class="dropdown-item" href="#usecase=EmailAndPassword"><i class="bi bi-at"></i>&nbsp;
+                    Sign-up or sign-in with email
                     and password</a></li>
-            <li><a class="dropdown-item" href="#usecase=SSPR">Self-service
+            <li><a class="dropdown-item" href="#usecase=SSPR"><i class="bi bi-key"></i>&nbsp; Self-service
                     password reset</a></li>
-            <li><a class="dropdown-item" href="#usecase=Social">Sign-up or sign-in with a social
+            <li><a class="dropdown-item" href="#usecase=Social"><i class="bi bi-facebook"></i>&nbsp; Sign-up or sign-in
+                    with a social
                     account</a></li>
-            <li><a class="dropdown-item" href="#usecase=CustomAttributes">Collect
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li>
+                <h6 class="dropdown-header" style="color: var(--color-very-dark);">Sign-up</h6>
+            </li>
+            <li><a class="dropdown-item" href="#usecase=CustomAttributes"><i class="bi bi-pencil-square"></i>&nbsp;
+                    Collect
                     user attributes during sign-up</a></li>
-
-            <li><a class="dropdown-item" href="#usecase=PolicyAgreement">Add links to terms of use and privacy
+            <li><a class="dropdown-item" href="#usecase=PolicyAgreement"><i class="bi bi-file-earmark-text"></i>&nbsp;
+                    Links to terms of use and privacy
                     policies</a></li>
+            <li><a class="dropdown-item" href="#usecase=PreAttributeCollection"><i class="bi bi-code-slash"></i>&nbsp;
+                    Prepopulate
+                    sign-up attributes (extension)</a></li>
+            <li><a class="dropdown-item" href="#usecase=PostAttributeCollection"><i class="bi bi-code-slash"></i>&nbsp;
+                    Validate
+                    sign-up attributes (extension)</a></li>
             <li>
-                <hr class="dropdown-divider">
+
+            <li><a class="dropdown-item" href="#usecase=BlockSignUp"><i class="bi bi-code-slash"></i>&nbsp; Block
+                    sign-up process (extension)</a></li>
+
+            <hr class="dropdown-divider">
             </li>
-            <li><a class="dropdown-item" href="#usecase=TokenAugmentation">Add claims to security tokens from a REST
-                    API</a></li>
-            <li><a class="dropdown-item" href="#usecase=PreAttributeCollection">Prepopulate
-                    sign-up attributes</a></li>
-            <li><a class="dropdown-item" href="#usecase=PostAttributeCollection">Validate
-                    sign-up attributes</a></li>
-            <li><a class="dropdown-item" href="#usecase=BlockSignUp">Block the user from continuing the sign-up
-                    process</a></li>
             <li>
-                <hr class="dropdown-divider">
+                <h6 class="dropdown-header" style="color: var(--color-very-dark);">User profile</h6>
             </li>
-            <li><a class="dropdown-item" href="#usecase=ProfileEdit">Edit your
+            <li><a class="dropdown-item" href="#usecase=ProfileEdit"><i class="bi bi-pencil"></i>&nbsp; Edit your
                     account</a></li>
-            <li><a class="dropdown-item" href="#usecase=DeleteAccount">Delete your
+            <li><a class="dropdown-item" href="#usecase=DeleteAccount"><i class="bi bi-person-x"></i>&nbsp; Delete your
                     account</a></li>
-            <li><a class="dropdown-item" href="#usecase=Activity">Your activity information</a></li>
+            <li><a class="dropdown-item" href="#usecase=Activity"><i class="bi bi-clock-history"></i>&nbsp; Your
+                    activity information</a></li>
             <li>
                 <hr class="dropdown-divider">
             </li>
-            <li><a class="dropdown-item" href="#usecase=CA">Conditional access</a>
-            <li><a class="dropdown-item" href="#usecase=MFA">Multifactor authentication (MFA)</a>
-            <li><a class="dropdown-item" href="#usecase=StepUp">Step-up authentication (MFA)</a>
+            <li>
+                <h6 class="dropdown-header" style="color: var(--color-very-dark);">Security</h6>
             </li>
-            <li><a class="dropdown-item" href="#usecase=CSA">Custom security attribute based conditional access</a>
+            <li><a class="dropdown-item" href="#usecase=MFA"><i class="bi bi-envelope-at"></i>&nbsp; Multifactor
+                    authentication (MFA)</a>
+            <li><a class="dropdown-item" href="#usecase=CA"><i class="bi bi-shield-lock"></i></i>&nbsp; Conditional
+                    access (with MFA)</a>
+            <li><a class="dropdown-item" href="#usecase=StepUp"><i class="bi bi-arrow-up-right-square"></i>&nbsp;
+                    Step-up authentication (with MFA)</a>
             </li>
-            <li><a class="dropdown-item" href="#usecase=RBAC">Role-based
+            <li><a class="dropdown-item" href="#usecase=CSA"><i class="bi bi-person-lock"></i>&nbsp; Custom security
+                    attribute based conditional access</a>
+            </li>
+            <li><a class="dropdown-item" href="#usecase=RBAC"><i class="bi bi-person-badge-fill"></i>&nbsp; Role-based
                     access control</a>
             </li>
-            <li><a class="dropdown-item" href="#usecase=GBAC">Group-based
-                    access control</a>
+            <li><a class="dropdown-item" href="#usecase=GBAC"><i class="bi bi-people"></i>&nbsp; Group-based access
+                    control</a>
             </li>
             <li>
                 <hr class="dropdown-divider">
             </li>
-            <li><a class="dropdown-item" href="#usecase=CompanyBranding">Customize the look and feel</a></li>
-            <li><a class="dropdown-item" href="#usecase=Language">Customize the language</a></li>
-            <li><a class="dropdown-item" href="#usecase=SSO">Single sign-on (SSO)</a></li>
-            <li><a class="dropdown-item" href="#usecase=ForceSignIn">Force sign-in</a></li>
-            <li><a class="dropdown-item" href="#usecase=OBO">OAuth 2.0 On-Behalf-Of flow</a></li>
-            <li><a class="dropdown-item" href="#usecase=UserInsights">Insights into your app's user activity</a></li>
+            <li>
+                <h6 class="dropdown-header" style="color: var(--color-very-dark);">User experience</h6>
+            </li>
+            <li><a class="dropdown-item" href="#usecase=CompanyBranding"><i class="bi bi-palette"></i>&nbsp; Customize
+                    the look and feel</a></li>
+            <li><a class="dropdown-item" href="#usecase=Language"><i class="bi bi-translate"></i>&nbsp; Customize the
+                    language</a></li>
+            <li><a class="dropdown-item" href="#usecase=UserInsights"><i class="bi bi-lightbulb"></i>&nbsp; Insights
+                    into your app's user activity</a></li>
+            <hr class="dropdown-divider">
+            </li>
+            <li>
+                <h6 class="dropdown-header" style="color: var(--color-very-dark);">Token and session</h6>
+            </li>
+            <li><a class="dropdown-item" href="#usecase=TokenClaims"><i class="bi bi-file-text"></i>&nbsp; Add
+                    claims</a></li>
+            <li><a class="dropdown-item" href="#usecase=TokenAugmentation"><i class="bi bi-code-slash"></i>&nbsp; Add
+                    claims from a REST API (extension)</a></li>
+            <li>
+            <li><a class="dropdown-item" href="#usecase=SSO"><i class="bi bi-arrow-left-right"></i>&nbsp; Single sign-on
+                    (SSO)</a></li>
+            <li><a class="dropdown-item" href="#usecase=ForceSignIn"><i class="bi bi-person-lock"></i>&nbsp; Force
+                    sign-in</a></li>
+            <li><a class="dropdown-item" href="#usecase=OBO"><i class="bi bi-arrow-90deg-up"></i>&nbsp; OAuth 2.0
+                    On-Behalf-Of flow</a></li>
             <li>
                 <hr class="dropdown-divider">
             </li>
-            <li><a class="dropdown-item" href="#usecase=Kiosk">Input constrained
+            <li>
+                <h6 class="dropdown-header" style="color: var(--color-very-dark);">Advanced scenarios</h6>
+            </li>
+            <li><a class="dropdown-item" href="#usecase=Kiosk"><i class="bi bi-display"></i>&nbsp; Input constrained
                     devices (Kiosk)</a></li>
-            <li><a class="dropdown-item" href="#usecase=Finance">Finance solutions</a></li>
-            <li><a class="dropdown-item" href="#usecase=Finance">SAML protocol</a></li>
+            <li><a class="dropdown-item" href="#usecase=Finance"><i class="bi bi-bank"></i>&nbsp; Finance solutions</a>
+            </li>
+            <li><a class="dropdown-item" href="#usecase=Finance"><i class="bi bi-globe"></i>&nbsp; SAML web app</a></li>
         </ul>
         <div id="useCases">
             <div id="useCase_OnlineRetail" class="useCase">
@@ -337,40 +382,61 @@
                     Microsoft Entra Conditional Access brings signals together, to make decisions, and enforce security
                     policies.
 
-                    Multifactor authentication (MFA) protects customers who sign-in with a username and password. Prompt
-                    them for
-                    a one-time passcode as a second verification method. For more information,
+                    Multifactor authentication (MFA) protects customers identity by prompting
+                    them for a second verification method. For more information,
                     learn <a class="link-dark"
                         href="https://learn.microsoft.com/entra/external-id/customers/how-to-multifactor-authentication-customers">
                         how to add MFA</a>.
-
-                    <br>&nbsp;<br>
-
+                </p>
+                <p>
                     In this demo a Conditional Access policy that's targeted to all users when the sign-in risk level is
                     medium or high, prompts for MFA.
+                </p>
+                <ol>
+                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                    <li>Sign-up or sign-in with your email, or a social account.</li>
+                    <li>As a secdond factor authenticate, Microsoft Entra ID will send you a verification code to your
+                        email that you need to complete.</li>
+                </ol>
+                </p>
+                <a class="btn header-button" role="button" href="/SignIn?handler=MFA"><i
+                        class="bi bi-play-circle"></i>Start the use case</a>
+            </div>
 
+
+            <div id="useCase_CA" class="useCase">
+                <h4>Conditional Access</h4>
                 <p>
+                    Microsoft Entra Conditional Access brings signals together, to make decisions, and enforce security
+                    policies.
+
+                    Multifactor authentication (MFA) protects customers identity by prompting
+                    them for a second verification method. For more information,
+                    learn <a class="link-dark"
+                        href="https://learn.microsoft.com/entra/external-id/customers/how-to-multifactor-authentication-customers">
+                        how to add MFA</a>.
+                </p>
+                <p>
+                    In this demo a Conditional Access policy that's targeted to all users when the sign-in risk level is
+                    medium or high, prompts for MFA.
                 </p>
                 <ol>
                     <li>Select the <b>start the use case</b> button at the bottom of this page. Sign-up or sign-in with
-                        your email and password.</li>
-                    <li> After you signed-in with your email and
-                        password, proceed to the next step.</li>
+                        your account.</li>
+                    <li> After you signed-in, proceed to the next step.</li>
                     <li>For this demo, download and run the <a href="https://www.torproject.org/" target="_blank">Tor
                             Browse</a>. It's an open-source web browser that helps people use the internet anonymously.
                         Therefore, Microsoft Entra ID may consider your sign-in request as suspicious.</li>
                     <li>In the Tor browser Navigate to <b>https://woodgrovedemo.com</b></li>
                     <li>Select the <b>sign-in</b> button.</li>
-                    <li>Sign-in with your email and password.</li>
-                    <li>Then complete the MFA as required.</li>
+                    <li>Sign-in with the same account.</li>
+                    <li>This time you should complete the MFA.</li>
                 </ol>
                 </p>
-                <a class="btn header-button" role="button" href="/SignIn?handler=MFA" id="ca_and_mfa"><i
-                        class="bi bi-play-circle"></i>
+                <a class="btn header-button" role="button" href="/SignIn?handler=CA"><i class="bi bi-play-circle"></i>
                     Start the use
                     case</a>
             </div>
-
 
             <div id="useCase_StepUp" class="useCase">
                 <h4>Step-up authentication upon risky action (MFA)</h4>
@@ -382,18 +448,19 @@
 
                     <br>&nbsp;<br>
 
-                    This demo allows users to access the app and purchase items. However, upon risky action, for example
-                    when the sum of the items in the cart is higher than usual it requires the user to sign-in with
-                    a second factor authentication.
+                    This demo allows customer to access the app and purchase items. However, upon risky action, for
+                    example
+                    When a Woodgrove customer finishes shopping and proceeds to the checkout.
+                    If the sum of the items in the shopping cart is higher than usual it requires the customer to
+                    sign-in with a strong factor authentication.
                 <p>
                 </p>
                 <ol>
                         @if (User.Identity?.IsAuthenticated == false)
                         {
                         <li>Select the <b>start the use case</b> button at the bottom of this page. Sign-up or sign-in with
-                            your email and password.</li>
-                        <li> After you singed-in with email and
-                            password, select this use-case again.</li>
+                            your account.</li>
+                        <li> After you singed-in, select this use-case again.</li>
                         }
                         else
                         {
@@ -408,19 +475,19 @@
 
                 @if (User.Identity?.IsAuthenticated == false)
                 {
-                    <a class="btn header-button" role="button" href="/SignIn?handler=StepUpIntro" id="ca_and_mfa"><i
+                    <a class="btn header-button" role="button" href="/SignIn?handler=StepUpIntro"><i
                             class="bi bi-play-circle"></i> Start the use case</a>
                 }
                 else
                 {
                     <p>To start the demo again, select the <b>Start over</b> button.</p>
-                    <a class="btn header-button" role="button" href="/SignIn?handler=StepUpIntro" id="ca_and_mfa"><i
+                    <a class="btn header-button" role="button" href="/SignIn?handler=StepUpIntro"><i
                             class="bi bi-play-circle"></i> Start Over</a>
                 }
 
                 <br>&nbsp;<br>
                 <a class="" style="margin-top: 100px;" role="button" href="/help/StepUp"><i
-                            class="bi bi-play-circle"></i> Learn how we configured the Woodgrove tenant</a>
+                        class="bi bi-play-circle"></i> Learn how we configured the Woodgrove tenant</a>
             </div>
 
 
@@ -428,28 +495,64 @@
                 <h4>Custom security attribute based conditional access</h4>
                 <p>
 
-                    <a href="https://learn.microsoft.com/entra/identity/conditional-access/concept-filter-for-applications"  class="link-dark" target="_blank">
-                    Application filters for Conditional Access</a> allow you to tag your application with custom
+                    <a href="https://learn.microsoft.com/entra/identity/conditional-access/concept-filter-for-applications"
+                        class="link-dark" target="_blank">
+                        Application filters for Conditional Access</a> allow you to tag your application with custom
                     attributes. These custom attributes are then added to their Conditional Access policies. Filters for
                     applications are evaluated at token issuance runtime.
 
                     <br>&nbsp;<br>
 
-                    In this demo a conditional access block access to all applications tagged as <b>BlockGuestsUsers</b>. 
+                    In this demo a conditional access block access to all applications tagged as
+                    <b>BlockGuestsUsers</b>.
                 <p>
                 </p>
                 <ol>
                     <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
                     <li>Sign-up or sign-in with your email, or a social account.</li>
-                    <li>Upon successful sign-in you will get an error message that you don't have access to the app.</li>
+                    <li>Upon successful sign-in you will get an error message that you don't have access to the app.
+                    </li>
                 </ol>
                 </p>
 
-                <a class="btn header-button" role="button" href="/SignIn?handler=CSA"><i
-                            class="bi bi-play-circle"></i> Start the use case</a><br>&nbsp;<br>
+                <a class="btn header-button" role="button" href="/SignIn?handler=CSA"><i class="bi bi-play-circle"></i>
+                    Start the use case</a><br>&nbsp;<br>
                 <a class="" style="margin-top: 100px;" role="button" href="/help/CustomSecurityAttributes"><i
-                            class="bi bi-play-circle"></i> Learn how we configured the Woodgrove tenant</a>
+                        class="bi bi-play-circle"></i> Learn how we configured the Woodgrove tenant</a>
 
+            </div>
+
+            <div id="useCase_TokenClaims" class="useCase">
+                <h4>Add claims to security tokens</h4>
+                <p>
+                    When users authenticate to your application with Microsoft Entra ID for customers, a security
+                    token is return to your application. The security token contains claims that are
+                    statements about the user, such as name, unique identifier, or application roles.
+
+                    Beyond the default set of claims that are contained in the security token you can <a
+                        class="link-dark"
+                        href="https://learn.microsoft.com/en-us/entra/external-id/customers/how-to-add-attributes-to-token">add
+                        more claims</a>.
+                </p>
+                <p>
+                    This demo shows how to add addtinal attributes to the access and ID tokens.
+                </p>
+                <ol>
+                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                    <li>Sign-up your email, or a social account.</li>
+                    <li>After you validate your email, or sign-in with your social account, complete the
+                        registration by providing your details.</b>
+                        The <b>special diet</b> is a custom attribute you can provide. For the demo enter,
+                        <b>Egg allergy</b> This attribute will be included in the security token that return
+                        to the Woodgrove application.
+                    </li>
+                    <li>From the Woodgrove header, select your name, which will take you to the <b>security
+                            token page</b>. The security token page contains the claims that return by Microsoft Entra
+                        ID for customers. Look for the <b>special diet</b> claim</li>
+                </ol>
+
+                <a class="btn header-button" role="button" href="/SignIn?handler=TokenClaims"><i
+                        class="bi bi-play-circle"></i> Start the use case</a>
             </div>
 
             <div id="useCase_TokenAugmentation" class="useCase">
@@ -900,7 +1003,8 @@
                     to get security tokens and authenticate you. Your name should be presented on the
                     top-right corner of the page.
                 </p>
-                <a class="btn header-button" role="button" href="/SignIn?handler=kiosk"><i class="bi bi-play-circle"></i>
+                <a class="btn header-button" role="button" href="/SignIn?handler=kiosk"><i
+                        class="bi bi-play-circle"></i>
                     Start the use case</a>
             </div>
 
@@ -1011,15 +1115,6 @@
             useCaseToShow = 'useCase_OnlineRetail';
         }
 
-        // Multiple use cases with one shared demo
-        if (useCaseId === "useCase_CA") {
-            $("#ca_and_mfa").attr("href", "/SignIn?handler=CA");
-            useCaseToShow = "useCase_MFA";
-        }
-        else if (useCaseId === "useCase_MFA") {
-            $("#ca_and_mfa").attr("href", "/SignIn?handler=MFA");
-        }
-
         $(".useCase").hide();
         $("#" + useCaseToShow).show();
 
@@ -1051,9 +1146,9 @@
             return;
         }
 
-        var useCases = ["StepUp", "CSA", "PolicyAgreement", "OnlineRetail", "EmailAndPassword", "OBO", "SSO", "MFA", "CA", "ForceSignIn", "UserInsights", "BlockSignUp", "CompanyBranding", "Language", "SSPR", "Social", "TokenAugmentation", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "Activity", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Finance"];
+        var useCases = ["StepUp", "CSA", "PolicyAgreement", "OnlineRetail", "EmailAndPassword", "OBO", "SSO", "MFA", "CA", "ForceSignIn", "UserInsights", "BlockSignUp", "CompanyBranding", "Language", "SSPR", "Social", "TokenAugmentation", "TokenClaims", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "Activity", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Finance"];
 
-        if ( ($('#offcanvasRight').length > 0) && usecase && (useCases.indexOf(usecase) > -1)) {
+        if (($('#offcanvasRight').length > 0) && usecase && (useCases.indexOf(usecase) > -1)) {
 
             $("#offcanvasRight").offcanvas('show');
             showUseCase("useCase_" + usecase);

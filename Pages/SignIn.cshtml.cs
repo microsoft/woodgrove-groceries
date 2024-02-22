@@ -38,7 +38,7 @@ namespace MyApp.Namespace
             }
 
             // Step up flow
-            if (ID == "StepUp")
+            if (ID == "StepUp" || ID == "MFA")
             {
                 challengeResult.Properties.Items.Add("StepUp", "true");
             }
@@ -155,6 +155,11 @@ namespace MyApp.Namespace
         public IActionResult OnGetTokenAugmentation()
         {
             return this.TrackAndAuth("TokenAugmentation", "/", true);
+        }
+        
+        public IActionResult OnGetTokenClaims()
+        {
+            return this.TrackAndAuth("TokenClaims", "/", true);
         }
 
         public IActionResult OnGetPreAttributeCollection()
