@@ -1,4 +1,5 @@
 <div>
+
     Select a use-case or a feature, read the instructions and start the demo:
     <div class="dropdown" style="margin-top: 15px">
         <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
@@ -6,12 +7,12 @@
             Select a use case
         </a>
 
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        <ul class="dropdown-menu" id="demosDropdown" aria-labelledby="dropdownMenuLink">
             <li>
                 <h6 class="dropdown-header" style="color: var(--color-very-dark);">Sign-in</h6>
             </li>
-            <li> <a class="dropdown-item" href="#usecase=OnlineRetail"><i class="bi bi-shop"></i>&nbsp; Online
-                    retail use case</a></li>
+            <li> <a class="dropdown-item" href="#usecase=OnlineRetail"><i class="bi bi-house-door"></i>&nbsp; Home</a>
+            </li>
             <li><a class="dropdown-item" href="#usecase=EmailAndPassword"><i class="bi bi-at"></i>&nbsp;
                     Sign-up or sign-in with email
                     and password</a></li>
@@ -116,992 +117,923 @@
             </li>
             <li><a class="dropdown-item" href="#usecase=Finance"><i class="bi bi-globe"></i>&nbsp; SAML web app</a></li>
         </ul>
-        <div id="useCases">
-            <div id="useCase_OnlineRetail" class="useCase">
-                <h4>Online retail use case</h4>
+    </div>
+    <div id="useCases">
+        <div id="useCase_OnlineRetail" class="useCase">
+            <h4 style="color: black;">Woodgrove Groceries live demo</h4>
+            <div>
                 <p>
-                    Microsoft Entra ID for customers offers solutions that let you quickly add
-                    intuitive, user-friendly sign-up and sign-up experiences for your customer apps. The
-                    Woodgrove Groceries demo environment illustrates several of the most common
-                    authentication experiences that can be configured for your customer-facing apps. This
-                    example illustrates the most common use case, including the following features:
-                <ul>
-                    <li style="list-style-type: none;"><i class="bi bi-arrow-right-circle"></i> &nbsp;<a
-                            class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-                            href="#usecase=EmailAndPassword">Sign-up or sign-in with email
-                            and password</a></li>
-                    <li style="list-style-type: none;"><i class="bi bi-arrow-right-circle"></i> &nbsp;<a
-                            class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-                            href="#usecase=SSPR">Self-service
-                            password
-                            reset</a></li>
-                    <li style="list-style-type: none;"><i class="bi bi-arrow-right-circle"></i> &nbsp;<a
-                            class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-                            href="#usecase=Social">Sign-in with a social account</a></li>
-
-                    <li style="list-style-type: none;"><i class="bi bi-arrow-right-circle"></i> &nbsp;<a
-                            class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-                            href="#usecase=MFA">Multi-factor authentication (email)</a></li>
-
-                    <li style="list-style-type: none;"><i class="bi bi-arrow-right-circle"></i> &nbsp;<a
-                            class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-                            href="#usecase=CompanyBranding">Customize the look and feel of the sign-in pages</a></li>
-                    <li style="list-style-type: none;"><i class="bi bi-arrow-right-circle"></i> &nbsp;<a
-                            class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-                            href="#usecase=Language">Customize the language of the sign-in pages</a></li>
-
-                    <li style="list-style-type: none;"><i class="bi bi-arrow-right-circle"></i> &nbsp;<a
-                            class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-                            href="#usecase=CustomAttributes">Collect user attributes
-                            during
-                            sign-up</a></li>
-                    <li style="list-style-type: none;"><i class="bi bi-arrow-right-circle"></i> &nbsp;<a
-                            class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-                            href="#usecase=PreAttributeCollection">Prepopulate sign-up
-                            attributes</a>
-                    </li>
-
-                    <li style="list-style-type: none;"><i class="bi bi-arrow-right-circle"></i> &nbsp;<a
-                            class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-                            href="#usecase=PostAttributeCollection">Validate sign-up
-                            attributes</a>
-                    </li>
-
-                    <li style="list-style-type: none;"><i class="bi bi-arrow-right-circle"></i> &nbsp;<a
-                            class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-                            href="#usecase=TokenAugmentation">Invoke a REST API to add claims to security tokens</a>
-                    </li>
-                    <li style="list-style-type: none;"><i class="bi bi-arrow-right-circle"></i> &nbsp;<a
-                            class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-                            href="#usecase=SSO">Single sign-on (SSO)</a></li>
-                    <li style="list-style-type: none;"><i class="bi bi-arrow-right-circle"></i> &nbsp;<a
-                            class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-                            href="#usecase=UserInsights">Data analytics and insights into user activity</a></li>
-                </ul>
+                    Microsoft Entra external ID for customers offers solutions that let you quickly add
+                    intuitive, user-friendly sign-up and sign-up experiences for your customer apps.
                 </p>
-                <a href="/SignIn?handler=OnlineRetail" class="btn header-button" role="button"><i
-                        class="bi bi-play-circle"></i> Start
-                    the use case</a>
 
-                <h4>More applications</h4>
-
-                <ul>
-                    <li style="list-style-type: none;"><i class="bi bi-bank" style="font-size: larger;"></i> &nbsp; <a
-                            href="https://woodgrovebanking.com/"
-                            class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Woodgrove
-                            banking</a> </li>
-                    <li style="list-style-type: none;"><i class="bi bi-cup-hot" style="font-size: larger;"></i> &nbsp;
-                        <a href="https://woodgroverestaurants.com/"
-                            class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Woodgrove
-                            restaurants (private access)</a>
-                    </li>
-                </ul>
-            </div>
-            <div id="useCase_EmailAndPassword" class="useCase">
-                <h4>Sign-up or sign-in with email and password</h4>
                 <p>
-                <h5>Create a new Woodgrove account</h5>
-                <ol>
-                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
-                    <li>From the sign-in page select <b>No account? Create one.</b></li>
-                    <li>Enter your email address, which will be verified and becomes your login ID.</li>
-                    <li>Open your mailbox and copy the verification code sent to you. Then, on the sign-in
-                        page enter the verification code and select <b>next</b>.</li>
-                    <li>After the email was verified, enter a password, and re-enter the password,
-                        and enter your account details.</li>
-                    <li>Select <b>next</b> to complete the registration.</li>
-                </ol>
-                <h5>Sign-in with your email and password</h5>
-                <ol>
-                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
-                    <li>On the sign-in page, enter your email, and select <b>next</b>.</li>
-                    <li>Enter your password and select <b>sign in</b>.</li>
-                </ol>
-                <h5>Forgot your password?</h5>
-                <ol>
-                    <li>On the sign-in page, enter your email, and select <b>next</b>.</li>
-                    <li>Select the <b>Forgot password?</b> link.</li>
-                    <li>Open your mailbox and copy the verification code sent to you. Then, on the sign-in
-                        page enter the verification code and select <b>next</b>.</li>
-                    <li>After the email was verified, enter a password, and re-enter the password and
-                        select <b>next</b> to update your password.</li>
-                </ol>
+                    The Woodgrove Groceries live demo illustrates several of the most common
+                    authentication experiences that can be configured for your consumer-facing apps.
                 </p>
-                <a class="btn header-button" role="button" href="/SignIn?handler=EmailAndPassword"><i
-                        class="bi bi-play-circle"></i> Start the use
-                    case</a>
+
+                <p class="fs-5">
+                    <i class="bi bi-play-circle"></i> From the above dropdown list, select a use-case and start the demo.
+                </p>
             </div>
 
-            <div id="useCase_CompanyBranding" class="useCase">
-                <h4>Company branding</h4>
-                <p>
-                    You can create a custom look and feel for users signing in to your apps.
-                    With these settings, you can add your own background images, colors, company logos, and text to
-                    customize the sign-in experiences across your apps.
-                    So that the sign-in page blends seamlessly into woodgrove applications’ look and feel.
-                    For more information, learn <a class="link-dark"
-                        href="https://learn.microsoft.com/entra/external-id/customers/how-to-customize-branding-customers">how
-                        to customize the neutral branding in your customer tenant</a> .
+        </div>
+        <div id="useCase_EmailAndPassword" class="useCase">
+            <h4>Sign-up or sign-in with email and password</h4>
+            <p>
+            <h5>Create a new Woodgrove account</h5>
+            <ol>
+                <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                <li>From the sign-in page select <b>No account? Create one.</b></li>
+                <li>Enter your email address, which will be verified and becomes your login ID.</li>
+                <li>Open your mailbox and copy the verification code sent to you. Then, on the sign-in
+                    page enter the verification code and select <b>next</b>.</li>
+                <li>After the email was verified, enter a password, and re-enter the password,
+                    and enter your account details.</li>
+                <li>Select <b>next</b> to complete the registration.</li>
+            </ol>
+            <h5>Sign-in with your email and password</h5>
+            <ol>
+                <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                <li>On the sign-in page, enter your email, and select <b>next</b>.</li>
+                <li>Enter your password and select <b>sign in</b>.</li>
+            </ol>
+            <h5>Forgot your password?</h5>
+            <ol>
+                <li>On the sign-in page, enter your email, and select <b>next</b>.</li>
+                <li>Select the <b>Forgot password?</b> link.</li>
+                <li>Open your mailbox and copy the verification code sent to you. Then, on the sign-in
+                    page enter the verification code and select <b>next</b>.</li>
+                <li>After the email was verified, enter a password, and re-enter the password and
+                    select <b>next</b> to update your password.</li>
+            </ol>
+            </p>
+            <a class="btn header-button" role="button" href="/SignIn?handler=EmailAndPassword"><i
+                    class="bi bi-play-circle"></i> Start the use
+                case</a>
+        </div>
 
-                    <br>
+        <div id="useCase_CompanyBranding" class="useCase">
+            <h4>Company branding</h4>
+            <p>
+                You can create a custom look and feel for users signing in to your apps.
+                With these settings, you can add your own background images, colors, company logos, and text to
+                customize the sign-in experiences across your apps.
+                So that the sign-in page blends seamlessly into woodgrove applications’ look and feel.
+                For more information, learn <a class="link-dark"
+                    href="https://learn.microsoft.com/entra/external-id/customers/how-to-customize-branding-customers">how
+                    to customize the neutral branding in your customer tenant</a> .
 
-                <ol>
-                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
-                    <li>On the sign-in page take a look on the header, the header logo, the banner logo, the title,
-                        buttons, and the background image which are all customized.</li>
-                    <li>The sign-in text appears with some guidance for the users</li>
-                    <li>The footer contains links to the term of use and privacy policies. Both the links and the text
-                        can be customized</li>
-                    <li>Every text on the screen can be localized.</li>
-                </ol>
-                </p>
-                <a class="btn header-button" role="button" href="/SignIn?handler=CompanyBranding"><i
-                        class="bi bi-play-circle"></i>
-                    Start the use
-                    case</a>
-            </div>
+                <br>
 
-            <div id="useCase_Language" class="useCase">
-                <h4>Language customization</h4>
-                <p>
-                    You can create a personalized sign-in experience for users who sign in using a specific browser
-                    language by customizing the branding elements for that browser language. This customization
-                    overrides any configurations made to the <b>default</b> branding.
-                    For more information, learn <a class="link-dark"
-                        href="https://learn.microsoft.com/entra/external-id/customers/how-to-customize-branding-customers#to-customize-user-attributes">how
-                        to customize the language of the authentication experience</a>.
+            <ol>
+                <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                <li>On the sign-in page take a look on the header, the header logo, the banner logo, the title,
+                    buttons, and the background image which are all customized.</li>
+                <li>The sign-in text appears with some guidance for the users</li>
+                <li>The footer contains links to the term of use and privacy policies. Both the links and the text
+                    can be customized</li>
+                <li>Every text on the screen can be localized.</li>
+            </ol>
+            </p>
+            <a class="btn header-button" role="button" href="/SignIn?handler=CompanyBranding"><i
+                    class="bi bi-play-circle"></i>
+                Start the use
+                case</a>
+        </div>
 
-                    <br>
+        <div id="useCase_Language" class="useCase">
+            <h4>Language customization</h4>
+            <p>
+                You can create a personalized sign-in experience for users who sign in using a specific browser
+                language by customizing the branding elements for that browser language. This customization
+                overrides any configurations made to the <b>default</b> branding.
+                For more information, learn <a class="link-dark"
+                    href="https://learn.microsoft.com/entra/external-id/customers/how-to-customize-branding-customers#to-customize-user-attributes">how
+                    to customize the language of the authentication experience</a>.
 
-                <ol>
-                    <li>Make sure your browser is configure to any language other than German</li>
-                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
-                    <li>On the sign-in page take a look on the login text that appears <a class="link-dark"
-                            href="images/help/login-text.png" target="_blank">under the login button</a>.</li>
-                    <li>The sign-in text appears with some guidance for the users in English. It will remain in English
-                        for other languages as well.</li>
-                    <li>Now, change your browser settings to German and refresh the page</li>
-                    <li>The sign-in text now should appear in German. This is because we configured a special branding
-                        for the German language</li>
-                </ol>
-                </p>
-                <a class="btn header-button" role="button" href="/SignIn?handler=Language"><i
-                        class="bi bi-play-circle"></i>
-                    Start the use
-                    case</a>
-            </div>
-
-
-            <div id="useCase_SSPR" class="useCase">
-                <h4>Self-service password reset</h4>
-                <p>
-                    Self-service password reset (SSPR) gives users the ability to change or reset their
-                    password, with no administrator or help desk involvement. If a user's account is locked
-                    or they forget their password, they can follow prompts to unblock themselves and get
-                    back to work. For more information, learn <a class="link-dark"
-                        href="https://learn.microsoft.com/en-us/entra/external-id/customers/how-to-enable-password-reset-customers">
-                        how to enable self-service password reset.</a>
-
-                    <br />&nbsp;<br />
-                    Before you start, make sure you've created an account
-                    with Woodgrove Groceries using the <a
-                        class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-                        href="#usecase=EmailAndPassword">Sign-up or sign-in with email
-                        and password</a> flow.</li>
-                <ol>
-                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
-                    <li>On the sign-in page, enter your email, and select <b>next</b>.</li>
-                    <li>Select the <b>Forgot password?</b> link.</li>
-                    <li>Open your mailbox and copy the verification code sent to you. Then, on the sign-in
-                        page enter the verification code and select <b>next</b>.</li>
-                    <li>After your email was verified, enter a password, and re-enter the password and
-                        select <b>next</b> to update your password.</li>
-                </ol>
-                </p>
-                <a class="btn header-button" role="button" href="/SignIn?handler=SSPR"><i class="bi bi-play-circle"></i>
-                    Start the use
-                    case</a>
-            </div>
-
-
-            <div id="useCase_Social" class="useCase">
-                <h4>Sign-in with social accounts</h4>
-                <p>
-                    Users can sign in with their existing social accounts, without having to create a
-                    new account. For more information, learn how to add <a class="link-dark"
-                        href="https://learn.microsoft.com/entra/external-id/customers/how-to-google-federation-customers">Google</a>
-                    and <a class="link-dark"
-                        href="https://learn.microsoft.com/entra/external-id/customers/how-to-facebook-federation-customers">Facebook</a>
-                    identity providers.
-
-                <ol>
-                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
-                    <li>From the sign-in page, select Google. Then you will be redirected to Google
-                        sign-in page.</b></li>
-                    <li>If asked, consent to grant the permissions that Microsoft Entra external ID is requesting.</li>
-                    <li>Upon first sign-in, complete the registration by entering your account details. </li>
-                    <li>Select <b>next</b> to create the Woodgrove account.</li>
-                </ol>
-                </p>
-                <a class="btn header-button" role="button" href="/SignIn?handler=Social"><i
-                        class="bi bi-play-circle"></i> Start the use case</a>
-            </div>
-            <div id="useCase_EmailOTP" class="useCase">
-                <h4>Sign-up with email one-time passcode</h4>
-                <p>
-                    Email with one-time passcode is an option in your local account identity provider
-                    settings.
-                    With this option, the customer signs in with a temporary passcode instead of a stored
-                    password
-                    each time they sign in.
-
-                <h5>Create a new Woodgrove account</h5>
-                <ol>
-                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
-                    <li>From the sign-in page select <b>No account? Create one.</b></li>
-                    <li>Enter your email address, which will be verified and becomes your login ID.</li>
-                    <li>Open your mailbox and copy the verification code sent to you. Then, on the sign-in
-                        page enter the verification code and select <b>next</b>.</li>
-                    <li>After the email was verified, enter your account details.</li>
-                    <li>Select <b>next</b> to complete the registration.</li>
-                </ol>
-                <h5>Sign-in with your email</h5>
-                <ol>
-                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
-                    <li>On the sign-in page, enter your email, and select <b>next</b>.</li>
-                    <li>Open your mailbox and copy the verification code sent to you. Then, on the sign-in
-                        page enter the verification code and select <b>next</b>.</li>
-                </ol>
-                </p>
-                <a class="btn header-button" role="button" href="#"><i class="bi bi-play-circle"></i>
-                    Start the use case</a>
-            </div>
-            <div id="useCase_MFA" class="useCase">
-                <h4>Conditional Access and Multifactor authentication (MFA)</h4>
-                <p>
-                    Microsoft Entra Conditional Access brings signals together, to make decisions, and enforce security
-                    policies.
-
-                    Multifactor authentication (MFA) protects customers identity by prompting
-                    them for a second verification method. For more information,
-                    learn <a class="link-dark"
-                        href="https://learn.microsoft.com/entra/external-id/customers/how-to-multifactor-authentication-customers">
-                        how to add MFA</a>.
-                </p>
-                <p>
-                    In this demo a Conditional Access policy that's targeted to all users when the sign-in risk level is
-                    medium or high, prompts for MFA.
-                </p>
-                <ol>
-                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
-                    <li>Sign-up or sign-in with your email, or a social account.</li>
-                    <li>As a secdond factor authenticate, Microsoft Entra ID will send you a verification code to your
-                        email that you need to complete.</li>
-                </ol>
-                </p>
-                <a class="btn header-button" role="button" href="/SignIn?handler=MFA"><i
-                        class="bi bi-play-circle"></i>Start the use case</a>
-            </div>
+            <ol>
+                <li>Make sure your browser is configure to any language other than German</li>
+                <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                <li>On the sign-in page take a look on the login text that appears <a class="link-dark"
+                        href="images/help/login-text.png" target="_blank">under the login button</a>.</li>
+                <li>The sign-in text appears with some guidance for the users in English. It will remain in English
+                    for other languages as well.</li>
+                <li>Now, change your browser settings to German and refresh the page</li>
+                <li>The sign-in text now should appear in German. This is because we configured a special branding
+                    for the German language</li>
+            </ol>
+            </p>
+            <a class="btn header-button" role="button" href="/SignIn?handler=Language"><i class="bi bi-play-circle"></i>
+                Start the use
+                case</a>
+        </div>
 
 
-            <div id="useCase_CA" class="useCase">
-                <h4>Conditional Access</h4>
-                <p>
-                    Microsoft Entra Conditional Access brings signals together, to make decisions, and enforce security
-                    policies.
+        <div id="useCase_SSPR" class="useCase">
+            <h4>Self-service password reset</h4>
+            <p>
+                Self-service password reset (SSPR) gives users the ability to change or reset their
+                password, with no administrator or help desk involvement. If a user's account is locked
+                or they forget their password, they can follow prompts to unblock themselves and get
+                back to work. For more information, learn <a class="link-dark"
+                    href="https://learn.microsoft.com/en-us/entra/external-id/customers/how-to-enable-password-reset-customers">
+                    how to enable self-service password reset.</a>
 
-                    Multifactor authentication (MFA) protects customers identity by prompting
-                    them for a second verification method. For more information,
-                    learn <a class="link-dark"
-                        href="https://learn.microsoft.com/entra/external-id/customers/how-to-multifactor-authentication-customers">
-                        how to add MFA</a>.
-                </p>
-                <p>
-                    In this demo a Conditional Access policy that's targeted to all users when the sign-in risk level is
-                    medium or high, prompts for MFA.
-                </p>
-                <ol>
+                <br />&nbsp;<br />
+                Before you start, make sure you've created an account
+                with Woodgrove Groceries using the <a
+                    class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+                    href="#usecase=EmailAndPassword">Sign-up or sign-in with email
+                    and password</a> flow.</li>
+            <ol>
+                <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                <li>On the sign-in page, enter your email, and select <b>next</b>.</li>
+                <li>Select the <b>Forgot password?</b> link.</li>
+                <li>Open your mailbox and copy the verification code sent to you. Then, on the sign-in
+                    page enter the verification code and select <b>next</b>.</li>
+                <li>After your email was verified, enter a password, and re-enter the password and
+                    select <b>next</b> to update your password.</li>
+            </ol>
+            </p>
+            <a class="btn header-button" role="button" href="/SignIn?handler=SSPR"><i class="bi bi-play-circle"></i>
+                Start the use
+                case</a>
+        </div>
+
+
+        <div id="useCase_Social" class="useCase">
+            <h4>Sign-in with social accounts</h4>
+            <p>
+                Users can sign in with their existing social accounts, without having to create a
+                new account. For more information, learn how to add <a class="link-dark"
+                    href="https://learn.microsoft.com/entra/external-id/customers/how-to-google-federation-customers">Google</a>
+                and <a class="link-dark"
+                    href="https://learn.microsoft.com/entra/external-id/customers/how-to-facebook-federation-customers">Facebook</a>
+                identity providers.
+
+            <ol>
+                <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                <li>From the sign-in page, select Google. Then you will be redirected to Google
+                    sign-in page.</b></li>
+                <li>If asked, consent to grant the permissions that Microsoft Entra external ID is requesting.</li>
+                <li>Upon first sign-in, complete the registration by entering your account details. </li>
+                <li>Select <b>next</b> to create the Woodgrove account.</li>
+            </ol>
+            </p>
+            <a class="btn header-button" role="button" href="/SignIn?handler=Social"><i class="bi bi-play-circle"></i>
+                Start the use case</a>
+        </div>
+        <div id="useCase_EmailOTP" class="useCase">
+            <h4>Sign-up with email one-time passcode</h4>
+            <p>
+                Email with one-time passcode is an option in your local account identity provider
+                settings.
+                With this option, the customer signs in with a temporary passcode instead of a stored
+                password
+                each time they sign in.
+
+            <h5>Create a new Woodgrove account</h5>
+            <ol>
+                <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                <li>From the sign-in page select <b>No account? Create one.</b></li>
+                <li>Enter your email address, which will be verified and becomes your login ID.</li>
+                <li>Open your mailbox and copy the verification code sent to you. Then, on the sign-in
+                    page enter the verification code and select <b>next</b>.</li>
+                <li>After the email was verified, enter your account details.</li>
+                <li>Select <b>next</b> to complete the registration.</li>
+            </ol>
+            <h5>Sign-in with your email</h5>
+            <ol>
+                <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                <li>On the sign-in page, enter your email, and select <b>next</b>.</li>
+                <li>Open your mailbox and copy the verification code sent to you. Then, on the sign-in
+                    page enter the verification code and select <b>next</b>.</li>
+            </ol>
+            </p>
+            <a class="btn header-button" role="button" href="#"><i class="bi bi-play-circle"></i>
+                Start the use case</a>
+        </div>
+        <div id="useCase_MFA" class="useCase">
+            <h4>Conditional Access and Multifactor authentication (MFA)</h4>
+            <p>
+                Microsoft Entra Conditional Access brings signals together, to make decisions, and enforce security
+                policies.
+
+                Multifactor authentication (MFA) protects customers identity by prompting
+                them for a second verification method. For more information,
+                learn <a class="link-dark"
+                    href="https://learn.microsoft.com/entra/external-id/customers/how-to-multifactor-authentication-customers">
+                    how to add MFA</a>.
+            </p>
+            <p>
+                In this demo a Conditional Access policy that's targeted to all users when the sign-in risk level is
+                medium or high, prompts for MFA.
+            </p>
+            <ol>
+                <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                <li>Sign-up or sign-in with your email, or a social account.</li>
+                <li>As a secdond factor authenticate, Microsoft Entra ID will send you a verification code to your
+                    email that you need to complete.</li>
+            </ol>
+            <a class="btn header-button" role="button" href="/SignIn?handler=MFA"><i class="bi bi-play-circle"></i>Start
+                the use case</a>
+        </div>
+
+
+        <div id="useCase_CA" class="useCase">
+            <h4>Conditional Access</h4>
+            <p>
+                Microsoft Entra Conditional Access brings signals together, to make decisions, and enforce security
+                policies.
+
+                Multifactor authentication (MFA) protects customers identity by prompting
+                them for a second verification method. For more information,
+                learn <a class="link-dark"
+                    href="https://learn.microsoft.com/entra/external-id/customers/how-to-multifactor-authentication-customers">
+                    how to add MFA</a>.
+            </p>
+            <p>
+                In this demo a Conditional Access policy that's targeted to all users when the sign-in risk level is
+                medium or high, prompts for MFA.
+            </p>
+            <ol>
+                <li>Select the <b>start the use case</b> button at the bottom of this page. Sign-up or sign-in with
+                    your account.</li>
+                <li> After you signed-in, proceed to the next step.</li>
+                <li>For this demo, download and run the <a href="https://www.torproject.org/" target="_blank">Tor
+                        Browse</a>. It's an open-source web browser that helps people use the internet anonymously.
+                    Therefore, Microsoft Entra ID may consider your sign-in request as suspicious.</li>
+                <li>In the Tor browser Navigate to <b>https://woodgrovedemo.com</b></li>
+                <li>Select the <b>sign-in</b> button.</li>
+                <li>Sign-in with the same account.</li>
+                <li>This time you should complete the MFA.</li>
+            </ol>
+            <a class="btn header-button" role="button" href="/SignIn?handler=CA"><i class="bi bi-play-circle"></i>
+                Start the use
+                case</a>
+        </div>
+
+        <div id="useCase_StepUp" class="useCase">
+            <h4>Step-up authentication upon risky action (MFA)</h4>
+            <p>
+                Use the Microsoft Entra Conditional Access engine's <a class="link-dark"
+                    href="https://learn.microsoft.com/entra/identity-platform/developer-guide-conditional-access-authentication-context">authentication
+                    context</a> to trigger a demand for step-up authentication from within your application.
+
+
+                <br>&nbsp;<br>
+
+                This demo allows customer to access the app and purchase items. However, upon risky action, for
+                example
+                When a Woodgrove customer finishes shopping and proceeds to the checkout.
+                If the sum of the items in the shopping cart is higher than usual it requires the customer to
+                sign-in with a strong factor authentication.
+            </p>
+            <ol>
+                @if (User.Identity?.IsAuthenticated == false)
+                {
                     <li>Select the <b>start the use case</b> button at the bottom of this page. Sign-up or sign-in with
                         your account.</li>
-                    <li> After you signed-in, proceed to the next step.</li>
-                    <li>For this demo, download and run the <a href="https://www.torproject.org/" target="_blank">Tor
-                            Browse</a>. It's an open-source web browser that helps people use the internet anonymously.
-                        Therefore, Microsoft Entra ID may consider your sign-in request as suspicious.</li>
-                    <li>In the Tor browser Navigate to <b>https://woodgrovedemo.com</b></li>
-                    <li>Select the <b>sign-in</b> button.</li>
-                    <li>Sign-in with the same account.</li>
-                    <li>This time you should complete the MFA.</li>
-                </ol>
-                </p>
-                <a class="btn header-button" role="button" href="/SignIn?handler=CA"><i class="bi bi-play-circle"></i>
-                    Start the use
-                    case</a>
-            </div>
-
-            <div id="useCase_StepUp" class="useCase">
-                <h4>Step-up authentication upon risky action (MFA)</h4>
-                <p>
-                    Use the Microsoft Entra Conditional Access engine's <a class="link-dark"
-                        href="https://learn.microsoft.com/entra/identity-platform/developer-guide-conditional-access-authentication-context">authentication
-                        context</a> to trigger a demand for step-up authentication from within your application.
-
-
-                    <br>&nbsp;<br>
-
-                    This demo allows customer to access the app and purchase items. However, upon risky action, for
-                    example
-                    When a Woodgrove customer finishes shopping and proceeds to the checkout.
-                    If the sum of the items in the shopping cart is higher than usual it requires the customer to
-                    sign-in with a strong factor authentication.
-                <p>
-                </p>
-                <ol>
-                        @if (User.Identity?.IsAuthenticated == false)
-                        {
-                        <li>Select the <b>start the use case</b> button at the bottom of this page. Sign-up or sign-in with
-                            your account.</li>
-                        <li> After you singed-in, select this use-case again.</li>
-                        }
-                        else
-                        {
-                        <li> Looks like you already signed-in. Good! Now let's demonstrate a step-up with MFA.</li>
-                        <li> In the home page, add some items to the shopping cart, until the <b>total</b> is more that 50$.
-                        </li>
-                        <li> Then, select the <b>checkout</b> button. If you have not signed-in with MFA, you will be asked
-                            to do so.</li>
-                        }
-                </ol>
-                </p>
-
-                @if (User.Identity?.IsAuthenticated == false)
-                {
-                    <a class="btn header-button" role="button" href="/SignIn?handler=StepUpIntro"><i
-                            class="bi bi-play-circle"></i> Start the use case</a>
+                    <li> After you singed-in, select this use-case again.</li>
                 }
                 else
                 {
-                    <p>To start the demo again, select the <b>Start over</b> button.</p>
-                    <a class="btn header-button" role="button" href="/SignIn?handler=StepUpIntro"><i
-                            class="bi bi-play-circle"></i> Start Over</a>
+                    <li> Looks like you already signed-in. Good! Now let's demonstrate a step-up with MFA.</li>
+                    <li> In the home page, add some items to the shopping cart, until the <b>total</b> is more that 50$.
+                    </li>
+                    <li> Then, select the <b>checkout</b> button. If you have not signed-in with MFA, you will be asked
+                        to do so.</li>
                 }
+            </ol>
+
+
+            @if (User.Identity?.IsAuthenticated == false)
+            {
+                <a class="btn header-button" role="button" href="/SignIn?handler=StepUpIntro"><i
+                        class="bi bi-play-circle"></i> Start the use case</a>
+            }
+            else
+            {
+                <p>To start the demo again, select the <b>Start over</b> button.</p>
+                <a class="btn header-button" role="button" href="/SignIn?handler=StepUpIntro"><i
+                        class="bi bi-play-circle"></i> Start Over</a>
+            }
+
+            <br>&nbsp;<br>
+            <a class="" style="margin-top: 100px;" role="button" href="/help/StepUp"><i class="bi bi-play-circle"></i>
+                Learn how we configured the Woodgrove tenant</a>
+        </div>
+
+
+        <div id="useCase_CSA" class="useCase">
+            <h4>Custom security attribute based conditional access</h4>
+            <p>
+
+                <a href="https://learn.microsoft.com/entra/identity/conditional-access/concept-filter-for-applications"
+                    class="link-dark" target="_blank">
+                    Application filters for Conditional Access</a> allow you to tag your application with custom
+                attributes. These custom attributes are then added to their Conditional Access policies. Filters for
+                applications are evaluated at token issuance runtime.
 
                 <br>&nbsp;<br>
-                <a class="" style="margin-top: 100px;" role="button" href="/help/StepUp"><i
-                        class="bi bi-play-circle"></i> Learn how we configured the Woodgrove tenant</a>
-            </div>
+
+                In this demo a conditional access block access to all applications tagged as
+                <b>BlockGuestsUsers</b>.
+            </p>
+            <ol>
+                <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                <li>Sign-up or sign-in with your email, or a social account.</li>
+                <li>Upon successful sign-in you will get an error message that you don't have access to the app.
+                </li>
+            </ol>
+
+            <a class="btn header-button" role="button" href="/SignIn?handler=CSA"><i class="bi bi-play-circle"></i>
+                Start the use case</a><br>&nbsp;<br>
+            <a class="" style="margin-top: 100px;" role="button" href="/help/CustomSecurityAttributes"><i
+                    class="bi bi-play-circle"></i> Learn how we configured the Woodgrove tenant</a>
+
+        </div>
+
+        <div id="useCase_TokenClaims" class="useCase">
+            <h4>Add claims to security tokens</h4>
+            <p>
+                When users authenticate to your application with Microsoft Entra ID for customers, a security
+                token is return to your application. The security token contains claims that are
+                statements about the user, such as name, unique identifier, or application roles.
+
+                Beyond the default set of claims that are contained in the security token you can <a class="link-dark"
+                    href="https://learn.microsoft.com/en-us/entra/external-id/customers/how-to-add-attributes-to-token">add
+                    more claims</a>.
+            </p>
+            <p>
+                This demo shows how to add addtinal attributes to the access and ID tokens.
+            </p>
+            <ol>
+                <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                <li>Sign-up your email, or a social account.</li>
+                <li>After you validate your email, or sign-in with your social account, complete the
+                    registration by providing your details.</b>
+                    The <b>special diet</b> is a custom attribute you can provide. For the demo enter,
+                    <b>Egg allergy</b> This attribute will be included in the security token that return
+                    to the Woodgrove application.
+                </li>
+                <li>From the Woodgrove header, select your name, which will take you to the <b>security
+                        token page</b>. The security token page contains the claims that return by Microsoft Entra
+                    ID for customers. Look for the <b>special diet</b> claim</li>
+            </ol>
+
+            <a class="btn header-button" role="button" href="/SignIn?handler=TokenClaims"><i
+                    class="bi bi-play-circle"></i> Start the use case</a>
+        </div>
+
+        <div id="useCase_TokenAugmentation" class="useCase">
+            <h4>Add claims to security tokens from a REST API</h4>
+            <p>
+                When users authenticate to your application with Microsoft Entra ID for customers, a security
+                token is return to your application. The security token contains claims that are
+                statements about the user, such as name, unique identifier, or application roles.
+                <br>&nbsp;<br>
+                Beyond the default set of claims that are contained in the security token you can add custom claims
+                from external systems using a REST API you develop.
+                For more information, learn <a class="link-dark"
+                    href="https://learn.microsoft.com/en-us/entra/identity-platform/custom-extension-get-started?context=%2Fentra%2Fexternal-id%2Fcustomers%2Fcontext%2Fcustomers-context&tabs=entra-admin-center%2Chttp">
+                    how to configure a custom claim provider token issuance event</a>.
+
+            <ol>
+                <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                <li>Sign-up or sign-in with your email, or a social account.</li>
+                <li>From the Woodgrove header, select your name, which will take you to the <b>security
+                        token page</b>.</li>
+                <li>The security token page contains the claims that return by Microsoft Entra ID for customers.
+                    Locate the loyaltyNumber, loyaltySince, and loyaltyTier
+                    claims and check their value. This claims were return by a custom authentication
+                    extension REST API with some random values.</li>
+            </ol>
+            </p>
+            <a class="btn header-button" role="button" href="/SignIn?handler=TokenAugmentation"><i
+                    class="bi bi-play-circle"></i> Start the use
+                case</a>
+        </div>
+
+        <div id="useCase_OBO" class="useCase">
+            <h4>Add claims to security tokens from a REST API</h4>
+            <p>
+                The on-behalf-of (OBO) flow describes the scenario of a web API using an identity other than its own
+                to call another downstream web API. For the middle-tier web API to make authenticated requests to
+                the
+                downstream web API it needs a different audience and another set of scopes (permissions). For more
+                information, <a class="link-dark"
+                    href="https://learn.microsoft.com/entra/identity-platform/v2-oauth2-on-behalf-of-flow">
+                    Microsoft identity platform and OAuth 2.0 On-Behalf-Of flow</a>
+                <br>&nbsp;<br>
+                This demo shows how the <a href="https://github.com/microsoft/woodgrove-groceries-api">Account web
+                    API</a> makes authenticated requests to a downstream <b>Payment web API</b>.
+                To call the Payment web API, the Account web API acquires an access
+                token for the Payment web API (audience or aud claim) and another set of scopes (permissions) that
+                require by the Payment web API.
+
+            <ol>
+                <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                <li>Sign-up or sign-in with your email, or a social account.</li>
+                <li>After you sign-in you will be redirected to the <b>token</b> page. You can also select your name
+                    from the header.</li>
+                <li>Then, select the <b> Access token to call a web API</b> button.</li>
+                <li>It shows you two links to the https://jwt.ms app with the corresponding access tokens. The first
+                    access
+                    token is the one returned to the Woodgrove demo application and used to call the first web API
+                    (Account).
+                    The second one shows the access token the the Account web API acquires to call the Payment web
+                    API.</li>
+                <li>Compare the access tokens to understand the on-behalf-of flow.</li>
+            </ol>
+            </p>
+            <a class="btn header-button" role="button" href="/SignIn?handler=OBO"><i class="bi bi-play-circle"></i>
+                Start the use
+                case</a>
+        </div>
+
+        <div id="useCase_PreAttributeCollection" class="useCase">
+            <h4>Prepopulate sign-up attributes</h4>
+            <p>
+                The custom authentication extension supports the <b>on attribute collection start</b> event. This
+                event occurs at the beginning of the attribute collection step, before the attribute collection page
+                renders.
+                You can add actions such as prefilling values and displaying a blocking error.
+                For more information, learn how to <a class="link-dark"
+                    href="https://learn.microsoft.com/en-us/entra/identity-platform/custom-extension-attribute-collection?context=%2Fentra%2Fexternal-id%2Fcustomers%2Fcontext%2Fcustomers-context&tabs=start-continue%2Csubmit-continue">create
+                    a custom authentication extensions for attribute collection start and submit events</a> .
+                <br>&nbsp;<br>
+                This demo shows how to Prepopulate some of the values, including pre selecting the country attribute
+                with spain and generating and set the value of the promo code attribute.
+            </p>
+            To start the demo:
+            <ol>
+                <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                <li>Sign-up with your email, or a social account. For more information, <a
+                        class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+                        href="#usecase=EmailAndPassword">sign-up or sign-in with email
+                        and password</a>. If you already have an account,
+                    <a class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+                        href="#" onclick="showUseCase('useCase_DeleteAccount')">delete it</a>.
+                </li>
+                <li>After you validate your email, or sign-in first time with your social account, you will be taken
+                    to the sign-up page.</li>
+                <li>
+                    On the sign-up page notice that the <b>Spain</b> country was selected for you. Also at the
+                    bottom of
+                    the page you can see that the <b>promo code</b> was generated and entered for you. Both values
+                    were provided by a custom authentication extension.</li>
+            </ol>
+
+            <a class="btn header-button" role="button" href="/SignIn?handler=PreAttributeCollection"><i
+                    class="bi bi-play-circle"></i> Start
+                the use case</a>
+        </div>
+
+        <div id="useCase_PostAttributeCollection" class="useCase">
+            <h4>Validate sign-up attributes</h4>
+            <p>
+                The custom authentication extension supports the <b>on attribute collection submit</b> event. This
+                event allows you to
+                perform validation on attributes collected from the user during sign-up. For more information, learn
+                how to <a class="link-dark"
+                    href="https://learn.microsoft.com/en-us/entra/identity-platform/custom-extension-attribute-collection?context=%2Fentra%2Fexternal-id%2Fcustomers%2Fcontext%2Fcustomers-context&tabs=start-continue%2Csubmit-continue">create
+                    a custom authentication extensions for attribute collection start and submit events</a> .
+
+                <br>&nbsp;<br>
+                This demo validates the
+                city name against a list of cities and countries compiled in the Woodgrove custom authentication
+                extension REST API.
+            </p>
+            <ol>
+                <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                <li>Sign-up with your email, or a social account. For more information, <a
+                        class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+                        href="#usecase=EmailAndPassword">sign-up or sign-in with email
+                        and password</a>. If you already have an account,
+                    <a class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+                        href="#" onclick="showUseCase('useCase_DeleteAccount')">delete it</a>.
+                </li>
+                <li>After you validate your email, or sign-in with your social account, complete the
+                    registration by providing your details.</b>
+                    For the country, leave the <b>Spain</b> selected, and then for the city <b>Berlin</b> (Berlin is
+                    not a city in Spain).</li>
+                <li>Select <b>next</b> to create a Woodgrove online identity. And you should get an
+                    error message that Woodgrove doesn’t operate in this city. Because Berlin is a city in Germany,
+                    not in Spain.</li>
+                <li>Corrects the city name. For example, enter <b>Madrid</b> and try to complete the
+                    registration again. This time you should be able to complete the registration.</li>
+            </ol>
+
+            <a class="btn header-button" role="button" href="/SignIn?handler=PostAttributeCollection"><i
+                    class="bi bi-play-circle"></i> Start
+                the use case</a>
+        </div>
+
+        <div id="useCase_BlockSignUp" class="useCase">
+            <h4>Block a user from continuing the sign-up process</h4>
+            <p>
+                The custom authentication extension supports the on <i>attribute collection <b>start</b> and
+                    <b>submit</b></i> events. These events allow you to
+                block the user from continuing the sign-up process.
+                For example, you could use an identity verification service or external identity data source to
+                verify the user's email address. For more information, learn how to <a class="link-dark"
+                    href="https://learn.microsoft.com/en-us/entra/identity-platform/custom-extension-attribute-collection?context=%2Fentra%2Fexternal-id%2Fcustomers%2Fcontext%2Fcustomers-context&tabs=start-continue%2Csubmit-continue">create
+                    a custom authentication extensions for attribute collection start and submit events</a>.
+
+                <br>&nbsp;<br>
+                This demo validates uses the <i>on attribute collection <b>submit</b> </i> even to check the value
+                of the city attribute and block the process.
+            </p>
+            <ol>
+                <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                <li>Sign-up with your email, or a social account. For more information, <a
+                        class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+                        href="#usecase=EmailAndPassword">sign-up or sign-in with email
+                        and password</a>. If you already have an account,
+                    <a class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+                        href="#" onclick="showUseCase('useCase_DeleteAccount')">delete it</a>.
+                </li>
+                <li>After you validate your email, or sign-in with your social account, complete the
+                    registration by providing your details.</li>
+                <li>For the <b>city</b> attribute, enter <b>block</b>.</li>
+                <li>Select <b>next</b> to try to create a Woodgrove online identity. At this time the sign-up
+                    process will be canceled all together.
+                    This is because the custom authentication extension checks the city value. If it contains
+                    <b>block</b>, it returns the <b>show block page</b> action.
+
+            </ol>
+
+            <a class="btn header-button" role="button" href="/SignIn?handler=BlockSignUp"><i
+                    class="bi bi-play-circle"></i> Start
+                the use case</a>
+        </div>
+
+        <div id="useCase_RBAC" class="useCase">
+            <h4>Role-based access control</h4>
+            <p>
+                Role-based access control is a popular mechanism to enforce authorization in
+                applications. It helps you manage who has access to your application and what they can
+                do in the application.
+                An application developer defines
+                the roles for the application. Then these roles can be assigned to
+                users. In this demo, you assign yourself to application roles which is automatically approved. For
+                more information, learn how to <a class="link-dark"
+                    href="https://learn.microsoft.com/entra/external-id/customers/how-to-use-app-roles-customers">use
+                    role-based access control for applications</a>.
+            </p>
+            To start the demo:
+            <ol>
+                <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                <li>Sign-up or sign-in with your email, or a social account.</li>
+                <li>From the Woodgrove header, select the profile, which will take you to the <b>edit
+                        profile page</b>.</li>
+                <li>In profile page add yourself
+                    the <b>Products.Contributor</b> and <b>Orders.Manager</b> roles.</li>
+                <li>To reflect the changes in the security token return to the Woodgrove application, sign-in again
+                    with the same account. You will not ask to enter your credentials, since you already signed-in
+                    using the SSO feature.</li>
+                <li>Back to the application, since you have the Orders.Manager role the <b>Orders</b> button appears
+                    in
+                    the header.</li>
+                <li>And since you also have the Products.Contributor role,
+                    the <b>Manage products</b> button appears in the header.</li>
+            </ol>
 
 
-            <div id="useCase_CSA" class="useCase">
-                <h4>Custom security attribute based conditional access</h4>
-                <p>
+            <a class="btn header-button" role="button" href="/SignIn?handler=RBAC"><i class="bi bi-play-circle"></i>
+                Start the use case</a>
 
-                    <a href="https://learn.microsoft.com/entra/identity/conditional-access/concept-filter-for-applications"
-                        class="link-dark" target="_blank">
-                        Application filters for Conditional Access</a> allow you to tag your application with custom
-                    attributes. These custom attributes are then added to their Conditional Access policies. Filters for
-                    applications are evaluated at token issuance runtime.
+            <br />&nbsp;<br>
 
-                    <br>&nbsp;<br>
+            Note, you can select your name from the header, it shows the content of the access token
+            issued by Microsoft Entra ID for customers that was returned to the application.
+            It should contain the role claims you assigned.
+            This demo application checks the claim’s value and gives access to manage products
+            and online orders.
+        </div>
 
-                    In this demo a conditional access block access to all applications tagged as
-                    <b>BlockGuestsUsers</b>.
-                <p>
-                </p>
-                <ol>
-                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
-                    <li>Sign-up or sign-in with your email, or a social account.</li>
-                    <li>Upon successful sign-in you will get an error message that you don't have access to the app.
-                    </li>
-                </ol>
-                </p>
+        <div id="useCase_GBAC" class="useCase">
+            <h4>Group-based access control</h4>
+            <p>
+                Group-based access control is a popular mechanism to enforce authorization in
+                applications. It helps you manage who has access to your application and what they can
+                do in the application. You can also alter the UI based on the user's membership.
 
-                <a class="btn header-button" role="button" href="/SignIn?handler=CSA"><i class="bi bi-play-circle"></i>
-                    Start the use case</a><br>&nbsp;<br>
-                <a class="" style="margin-top: 100px;" role="button" href="/help/CustomSecurityAttributes"><i
-                        class="bi bi-play-circle"></i> Learn how we configured the Woodgrove tenant</a>
 
-            </div>
-
-            <div id="useCase_TokenClaims" class="useCase">
-                <h4>Add claims to security tokens</h4>
-                <p>
-                    When users authenticate to your application with Microsoft Entra ID for customers, a security
-                    token is return to your application. The security token contains claims that are
-                    statements about the user, such as name, unique identifier, or application roles.
-
-                    Beyond the default set of claims that are contained in the security token you can <a
-                        class="link-dark"
-                        href="https://learn.microsoft.com/en-us/entra/external-id/customers/how-to-add-attributes-to-token">add
-                        more claims</a>.
-                </p>
-                <p>
-                    This demo shows how to add addtinal attributes to the access and ID tokens.
-                </p>
-                <ol>
-                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
-                    <li>Sign-up your email, or a social account.</li>
-                    <li>After you validate your email, or sign-in with your social account, complete the
-                        registration by providing your details.</b>
-                        The <b>special diet</b> is a custom attribute you can provide. For the demo enter,
-                        <b>Egg allergy</b> This attribute will be included in the security token that return
-                        to the Woodgrove application.
-                    </li>
-                    <li>From the Woodgrove header, select your name, which will take you to the <b>security
-                            token page</b>. The security token page contains the claims that return by Microsoft Entra
-                        ID for customers. Look for the <b>special diet</b> claim</li>
-                </ol>
-
-                <a class="btn header-button" role="button" href="/SignIn?handler=TokenClaims"><i
-                        class="bi bi-play-circle"></i> Start the use case</a>
-            </div>
-
-            <div id="useCase_TokenAugmentation" class="useCase">
-                <h4>Add claims to security tokens from a REST API</h4>
-                <p>
-                    When users authenticate to your application with Microsoft Entra ID for customers, a security
-                    token is return to your application. The security token contains claims that are
-                    statements about the user, such as name, unique identifier, or application roles.
-                    <br>&nbsp;<br>
-                    Beyond the default set of claims that are contained in the security token you can add custom claims
-                    from external systems using a REST API you develop.
-                    For more information, learn <a class="link-dark"
-                        href="https://learn.microsoft.com/en-us/entra/identity-platform/custom-extension-get-started?context=%2Fentra%2Fexternal-id%2Fcustomers%2Fcontext%2Fcustomers-context&tabs=entra-admin-center%2Chttp">
-                        how to configure a custom claim provider token issuance event</a>.
-
-                <ol>
-                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
-                    <li>Sign-up or sign-in with your email, or a social account.</li>
-                    <li>From the Woodgrove header, select your name, which will take you to the <b>security
-                            token page</b>.</li>
-                    <li>The security token page contains the claims that return by Microsoft Entra ID for customers.
-                        Locate the loyaltyNumber, loyaltySince, and loyaltyTier
-                        claims and check their value. This claims were return by a custom authentication
-                        extension REST API with some random values.</li>
-                </ol>
-                </p>
-                <a class="btn header-button" role="button" href="/SignIn?handler=TokenAugmentation"><i
-                        class="bi bi-play-circle"></i> Start the use
-                    case</a>
-            </div>
-
-            <div id="useCase_OBO" class="useCase">
-                <h4>Add claims to security tokens from a REST API</h4>
-                <p>
-                    The on-behalf-of (OBO) flow describes the scenario of a web API using an identity other than its own
-                    to call another downstream web API. For the middle-tier web API to make authenticated requests to
-                    the
-                    downstream web API it needs a different audience and another set of scopes (permissions). For more
-                    information, <a class="link-dark"
-                        href="https://learn.microsoft.com/entra/identity-platform/v2-oauth2-on-behalf-of-flow">
-                        Microsoft identity platform and OAuth 2.0 On-Behalf-Of flow</a>
-                    <br>&nbsp;<br>
-                    This demo shows how the <a href="https://github.com/microsoft/woodgrove-groceries-api">Account web
-                        API</a> makes authenticated requests to a downstream <b>Payment web API</b>.
-                    To call the Payment web API, the Account web API acquires an access
-                    token for the Payment web API (audience or aud claim) and another set of scopes (permissions) that
-                    require by the Payment web API.
-
-                <ol>
-                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
-                    <li>Sign-up or sign-in with your email, or a social account.</li>
-                    <li>After you sign-in you will be redirected to the <b>token</b> page. You can also select your name
-                        from the header.</li>
-                    <li>Then, select the <b> Access token to call a web API</b> button.</li>
-                    <li>It shows you two links to the https://jwt.ms app with the corresponding access tokens. The first
-                        access
-                        token is the one returned to the Woodgrove demo application and used to call the first web API
-                        (Account).
-                        The second one shows the access token the the Account web API acquires to call the Payment web
-                        API.</li>
-                    <li>Compare the access tokens to understand the on-behalf-of flow.</li>
-                </ol>
-                </p>
-                <a class="btn header-button" role="button" href="/SignIn?handler=OBO"><i class="bi bi-play-circle"></i>
-                    Start the use
-                    case</a>
-            </div>
-
-            <div id="useCase_PreAttributeCollection" class="useCase">
-                <h4>Prepopulate sign-up attributes</h4>
-                <p>
-                    The custom authentication extension supports the <b>on attribute collection start</b> event. This
-                    event occurs at the beginning of the attribute collection step, before the attribute collection page
-                    renders.
-                    You can add actions such as prefilling values and displaying a blocking error.
-                    For more information, learn how to <a class="link-dark"
-                        href="https://learn.microsoft.com/en-us/entra/identity-platform/custom-extension-attribute-collection?context=%2Fentra%2Fexternal-id%2Fcustomers%2Fcontext%2Fcustomers-context&tabs=start-continue%2Csubmit-continue">create
-                        a custom authentication extensions for attribute collection start and submit events</a> .
-                    <br>&nbsp;<br>
-                    This demo shows how to Prepopulate some of the values, including pre selecting the country attribute
-                    with spain and generating and set the value of the promo code attribute.
-                    <br />
-                    To start the demo:
-                <ol>
-                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
-                    <li>Sign-up with your email, or a social account. For more information, <a
-                            class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-                            href="#usecase=EmailAndPassword">sign-up or sign-in with email
-                            and password</a>. If you already have an account,
-                        <a class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-                            href="#" onclick="showUseCase('useCase_DeleteAccount')">delete it</a>.
-                    </li>
-                    <li>After you validate your email, or sign-in first time with your social account, you will be taken
-                        to the sign-up page.</li>
-                    <li>
-                        On the sign-up page notice that the <b>Spain</b> country was selected for you. Also at the
-                        bottom of
-                        the page you can see that the <b>promo code</b> was generated and entered for you. Both values
-                        were provided by a custom authentication extension.</li>
-                </ol>
-
-                <a class="btn header-button" role="button" href="/SignIn?handler=PreAttributeCollection"><i
-                        class="bi bi-play-circle"></i> Start
-                    the use case</a>
-            </div>
-
-            <div id="useCase_PostAttributeCollection" class="useCase">
-                <h4>Validate sign-up attributes</h4>
-                <p>
-                    The custom authentication extension supports the <b>on attribute collection submit</b> event. This
-                    event allows you to
-                    perform validation on attributes collected from the user during sign-up. For more information, learn
-                    how to <a class="link-dark"
-                        href="https://learn.microsoft.com/en-us/entra/identity-platform/custom-extension-attribute-collection?context=%2Fentra%2Fexternal-id%2Fcustomers%2Fcontext%2Fcustomers-context&tabs=start-continue%2Csubmit-continue">create
-                        a custom authentication extensions for attribute collection start and submit events</a> .
-
-                    <br>&nbsp;<br>
-                    This demo validates the
-                    city name against a list of cities and countries compiled in the Woodgrove custom authentication
-                    extension REST API.
-
-                <ol>
-                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
-                    <li>Sign-up with your email, or a social account. For more information, <a
-                            class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-                            href="#usecase=EmailAndPassword">sign-up or sign-in with email
-                            and password</a>. If you already have an account,
-                        <a class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-                            href="#" onclick="showUseCase('useCase_DeleteAccount')">delete it</a>.
-                    </li>
-                    <li>After you validate your email, or sign-in with your social account, complete the
-                        registration by providing your details.</b>
-                        For the country, leave the <b>Spain</b> selected, and then for the city <b>Berlin</b> (Berlin is
-                        not a city in Spain).</li>
-                    <li>Select <b>next</b> to create a Woodgrove online identity. And you should get an
-                        error message that Woodgrove doesn’t operate in this city. Because Berlin is a city in Germany,
-                        not in Spain.</li>
-                    <li>Corrects the city name. For example, enter <b>Madrid</b> and try to complete the
-                        registration again. This time you should be able to complete the registration.</li>
-                </ol>
-
-                <a class="btn header-button" role="button" href="/SignIn?handler=PostAttributeCollection"><i
-                        class="bi bi-play-circle"></i> Start
-                    the use case</a>
-            </div>
-
-            <div id="useCase_BlockSignUp" class="useCase">
-                <h4>Block a user from continuing the sign-up process</h4>
-                <p>
-                    The custom authentication extension supports the on <i>attribute collection <b>start</b> and
-                        <b>submit</b></i> events. These events allow you to
-                    block the user from continuing the sign-up process.
-                    For example, you could use an identity verification service or external identity data source to
-                    verify the user's email address. For more information, learn how to <a class="link-dark"
-                        href="https://learn.microsoft.com/en-us/entra/identity-platform/custom-extension-attribute-collection?context=%2Fentra%2Fexternal-id%2Fcustomers%2Fcontext%2Fcustomers-context&tabs=start-continue%2Csubmit-continue">create
-                        a custom authentication extensions for attribute collection start and submit events</a>.
-
-                    <br>&nbsp;<br>
-                    This demo validates uses the <i>on attribute collection <b>submit</b> </i> even to check the value
-                    of the city attribute and block the process.
-
-                <ol>
-                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
-                    <li>Sign-up with your email, or a social account. For more information, <a
-                            class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-                            href="#usecase=EmailAndPassword">sign-up or sign-in with email
-                            and password</a>. If you already have an account,
-                        <a class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-                            href="#" onclick="showUseCase('useCase_DeleteAccount')">delete it</a>.
-                    </li>
-                    <li>After you validate your email, or sign-in with your social account, complete the
-                        registration by providing your details.</li>
-                    <li>For the <b>city</b> attribute, enter <b>block</b>.</li>
-                    <li>Select <b>next</b> to try to create a Woodgrove online identity. At this time the sign-up
-                        process will be canceled all together.
-                        This is because the custom authentication extension checks the city value. If it contains
-                        <b>block</b>, it returns the <b>show block page</b> action.
-
-                </ol>
-
-                <a class="btn header-button" role="button" href="/SignIn?handler=BlockSignUp"><i
-                        class="bi bi-play-circle"></i> Start
-                    the use case</a>
-            </div>
-
-            <div id="useCase_RBAC" class="useCase">
-                <h4>Role-based access control</h4>
-                <p>
-                    Role-based access control is a popular mechanism to enforce authorization in
-                    applications. It helps you manage who has access to your application and what they can
-                    do in the application.
-                    An application developer defines
-                    the roles for the application. Then these roles can be assigned to
-                    users. In this demo, you assign yourself to application roles which is automatically approved. For
-                    more information, learn how to <a class="link-dark"
-                        href="https://learn.microsoft.com/entra/external-id/customers/how-to-use-app-roles-customers">use
-                        role-based access control for applications</a>.
-
-                    <br />&nbsp;<br>
-                    To start the demo:
-                <ol>
-                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
-                    <li>Sign-up or sign-in with your email, or a social account.</li>
-                    <li>From the Woodgrove header, select the profile, which will take you to the <b>edit
-                            profile page</b>.</li>
-                    <li>In profile page add yourself
-                        the <b>Products.Contributor</b> and <b>Orders.Manager</b> roles.</li>
-                    <li>To reflect the changes in the security token return to the Woodgrove application, sign-in again
-                        with the same account. You will not ask to enter your credentials, since you already signed-in
-                        using the SSO feature.</li>
-                    <li>Back to the application, since you have the Orders.Manager role the <b>Orders</b> button appears
-                        in
-                        the header.</li>
-                    <li>And since you also have the Products.Contributor role,
-                        the <b>Manage products</b> button appears in the header.</li>
-                </ol>
-
-                </p>
-                <a class="btn header-button" role="button" href="/SignIn?handler=RBAC"><i class="bi bi-play-circle"></i>
-                    Start the use case</a>
+                For more information, learn how to <a class="link-dark"
+                    href="https://learn.microsoft.com/entra/external-id/customers/how-to-use-app-roles-customers">use
+                    role-based access control for applications</a>.
 
                 <br />&nbsp;<br>
+                In this demo, you add yourself to the <b>Commercial Accounts</b> security group and you will get
+                discounts for some of the products.
+            </p>
+            To start the demo:
+            <ol>
+                <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                <li>Sign-up or sign-in with your email, or a social account.</li>
+                <li>From the Woodgrove header, select the profile, which will take you to the <b>edit
+                        profile page</b>.</li>
+                <li>In profile page you can update your profile data, but you can also add yourself to
+                    the <b>Commercial Accounts</b> security group. By doing so, you will get discounts
+                    off some of the products. Select the <b>Commercial Accounts</b> security group and
+                    <b>update your account</b>.
+                </li>
+                <li>To reflect the changes in the security token return to the Woodgrove application, sign-in again
+                    with the same account. You will not ask to enter your credentials, since you already signed-in
+                    using the SSO feature.</li>
+                <li>Now that you are a member of the Commercial Accounts security group, some of the
+                    items have a discount.</li>
+            </ol>
 
-                Note, you can select your name from the header, it shows the content of the access token
-                issued by Microsoft Entra ID for customers that was returned to the application.
-                It should contain the role claims you assigned.
-                This demo application checks the claim’s value and gives access to manage products
-                and online orders.
-            </div>
+            <a class="btn header-button" role="button" href="/SignIn?handler=GBAC"><i class="bi bi-play-circle"></i>
+                Start the use case</a>
 
-            <div id="useCase_GBAC" class="useCase">
-                <h4>Group-based access control</h4>
-                <p>
-                    Group-based access control is a popular mechanism to enforce authorization in
-                    applications. It helps you manage who has access to your application and what they can
-                    do in the application. You can also alter the UI based on the user's membership.
+            <br>&nbsp;<br>
+            Note, if you select your name from the header, it shows the content of the access token
+            issued by Microsoft Entra ID for customers that was returned to the application.
+            It should contain the groups claims.
+            This demo application checks the claim’s value and gives you the discounts.
+        </div>
+
+        <div id="useCase_CustomAttributes" class="useCase">
+            <h4>Collect user attributes during sign-up</h4>
+            <p>
+                User attributes are values collected from the user during self-service sign-up.
+                In the user flow settings, you can select from a set of built-in user attributes you
+                want to collect from customers. You can also create custom
+                user attributes and add them to your sign-up user flow. For more information, learn <a class="link-dark"
+                    href="https://learn.microsoft.com/en-us/entra/external-id/customers/how-to-define-custom-attributes">
+                    how to collect user attributes during sign-up.</a>
+
+                <br />&nbsp;<br />
+                On the sign-up page the user enters the information, and it's stored with their
+                profile in your directory.
 
 
-                    For more information, learn how to <a class="link-dark"
-                        href="https://learn.microsoft.com/entra/external-id/customers/how-to-use-app-roles-customers">use
-                        role-based access control for applications</a>.
+                This demo shows the use of built-in attribute and custom attribute called <b>special
+                    diet</b>. To start the demo:
 
-                    <br />&nbsp;<br>
-                    In this demo, you add yourself to the <b>Commercial Accounts</b> security group and you will get
-                    discounts for some of the products.
-                    To start the demo:
+            </p>
+
+            <ol>
+                <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                <li>Sign-up with your email, or a social account. For more information, <a
+                        class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+                        href="#usecase=EmailAndPassword">sign-up or sign-in with email
+                        and password</a>. If you already have an account,
+                    <a class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+                        href="#" onclick="showUseCase('useCase_DeleteAccount')">delete it</a>.
+                </li>
+                <li>After you validate your email, or sign-in with your social account, complete the
+                    registration by providing your details.</b>
+                    The <b>special diet</b> is a custom attribute you can provide. For the demo enter,
+                    <b>Egg allergy</b> This attribute will be included in the security token that return
+                    to the Woodgrove application.
+                </li>
+                <li>Select <b>next</b> to create a Woodgrove online identity. </li>
+                <li>After you successfully sign-in, in the home page, the <b>Eggs</b> product will show an
+                    allergy warning.</li>
+            </ol>
+
+            <a class="btn header-button" role="button" href="/SignIn?handler=CustomAttributes"><i
+                    class="bi bi-play-circle"></i> Start the use
+                case</a>
+        </div>
+
+        <div id="useCase_PolicyAgreement" class="useCase">
+            <h4>Add links to terms of use and privacy policies</h4>
+            <p>
+                Terms of use, also known as terms and conditions or terms of service, are rules, specifications, and
+                requirements for the use of your app.
+                Microsoft Entra external ID allows you to add a custom attribute (type of Boolean) to the sign-up
+                page.
+                Before completing the sign-up, users should read and accept your policies.
+
+
+                For more information, learn how to collect user attributes during sign-up <a class="link-dark"
+                    href="https://learn.microsoft.com/entra/external-id/customers/how-to-define-custom-attributes#to-configure-a-single-select-checkbox-checkboxsingleselect">and
+                    configure a single-select checkbox</a>.
+
+                <br />&nbsp;<br />
+                This demo shows to add links to <b>terms of use and privacy policies</b>. To start the demo:
+            </p>
+            <ol>
+                <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                <li>Sign-up with your email, or a social account. For more information, <a
+                        class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+                        href="#usecase=EmailAndPassword">sign-up or sign-in with email
+                        and password</a>. If you already have an account,
+                    <a class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+                        href="#" onclick="showUseCase('useCase_DeleteAccount')">delete it</a>.
+                </li>
+                <li>After you validate your email, or sign-in with your social account, complete the
+                    registration by providing your details.</b>
+                </li>
+                <li>
+                    Select the <b>terms of use and privacy policies</b> links which will be opened in a new browser
+                    tab. Then, close the tabs and go back to the sign-up page,
+                    and select the checkbox.
+                </li>
+                <li>Select <b>next</b> to create a Woodgrove online identity. </li>
+            </ol>
+
+            <a class="btn header-button" role="button" href="/SignIn?handler=PolicyAgreement"><i
+                    class="bi bi-play-circle"></i> Start the use
+                case</a>
+        </div>
+
+
+        <div id="useCase_SSO" class="useCase">
+            <h4>Single sign-on (SSO)</h4>
+
+            <p>
+                Single sign-on (SSO) adds security and convenience when users sign-in across multiple applications
+                in Microsoft Entra ID.
+                With single sign-on, users sign-in once with a single account and get access to multiple
+                applications.
+                When the user initially signs-in to an application, Microsoft Entra ID initiates a single sign-on
+                session.
+                Upon subsequent authentication requests, Microsoft Entra ID validates the session, and issues a
+                security token without prompting the user to sign in again.
+            </p>
+
+            @if (User.Identity?.IsAuthenticated == true)
+            {
                 <ol>
-                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
-                    <li>Sign-up or sign-in with your email, or a social account.</li>
-                    <li>From the Woodgrove header, select the profile, which will take you to the <b>edit
-                            profile page</b>.</li>
-                    <li>In profile page you can update your profile data, but you can also add yourself to
-                        the <b>Commercial Accounts</b> security group. By doing so, you will get discounts
-                        off some of the products. Select the <b>Commercial Accounts</b> security group and
-                        <b>update your account</b>.
-                    </li>
-                    <li>To reflect the changes in the security token return to the Woodgrove application, sign-in again
-                        with the same account. You will not ask to enter your credentials, since you already signed-in
-                        using the SSO feature.</li>
-                    <li>Now that you are a member of the Commercial Accounts security group, some of the
-                        items have a discount.</li>
+                    <li>You already signed-in to the Woodgrove application, so no need to sign-in again.</li>
+                    <li>Instead, select the <b>start the use case</b> button at the bottom of this page which will take
+                        you to the Woodgrove Bank web application.</li>
+                    <li>In the Woodgrove bank application, select the sign-in button.</li>
+                    <li>Notice that you don't need to enter your credentials, and you will be authenticated without
+                        prompting to sign in again.</li>
                 </ol>
-                </p>
-                <a class="btn header-button" role="button" href="/SignIn?handler=GBAC"><i class="bi bi-play-circle"></i>
-                    Start the use case</a>
 
+                <a class="btn header-button" role="button" href="/SignIn?handler=sso2"><i class="bi bi-play-circle"></i>
+                    Start the use case</a>
+            }
+            else
+            {
+                <div>Follow these steps to check out the SSO feature:</div>
+                <ol>
+                    <li>Start by signing-in to this application. You may need use the <a
+                            href="https://support.microsoft.com/microsoft-edge/browse-inprivate-in-microsoft-edge-cd2c9a48-0bc4-b98e-5e46-ac40c84e27e2">InPrivate
+                            mode in Microsoft Edge</a>.</li>
+                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                    <li>After you sign-in, come back to this dialog page and follow the instructions.</li>
+                </ol>
+
+                <a class="btn header-button" role="button" href="/SignIn?handler=sso1"><i class="bi bi-play-circle"></i>
+                    Start the use case</a>
+            }
+        </div>
+
+
+
+        <div id="useCase_ForceSignIn" class="useCase">
+            <h4>Force sign-in</h4>
+
+            <p>
+                Single sign-on (SSO) adds security and convenience when users sign-in across multiple applications
+                in Microsoft Entra ID.
+                With single sign-on, users sign-in once with a single account and get access to multiple
+                applications.
+                When the user initially signs-in to an application, Microsoft Entra ID initiates a single sign-on
+                session.
+                Upon subsequent authentication requests, Microsoft Entra ID validates the session, and issues a
+                security token without prompting the user to sign in again.
                 <br>&nbsp;<br>
-                Note, if you select your name from the header, it shows the content of the access token
-                issued by Microsoft Entra ID for customers that was returned to the application.
-                It should contain the groups claims.
-                This demo application checks the claim’s value and gives you the discounts.
-            </div>
+                You can force the user to enter their credentials on a sign-in request, negating single-sign on
+                session.
 
-            <div id="useCase_CustomAttributes" class="useCase">
-                <h4>Collect user attributes during sign-up</h4>
-                <p>
-                    User attributes are values collected from the user during self-service sign-up.
-                    In the user flow settings, you can select from a set of built-in user attributes you
-                    want to collect from customers. You can also create custom
-                    user attributes and add them to your sign-up user flow. For more information, learn <a
-                        class="link-dark"
-                        href="https://learn.microsoft.com/en-us/entra/external-id/customers/how-to-define-custom-attributes">
-                        how to collect user attributes during sign-up.</a>
+                To do so, select the <b>start the use case</b> button at the bottom of this page.
+            </p>
 
-                    <br />&nbsp;<br />
-                    On the sign-up page the user enters the information, and it's stored with their
-                    profile in your directory.
+            <a class="btn header-button" role="button" href="/SignIn?handler=ForceSignIn"><i
+                    class="bi bi-play-circle"></i> Start the use case</a>
 
+        </div>
 
-                    This demo shows the use of built-in attribute and custom attribute called <b>special
-                        diet</b>. To start the demo:
+        <div id="useCase_Kiosk" class="useCase">
+            <h4>Input constrained devices (Kiosk)</h4>
+            <p>
+                Input-constrained devices are devices that their screen or monitor is limited to
+                text-only and they don't have a web browser. For example, smart TV, IoT device, robot,
+                gaming console, printers. Or applications with limited user interface, such as a command
+                line application.
+                <br>&nbsp;<br>
+                These devices are connected to the internet, but due to the input constrains, the
+                authentication should be done on another device. The input constrained device gets a
+                device code from Microsoft Entra ID for customers and asks the user to visit a webpage in a browser
+                on a second
+                (rich device), such as smartphone, tablets, or PCs.
+                <br>&nbsp;<br>
+                In this use case, from the Kiosk page select sign-in. Use the second device, such as
+                smartphone and scan the QR code. On the sign-in page enters the <i>device code</i>, and
+                completes the sign-in. Once you signed in, the Kiosk (input-constrained device) is able
+                to get security tokens and authenticate you. Your name should be presented on the
+                top-right corner of the page.
+            </p>
+            <a class="btn header-button" role="button" href="/SignIn?handler=kiosk"><i class="bi bi-play-circle"></i>
+                Start the use case</a>
+        </div>
 
-                <ol>
-                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
-                    <li>Sign-up with your email, or a social account. For more information, <a
-                            class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-                            href="#usecase=EmailAndPassword">sign-up or sign-in with email
-                            and password</a>. If you already have an account,
-                        <a class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-                            href="#" onclick="showUseCase('useCase_DeleteAccount')">delete it</a>.
-                    </li>
-                    <li>After you validate your email, or sign-in with your social account, complete the
-                        registration by providing your details.</b>
-                        The <b>special diet</b> is a custom attribute you can provide. For the demo enter,
-                        <b>Egg allergy</b> This attribute will be included in the security token that return
-                        to the Woodgrove application.
-                    </li>
-                    <li>Select <b>next</b> to create a Woodgrove online identity. </li>
-                    <li>After you successfully sign-in, in the home page, the <b>Eggs</b> product will show an
-                        allergy warning.</li>
-                </ol>
+        <div id="useCase_Finance" class="useCase">
+            <h4>Finance</h4>
 
-                <a class="btn header-button" role="button" href="/SignIn?handler=CustomAttributes"><i
-                        class="bi bi-play-circle"></i> Start the use
-                    case</a>
-            </div>
+            <p>
+                The Woodgrove Bank demo
+                application illustrates the sign-up and sign-in authentication experiences for financial scenarios.
+                It also demonstrates the SAML protocol federation with Microsoft Entra External ID for customers.
+            </p>
+            <a class="btn header-button" role="button" href="/SignIn?handler=finance"><i class="bi bi-play-circle"></i>
+                Start the use case</a>
+        </div>
 
-            <div id="useCase_PolicyAgreement" class="useCase">
-                <h4>Add links to terms of use and privacy policies</h4>
-                <p>
-                    Terms of use, also known as terms and conditions or terms of service, are rules, specifications, and
-                    requirements for the use of your app.
-                    Microsoft Entra external ID allows you to add a custom attribute (type of Boolean) to the sign-up
-                    page.
-                    Before completing the sign-up, users should read and accept your policies.
+        <div id="useCase_ProfileEdit" class="useCase">
+            <h4>Edit your account</h4>
+            <p>
+                Profile editing policy lets you manage you profile attributes, like display name, surname, given
+                name, city, and others. After you update your profile, sign-out and
+                sign-in again.
+            </p>
+            <a class="btn header-button" role="button" href="Profile">Edit your account</a>
+        </div>
 
+        <div id="useCase_DeleteAccount" class="useCase">
+            <h4>Delete your account</h4>
+            <p>
+                If you would like to delete your account and personal information, visit the delete my
+                account page. You won't be able to reactivate your account. In a couple of minutes you
+                will be able to sign-up again with the same credentials.
+            </p>
+            <a class="btn header-button" role="button" href="DeleteMyAccount">Delete your
+                account</a>
+        </div>
 
-                    For more information, learn how to collect user attributes during sign-up <a class="link-dark"
-                        href="https://learn.microsoft.com/entra/external-id/customers/how-to-define-custom-attributes#to-configure-a-single-select-checkbox-checkboxsingleselect">and
-                        configure a single-select checkbox</a>.
+        <div id="useCase_Activity" class="useCase">
+            <h4>Your activity</h4>
+            <p>
+                Find information about your activities, including: when your acccout was created, last time you
+                sign-in and last time you reset your password.
 
-                    <br />&nbsp;<br />
-                    This demo shows to add links to <b>terms of use and privacy policies</b>. To start the demo:
+            </p>
 
-                <ol>
-                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
-                    <li>Sign-up with your email, or a social account. For more information, <a
-                            class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-                            href="#usecase=EmailAndPassword">sign-up or sign-in with email
-                            and password</a>. If you already have an account,
-                        <a class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-                            href="#" onclick="showUseCase('useCase_DeleteAccount')">delete it</a>.
-                    </li>
-                    <li>After you validate your email, or sign-in with your social account, complete the
-                        registration by providing your details.</b>
-                    </li>
-                    <li>
-                        Select the <b>terms of use and privacy policies</b> links which will be opened in a new browser
-                        tab. Then, close the tabs and go back to the sign-up page,
-                        and select the checkbox.
-                    </li>
-                    <li>Select <b>next</b> to create a Woodgrove online identity. </li>
-                </ol>
-
-                <a class="btn header-button" role="button" href="/SignIn?handler=PolicyAgreement"><i
-                        class="bi bi-play-circle"></i> Start the use
-                    case</a>
-            </div>
-
-
-            <div id="useCase_SSO" class="useCase">
-                <h4>Single sign-on (SSO)</h4>
-
-                <p>
-                    Single sign-on (SSO) adds security and convenience when users sign-in across multiple applications
-                    in Microsoft Entra ID.
-                    With single sign-on, users sign-in once with a single account and get access to multiple
-                    applications.
-                    When the user initially signs-in to an application, Microsoft Entra ID initiates a single sign-on
-                    session.
-                    Upon subsequent authentication requests, Microsoft Entra ID validates the session, and issues a
-                    security token without prompting the user to sign in again.
-                </p>
-
-                @if (User.Identity?.IsAuthenticated == true)
-                {
-                    <ol>
-                        <li>You already signed-in to the Woodgrove application, so no need to sign-in again.</li>
-                        <li>Instead, select the <b>start the use case</b> button at the bottom of this page which will take
-                            you to the Woodgrove Bank web application.</li>
-                        <li>In the Woodgrove bank application, select the sign-in button.</li>
-                        <li>Notice that you don't need to enter your credentials, and you will be authenticated without
-                            prompting to sign in again.</li>
-                    </ol>
-
-                    <a class="btn header-button" role="button" href="/SignIn?handler=sso2"><i class="bi bi-play-circle"></i>
-                        Start the use case</a>
-                }
-                else
-                {
-                    <div>Follow these steps to check out the SSO feature:</div>
-                    <ol>
-                        <li>Start by signing-in to this application. You may need use the <a
-                                href="https://support.microsoft.com/microsoft-edge/browse-inprivate-in-microsoft-edge-cd2c9a48-0bc4-b98e-5e46-ac40c84e27e2">InPrivate
-                                mode in Microsoft Edge</a>.</li>
-                        <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
-                        <li>After you sign-in, come back to this dialog page and follow the instructions.</li>
-                    </ol>
-
-                    <a class="btn header-button" role="button" href="/SignIn?handler=sso1"><i class="bi bi-play-circle"></i>
-                        Start the use case</a>
-                }
-            </div>
-
-
-
-            <div id="useCase_ForceSignIn" class="useCase">
-                <h4>Force sign-in</h4>
-
-                <p>
-                    Single sign-on (SSO) adds security and convenience when users sign-in across multiple applications
-                    in Microsoft Entra ID.
-                    With single sign-on, users sign-in once with a single account and get access to multiple
-                    applications.
-                    When the user initially signs-in to an application, Microsoft Entra ID initiates a single sign-on
-                    session.
-                    Upon subsequent authentication requests, Microsoft Entra ID validates the session, and issues a
-                    security token without prompting the user to sign in again.
-                    <br>&nbsp;<br>
-                    You can force the user to enter their credentials on a sign-in request, negating single-sign on
-                    session.
-
-                    To do so, select the <b>start the use case</b> button at the bottom of this page.
-                </p>
-
-                <a class="btn header-button" role="button" href="/SignIn?handler=ForceSignIn"><i
-                        class="bi bi-play-circle"></i> Start the use case</a>
-
-            </div>
-
-            <div id="useCase_Kiosk" class="useCase">
-                <h4>Input constrained devices (Kiosk)</h4>
-                <p>
-                    Input-constrained devices are devices that their screen or monitor is limited to
-                    text-only and they don't have a web browser. For example, smart TV, IoT device, robot,
-                    gaming console, printers. Or applications with limited user interface, such as a command
-                    line application.
-                    <br>&nbsp;<br>
-                    These devices are connected to the internet, but due to the input constrains, the
-                    authentication should be done on another device. The input constrained device gets a
-                    device code from Microsoft Entra ID for customers and asks the user to visit a webpage in a browser
-                    on a second
-                    (rich device), such as smartphone, tablets, or PCs.
-                    <br>&nbsp;<br>
-                    In this use case, from the Kiosk page select sign-in. Use the second device, such as
-                    smartphone and scan the QR code. On the sign-in page enters the <i>device code</i>, and
-                    completes the sign-in. Once you signed in, the Kiosk (input-constrained device) is able
-                    to get security tokens and authenticate you. Your name should be presented on the
-                    top-right corner of the page.
-                </p>
-                <a class="btn header-button" role="button" href="/SignIn?handler=kiosk"><i
-                        class="bi bi-play-circle"></i>
-                    Start the use case</a>
-            </div>
-
-            <div id="useCase_Finance" class="useCase">
-                <h4>Finance</h4>
-
-                <p>
-                    The Woodgrove Bank demo
-                    application illustrates the sign-up and sign-in authentication experiences for financial scenarios.
-                    It also demonstrates the SAML protocol federation with Microsoft Entra External ID for customers.
-                </p>
-                <a class="btn header-button" role="button" href="/SignIn?handler=finance"><i
-                        class="bi bi-play-circle"></i> Start the use case</a>
-            </div>
-
-            <div id="useCase_ProfileEdit" class="useCase">
-                <h4>Edit your account</h4>
-                <p>
-                    Profile editing policy lets you manage you profile attributes, like display name, surname, given
-                    name, city, and others. After you update your profile, sign-out and
-                    sign-in again.
-                </p>
-                <a class="btn header-button" role="button" href="Profile">Edit your account</a>
-            </div>
-
-            <div id="useCase_DeleteAccount" class="useCase">
-                <h4>Delete your account</h4>
-                <p>
-                    If you would like to delete your account and personal information, visit the delete my
-                    account page. You won't be able to reactivate your account. In a couple of minutes you
-                    will be able to sign-up again with the same credentials.
-                </p>
-                <a class="btn header-button" role="button" href="DeleteMyAccount">Delete your
-                    account</a>
-            </div>
-
-            <div id="useCase_Activity" class="useCase">
-                <h4>Your activity</h4>
-                <p>
-                    Find information about your activities, including: when your acccout was created, last time you
-                    sign-in and last time you reset your password.
-
-                </p>
-
-                <ol>
-                    @if (User.Identity?.IsAuthenticated == false)
-                    {
-                        <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
-                        <li>Sign-up or sign-in with your email, or a social account.</li>
-                    }
-                    else
-                    {
-                        <li>Looks like you already signed-in. Good!</li>
-                    }
-
-                    <li>From the Woodgrove header select the profile icon, or select the <b>Check your activity</b>
-                        button below which will take you to the <b>edit
-                            profile page</b>.</li>
-                    <li>Scroll down to the <b>Sign-in activity</b> to check your activity information.</li>
-                </ol>
-
+            <ol>
                 @if (User.Identity?.IsAuthenticated == false)
                 {
-                    <a class="btn header-button" role="button" href="/SignIn?handler=activity"><i
-                            class="bi bi-play-circle"></i> Start the use case</a>
+                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                    <li>Sign-up or sign-in with your email, or a social account.</li>
                 }
                 else
                 {
-                    <a class="btn header-button" role="button" href="Profile">Check your activity</a>
+                    <li>Looks like you already signed-in. Good!</li>
                 }
 
-            </div>
+                <li>From the Woodgrove header select the profile icon, or select the <b>Check your activity</b>
+                    button below which will take you to the <b>edit
+                        profile page</b>.</li>
+                <li>Scroll down to the <b>Sign-in activity</b> to check your activity information.</li>
+            </ol>
 
-            <div id="useCase_UserInsights" class="useCase">
-                <h4>Application user activity insights</h4>
-                <p>
-                    The user insights provides data analytics into user activity and engagement for your registered
-                    applications within your customer tenant.
-                    <br>&nbsp;<br>
-                    Use Microsoft Graph and the Microsoft Entra Admin Center to view, query and analyze user activity
-                    data. For more information, learn <a
-                        href="https://learn.microsoft.com/entra/external-id/customers/how-to-user-insights"
-                        class="link-dark">Gain
-                        insights into your app users’ activity</a>.
+            @if (User.Identity?.IsAuthenticated == false)
+            {
+                <a class="btn header-button" role="button" href="/SignIn?handler=activity"><i class="bi bi-play-circle"></i>
+                    Start the use case</a>
+            }
+            else
+            {
+                <a class="btn header-button" role="button" href="Profile">Check your activity</a>
+            }
 
-                    <br>&nbsp;<br>
-                    This demo uses Microsoft Graph API to query the usage & insights (<a
-                        href="https://learn.microsoft.com/graph/api/resources/dailyuserinsightmetricsroot?view=graph-rest-beta"
-                        class="link-dark">daily</a> and <a
-                        href="https://learn.microsoft.com/graph/api/resources/monthlyuserinsightmetricsroot?view=graph-rest-beta"
-                        class="link-dark">monthly</a>) to uncover valuable insights that can aid
-                    strategic decisions and drive business growth.
-                </p>
-                <a class="btn header-button" role="button" href="dashboard"> Start the use case</a>
-            </div>
+        </div>
+
+        <div id="useCase_UserInsights" class="useCase">
+            <h4>Application user activity insights</h4>
+            <p>
+                The user insights provides data analytics into user activity and engagement for your registered
+                applications within your customer tenant.
+                <br>&nbsp;<br>
+                Use Microsoft Graph and the Microsoft Entra Admin Center to view, query and analyze user activity
+                data. For more information, learn <a
+                    href="https://learn.microsoft.com/entra/external-id/customers/how-to-user-insights"
+                    class="link-dark">Gain
+                    insights into your app users’ activity</a>.
+
+                <br>&nbsp;<br>
+                This demo uses Microsoft Graph API to query the usage & insights (<a
+                    href="https://learn.microsoft.com/graph/api/resources/dailyuserinsightmetricsroot?view=graph-rest-beta"
+                    class="link-dark">daily</a> and <a
+                    href="https://learn.microsoft.com/graph/api/resources/monthlyuserinsightmetricsroot?view=graph-rest-beta"
+                    class="link-dark">monthly</a>) to uncover valuable insights that can aid
+                strategic decisions and drive business growth.
+            </p>
+            <a class="btn header-button" role="button" href="dashboard"> Start the use case</a>
         </div>
     </div>
+</div>
 </div>
 
 
@@ -1110,7 +1042,7 @@
 
         var useCaseToShow = useCaseId;
 
-        // Load the defaul use case
+        // Load the default use case
         if (useCaseId === 'Default') {
             useCaseToShow = 'useCase_OnlineRetail';
         }
