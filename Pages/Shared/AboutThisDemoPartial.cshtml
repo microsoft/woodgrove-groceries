@@ -1083,7 +1083,7 @@
             // Telemetry to improve the demo 
             var triggerIDs = ["Link", "Start", "Select"];
             
-            $.get("/SelectUseCase/usecased?id=" + useCaseId.replace('useCase_', '') + "&trigger=" + triggerIDs[trigger-1] + "&referral=" + document.referrer, function (data) {
+            $.get("/SelectUseCase/usecase?id=" + useCaseId.replace('useCase_', '') + "&trigger=" + triggerIDs[trigger-1] + "&referral=" + document.referrer, function (data) {
 
             }).fail(function(response) {
                 console.log( "Telemetry error:" );
