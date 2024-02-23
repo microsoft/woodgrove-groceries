@@ -1070,6 +1070,11 @@
             usecase = 'Default';
         }
 
+        //Name change
+        if (usecase === "OnlineRetail") {
+            usecase = 'Default';
+        }
+
         var useCases = ["Default", "StepUp", "CSA", "PolicyAgreement", "EmailAndPassword", "OBO", "SSO", "MFA", "CA", "ForceSignIn", "UserInsights", "BlockSignUp", "CompanyBranding", "Language", "SSPR", "Social", "TokenAugmentation", "TokenClaims", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "Activity", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Finance"];
 
         if (($('#offcanvasRight').length > 0) && usecase && (useCases.indexOf(usecase) > -1)) {
