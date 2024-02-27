@@ -17,7 +17,7 @@ namespace woodgrovedemo.Pages
 
             if (this.Message.StartsWith("AADSTS16000"))
             {
-                this.UserMessage = "Usually this error happens when you sign-in with an account that was deleted. To fix this issue you need to <a href='/SignIn?handler=InvalidSession'>sign-in with this link</a>."; 
+                this.UserMessage = "Usually this error happens when you sign-in with an account that was deleted, but haven't sign-out from Entra ID. To fix this issue you need to <a href='/SignIn?handler=InvalidSession'>sign-in with this link</a>. The link will invalidate the single sign-on (SSO) session and start a fresh sign-in flow."; 
             }
         }
 
