@@ -1,0 +1,115 @@
+﻿@page
+@model woodgrovedemo.Help.Pages.PolicyAgreementModel
+@{
+    ViewData["Title"] = "Terms and conditions";
+    Layout = "_Layout";
+}
+
+<h1 style="margin-top: 25px; margin-bottom: 25px;">Add your terms and conditions</h1>
+
+
+<div>
+
+    <p>
+        Terms of use, also known as terms and conditions or terms of service, are rules, specifications, and
+        requirements for the use of your app. Microsoft Entra external ID allows you to <a href="https://learn.microsoft.com/entra/external-id/customers/how-to-define-custom-attributes"  target="_blank"
+                        class="link-dark link-offset-2">add a custom user attribute</a> (type of
+        Boolean)
+        to the sign-up page. Before completing the sign-up, users should read and accept your policies.
+    </p>
+    @await Html.PartialAsync("_StepsButtons.cshtml")
+
+    <div class="bs-stepper vertical" id="Stepper">
+        @await Html.PartialAsync("_Steps.cshtml", 8)
+
+        <div class="bs-stepper-content">
+            <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
+                @await Html.PartialAsync("_Prerequisites.cshtml")
+                <p>
+                    Start by adding a custom user attribute named <b>PolicyAgreement</b>.
+                    This attribute will be collected during sign-up and stored with the user's profile in your
+                    directory.
+                    To add a user attribute, sign in to the <a href="https://entra.microsoft.com/" target="_blank"
+                        class="link-dark link-offset-2">Microsoft Entra admin center</a>
+                    and browse to <b>External Identities </b> > <b> Overview</b>. Then, select <b>Custom user
+                        attributes</b>.
+                </p>
+
+                <img class="img-fluid border" src="~/Help/PolicyAgreement/Select-custom-user-attributes.png">
+            </div>
+
+            <div id="step-2" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger2">
+                <p>
+                    The <b> custom user attributes</b> list contains all user attributes available in the tenant,
+                    including any custom user attributes
+                    that have been created. The <b>Attribute type</b> column indicates whether an attribute is built-in or
+                    custom. Select <b>Add</b> to create a new user attribute.
+                </p>
+                <img class="img-fluid border" src="~/Help/PolicyAgreement/Add-custom-user-attributes.png">
+            </div>
+            <div id="step-3" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger3">
+                <p>
+                    In the <b>Add an attribute</b> pane, enter a <b>Name</b> for the custom attribute. For example,
+                    <b>PolicyAgreement</b>.
+                    In <b>Data Type</b>, choose <b>Boolean</b>. In the <b>Description</b>, enter a description of the
+                    custom attribute for internal use.
+                    This description isn't visible to the user. Then select <b>Create</b> to add the new user attribute.
+                </p>
+                <img class="img-fluid border" src="~/Help/PolicyAgreement/New-custom-user-attributes.png">
+            </div>
+
+            <div id="step-4" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger4">
+                <p>
+                    The custom attribute is now available in the list of user attributes and can be added to your user
+                    flows.
+                    From the menu, select <b>User flows</b>.
+                </p>
+                <img class="img-fluid border" src="~/Help/PolicyAgreement/Select-user-flows.png">
+            </div>
+
+            <div id="step-5" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger5">
+                <p>
+                    From the list of <b>User flows</b>, select a user flow. In this example, we select the user flow named
+                    <b>Default</b>.
+                </p>
+                <img class="img-fluid border" src="~/Help/PolicyAgreement/Select-user-flow.png">
+            </div>
+
+            <div id="step-6" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger6">
+                <p>
+                    From the menu, select <b>User attributes</b>. The <b>User attributes</b> list includes any custom
+                    user attributes you defined as described in the
+                    previous steps. For example, the new <b>PolicyAgreement</b> attribute now appears in the list.
+                    Select it and save the changes.
+                </p>
+                <img class="img-fluid border" src="~/Help/PolicyAgreement/Add-user-attribute-to-user-flow.png">
+            </div>
+
+            <div id="step-7" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger7">
+                <p>
+                    After you added the <b>PolicyAgreement</b> attribute to the user flow, configure the behavior and
+                    the layout of the sign-up page.
+                    For example, which attributes are required and arrange the display order. You can also edit
+                    attribute labels, create a checkboxe, and add hyperlinks to
+                    more content (such as terms of use or a privacy policy). From the menu, select <b>Page layout</b>.
+                    The <b>PolicyAgreement</b> attribute you have chosen to collect appears in the list.
+                </p>
+                <img class="img-fluid border" src="~/Help/PolicyAgreement/User-flow-page-layout.png">
+            </div>
+
+            <div id="step-8" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger8">
+                <p>
+                   Edit the label for the <b>PolicyAgreement</b> attribute by selecting the value in the <b>Label</b> column and modifying the text with the following <b>Markdown language</b> to add hyperlinks.<br>
+                   <code>I have read and agree to the [terms of use](https://woodgrovedemo.com/tos) and the [privacy policy](https://woodgrovedemo.com/privacy)</code>.
+                   <p>
+                    Note, since the <b>PolicyAgreement</b> attribute type is <b>Boolean</b>, the <b>User Input Type</b> is <b>CheckboxSingleSelect</b>. <b>Save</b> the changes. 
+                   </p>
+                    <p>
+                        <i class="bi bi-emoji-smile"></i> Congratulations! your user flow will show the links you just added. To test the user experience, sign-up to your application. 
+                    </p>
+                </p>
+                <img class="img-fluid border" src="~/Help/PolicyAgreement/User-flow-page-layout-edit.png" width="90%">
+            </div>
+        </div>
+    </div>
+</div>
