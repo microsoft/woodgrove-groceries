@@ -1,3 +1,6 @@
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.DataContracts;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
@@ -9,6 +12,7 @@ builder.Services.AddControllersWithViews();
 
 // The following line enables Application Insights telemetry collection.
 builder.Services.AddApplicationInsightsTelemetry();
+var _telemetry = builder.Services.BuildServiceProvider().GetService<TelemetryClient>();
 
 ConfigurationSection AzureAd = (ConfigurationSection)builder.Configuration.GetSection("AzureAd");
 ConfigurationSection WoodgroveGroceriesApi = (ConfigurationSection)builder.Configuration.GetSection("WoodgroveGroceriesApi");
@@ -29,8 +33,11 @@ builder.Services.Configure<OpenIdConnectOptions>(OpenIdConnectDefaults.Authentic
                                                      options.TokenValidationParameters.RoleClaimType = "roles";
                                                      options.TokenValidationParameters.NameClaimType = "name";
                                                      options.Events.OnRedirectToIdentityProvider += OnRedirectToIdentityProviderFunc;
+                                                     options.Events.OnMessageReceived += OnMessageReceivedFunc;
                                                      options.RemoteAuthenticationTimeout = TimeSpan.FromMinutes(30);
                                                  });
+
+
 
 builder.Services.AddAuthentication();
 
@@ -90,11 +97,36 @@ async Task OnRedirectToIdentityProviderFunc(RedirectContext context)
     // Add your custom code here
     if (stepUp != null)
     {
-        context.ProtocolMessage.Parameters.Add("claims", "%7B%22access_token%22%3A%7B%22acrs%22%3A%7B%22essential%22%3Atrue%2C%22value%22%3A%22c1%22%7D%7D%7D");;
+        context.ProtocolMessage.Parameters.Add("claims", "%7B%22access_token%22%3A%7B%22acrs%22%3A%7B%22essential%22%3Atrue%2C%22value%22%3A%22c1%22%7D%7D%7D"); ;
     }
 
-    
+
 
     // Don't remove this line
     await Task.CompletedTask.ConfigureAwait(false);
 }
+
+
+async Task OnMessageReceivedFunc(MessageReceivedContext context)
+{
+    if (context.ProtocolMessage != null && context.ProtocolMessage.Error != null)
+    {
+        if (_telemetry != null)
+        {
+            PageViewTelemetry pageView = new PageViewTelemetry("AuthError");
+
+            // Track the error into the authentication error page
+            pageView.Properties.Add("Error", context.ProtocolMessage.Error);
+            pageView.Properties.Add("ErrorDescription", context.ProtocolMessage.ErrorDescription);
+            pageView.Properties.Add("ErrorUri", context.ProtocolMessage.ErrorUri);
+            _telemetry.TrackPageView(pageView);
+        }
+
+        context.HandleResponse();
+        context.Response.Redirect($"/AuthError?error={context.ProtocolMessage.Error}&description={context.ProtocolMessage.ErrorDescription}");
+        await Task.CompletedTask.ConfigureAwait(false);
+    }
+}
+
+
+

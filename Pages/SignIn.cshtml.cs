@@ -117,7 +117,7 @@ namespace MyApp.Namespace
 
         public IActionResult OnGetProfileSignin()
         {
-            return this.TrackAndAuth("ProfileSignin");
+            return this.TrackAndAuth("ProfileSignin", "/", true);
         }
 
         public IActionResult OnGetTokenSignin()
@@ -139,7 +139,13 @@ namespace MyApp.Namespace
         {
             return this.TrackAndAuth("SSO-Start");
         }
+
         public IActionResult OnGetForceSignIn()
+        {
+            return this.TrackAndAuth("ForceSignIn", "/", true);
+        }
+
+        public IActionResult OnGetInvalidSession()
         {
             return this.TrackAndAuth("ForceSignIn", "/", true);
         }
@@ -156,7 +162,7 @@ namespace MyApp.Namespace
         {
             return this.TrackAndAuth("TokenAugmentation", "/", true);
         }
-        
+
         public IActionResult OnGetTokenClaims()
         {
             return this.TrackAndAuth("TokenClaims", "/", true);
