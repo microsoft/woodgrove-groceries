@@ -9,6 +9,7 @@ using Microsoft.Graph.Models;
 using Microsoft.Graph.Models.ODataErrors;
 using Microsoft.Identity.Abstractions;
 using Microsoft.Identity.Web;
+using woodgrovedemo.Helpers;
 
 namespace MyApp.Namespace
 {
@@ -21,11 +22,6 @@ namespace MyApp.Namespace
         private TelemetryClient _telemetry;
         readonly IAuthorizationHeaderProvider _authorizationHeaderProvider;
 
-        // Graph API settings
-        private readonly string[] scopes = new[] { "https://graph.microsoft.com/.default" };
-        private string TenantId { get; set; } = "";
-        private string ClientId { get; set; } = "";
-        private string ClientSecret { get; set; } = "";
         private string ExtensionAttributes { get; set; } = "";
 
         // User interface messages
@@ -61,9 +57,13 @@ namespace MyApp.Namespace
         private string ProductsContributorAssignmentId { get; set; } = "";
 
         // Sign in activity
+        [BindProperty]
         public string CreatedDateTime { get; set; } = "";
+        [BindProperty]
         public string LastSignInDateTime { get; set; } = "";
+        [BindProperty]
         public string LastSignInRequestId { get; set; } = "";
+        [BindProperty]
         public string LastPasswordChangeDateTime { get; set; } = "";
 
         public ProfileModel(IConfiguration configuration, TelemetryClient telemetry, IAuthorizationHeaderProvider authorizationHeaderProvider)
@@ -72,9 +72,6 @@ namespace MyApp.Namespace
             _telemetry = telemetry;
 
             // Get the app settings
-            TenantId = Configuration.GetSection("MicrosoftGraph:TenantId").Value!;
-            ClientId = Configuration.GetSection("MicrosoftGraph:ClientId").Value!;
-            ClientSecret = Configuration.GetSection("MicrosoftGraph:ClientSecret").Value!;
             ExtensionAttributes = Configuration.GetSection("MicrosoftGraph:ExtensionAttributes").Value!;
             _authorizationHeaderProvider = authorizationHeaderProvider;
         }
@@ -100,8 +97,7 @@ namespace MyApp.Namespace
         {
             try
             {
-                var clientSecretCredential = new ClientSecretCredential(TenantId, ClientId, ClientSecret);
-                var graphClient = new GraphServiceClient(clientSecretCredential, scopes);
+                var graphClient = MsalAccessTokenHandler.GetGraphClient(this.Configuration);
 
                 User profile = await graphClient.Users[userObjectId].GetAsync(requestConfiguration =>
                     {
@@ -182,8 +178,7 @@ namespace MyApp.Namespace
                 ErrorMessage = "The account cannot be updated since your access token doesn't contain the required 'objectidentifier' claim.";
             }
 
-            var clientSecretCredential = new ClientSecretCredential(TenantId, ClientId, ClientSecret);
-            var graphClient = new GraphServiceClient(clientSecretCredential, scopes);
+            var graphClient = MsalAccessTokenHandler.GetGraphClient(this.Configuration);
 
             try
             {
@@ -263,8 +258,7 @@ namespace MyApp.Namespace
                 ErrorMessage = "The account cannot be updated since your access token doesn't contain the required 'objectidentifier' claim.";
             }
 
-            var clientSecretCredential = new ClientSecretCredential(TenantId, ClientId, ClientSecret);
-            var graphClient = new GraphServiceClient(clientSecretCredential, scopes);
+            var graphClient = MsalAccessTokenHandler.GetGraphClient(this.Configuration);
 
             await GetRolesAndGroupsAsync(graphClient, userObjectId);
 

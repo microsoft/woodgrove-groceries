@@ -7,6 +7,7 @@ using Microsoft.Graph.Models.ODataErrors;
 using Microsoft.ApplicationInsights;
 using Microsoft.Identity.Web;
 using Microsoft.AspNetCore.Authorization;
+using woodgrovedemo.Helpers;
 
 namespace MyApp.Namespace
 {
@@ -45,14 +46,7 @@ namespace MyApp.Namespace
             }
 
             // Get the app settings
-            string TenantId = Configuration.GetSection("MicrosoftGraph:TenantId").Value!;
-            string ClientId = Configuration.GetSection("MicrosoftGraph:ClientId").Value!;
-            string ClientSecret = Configuration.GetSection("MicrosoftGraph:ClientSecret").Value!;
-
-            // Initialize the client credential auth provider
-            var scopes = new[] { "https://graph.microsoft.com/.default" };
-            var clientSecretCredential = new ClientSecretCredential(TenantId, ClientId, ClientSecret);
-            var graphClient = new GraphServiceClient(clientSecretCredential, scopes);
+            var graphClient = MsalAccessTokenHandler.GetGraphClient(this.Configuration);
 
             try
             {

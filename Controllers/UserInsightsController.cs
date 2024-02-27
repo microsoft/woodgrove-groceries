@@ -6,6 +6,7 @@ using Azure.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Identity.Abstractions;
+using woodgrovedemo.Helpers;
 
 namespace woodgrovedemo.Controllers;
 
@@ -14,7 +15,6 @@ namespace woodgrovedemo.Controllers;
 public class UserInsightsController : ControllerBase
 {
     private const string baseUrl = "https://graph.microsoft.com/beta/reports/userinsights";
-    string[] scopes = { "https://graph.microsoft.com/.default" };
     private readonly IConfiguration _configuration;
 
     private static readonly HttpClient client = new HttpClient();
@@ -30,23 +30,6 @@ public class UserInsightsController : ControllerBase
         _memoryCache = memoryCache;
     }
 
-    /// <summary>
-    /// Get an access token to call the Microsoft Graph API
-    /// </summary>
-    /// <returns></returns>
-    private string GetAccessToken()
-    {
-        // Get an access token to call the "Account" API (the first API in line)
-        string TenantId = _configuration.GetSection("MicrosoftGraph:TenantId").Value!;
-        string ClientId = _configuration.GetSection("MicrosoftGraph:ClientId").Value!;
-        string ClientSecret = _configuration.GetSection("MicrosoftGraph:ClientSecret").Value!;
-        var clientSecretCredential = new ClientSecretCredential(TenantId, ClientId, ClientSecret);
-
-        var at = clientSecretCredential.GetToken(new Azure.Core.TokenRequestContext(
-            new[] { "https://graph.microsoft.com/.default" }));
-
-        return at.Token;
-    }
 
     /// <summary>
     /// Generic function to fetch data from Microsoft Graph API
@@ -58,7 +41,7 @@ public class UserInsightsController : ControllerBase
         string responseString;
         if (!_memoryCache.TryGetValue(Url, out responseString))
         {
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GetAccessToken());
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await MsalAccessTokenHandler.AcquireToken(this._configuration));
 
             var response = await client.GetAsync(Url);
             responseString = await response.Content.ReadAsStringAsync();
