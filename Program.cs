@@ -29,6 +29,7 @@ builder.Services.Configure<OpenIdConnectOptions>(OpenIdConnectDefaults.Authentic
                                                      options.TokenValidationParameters.RoleClaimType = "roles";
                                                      options.TokenValidationParameters.NameClaimType = "name";
                                                      options.Events.OnRedirectToIdentityProvider += OnRedirectToIdentityProviderFunc;
+                                                     options.RemoteAuthenticationTimeout = TimeSpan.FromMinutes(30);
                                                  });
 
 builder.Services.AddAuthentication();
