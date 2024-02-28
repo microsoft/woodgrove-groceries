@@ -451,7 +451,8 @@
 
             <a class="btn header-button" role="button" href="/SignIn?handler=CSA"><i class="bi bi-play-circle"></i>
                 Start the use case</a><br>&nbsp;<br>
-            <i class="bi bi-play-circle"></i> <a class="" style="margin-top: 100px;" role="button" href="/help/CustomSecurityAttributes"> Learn how we configured the Woodgrove tenant</a>
+            <i class="bi bi-play-circle"></i> <a class="" style="margin-top: 100px;" role="button"
+                href="/help/CustomSecurityAttributes"> Learn how we configured the Woodgrove tenant</a>
 
         </div>
 
@@ -507,13 +508,18 @@
                         token page</b>.</li>
                 <li>The security token page contains the claims that return by Microsoft Entra ID for customers.
                     Locate the loyaltyNumber, loyaltySince, and loyaltyTier
-                    claims and check their value. This claims were return by a custom authentication
+                    claims and check their value. These claims were returned by a custom authentication
                     extension REST API with some random values.</li>
             </ol>
             </p>
             <a class="btn header-button" role="button" href="/SignIn?handler=TokenAugmentation"><i
                     class="bi bi-play-circle"></i> Start the use
                 case</a>
+
+            <br>&nbsp;<br>
+            <i class="bi bi-play-circle"></i> <a class="" style="margin-top: 100px;" role="button"
+                href="/help/TokenAugmentation">
+                Learn how we configured the Woodgrove tenant</a>
         </div>
 
         <div id="useCase_OBO" class="useCase">
@@ -843,9 +849,10 @@
             <a class="btn header-button" role="button" href="/SignIn?handler=PolicyAgreement"><i
                     class="bi bi-play-circle"></i> Start the use
                 case</a>
-            
+
             <br>&nbsp;<br>
-            <i class="bi bi-play-circle"></i> <a class="" style="margin-top: 100px;" role="button" href="/help/PolicyAgreement">
+            <i class="bi bi-play-circle"></i> <a class="" style="margin-top: 100px;" role="button"
+                href="/help/PolicyAgreement">
                 Learn how we configured the Woodgrove tenant</a>
         </div>
 
@@ -1090,11 +1097,11 @@
 
             // Telemetry to improve the demo 
             var triggerIDs = ["Link", "Start", "Select"];
-            
-            $.get("/SelectUseCase/usecase?id=" + useCaseId.replace('useCase_', '') + "&trigger=" + triggerIDs[trigger-1] + "&referral=" + document.referrer, function (data) {
 
-            }).fail(function(response) {
-                console.log( "Telemetry error:" );
+            $.get("/SelectUseCase/usecase?id=" + useCaseId.replace('useCase_', '') + "&trigger=" + triggerIDs[trigger - 1] + "&referral=" + document.referrer, function (data) {
+
+            }).fail(function (response) {
+                console.log("Telemetry error:");
                 console.log(response)
             });
         }
