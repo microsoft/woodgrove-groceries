@@ -34,9 +34,10 @@ builder.Services.Configure<OpenIdConnectOptions>(OpenIdConnectDefaults.Authentic
                                                      options.TokenValidationParameters.NameClaimType = "name";
                                                      options.Events.OnRedirectToIdentityProvider += OnRedirectToIdentityProviderFunc;
                                                      options.Events.OnMessageReceived += OnMessageReceivedFunc;
+                                                     options.Events.OnAuthenticationFailed += OnAuthenticationFailedFunc;
+                                                     options.Events.OnRemoteFailure += OnRemoteFailureFunc;
                                                      options.RemoteAuthenticationTimeout = TimeSpan.FromMinutes(30);
                                                  });
-
 
 
 builder.Services.AddAuthentication();
@@ -106,7 +107,7 @@ async Task OnRedirectToIdentityProviderFunc(RedirectContext context)
     await Task.CompletedTask.ConfigureAwait(false);
 }
 
-
+// Invoked when an OpenIdConnect message is first received.
 async Task OnMessageReceivedFunc(MessageReceivedContext context)
 {
     if (context.ProtocolMessage != null && context.ProtocolMessage.Error != null)
@@ -121,9 +122,9 @@ async Task OnMessageReceivedFunc(MessageReceivedContext context)
             pageView.Properties.Add("ErrorUri", context.ProtocolMessage.ErrorUri);
 
             int errorCode = context.ProtocolMessage.ErrorDescription.IndexOf(":");
-            if (errorCode <= 12 )
+            if (errorCode <= 12)
             {
-                pageView.Properties.Add("ErrorCode",  context.ProtocolMessage.ErrorDescription.Substring(0, errorCode));
+                pageView.Properties.Add("ErrorCode", context.ProtocolMessage.ErrorDescription.Substring(0, errorCode));
             }
 
             _telemetry.TrackPageView(pageView);
@@ -135,5 +136,45 @@ async Task OnMessageReceivedFunc(MessageReceivedContext context)
     }
 }
 
+// Invoked if exceptions are thrown during OpenIdConnect request processing. 
+// The exceptions will be re-thrown after this event unless suppressed.
+async Task OnAuthenticationFailedFunc(AuthenticationFailedContext context)
+{
+    if (_telemetry != null)
+    {
+        PageViewTelemetry pageView = new PageViewTelemetry("AuthError");
+
+        // Track the error into the authentication error page
+        pageView.Properties.Add("Error", "AuthenticationFailed");
+        pageView.Properties.Add("ErrorDescription", context.Exception.Message);
+        pageView.Properties.Add("ErrorCode", "APP_AUTH_0001");
+
+        _telemetry.TrackPageView(pageView);
+    }
+
+    context.HandleResponse();
+    context.Response.Redirect($"/AuthError?error=APP_AUTH_0001&description={context.Exception.Message}");
+    await Task.CompletedTask.ConfigureAwait(false);
+}
+
+// Invoked when there is an OpenIdConnect remote failure.
+async Task OnRemoteFailureFunc(RemoteFailureContext context)
+{
+    if (_telemetry != null)
+    {
+        PageViewTelemetry pageView = new PageViewTelemetry("AuthError");
+
+        // Track the error into the authentication error page
+        pageView.Properties.Add("Error", "RemoteFailure");
+        pageView.Properties.Add("ErrorDescription", context.Failure.Message);
+        pageView.Properties.Add("ErrorCode", "APP_AUTH_0002");
+
+        _telemetry.TrackPageView(pageView);
+    }
+
+    context.HandleResponse();
+    context.Response.Redirect($"/AuthError?error=APP_AUTH_0002&description={context.Failure.Message}");
+    await Task.CompletedTask.ConfigureAwait(false);
+}
 
 
