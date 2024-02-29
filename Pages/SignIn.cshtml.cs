@@ -154,10 +154,17 @@ namespace MyApp.Namespace
         {
 
             _telemetry.TrackPageView($"Sign-in:SSO-Continue");
-
+ 
             return Redirect("https://bank.woodgrovedemo.com/Auth/Login");
         }
 
+        public IActionResult OnGetAssignmentRequired()
+        {
+            _telemetry.TrackPageView($"Sign-in:AssignmentRequired");
+
+            return Redirect(this.Configuration.GetSection("Demos:AssignmentRequiredURL").Value);
+        }
+        
         public IActionResult OnGetTokenAugmentation()
         {
             return this.TrackAndAuth("TokenAugmentation", "/", true);

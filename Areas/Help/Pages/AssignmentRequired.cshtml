@@ -1,0 +1,84 @@
+﻿@page
+@model woodgrovedemo.Help.Pages.AssignmentRequiredModel
+@{
+    ViewData["Title"] = "Restrict app to a set of users";
+    Layout = "_Layout";
+}
+
+<h1 style="margin-top: 25px; margin-bottom: 25px;">Restrict app to a set of users</h1>
+
+<div>
+    <p>
+        Applications registered in a Microsoft Entra tenant are, by default, available to all users of the tenant who
+        authenticate successfully. You can configure your application to be <a
+            href="https://learn.microsoft.com/entra/identity-platform/howto-restrict-your-app-to-a-set-of-users"
+            target="_blank" class="link-dark link-offset-2">restricted to a certain set of users or apps</a>.
+    </p>
+    @await Html.PartialAsync("_StepsButtons.cshtml")
+
+    <div class="bs-stepper vertical">
+        @await Html.PartialAsync("_Steps.cshtml", 5)
+
+        <div class="bs-stepper-content">
+            <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
+                <p>
+                    To start, sign in to the <a href="https://entra.microsoft.com/" target="_blank"
+                        class="link-dark link-offset-2">Microsoft Entra admin center</a>
+                    and browse to <b>Identity</b> > <b>App registrations</b>. Select <b>All applications</b> and
+                    select the application you want to configure to require assignment. In this example,
+                    we want to restrict accesss to the <b>Woodgrove partners portal</b> app.
+                </p>
+                <img class="img-fluid border" src="~/Help/AssignmentRequired/Select-app-registration.png">
+            </div>
+            <div id="step-2" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger2">
+                <p>
+                    From the app <b>Overview</b> page, select the link next to <b>Managed application in local
+                        directory</b>.
+                    Note, you can also browse to <b>Enterprise applications</b>, then under <b>Manage</b>, select <b>All
+                        applications</b>, and then select your application from the list.
+                </p>
+                <img class="img-fluid border" src="~/Help/AssignmentRequired/Select-service-principal.png">
+
+            </div>
+            <div id="step-3" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger3">
+                <p>
+                    On the application's <b>Overview</b> page, under <b>Manage</b>, select <b>Properties</b>.
+                    Locate the setting <b>Assignment required?</b> and set it to <b>Yes</b>. When this option is set to
+                    Yes, users must first be assigned for this
+                    application, or they won't be able to sign-in or obtain an access token.
+                    Select <b>Save</b> on the top bar.
+                </p>
+                <img class="img-fluid border" src="~/Help/AssignmentRequired/Configure-assignment-required.png">
+            </div>
+
+            <div id="step-4" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger4">
+                <p>
+                    Now that you configured that users must first be assigned for the
+                    application. The next step is to assign the app to users. You can do it from Microsoft Entra Admin
+                    center (or <a href="https://learn.microsoft.com/en-us/graph/api/resources/approleassignment"
+                        target="_blank" class="link-dark link-offset-2">use Graph API</a>).
+                    Under <b>Manage</b>, select the <b>Users and groups</b> then select <b>Add user/group</b>.
+                </p>
+                <img class="img-fluid border" src="~/Help/AssignmentRequired/Assign-users.png">
+            </div>
+
+            <div id="step-5" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger5">
+                <p>
+                    From the <b>Add Assignment</b> page, select the <b>Users and groups</b> selector.
+
+                    A list of users and security groups are shown along with a textbox to search and locate a certain
+                    user. This screen allows you to select multiple users and groups in one go.
+                    Note, if your application is configured with <a
+                        href="https://learn.microsoft.com/en-us/entra/external-id/customers/how-to-use-app-roles-customers"
+                        target="_blank" class="link-dark link-offset-2">app roles</a>, select the corresponding roles.
+                </p>
+                <p>
+                    <i class="bi bi-emoji-smile"></i> Well done! your application restricts access to the users you
+                    assigned.
+                </p>
+                <img class="img-fluid border" src="~/Help/AssignmentRequired/Assign-users-select.png">
+            </div>
+        </div>
+    </div>
+</div>
+</div>
