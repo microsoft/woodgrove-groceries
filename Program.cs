@@ -119,6 +119,13 @@ async Task OnMessageReceivedFunc(MessageReceivedContext context)
             pageView.Properties.Add("Error", context.ProtocolMessage.Error);
             pageView.Properties.Add("ErrorDescription", context.ProtocolMessage.ErrorDescription);
             pageView.Properties.Add("ErrorUri", context.ProtocolMessage.ErrorUri);
+
+            int errorCode = context.ProtocolMessage.ErrorDescription.IndexOf(":");
+            if (errorCode <= 12 )
+            {
+                pageView.Properties.Add("ErrorCode",  context.ProtocolMessage.ErrorDescription.Substring(0, errorCode));
+            }
+
             _telemetry.TrackPageView(pageView);
         }
 
