@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using Azure.Identity;
 using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -122,7 +123,7 @@ namespace MyApp.Namespace
                 }
 
                 // Get the user identities
-                GetIdentities(profile!.Identities!);
+                FormatIdentities(profile!.Identities!);
 
                 // Get the account creation time
                 if (profile.CreatedDateTime != null)
@@ -159,12 +160,17 @@ namespace MyApp.Namespace
             catch (ODataError odataError)
             {
                 ErrorMessage = $"Can't read the profile due to the following error: {odataError.Error!.Message} Error code: {odataError.Error.Code}";
+                TrackException(odataError, "ReadProfile");
+
             }
             catch (Exception ex)
             {
                 ErrorMessage = $"Can't read the profile due to the following error: {ex.Message}";
+                TrackException(ex, "ReadProfile");
             }
         }
+
+
 
         public async Task<IActionResult> OnPostProfileAsync()
         {
@@ -178,10 +184,12 @@ namespace MyApp.Namespace
                 ErrorMessage = "The account cannot be updated since your access token doesn't contain the required 'objectidentifier' claim.";
             }
 
-            var graphClient = MsalAccessTokenHandler.GetGraphClient(this.Configuration);
+            GraphServiceClient graphClient = null;
 
             try
             {
+                graphClient = MsalAccessTokenHandler.GetGraphClient(this.Configuration);
+
                 // Update user by object ID
                 var requestBody = new User
                 {
@@ -200,18 +208,20 @@ namespace MyApp.Namespace
 
                 var result = await graphClient.Users[userObjectId].PatchAsync(requestBody);
 
-                // Get user's roles and security groups
-                await GetRolesAndGroupsAsync(graphClient, userObjectId);
+                // Get user's profile, roles and security groups
+                await ReadProfile(userObjectId);
 
                 UserNeedsToSignInAgain = true;
             }
             catch (ODataError odataError)
             {
                 ErrorMessage = $"The account cannot be updated due to the following error: {odataError.Error!.Message} Error code: {odataError.Error.Code}";
+                TrackException(odataError, "OnPostProfileAsync");
             }
             catch (Exception ex)
             {
                 ErrorMessage = $"The account cannot be deleted due to the following error: {ex.Message}";
+                TrackException(ex, "OnPostProfileAsync");
             }
 
             try
@@ -222,24 +232,17 @@ namespace MyApp.Namespace
                 });
 
                 // Get the user identities
-                GetIdentities(profile!.Identities!);
+                FormatIdentities(profile!.Identities!);
             }
-            catch (System.Exception)
+            catch (Exception ex)
             {
-
-                throw;
-            }
-
-            if (UserNeedsToSignInAgain)
-            {
-                this.UserNeedsToSignInAgainAfterSignUp = await CheckSignUpIssue();
+                ErrorMessage = $"The account cannot read identities due to the following error: {ex.Message}";
+                TrackException(ex, "OnPostProfileAsync");
             }
 
             return Page();
         }
-
-
-
+        
         public async Task<IActionResult> OnPostRolesAsync(bool hasProductsContributorRole,
                                       bool hasOrdersManagerRole,
                                       bool memberOfCommercialAccounts)
@@ -258,12 +261,14 @@ namespace MyApp.Namespace
                 ErrorMessage = "The account cannot be updated since your access token doesn't contain the required 'objectidentifier' claim.";
             }
 
-            var graphClient = MsalAccessTokenHandler.GetGraphClient(this.Configuration);
-
-            await GetRolesAndGroupsAsync(graphClient, userObjectId);
+            GraphServiceClient graphClient = null;
 
             try
             {
+                graphClient = MsalAccessTokenHandler.GetGraphClient(this.Configuration);
+
+                await GetRolesAndGroupsAsync(graphClient, userObjectId);
+
                 if (MemberOfCommercialAccounts == true && memberOfCommercialAccounts == false)
                 {
                     // Remove the security group 
@@ -302,7 +307,6 @@ namespace MyApp.Namespace
                 }
 
 
-
                 if (HasProductsContributorRole == true && hasProductsContributorRole == false)
                 {
                     // Remove the Products.Contributor application role
@@ -323,40 +327,23 @@ namespace MyApp.Namespace
                 }
 
                 UserNeedsToSignInAgain = true;
+
+                await ReadProfile(userObjectId);
             }
             catch (ODataError odataError)
             {
                 ErrorMessage = $"Can't read the profile due to the following error: {odataError.Error!.Message} Error code: {odataError.Error.Code}";
+                TrackException(odataError, "OnPostRolesAsync");
             }
             catch (Exception ex)
             {
                 ErrorMessage = $"Can't read the profile due to the following error: {ex.Message}";
-            }
-
-            await ReadProfile(userObjectId);
-
-            if (UserNeedsToSignInAgain)
-            {
-                this.UserNeedsToSignInAgainAfterSignUp = await CheckSignUpIssue();
+                TrackException(ex, "OnPostRolesAsync");
             }
 
             return Page();
         }
 
-        private void GetIdentities(List<ObjectIdentity> identities)
-        {
-            foreach (var identity in identities!)
-            {
-                if (identity.SignInType == "userPrincipalName")
-                {
-                    continue;
-                }
-                else
-                {
-                    this.Identities += $"<b>Sign-in type:</b> {identity.SignInType} <b>Issuer</b>: {identity.Issuer} <b>ID</b>: {identity.IssuerAssignedId} <br/>";
-                }
-            }
-        }
 
         private async Task GetRolesAndGroupsAsync(GraphServiceClient graphClient, string userObjectId)
         {
@@ -396,30 +383,41 @@ namespace MyApp.Namespace
             catch (ODataError odataError)
             {
                 ErrorMessage = $"Can't read the profile due to the following error: {odataError.Error!.Message} Error code: {odataError.Error.Code}";
+                TrackException(odataError, "GetRolesAndGroupsAsync");
             }
             catch (Exception ex)
             {
                 ErrorMessage = $"Can't read the profile due to the following error: {ex.Message}";
+                TrackException(ex, "GetRolesAndGroupsAsync");
             }
         }
 
-        private async Task<bool> CheckSignUpIssue()
+        private void FormatIdentities(List<ObjectIdentity> identities)
         {
-            try
+            this.Identities = string.Empty;
+            
+            foreach (var identity in identities!)
             {
-                // Workaround for the sign-up issue
-                string[] ApiScopes = this.Configuration.GetSection("WoodgroveGroceriesApi:Scopes").Get<string[]>();
-                await _authorizationHeaderProvider.CreateAuthorizationHeaderForUserAsync(ApiScopes);
+                if (identity.SignInType == "userPrincipalName")
+                {
+                    continue;
+                }
+                else
+                {
+                    this.Identities += $"<b>Sign-in type:</b> {identity.SignInType} <b>Issuer</b>: {identity.Issuer} <b>ID</b>: {identity.IssuerAssignedId} <br/>";
+                }
             }
-            catch (System.Exception)
-            {
-
-                return true;
-            }
-
-            return false;
         }
 
+        public void TrackException(Exception exception, string functionName)
+        {
+            ExceptionTelemetry exceptionTelemetry = new ExceptionTelemetry(exception);
+            exceptionTelemetry.Properties.Add("Type", "AppError");
+            exceptionTelemetry.Properties.Add("Page", "Profile");
+            exceptionTelemetry.Properties.Add("Function", functionName);
+            exceptionTelemetry.Properties.Add("ExceptionType", exception.GetType().ToString());
+            _telemetry.TrackException(exceptionTelemetry);
+        }
     }
 }
 
