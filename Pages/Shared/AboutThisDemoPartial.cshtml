@@ -710,83 +710,70 @@
         <div id="useCase_RBAC" class="useCase">
             <h4>Role-based access control</h4>
             <p>
-                Role-based access control is a popular mechanism to enforce authorization in
+                <a class="link-dark"
+                    href="https://learn.microsoft.com/entra/external-id/customers/how-to-use-app-roles-customers">Role-based access control</a> is a popular mechanism to enforce authorization in
                 applications. It helps you manage who has access to your application and what they can
-                do in the application.
-                An application developer defines
-                the roles for the application. Then these roles can be assigned to
-                users. In this demo, you assign yourself to application roles which is automatically approved. For
-                more information, learn how to <a class="link-dark"
-                    href="https://learn.microsoft.com/entra/external-id/customers/how-to-use-app-roles-customers">use
-                    role-based access control for applications</a>.
+                do in the application. In this demo, you assign yourself to application roles which are automatically approved.
             </p>
             To start the demo:
             <ol>
                 <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
                 <li>Sign-up or sign-in with your email, or a social account.</li>
-                <li>From the Woodgrove header, select the profile, which will take you to the <b>edit
-                        profile page</b>.</li>
-                <li>In profile page add yourself
-                    the <b>Products.Contributor</b> and <b>Orders.Manager</b> roles.</li>
-                <li>To reflect the changes in the security token return to the Woodgrove application, sign-in again
-                    with the same account. You will not ask to enter your credentials, since you already signed-in
-                    using the SSO feature.</li>
-                <li>Back to the application, since you have the Orders.Manager role the <b>Orders</b> button appears
-                    in
-                    the header.</li>
-                <li>And since you also have the Products.Contributor role,
-                    the <b>Manage products</b> button appears in the header.</li>
+                <li>From the Woodgrove header, select the <b>profile</b> button.</li>
+                <li>In profile page add yourself the <b>Products.Contributor</b> and <b>Orders.Manager</b> roles.</li>
+                <li>To reflect the changes in the security token, sign-in again with the same account (you won't be asked to enter the credentials).</li>
+                <li>Aftr you sign-in, the <b>Orders</b> button appears in the header.</li>
+                <li>And since you also have the Products.Contributor role, the <b>Manage products</b> button appears as well.</li>
             </ol>
-
 
             <a class="btn header-button" role="button" href="/SignIn?handler=RBAC"><i class="bi bi-play-circle"></i>
                 Start the use case</a>
 
+            <br>&nbsp;<br>
+            <i class="bi bi-play-circle"></i> <a class="" style="margin-top: 100px;" role="button" href="/help/RBAC">
+                Learn how we configured the Woodgrove tenant</a>
+
             <br />&nbsp;<br>
 
             Note, you can select your name from the header, it shows the content of the access token
-            issued by Microsoft Entra ID for customers that was returned to the application.
+            issued by Microsoft Entra external ID that returned to the application.
             It should contain the role claims you assigned.
-            This demo application checks the claim’s value and gives access to manage products
+            This demo application checks the claim’s value and grants access to manage products
             and online orders.
         </div>
 
         <div id="useCase_GBAC" class="useCase">
             <h4>Group-based access control</h4>
             <p>
-                Group-based access control is a popular mechanism to enforce authorization in
+                <a class="link-dark"
+                    href="https://learn.microsoft.com/entra/external-id/customers/how-to-use-app-roles-customers">Group-based access control</a>
+                     is a popular mechanism to enforce authorization in
                 applications. It helps you manage who has access to your application and what they can
                 do in the application. You can also alter the UI based on the user's membership.
 
-
-                For more information, learn how to <a class="link-dark"
-                    href="https://learn.microsoft.com/entra/external-id/customers/how-to-use-app-roles-customers">use
-                    role-based access control for applications</a>.
-
                 <br />&nbsp;<br>
                 In this demo, you add yourself to the <b>Commercial Accounts</b> security group and you will get
-                discounts for some of the products.
+                a discount for some of the products.
             </p>
             To start the demo:
             <ol>
                 <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
                 <li>Sign-up or sign-in with your email, or a social account.</li>
-                <li>From the Woodgrove header, select the profile, which will take you to the <b>edit
-                        profile page</b>.</li>
-                <li>In profile page you can update your profile data, but you can also add yourself to
-                    the <b>Commercial Accounts</b> security group. By doing so, you will get discounts
-                    off some of the products. Select the <b>Commercial Accounts</b> security group and
-                    <b>update your account</b>.
+                <li>From the Woodgrove header, select the <b>profile</b> button.</li>
+                <li>In profile page, add yourself to
+                    the <b>Commercial Accounts</b> security group and <b>update your account</b>.
                 </li>
-                <li>To reflect the changes in the security token return to the Woodgrove application, sign-in again
-                    with the same account. You will not ask to enter your credentials, since you already signed-in
-                    using the SSO feature.</li>
-                <li>Now that you are a member of the Commercial Accounts security group, some of the
-                    items have a discount.</li>
+                <li>To reflect the changes in the security token, sign-in again
+                    with the same account (you won't be asked to enter the credentials).</li>
+                <li>Now that you are a member of the Commercial Accounts security group, you get a discount to some of the products.</li>
             </ol>
 
             <a class="btn header-button" role="button" href="/SignIn?handler=GBAC"><i class="bi bi-play-circle"></i>
                 Start the use case</a>
+
+            <br>&nbsp;<br>
+            <i class="bi bi-play-circle"></i> <a class="" style="margin-top: 100px;" role="button" href="/help/GBAC">
+                Learn how we configured the Woodgrove tenant</a>
 
             <br>&nbsp;<br>
             Note, if you select your name from the header, it shows the content of the access token

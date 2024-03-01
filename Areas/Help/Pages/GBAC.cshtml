@@ -1,0 +1,141 @@
+﻿@page
+@model woodgrovedemo.Help.Pages.GBACModel
+@{
+    ViewData["Title"] = "Group-based access control";
+    Layout = "_Layout";
+}
+
+<h1 style="margin-top: 25px; margin-bottom: 25px;">Group-based access control</h1>
+
+<div>
+
+    <p>
+        <a href="https://learn.microsoft.com/entra/external-id/customers/how-to-use-app-roles-customers" target="_blank"
+            class="link-dark link-offset-2">Group-based access control</a>
+        is a popular mechanism to enforce authorization in
+        applications. It helps you manage who has access to your application and what they can
+        do in the application. You can also alter the UI based on the user's membership.
+
+        In this demo, users add themselves to the <b>Commercial
+            Accounts</b> security group and will get discounts for some of the products.
+    </p>
+    @await Html.PartialAsync("_StepsButtons.cshtml")
+
+    <div class="bs-stepper vertical" id="Stepper">
+        @await Html.PartialAsync("_Steps.cshtml", 10)
+
+        <div class="bs-stepper-content">
+            <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
+                @await Html.PartialAsync("_Prerequisites.cshtml")
+
+                <p>
+                    Start by creating a security group.
+                    Sign-in to the <a href="https://entra.microsoft.com/" target="_blank"
+                        class="link-dark link-offset-2">Microsoft Entra admin center</a>
+                    and browse to <b>Identity </b> > <b>Groups</b> > <b>All groups</b>. Then, select <b>New group</b>.
+                </p>
+
+                <img class="img-fluid border" src="~/Help/GBAC/New-security-group.png">
+            </div>
+
+            <div id="step-2" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger2">
+                <p>
+                    Under <b>Group type</b> dropdown, select <b>Security</b>. Enter a <b>Group name</b>, such as
+                    <i>Commercial accounts</i>.
+                    Enter <b>Group description</b>, such as <i>Woodgrove commercial accounts</i>. You can also add
+                    <b>Memebers</b> now, or do it later.
+                    Finally, select <b>Create</b>.
+                </p>
+
+                <img class="img-fluid border" src="~/Help/GBAC/New-security-group-details.png">
+            </div>
+            <div id="step-3" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger3">
+                <p>
+                    The new security group appears in the <b>All groups</b> list. If you don't see it immediately,
+                    refresh the
+                    page and select the security group.
+                </p>
+
+                <img class="img-fluid border" src="~/Help/GBAC/Security-group-id.png">
+            </div>
+
+            <div id="step-4" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger4">
+                <p>
+                    Take a note of the security group <b>Object ID</b>. You will use the ID to configure your application.
+                </p>
+
+                <img class="img-fluid border" src="~/Help/GBAC/Copy-group-ID.png">
+            </div>
+
+            <div id="step-5" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger5">
+                <p>
+                    Once you've created the security group, you can add users. You can also do it
+                    programmatically using <a href="https://learn.microsoft.com/graph/api/group-post-members"
+                        target="_blank" class="link-dark link-offset-2">Microsoft Graph</a>.
+
+                    To add users to a security group, select <b>Members</b>. Then select <b>Add members</b>.
+                </p>
+
+                <img class="img-fluid border" src="~/Help/GBAC/Add-users-to-group.png">
+            </div>
+
+            <div id="step-6" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger6">
+                <p>
+                    Scroll through the list or enter a name in the search box. You can choose multiple names. When
+                    you're ready, choose <b>Select</b>.
+                </p>
+
+                <img class="img-fluid border" src="~/Help/GBAC/Add-members.png">
+            </div>
+
+            <div id="step-7" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger7">
+                <p>
+                    Now that you have a security group and also added users, it's time to configure the app to include the <b>groups</b> claims into
+                    security tokens.
+                    To emit the group membership claims in security tokens, browse to <b>Identity</b> >
+                    <b>Applications</b> > <b>App registrations</b>.
+                    Then, select the application in which you want to add the groups claim.
+                </p>
+
+                <img class="img-fluid border" src="~/Help/GBAC/Select-app.png">
+            </div>
+
+            <div id="step-8" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger8">
+                <p>
+                    Under <b>Manage</b>, select <b>Token configuration</b>, then select <b>Add groups claim</b>.
+                </p>
+                <img class="img-fluid border" src="~/Help/GBAC/Add-group-claim.png">
+            </div>
+
+            <div id="step-9" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger9">
+                <p>
+                    Select <b>Security group</b> types to include in the security tokens. For the <b>Customize token properties by type</b>,
+                    select <b>Group ID</b> for all of the tokens <b>ID</b>, <b>Access</b> and <b>SAML</b> (for SAML app).
+                    Select <b>Add</b> to add the groups claim.
+                </p>
+
+                <img class="img-fluid border" src="~/Help/GBAC/Add-group-claim-2.png">
+            </div>
+
+            <div id="step-10" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger10">
+                <p style="margin-top: 20px;">
+                    <i class="bi bi-emoji-smile"></i> Congratulations! You created a security group, added users and
+                    then include the <b>groups</b> claim in the security tokens.
+                    Now if the sign-in user is a member of any socurity group, the <b>groups</b> claim will be included
+                    in security tokens.
+                </p>
+                <p>
+                    Next you will have to configuration your applicaiton to check the value of the <b>groups</b> claim.
+                    For example:
+                </p>
+                <p>
+                    <code>
+                        // Check whether the account is commercial <br>
+                        string commercialAccountsSecurityGroup = Configuration.GetSection("AppRoles:CommercialAccountsSecurityGroup").Value;<br>
+                        IsCommercialAccount = User.Claims.Any(c => c.Type == "groups" && c.Value == commercialAccountsSecurityGroup);
+                    </code>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
