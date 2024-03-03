@@ -61,7 +61,8 @@
 
             <div id="step-4" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger4">
                 <p>
-                    Take a note of the security group <b>Object ID</b>. You will use the ID to configure your application.
+                    Take a note of the security group <b>Object ID</b>. You will use the ID to configure your
+                    application.
                 </p>
 
                 <img class="img-fluid border" src="~/Help/GBAC/Copy-group-ID.png">
@@ -90,7 +91,8 @@
 
             <div id="step-7" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger7">
                 <p>
-                    Now that you have a security group and also added users, it's time to configure the app to include the <b>groups</b> claims into
+                    Now that you have a security group and also added users, it's time to configure the app to include
+                    the <b>groups</b> claims into
                     security tokens.
                     To emit the group membership claims in security tokens, browse to <b>Identity</b> >
                     <b>Applications</b> > <b>App registrations</b>.
@@ -109,8 +111,10 @@
 
             <div id="step-9" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger9">
                 <p>
-                    Select <b>Security group</b> types to include in the security tokens. For the <b>Customize token properties by type</b>,
-                    select <b>Group ID</b> for all of the tokens <b>ID</b>, <b>Access</b> and <b>SAML</b> (for SAML app).
+                    Select <b>Security group</b> types to include in the security tokens. For the <b>Customize token
+                        properties by type</b>,
+                    select <b>Group ID</b> for all of the tokens <b>ID</b>, <b>Access</b> and <b>SAML</b> (for SAML
+                    app).
                     Select <b>Add</b> to add the groups claim.
                 </p>
 
@@ -118,15 +122,21 @@
             </div>
 
             <div id="step-10" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger10">
-                <p style="margin-top: 20px;">
-                    <i class="bi bi-emoji-smile"></i> Congratulations! You created a security group, added users and
-                    then include the <b>groups</b> claim in the security tokens.
-                    Now if the sign-in user is a member of any socurity group, the <b>groups</b> claim will be included
-                    in security tokens.
-                </p>
+                <div class="alert alert-success" role="alert" style="margin-top: 20px;">
+                    <h4 class="alert-heading">Well done!</h4>
+                    <p> You created a security group, added users and
+                        then include the <b>groups</b> claim in the security tokens.
+                        Now if the sign-in user is a member of any socurity group, the <b>groups</b> claim will be
+                        included
+                        in security tokens.</p>
+
+                    <hr>
+                    <p class="mb-0">Next you will have to configuration your applicaiton to check the value of the
+                        <b>groups</b> claim.</p>
+                </div>
+
                 <p>
-                    Next you will have to configuration your applicaiton to check the value of the <b>groups</b> claim.
-                    For example:
+                    For example you can check the claim value in your code:
                 </p>
                 <p>
                     <code>

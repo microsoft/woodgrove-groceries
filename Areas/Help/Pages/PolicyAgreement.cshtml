@@ -12,8 +12,9 @@
 
     <p>
         Terms of use, also known as terms and conditions or terms of service, are rules, specifications, and
-        requirements for the use of your app. Microsoft Entra external ID allows you to <a href="https://learn.microsoft.com/entra/external-id/customers/how-to-define-custom-attributes"  target="_blank"
-                        class="link-dark link-offset-2">add a custom user attribute</a> (type of
+        requirements for the use of your app. Microsoft Entra external ID allows you to <a
+            href="https://learn.microsoft.com/entra/external-id/customers/how-to-define-custom-attributes"
+            target="_blank" class="link-dark link-offset-2">add a custom user attribute</a> (type of
         Boolean)
         to the sign-up page. Before completing the sign-up, users should read and accept your policies.
     </p>
@@ -42,7 +43,8 @@
                 <p>
                     The <b> custom user attributes</b> list contains all user attributes available in the tenant,
                     including any custom user attributes
-                    that have been created. The <b>Attribute type</b> column indicates whether an attribute is built-in or
+                    that have been created. The <b>Attribute type</b> column indicates whether an attribute is built-in
+                    or
                     custom. Select <b>Add</b> to create a new user attribute.
                 </p>
                 <img class="img-fluid border" src="~/Help/PolicyAgreement/Add-custom-user-attributes.png">
@@ -69,7 +71,8 @@
 
             <div id="step-5" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger5">
                 <p>
-                    From the list of <b>User flows</b>, select a user flow. In this example, we select the user flow named
+                    From the list of <b>User flows</b>, select a user flow. In this example, we select the user flow
+                    named
                     <b>Default</b>.
                 </p>
                 <img class="img-fluid border" src="~/Help/PolicyAgreement/Select-user-flow.png">
@@ -99,16 +102,23 @@
 
             <div id="step-8" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger8">
                 <p>
-                   Edit the label for the <b>PolicyAgreement</b> attribute by selecting the value in the <b>Label</b> column and modifying the text with the following <b>Markdown language</b> to add hyperlinks.<br>
-                   <code>I have read and agree to the [terms of use](https://woodgrovedemo.com/tos) and the [privacy policy](https://woodgrovedemo.com/privacy)</code>.
-                   
-                   <p>
+                    Edit the label for the <b>PolicyAgreement</b> attribute by selecting the value in the <b>Label</b>
+                    column and modifying the text with the following <b>Markdown language</b> to add hyperlinks.<br>
+                    <code>I have read and agree to the [terms of use](https://woodgrovedemo.com/tos) and the [privacy policy](https://woodgrovedemo.com/privacy)</code>.
+
+                <p>
                     To make the <b>PolicyAgreement</b> attribute required, select the <b>required</b> checkbox.
-                    Note, since the <b>PolicyAgreement</b> attribute type is <b>Boolean</b>, the <b>User Input Type</b> is <b>CheckboxSingleSelect</b>. Finally, <b>Save</b> the changes. 
-                   </p>
-                    <p>
-                        <i class="bi bi-emoji-smile"></i> Congratulations! your user flow will show the links you just added. To test the user experience, sign-up to your application. 
-                    </p>
+                    Note, since the <b>PolicyAgreement</b> attribute type is <b>Boolean</b>, the <b>User Input Type</b>
+                    is <b>CheckboxSingleSelect</b>. Finally, <b>Save</b> the changes.
+                </p>
+
+
+                <div class="alert alert-success" role="alert">
+                    <h4 class="alert-heading">Well done!</h4>
+                    <p> Your user flow will show the links you just added. To check the user experience, sign-up to your
+                        application.</p>
+                </div>
+
                 </p>
                 <img class="img-fluid border" src="~/Help/PolicyAgreement/User-flow-page-layout-edit.png">
             </div>

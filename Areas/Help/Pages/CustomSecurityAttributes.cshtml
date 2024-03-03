@@ -31,7 +31,7 @@
 
         <div class="bs-stepper-content">
             <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
-                
+
                 @await Html.PartialAsync("_Prerequisites.cshtml")
                 <p>
                     To start, sign in to the <a href="https://entra.microsoft.com/" target="_blank"
@@ -181,10 +181,14 @@
                     set <b>Enable policy</b> to <b>On</b>.
                     Select <b>Create</b> to create your policy.
                 </p>
-                <p>
-                    <i class="bi bi-emoji-smile"></i> Congratulations! The custom security attributes successfully created and the conditional access policy with custom security attributes is configured.
-                    To test the user experience, sign-up or sign-in into your application.
-                </p>
+
+                <div class="alert alert-success" role="alert">
+                    <h4 class="alert-heading">Well done!</h4>
+                    <p> The custom security attributes successfully
+                    created and the conditional access policy with custom security attributes is configured.
+                    To test the user experience, sign-up or sign-in into your application.</p>
+                </div>
+                
                 <img class="img-fluid border" src="~/Help/CustomSecurityAttributes/Block-access.png">
             </div>
         </div>

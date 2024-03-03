@@ -129,9 +129,15 @@
             </div>
 
             <div id="step-9" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger9">
+
+                <div class="alert alert-success" role="alert">
+                    <h4 class="alert-heading">Well done!</h4>
+                    <p> At this point, the Microsoft Entra ID tenant is configured. Now it's time to configure the
+                        applications.</p>
+                </div>
+
                 <p>
-                    At this point, the Microsoft Entra ID tenant is configured. Now it's time to configure the
-                    applications.
+
                     In the Woodgrove example, users sign-in to the app. In the home page, they add some items to the
                     shopping cart, until the total is more that 50$.
                     When they select the checkout button, if they have not signed-in with MFA, users will be asked to do
@@ -140,13 +146,20 @@
                 <ol>
                     <li>The code first checks if there is any risk. So, if the total is more that 50$ it's considered a
                         risk.</li>
-                    <li>The code then <a href="https://github.com/microsoft/woodgrove-groceries/blob/main/Pages/Index.cshtml.cs">evaluate the user's security token</a> . If the <b>acrs</b> claim is equal to <b>c1</b>.</li>
-                    <li>If the If the <b>acrs</b> claim is not equal to <b>c1</b>, the Woodgrove app starts a new authentication request. The request <a href="https://github.com/microsoft/woodgrove-groceries/blob/main/Program.cs">contains</a> the <b>claims</b> extra query string parameter. 
-                    Tha value of the <b>claims</b> parameter is <code>{"access_token":{"acrs":{"essential":true,"value":"c1"}}}</code>.</li>
+                    <li>The code then <a
+                            href="https://github.com/microsoft/woodgrove-groceries/blob/main/Pages/Index.cshtml.cs">evaluate
+                            the user's security token</a> . If the <b>acrs</b> claim is equal to <b>c1</b>.</li>
+                    <li>If the If the <b>acrs</b> claim is not equal to <b>c1</b>, the Woodgrove app starts a new
+                        authentication request. The request <a
+                            href="https://github.com/microsoft/woodgrove-groceries/blob/main/Program.cs">contains</a>
+                        the <b>claims</b> extra query string parameter.
+                        Tha value of the <b>claims</b> parameter is
+                        <code>{"access_token":{"acrs":{"essential":true,"value":"c1"}}}</code>.</li>
                 </ol>
-                
-                Note, your application should always evaluate the access token <b>acrs</b> claim. 
-                So, if users remove the claims query string parameter, the <b>acrs</b> claim will not be stasfied (c1 value)
+
+                Note, your application should always evaluate the access token <b>acrs</b> claim.
+                So, if users remove the claims query string parameter, the <b>acrs</b> claim will not be stasfied (c1
+                value)
                 and will not be able to complete the check out or any other action.
             </div>
         </div>

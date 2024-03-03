@@ -133,11 +133,11 @@
 
                 // Add the links to the pages
                 if ($('#stepNavigator').length > 0) {
-                    
+
                     var items = $('.bs-stepper-pane').length;
 
                     for (let i = 0; i < items; i++) {
-                        $('#stepNavigator').append('<li><a class="dropdown-item" onclick="stepper.to(' + (i + 1) +'); return false;" href="#">' + (i+1) + '</a></li>')
+                        $('#stepNavigator').append('<li><a class="dropdown-item" onclick="stepper.to(' + (i + 1) + '); return false;" href="#">' + (i + 1) + '</a></li>')
                     }
                 }
 
@@ -146,19 +146,23 @@
                     $("#stepNumber").html(event.detail.indexStep + 1)
 
                     if (event.detail.indexStep == 0) {
-                        // First step
+                        // Disable previous button
                         $("#movePrevious").css("pointer-events", "none");
                         $("#movePrevious").css("color", "gray");
                     }
-                    else if (event.detail.indexStep + 1 == $('.bs-stepper-pane').length) {
-                        // Last step
+                    else {
+                        // Enable previous button
+                        $("#movePrevious").css("pointer-events", "auto");
+                        $("#movePrevious").css("color", "");
+                    }
+
+                    if (event.detail.indexStep + 1 == $('.bs-stepper-pane').length) {
+                        // Disable next button
                         $("#moveNext").css("pointer-events", "none");
                         $("#moveNext").css("color", "gray");
                     }
                     else {
-                        // Other steps
-                        $("#movePrevious").css("pointer-events", "auto");
-                        $("#movePrevious").css("color", "");
+                        // Enable steps  next button
                         $("#moveNext").css("pointer-events", "auto");
                         $("#moveNext").css("color", "");
                     }
