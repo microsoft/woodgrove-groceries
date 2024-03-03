@@ -1,0 +1,111 @@
+﻿@page
+@model woodgrovedemo.Help.Pages.CustomAttributesModel
+
+@{
+    ViewData["Title"] = "User attributes";
+    Layout = "_Layout";
+}
+
+<h1 style="margin-top: 25px; margin-bottom: 25px;">Collect user attributes during sign-up</h1>
+
+<div>
+
+    <p>
+        <a href="https://learn.microsoft.com/entra/external-id/customers/how-to-define-custom-attributes"
+            target="_blank" class="link-dark link-offset-2">User attributes</a> are values collected from the user
+        during self-service sign-up.
+        In the user flow settings, you can select from a set of built-in user attributes you want to collect from
+        customers. You can also create custom user attributes and add them to your sign-up user flow.
+
+        On the sign-up page the user enters the information, and it's stored with their profile in your directory. This
+        demo shows the use of built-in attribute and custom attribute called <b>special diet</b>.
+    </p>
+    @await Html.PartialAsync("_StepsButtons.cshtml")
+
+    <div class="bs-stepper vertical" id="Stepper">
+        @await Html.PartialAsync("_Steps.cshtml", 6)
+
+        <div class="bs-stepper-content">
+            <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
+                @await Html.PartialAsync("_Prerequisites.cshtml")
+
+                <p>
+                    We started by creating the <b>special diet</b> custom user attribute. To do so,
+                    sign in to the <a href="https://entra.microsoft.com/" target="_blank"
+                        class="link-dark link-offset-2">Microsoft Entra admin center</a>
+                    and browse to <b>External Identities </b> > <b> Overview</b>. Then, select <b>Custom user
+                        attributes</b>.
+                </p>
+
+                <img class="img-fluid border" src="~/Help/CustomAttributes/Select-custom-user-attribute.png">
+            </div>
+
+            <div id="step-2" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger2">
+                <p>
+                    The list contains all user attributes available in the tenant,
+                    including any custom user attributes that have been created. The <b>Attribute type</b> column
+                    indicates
+                    whether an attribute is built-in or custom.
+
+                    Select <b>Add</b> to add a new attribute.
+                </p>
+
+                <img class="img-fluid border" src="~/Help/CustomAttributes/Add-custom-user-attribute-1.png">
+            </div>
+            <div id="step-3" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger3">
+                <p>
+                    In the <b>Add an attribute</b> pane, enter a <b>Name</b> for the custom attribute for example,
+                    <i>SpecialDiet</i>.
+                    In <b>Data Type</b>, choose <b>String</b>. In the <b>Description</b>, enter a description of the
+                    custom attribute for internal use. This description isn't visible to the user.
+                </p>
+
+                <img class="img-fluid border" src="~/Help/CustomAttributes/Add-custom-user-attribute-2.png">
+            </div>
+
+            <div id="step-4" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger4">
+                <p>
+                    After you added the custom user attribute to your tenant, proceed to include the custom user
+                    attribute in a sign-up flow.
+                    Browse to <b>Identity</b> > <b>External Identities</b> > <b>User flows</b>. Then, select a user flow
+                    from the list.
+                </p>
+
+                <img class="img-fluid border" src="~/Help/CustomAttributes/Select-user-flow.png">
+            </div>
+
+            <div id="step-5" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger5">
+                <p>
+                    Select <b>User attributes</b>. The list includes any custom user attributes you defined as described
+                    in the
+                    previous section. For example, the new <b>SpecialDiet</b> now appears in the list. Choose all
+                    the attributes you want to collect from the user during sign-up, and select <b>Save</b>.
+                </p>
+
+                <img class="img-fluid border" src="~/Help/CustomAttributes/Add-custom-user-attribute-to-user-flow.png">
+            </div>
+
+            <div id="step-6" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger6">
+                <p>
+                    In the last step you configure the sign-up page layout. In the page layout you can indicate
+                    which attributes are required and arrange the display
+                    order. You can also edit attribute labels, create radio buttons or checkboxes, and more.
+                    For this demo, we add a label to the attribute named <b>SpecialDiet</b>.
+
+                    Under <b>Customize</b>, select <b>Page layouts</b>. The attributes you chose to collect appear.
+                    Edit the label for any attribute by selecting the value in the <b>Label</b> column and modifying the
+                    text.
+                </p>
+
+                <div class="alert alert-success" role="alert">
+                    <h4 class="alert-heading">Well done!</h4>
+                    <p>You added a custom user attribute to your tenant. Then added the custom user attribute to a user
+                        flow and added a label to the attribute. To check the user experience, sign-up to your
+                        application.
+                    </p>
+                </div>
+
+                <img class="img-fluid border" src="~/Help/CustomAttributes/Add-label.png">
+            </div>
+        </div>
+    </div>
