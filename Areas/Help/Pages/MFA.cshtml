@@ -1,0 +1,107 @@
+﻿@page
+@model woodgrovedemo.Help.Pages.MFAModel
+
+@{
+    ViewData["Title"] = "Multifactor authentication";
+    Layout = "_Layout";
+}
+
+
+<h1 style="margin-top: 25px; margin-bottom: 25px;">Conditional access and Multifactor authentication (MFA)
+</h1>
+
+<div>
+
+
+    <p>
+        Microsoft Entra Conditional Access brings signals together, to make decisions,
+        and enforce security policies. <a
+            href="https://learn.microsoft.com/entra/external-id/customers/how-to-multifactor-authentication-customers"
+            target="_blank" class="link-dark link-offset-2">Multifactor authentication (MFA)</a> protects customers
+        identity by prompting them for a second verification method.
+
+        In this demo a Conditional Access policy that's targeted to all users when the sign-in risk level is
+        medium or high, prompts for MFA.
+    </p>
+    @await Html.PartialAsync("_StepsButtons.cshtml")
+
+    <div class="bs-stepper vertical" id="Stepper">
+        @await Html.PartialAsync("_Steps.cshtml", 7)
+
+        <div class="bs-stepper-content">
+            <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
+                @await Html.PartialAsync("_Prerequisites.cshtml")
+
+                <p>
+                    Start by creating a Conditional Access policy to secure the application.
+                    Sign in to the <a href="https://entra.microsoft.com/" target="_blank"
+                        class="link-dark link-offset-2">Microsoft Entra admin center</a>
+                    and browse to <b>Protection</b> > <b>Conditional Access</b>. Then, select <b>New policy</b>.
+                </p>
+
+                <img class="img-fluid border" src="~/Help/MFA/Create-conditinal-access-policy.png">
+            </div>
+
+            <div id="step-2" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger2">
+                <p>
+                    Give your policy a <b>Name</b>, for example <i>sign-in risk</i>.
+                </p>
+                <img class="img-fluid border" src="~/Help/MFA/Create-conditional-access-policy-1.png">
+
+            </div>
+            <div id="step-3" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger3">
+                <p>
+                    Under <b>Assignments</b>, select the link under <b>Users</b>. Then, on the <b>Include</b> tab,
+                    select <b>All users</b>.
+                    On the <b>Exclude</b> tab, you can select users and groups for your organization's emergency access
+                    or break-glass accounts.
+                </p>
+                <img class="img-fluid border" src="~/Help/MFA/Create-conditional-access-policy-2.png">
+            </div>
+
+            <div id="step-4" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger4">
+                <p>
+                    Under <b>assignments</b>, select <b>Target resources</b>. Then,
+                    On the <b>Include</b> tab, choose the <b>Select apps</b> option and click on the <b>Select</b>
+                    button.
+                    Find your app, select it, and then choose <b>Select</b>.
+                </p>
+                <img class="img-fluid border" src="~/Help/MFA/Create-conditional-access-policy-3.png">
+            </div>
+
+            <div id="step-5" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger5">
+                <p>
+                    Select the link under the <b>Conditions</b> and select the link under the <b>Sign-in risk</b>.
+                    Then, for the <b>Configure</b> select <b>Yes</b> and select the <b>High</b> and <b>Medium</b>
+                    checkboxes.
+                </p>
+                <img class="img-fluid border" src="~/Help/MFA/Create-conditional-access-policy-4.png">
+            </div>
+
+            <div id="step-6" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger6">
+                <p>
+                    Under <b>Access controls</b> > <b>Grant</b>, select <b>Grant access</b>. Then select <b>Require
+                        multifactor authentication</b>.
+                    With this grant type, users must complete additional security requirements like email, phone call,
+                    or text message.
+                </p>
+                <img class="img-fluid border" src="~/Help/MFA/Create-conditional-access-policy-5.png">
+            </div>
+
+            <div id="step-7" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger7">
+                <p>
+                    Confirm your settings and set <b>Enable policy</b> to <b>On</b>.
+                    Select <b>Create</b> to create your policy.
+                </p>
+                <div class="alert alert-success" role="alert">
+                    <h4 class="alert-heading">Well done!</h4>
+                    <p>You created a Conditional access policy that requires users to complete MFA if their sign-in is considered risky.
+                        To check the user experience, sign-in to your application with <a href="https://www.torproject.org/" target="_blank">Tor
+                        Browse</a>.
+                    </p>
+                </div>
+                <img class="img-fluid border" src="~/Help/MFA/Create-conditional-access-policy-6.png">
+            </div>
+        </div>
+    </div>
+</div>

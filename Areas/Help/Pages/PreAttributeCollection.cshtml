@@ -1,0 +1,161 @@
+﻿@page
+@model woodgrovedemo.Help.Pages.PreAttributeCollectionModel
+
+
+@{
+    ViewData["Title"] = "On sttribute collection start event";
+    Layout = "_Layout";
+}
+
+<h1 style="margin-top: 25px; margin-bottom: 25px;">Prepopulate sign-up attributes</h1>
+
+<div>
+    <p>
+        The custom authentication extension supports the <a
+            href="https://learn.microsoft.com/en-us/entra/identity-platform/custom-extension-attribute-collection?context=%2Fentra%2Fexternal-id%2Fcustomers%2Fcontext%2Fcustomers-context&tabs=start-continue%2Csubmit-continue"
+            target="_blank" class="link-dark link-offset-2">on attribute collection start event</a>. This event occurs
+        at the beginning of the attribute collection step, before the attribute collection page renders. You can add
+        actions
+        such as prefilling values and displaying a blocking error. This demo shows how to prepopulate some of the
+        values, including pre selecting the country attribute with Spain
+        and generating and set the value of the promo code attribute.
+    </p>
+    @await Html.PartialAsync("_StepsButtons.cshtml")
+
+    <div class="bs-stepper vertical" id="Stepper">
+        @await Html.PartialAsync("_Steps.cshtml", 9)
+
+        <div class="bs-stepper-content">
+            <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
+                @await Html.PartialAsync("_Prerequisites.cshtml")
+
+                <p>
+                    Start by registering a custom authentication extension that is used by Microsoft Entra ID to call
+                    your REST API.
+                    The custom authentication extension contains information about your REST API endpoint, the
+                    attribute collection start action that it parses from your REST API, and how to
+                    authenticate to your REST API.
+                    Sign in to the <a href="https://entra.microsoft.com/" target="_blank"
+                        class="link-dark link-offset-2">Microsoft Entra admin center</a>
+                    and browse to <b>External Identities </b> > <b> Custom authentication extensions</b>.
+
+                    Note, you can also browse to <b>Applications</b> > <b>Enterprise applications </b> > <b> Custom
+                        authentication extensions </b>.
+
+                    Then, select
+                    <b>Create a custom extension</b>.
+                </p>
+
+                <img class="img-fluid border"
+                    src="~/Help/PreAttributeCollection/Select-custom-authentication-extensions.png">
+            </div>
+
+            <div id="step-2" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger2">
+                <p>
+                    In <b>Basics</b>, select the <b>AttributeCollectionStart</b>
+                    event, and then select <b>Next</b>.
+                </p>
+
+                <img class="img-fluid border"
+                    src="~/Help/PreAttributeCollection/Create-custom-authentication-extension-1.png">
+            </div>
+            <div id="step-3" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger3">
+                <p>
+                    In <b>Endpoint Configuration</b>, fill in the following properties:
+                <ul>
+                    <li><b>Name</b> - A name for your custom authentication extension. For example, <i>
+                            Prepopulate sign-up attributes</i>.</li>
+                    <li><b>Target URL</b> - The URL of your REST API.</li>
+                    <li><b>Timeout in milliseconds</b> - The maximum number of retries the API endpoint will be called
+                        in case of failure. If empty, will default to service default.</li>
+                    <li><b>Maximum Retries</b> - The maximum number of retries the API endpoint will be called in case
+                        of failure. If empty, will default to service default..</li>
+                    <li><b>Description</b> - A description for your custom authentication extensions.</li>
+                </ul>
+                To continue, select <b>Next</b>.
+                </p>
+
+                <img class="img-fluid border"
+                    src="~/Help/PreAttributeCollection/Create-custom-authentication-extension-2.png">
+            </div>
+
+            <div id="step-4" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger4">
+                <p>
+                    To ensure the communications between the custom authentication extension and your REST API are
+                    secured appropriately, multiple security controls must be applied. The first step is to create or
+                    choose an applicaion that Microsoft Entra ID uses the OAuth 2.0 client credentials grant flow to secure the
+                    call to your API endpoint.
+                </p>
+                <p>
+                    If this is your first custom authentication extension, see how we have configured
+                    our <a href="~/help/TokenAugmentation">TokenIssuanceStart event</a>.
+
+                    Since we already configured a custom authentication extension, in <b>API Authentication</b>,
+                    choose the <b>Select an existing app registration in this directory</b> option.
+                </p>
+
+                <img class="img-fluid border"
+                    src="~/Help/PreAttributeCollection/Create-custom-authentication-extension-3.png">
+            </div>
+
+            <div id="step-5" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger5">
+                <p>
+                    Select the applicaion you configured for the other custom authentication extensions, and choose <b>Select</b>.
+                </p>
+
+                <img class="img-fluid border"
+                    src="~/Help/PreAttributeCollection/Create-custom-authentication-extension-4.png">
+            </div>
+
+            <div id="step-6" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger6">
+                <p>
+                    Review your configuration and select <b>Create</b>, which registers the custom authentication
+                    extension and the associated application registration
+                    you selected.
+                </p>
+
+                <img class="img-fluid border"
+                    src="~/Help/PreAttributeCollection/Create-custom-authentication-extension-5.png">
+            </div>
+
+            <div id="step-7" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger7">
+                <p>
+                    At this point the custom authenticate extension is configured in your tenant, but not in used in any
+                    of the sign-up pages.
+                    Next you associate the custom authentication extension with one or more of your user flows.
+                    To do so, browse to <b>Identity</b> > <b>External Identities</b> > <b>User flows</b>.
+                    Then, select the user flow from the list.
+                </p>
+
+                <img class="img-fluid border" src="~/Help/PreAttributeCollection/Select-user-flow.png">
+            </div>
+
+            <div id="step-8" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger8">
+                <p>
+                    From the menu, select <b>Custom authentication extensions</b>. To associate your custom authentication
+                    extension, select the <b>Before collecting information from the user</b> event.
+                </p>
+                <img class="img-fluid border"
+                    src="~/Help/PreAttributeCollection/Add-custom-authentication-extension-to-user-flow-1.png">
+            </div>
+
+            <div id="step-9" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger9">
+                <p>
+                    The custom extensions configured for the
+                    <b>OnAttributeCollectionStart</b> event will be displayed.
+                    Select one of them for the attribute collection start event, and then choose <b>Select</b> and then save the changes.
+                </p>
+
+                <div class="alert alert-success" role="alert">
+                    <h4 class="alert-heading">Well done!</h4>
+                    <p>You created a custom authentication extension type of <b>OnAttributeCollectionStart</b>. Then
+                        you associated it with your user flow. To check the user experience, sign-up to your
+                        application.</p>
+                </div>
+
+                <img class="img-fluid border"
+                    src="~/Help/PreAttributeCollection/Add-custom-authentication-extension-to-user-flow-2.png">
+            </div>
+        </div>
+    </div>
+</div>
