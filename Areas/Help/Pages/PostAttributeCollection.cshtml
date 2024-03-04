@@ -13,10 +13,11 @@
     <p>
         The custom authentication extension supports the <a
             href="https://learn.microsoft.com/en-us/entra/identity-platform/custom-extension-attribute-collection?context=%2Fentra%2Fexternal-id%2Fcustomers%2Fcontext%2Fcustomers-context&tabs=start-continue%2Csubmit-continue"
-            target="_blank" class="link-dark link-offset-2">on attribute collection submit</a> event. 
-            This event allows you to perform validation on attributes collected from the user during sign-up. 
+            target="_blank" class="link-dark link-offset-2">on attribute collection submit</a> event.
+        This event allows you to perform validation on attributes collected from the user during sign-up.
 
-        This demo validates the city name against a list of cities and countries compiled in the Woodgrove custom authentication
+        This demo validates the <b>City</b> name against a list of <b>countries</b> compiled in the Woodgrove custom
+        authentication
         extension REST API. Also, if the city contains <b>block</b>, Microsoft Entra ID will show <b>block page</b>.
     </p>
     @await Html.PartialAsync("_StepsButtons.cshtml")
@@ -27,6 +28,17 @@
         <div class="bs-stepper-content">
             <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
                 @await Html.PartialAsync("_Prerequisites.cshtml")
+
+                <div class="alert alert-primary d-flex align-items-center" role="alert">
+                    <div>
+                        <i class="bi bi-github"></i> The <a  target="_blank"
+                            href="https://github.com/microsoft/woodgrove-auth-api/blob/main/Controllers/OnAttributeCollectionSubmitController.cs">
+                            source code</a> for this demo is avaliable in our
+                        <a href="https://github.com/microsoft/woodgrove-auth-api"  target="_blank">Woodgrove authentication API GitHub
+                            repository</a>.
+                    </div>
+                </div>
+
 
                 <p>
                     Start by registering a custom authentication extension that is used by Microsoft Entra ID to call

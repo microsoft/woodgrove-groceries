@@ -614,14 +614,11 @@
         <div id="useCase_PreAttributeCollection" class="useCase">
             <h4>Prepopulate sign-up attributes</h4>
             <p>
-                The custom authentication extension supports the <b>on attribute collection start</b> event. This
+                The custom authentication extension supports the <a class="link-dark"
+                    href="https://learn.microsoft.com/en-us/entra/identity-platform/custom-extension-attribute-collection?context=%2Fentra%2Fexternal-id%2Fcustomers%2Fcontext%2Fcustomers-context&tabs=start-continue%2Csubmit-continue">on attribute collection start</a> event. This
                 event occurs at the beginning of the attribute collection step, before the attribute collection page
                 renders.
                 You can add actions such as prefilling values and displaying a blocking error.
-                For more information, learn how to <a class="link-dark"
-                    href="https://learn.microsoft.com/en-us/entra/identity-platform/custom-extension-attribute-collection?context=%2Fentra%2Fexternal-id%2Fcustomers%2Fcontext%2Fcustomers-context&tabs=start-continue%2Csubmit-continue">create
-                    a custom authentication extensions for attribute collection start and submit events</a> .
-                <br>&nbsp;<br>
                 This demo shows how to prepopulate some of the values, including pre selecting the country attribute
                 with spain and generating and set the value of the promo code attribute.
             </p>
@@ -657,24 +654,17 @@
         <div id="useCase_PostAttributeCollection" class="useCase">
             <h4>Validate sign-up attributes</h4>
             <p>
-                The custom authentication extension supports the <b>on attribute collection submit</b> event. This
+                The custom authentication extension supports the <a class="link-dark"
+                    href="https://learn.microsoft.com/en-us/entra/identity-platform/custom-extension-attribute-collection?context=%2Fentra%2Fexternal-id%2Fcustomers%2Fcontext%2Fcustomers-context&tabs=start-continue%2Csubmit-continue">on attribute collection submit</a> event. This
                 event allows you to
-                perform validation on attributes collected from the user during sign-up. For more information, learn
-                how to <a class="link-dark"
-                    href="https://learn.microsoft.com/en-us/entra/identity-platform/custom-extension-attribute-collection?context=%2Fentra%2Fexternal-id%2Fcustomers%2Fcontext%2Fcustomers-context&tabs=start-continue%2Csubmit-continue">create
-                    a custom authentication extensions for attribute collection start and submit events</a> .
-
-                <br>&nbsp;<br>
+                perform validation on attributes collected from the user during sign-up.
                 This demo validates the
                 city name against a list of cities and countries compiled in the Woodgrove custom authentication
                 extension REST API.
             </p>
             <ol>
                 <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
-                <li>Sign-up with your email, or a social account. For more information, <a
-                        class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-                        href="#usecase=EmailAndPassword">sign-up or sign-in with email
-                        and password</a>. If you already have an account,
+                <li>Sign-up with your email, or a social account. If you already have an account,
                     <a class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
                         href="#usecase=DeleteAccount">delete it</a>.
                 </li>
@@ -686,7 +676,7 @@
                     error message that Woodgrove doesn’t operate in this city. Because Berlin is a city in Germany,
                     not in Spain.</li>
                 <li>Corrects the city name. For example, enter <b>Madrid</b> and try to complete the
-                    registration again. This time you should be able to complete the registration.</li>
+                    registration again. </li>
             </ol>
 
             <a class="btn header-button" role="button" href="/SignIn?handler=PostAttributeCollection"><i
@@ -702,24 +692,18 @@
         <div id="useCase_BlockSignUp" class="useCase">
             <h4>Block a user from continuing the sign-up process</h4>
             <p>
-                The custom authentication extension supports the on <i>attribute collection <b>start</b> and
-                    <b>submit</b></i> events. These events allow you to
+                The custom authentication extension supports the on <a class="link-dark"
+                    href="https://learn.microsoft.com/en-us/entra/identity-platform/custom-extension-attribute-collection?context=%2Fentra%2Fexternal-id%2Fcustomers%2Fcontext%2Fcustomers-context&tabs=start-continue%2Csubmit-continue">
+                    attribute collection submit<</a>event. These event allows you to
                 block the user from continuing the sign-up process.
                 For example, you could use an identity verification service or external identity data source to
-                verify the user's email address. For more information, learn how to <a class="link-dark"
-                    href="https://learn.microsoft.com/en-us/entra/identity-platform/custom-extension-attribute-collection?context=%2Fentra%2Fexternal-id%2Fcustomers%2Fcontext%2Fcustomers-context&tabs=start-continue%2Csubmit-continue">create
-                    a custom authentication extensions for attribute collection start and submit events</a>.
-
-                <br>&nbsp;<br>
+                verify the user's email address.
                 This demo validates uses the <i>on attribute collection <b>submit</b> </i> even to check the value
                 of the city attribute and block the process.
             </p>
             <ol>
                 <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
-                <li>Sign-up with your email, or a social account. For more information, <a
-                        class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-                        href="#usecase=EmailAndPassword">sign-up or sign-in with email
-                        and password</a>. If you already have an account,
+                <li>Sign-up with your email, or a social account. If you already have an account,
                     <a class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
                         href="#usecase=DeleteAccount">delete it</a>.
                 </li>

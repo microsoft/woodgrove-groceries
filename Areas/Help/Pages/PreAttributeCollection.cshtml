@@ -29,6 +29,16 @@
             <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
                 @await Html.PartialAsync("_Prerequisites.cshtml")
 
+                <div class="alert alert-primary d-flex align-items-center" role="alert">
+                    <div>
+                        <i class="bi bi-github"></i> The <a  target="_blank"
+                            href="https://github.com/microsoft/woodgrove-auth-api/blob/main/Controllers/OnAttributeCollectionStartController.cs">
+                            source code</a> for this demo is avaliable in our
+                        <a href="https://github.com/microsoft/woodgrove-auth-api"  target="_blank">Woodgrove authentication API GitHub
+                            repository</a>.
+                    </div>
+                </div>
+
                 <p>
                     Start by registering a custom authentication extension that is used by Microsoft Entra ID to call
                     your REST API.
@@ -83,7 +93,8 @@
                 <p>
                     To ensure the communications between the custom authentication extension and your REST API are
                     secured appropriately, multiple security controls must be applied. The first step is to create or
-                    choose an applicaion that Microsoft Entra ID uses the OAuth 2.0 client credentials grant flow to secure the
+                    choose an applicaion that Microsoft Entra ID uses the OAuth 2.0 client credentials grant flow to
+                    secure the
                     call to your API endpoint.
                 </p>
                 <p>
@@ -100,7 +111,8 @@
 
             <div id="step-5" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger5">
                 <p>
-                    Select the applicaion you configured for the other custom authentication extensions, and choose <b>Select</b>.
+                    Select the applicaion you configured for the other custom authentication extensions, and choose
+                    <b>Select</b>.
                 </p>
 
                 <img class="img-fluid border"
@@ -132,7 +144,8 @@
 
             <div id="step-8" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger8">
                 <p>
-                    From the menu, select <b>Custom authentication extensions</b>. To associate your custom authentication
+                    From the menu, select <b>Custom authentication extensions</b>. To associate your custom
+                    authentication
                     extension, select the <b>Before collecting information from the user</b> event.
                 </p>
                 <img class="img-fluid border"
@@ -143,7 +156,8 @@
                 <p>
                     The custom extensions configured for the
                     <b>OnAttributeCollectionStart</b> event will be displayed.
-                    Select one of them for the attribute collection start event, and then choose <b>Select</b> and then save the changes.
+                    Select one of them for the attribute collection start event, and then choose <b>Select</b> and then
+                    save the changes.
                 </p>
 
                 <div class="alert alert-success" role="alert">

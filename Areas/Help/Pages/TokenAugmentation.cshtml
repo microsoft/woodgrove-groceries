@@ -27,6 +27,17 @@
     <div class="bs-stepper vertical" id="Stepper">
         @await Html.PartialAsync("_Steps.cshtml", 15)
 
+
+        <div class="alert alert-primary d-flex align-items-center" role="alert">
+            <div>
+                <i class="bi bi-github"></i> The <a target="_blank"
+                    href="https://github.com/microsoft/woodgrove-auth-api/blob/main/Controllers/OnTokenIssuanceStartController.cs">
+                    source code</a> for this demo is avaliable in our
+                <a href="https://github.com/microsoft/woodgrove-auth-api"  target="_blank">Woodgrove authentication API GitHub
+                    repository</a>.
+            </div>
+        </div>
+
         <div class="bs-stepper-content">
             <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
                 @await Html.PartialAsync("_Prerequisites.cshtml")
@@ -57,7 +68,7 @@
                 <ul>
                     <li><b>Name</b> - A name for your custom authentication extension. For example, <i>
                             Add claims from customer relationship REST API</i>.</li>
-                    <li><b>Target Url</b> - The URL of your REST API.</li>
+                    <li><b>Target URL</b> - The URL of your REST API.</li>
                     <li><b>Timeout in milliseconds</b> - The maximum number of retries the API endpoint will be called
                         in case of failure. If empty, will default to service default.</li>
                     <li><b>Maximum Retries</b> - The maximum number of retries the API endpoint will be called in case
