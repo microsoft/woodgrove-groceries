@@ -340,8 +340,8 @@
     <script>
         var thanksModal, stepUpModal;
         $(document).ready(function () {
-            $('[data-toggle="popover"]').popover({ trigger: "hover", content: "Please be aware that the food may contain or come into contact with eggs." });
-
+            $('.card-allergy').popover({trigger: "hover", content: "Please be aware that the food may contain or come into contact with eggs." });
+ 
             thanksModal = new bootstrap.Modal(document.getElementById('thanksModal'), {
                 keyboard: false
             });

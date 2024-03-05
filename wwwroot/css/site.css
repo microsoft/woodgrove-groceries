@@ -24,7 +24,7 @@ body {
   margin-bottom: 60px;
 }
 
-.link-without-underline, 
+.link-without-underline,
 .link-without-underline a:link,
 .link-without-underline a:visited {
   color: white;
@@ -137,10 +137,10 @@ body {
 
 /***** offcanvas *****/
 
-.offcanvas-backdrop.show
-{
-  opacity: .65!important;
+.offcanvas-backdrop.show {
+  opacity: .65 !important;
 }
+
 .offcanvas {
   width: 550px !important;
 }
@@ -222,12 +222,12 @@ body {
 }
 
 /***** Header section *******/
-.woodgrove-header-link span{
+.woodgrove-header-link span {
   text-decoration-line: underline;
   color: black;
 }
 
-.woodgrove-header-link:hover span{
+.woodgrove-header-link:hover span {
   color: green;
 }
 
@@ -290,10 +290,10 @@ body {
 /******** jumbotron ************/
 .avatar {
   border-radius: 50%;
-  width: 100%!important;
-  border-color: white; 
-  border-style: solid; 
-  border-width: 2px; 
+  width: 100% !important;
+  border-color: white;
+  border-style: solid;
+  border-width: 2px;
   /* box-shadow: 1px 1px 5px 1px var(--color-light); */
 }
 
@@ -446,6 +446,7 @@ hr.vertical {
   /* Vertically center the text there */
   padding-top: 150px;
   white-space: normal !important;
+  z-index: -12;
 }
 
 .footer-text {
@@ -468,10 +469,28 @@ hr.vertical {
 
 
 /***** Spiner ******/
-.woodgrove-spinner{
-  width: 5rem; 
+.woodgrove-spinner {
+  width: 5rem;
   height: 5rem;
   margin-top: 100px;
 }
 
 /***** Spiner ends ******/
+
+/********** Feedback button ******/
+.feedback {
+  padding: 5px 20px;
+  height: 40px;
+  cursor: pointer;
+  color: white!important;
+  background-image: linear-gradient(60deg, #0B60B0 30%, #40A2D8 100%);
+  border-radius: 5px 5px 0 0;
+  border-color: #0B60B0;
+  z-index: 9999;
+}
+
+#feedbackButton {
+  position: fixed;
+  bottom: -4px;
+  right: 10px;
+}

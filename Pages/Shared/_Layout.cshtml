@@ -80,6 +80,13 @@
         </div>
     </div>
 
+    <!-- Feedback button --->
+    <div id="feedbackButton">
+        <a class="btn btn-success feedback" data-bs-offset="10,-100" data-toggle="popover" data-bs-placement="top" title="Provide feedback"
+            href="https://github.com/microsoft/woodgrove-groceries/issues/new"><i class="bi bi-megaphone"></i>&nbsp; Feedback</a>
+    </div>
+
+
     <div style="height: 80px;"></div>
     </div>
 
@@ -121,8 +128,12 @@
     @await RenderSectionAsync("Scripts", required: false);
 
     <script>
+
         var stepper
         $(document).ready(function () {
+
+            $('.feedback').popover({placement: "top", trigger: "hover", content: "Foud a bug or have a question? Want to provide feedback? Click on this button and raise an issue on GitHub." });
+
 
             if ($('.bs-stepper').length > 0) {
 
