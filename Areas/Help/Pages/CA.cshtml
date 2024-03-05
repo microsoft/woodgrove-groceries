@@ -1,25 +1,26 @@
 ﻿@page
-@model woodgrovedemo.Help.Pages.MFAModel
+@model woodgrovedemo.Help.Pages.CAModel
 
 @{
-    ViewData["Title"] = "Multifactor authentication";
+    ViewData["Title"] = "Conditional access";
     Layout = "_Layout";
 }
 
-
-<h1 style="margin-top: 25px; margin-bottom: 25px;">Multifactor authentication (MFA)</h1>
+<h1 style="margin-top: 25px; margin-bottom: 25px;">Conditional access with Multifactor authentication (MFA)
+</h1>
 
 <div>
 
 
     <p>
-         <a
+        Microsoft Entra Conditional Access brings signals together, to make decisions,
+        and enforce security policies. <a
             href="https://learn.microsoft.com/entra/external-id/customers/how-to-multifactor-authentication-customers"
             target="_blank" class="link-dark link-offset-2">Multifactor authentication (MFA)</a> protects customers
-        identity by prompting them for a second verification method. Microsoft Entra Conditional Access brings signals together, to make decisions,
-        and enforce security policies.
+        identity by prompting them for a second verification method.
 
-        In this demo shows a Conditional Access policy that prompts for MFA. The Conditional access policy targets all users without any condition.
+        In this demo a Conditional Access policy that's targeted to all users when the sign-in risk level is
+        medium or high, prompts for MFA.
     </p>
     @await Html.PartialAsync("_StepsButtons.cshtml")
 
@@ -69,7 +70,9 @@
 
             <div id="step-5" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger5">
                 <p>
-                   Skipt the  <b>Conditions</b> section and move to the next step.
+                    Select the link under the <b>Conditions</b> and select the link under the <b>Sign-in risk</b>.
+                    Then, for the <b>Configure</b> select <b>Yes</b> and select the <b>High</b> and <b>Medium</b>
+                    checkboxes.
                 </p>
                 <img class="img-fluid border" src="~/Help/MFA/Create-conditional-access-policy-4.png">
             </div>
@@ -91,8 +94,9 @@
                 </p>
                 <div class="alert alert-success" role="alert">
                     <h4 class="alert-heading">Well done!</h4>
-                    <p>You created a Conditional access policy that requires users to complete MFA.
-                        To check the user experience, sign-in to your application.
+                    <p>You created a Conditional access policy that requires users to complete MFA if their sign-in is considered risky.
+                        To check the user experience, sign-in to your application with <a href="https://www.torproject.org/" target="_blank">Tor
+                        Browse</a>.
                     </p>
                 </div>
                 <img class="img-fluid border" src="~/Help/MFA/Create-conditional-access-policy-6.png">
