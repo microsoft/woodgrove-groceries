@@ -4,7 +4,7 @@ Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
 the rights to use your contribution. For details, visit <https://cla.opensource.microsoft.com>.
 
-First off, we sincerely thank you for taking the time to contribute ❤️ :heart: . All types of contributions are encouraged and valued. Please note the code of conduct and follow it in all your interactions with this project. 
+First off, we sincerely thank you for taking the time to contribute. All types of contributions are encouraged and valued. Please note the code of conduct and follow it in all your interactions with this project. 
 
 Please make sure to read the relevant section before making your contribution. It makes it a lot easier for others, and smoothes out the experience for all involved. The community looks forward to your contributions. 🎉
 
@@ -67,16 +67,16 @@ To provide help page for your use case (recommented), do the following:
 
 1. In the .cshtml.cs file, add the telemetry with your use case unique ID. You can copy it from another use case, such as [SSPR.cshtml.cs](./Areas/Help/Pages/SSPR.cshtml.cs).
 1. Then in the **cshtml** file adds the content guide. You can copy the content from another help file. **Important**, make sure to enter the exact number of steps in the `@await Html.PartialAsync("_Steps.cshtml", 5)` code. In this example, there are five steps.
-1. Create a sub folder with your use case ID under the [/wwwroot/images/help/](./wwwroot/images/help/) folder.
+1. Create a sub folder with your use case ID under the [/wwwroot/Help/](./wwwroot/Help/) folder.
 1. Add the screenshots into the folder you created.
 
 ## Deployment
 
 After you completed writing your code, and tested it locally in your development workstation, it's time to publish your changes. 
 
-- This GitHub repository uses a GitHub action called [main_woodgrove-groceries.yml](/blob/main/.github/workflows/main_woodgrove-groceries.yml) which is triggered on **commit** to the **main** branch, or on pull request **merge**. 
+- This GitHub repository uses a GitHub action called [main_woodgrove-groceries.yml](./.github/workflows/main_woodgrove-groceries.yml) which is triggered on **commit** to the **main** branch, or on pull request **merge**. 
 - You can check the status of your dempoloyen in the last commit. Usually it takes 2-3 minutes. 
 - The [/appsettings.json](./appsettings.json) contains empty or fake values. To change the settings (if you have access) go to Woodgrove Azure Service App and select the **App Settings** from the menu. Then add or change the app settings. **NEVER** add any information from the Woodgrove tenant that my cause security or privacy issues.
 
 
-Thanks again for your help and support! :heart: :heart: :heart:
+Thanks again for your help, support and contribution! :heart: :heart: :heart:
