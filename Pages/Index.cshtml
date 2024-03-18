@@ -107,10 +107,10 @@
 
 
 @if (!string.IsNullOrEmpty(Model.Alert))
-{
+{ 
     <!-- System alert -->  
-    <div class="alert alert-danger alert-dismissible fade show py-3 fs-5" style="margin-top: 25px;" role="alert">
-        <h4 class="alert-heading"><i class="bi bi-exclamation-diamond-fill" style="padding-right: 10px;"></i>System message</h4>
+    <div class="alert alert-danger alert-dismissible fade show py-3 fs-6" style="margin-top: 25px;" role="alert">
+        <h4 class="alert-heading  fs-5"><i class="bi bi-exclamation-diamond-fill" style="padding-right: 10px;"></i>System message</h4>
         <p>@Model.Alert</p>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
