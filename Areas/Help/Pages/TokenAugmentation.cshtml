@@ -22,21 +22,22 @@
         Including the loyaltyNumber, loyaltySince, and loyaltyTier claims.
         These claims return by a custom authentication extension REST API with some random values.
     </p>
+
+    <div class="alert alert-primary d-flex align-items-center" role="alert">
+        <div>
+            <i class="bi bi-github"></i> The <a target="_blank"
+                href="https://github.com/microsoft/woodgrove-auth-api/blob/main/Controllers/OnTokenIssuanceStartController.cs">
+                source code</a> for this demo is avaliable in our
+            <a href="https://github.com/microsoft/woodgrove-auth-api" target="_blank">Woodgrove authentication API
+                GitHub
+                repository</a>.
+        </div>
+    </div>
+
     @await Html.PartialAsync("_StepsButtons.cshtml")
 
     <div class="bs-stepper vertical" id="Stepper">
         @await Html.PartialAsync("_Steps.cshtml", 15)
-
-
-        <div class="alert alert-primary d-flex align-items-center" role="alert">
-            <div>
-                <i class="bi bi-github"></i> The <a target="_blank"
-                    href="https://github.com/microsoft/woodgrove-auth-api/blob/main/Controllers/OnTokenIssuanceStartController.cs">
-                    source code</a> for this demo is avaliable in our
-                <a href="https://github.com/microsoft/woodgrove-auth-api"  target="_blank">Woodgrove authentication API GitHub
-                    repository</a>.
-            </div>
-        </div>
 
         <div class="bs-stepper-content">
             <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
