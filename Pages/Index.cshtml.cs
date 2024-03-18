@@ -10,6 +10,7 @@ public class IndexModel : PageModel
     public bool IsCommercialAccount { get; set; } = false;
     public bool HasEggsAllergy { get; set; } = false;
     public bool StepUpFulfilled { get; set; } = false;
+    public string Alert { get; set; } = string.Empty;
     public List<string> listOfAvatars { get; set; }
 
     private readonly ILogger<IndexModel> _logger;
@@ -72,6 +73,9 @@ public class IndexModel : PageModel
             // Check if the step up completed
             StepUpFulfilled = User.Claims.Any(c => c.Type == "acrs" && c.Value == "c1");
         }
+
+        // Read the system alert
+        Alert = Configuration.GetSection("Demos:Alert").Value; 
 
         return Page();
     }

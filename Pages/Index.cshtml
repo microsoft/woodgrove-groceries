@@ -6,6 +6,7 @@
 
 @section Jumbotron {
     <!-- Welcome message-->
+
     <div class="inner-header">
         <div class="jumbotron" style="margin-top: 20px;">
             <div class="container">
@@ -103,6 +104,17 @@
     </div>
 </div>
 <!-- Numbers end-->
+
+
+@if (!string.IsNullOrEmpty(Model.Alert))
+{
+    <!-- System alert -->  
+    <div class="alert alert-danger alert-dismissible fade show py-3 fs-5" style="margin-top: 25px;" role="alert">
+        <h4 class="alert-heading"><i class="bi bi-exclamation-diamond-fill" style="padding-right: 10px;"></i>System message</h4>
+        <p>@Model.Alert</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
 
 <div class="" id="specials">
     <div class="d-flex justify-content-between">
@@ -340,8 +352,8 @@
     <script>
         var thanksModal, stepUpModal;
         $(document).ready(function () {
-            $('.card-allergy').popover({trigger: "hover", content: "Please be aware that the food may contain or come into contact with eggs." });
- 
+            $('.card-allergy').popover({ trigger: "hover", content: "Please be aware that the food may contain or come into contact with eggs." });
+
             thanksModal = new bootstrap.Modal(document.getElementById('thanksModal'), {
                 keyboard: false
             });
