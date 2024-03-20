@@ -40,8 +40,9 @@
                         context</b>.
                 </p>
 
-
-                <img class="img-fluid border" src="~/Help/StepUp/Add-authentication-context.png">
+                <a href="#" class="pop" onclick="return false;">
+                    <img class="img-fluid border" src="~/Help/StepUp/Add-authentication-context.png">
+                </a>
             </div>
 
             <div id="step-2" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger2">
@@ -53,7 +54,10 @@
                     and so on.
                     In this exampe we selected <b>C1</b>. Select <b>Save</b> to add the authentication context.
                 </p>
-                <img class="img-fluid border" src="~/Help/StepUp/New-authentication-context.png">
+
+                <a href="#" class="pop" onclick="return false;">
+                    <img class="img-fluid border" src="~/Help/StepUp/New-authentication-context.png">
+                </a>
             </div>
             <div id="step-3" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger3">
                 <p>
@@ -64,7 +68,10 @@
                     context we created.
                     From the meun, select <b>Policies</b> and then select <b>New policy</b>.
                 </p>
-                <img class="img-fluid border" src="~/Help/StepUp/Create-conditinal-access-policy.png">
+
+                <a href="#" class="pop" onclick="return false;">
+                    <img class="img-fluid border" src="~/Help/StepUp/Create-conditinal-access-policy.png">
+                </a>
             </div>
 
             <div id="step-4" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger4">
@@ -73,7 +80,10 @@
                     <b>Target resources</b> and under <b>what this policy applies to</b>,
                     choose <b>Authentication context</b>.
                 </p>
-                <img class="img-fluid border" src="~/Help/StepUp/Select-authentication-context.png">
+
+                <a href="#" class="pop" onclick="return false;">
+                    <img class="img-fluid border" src="~/Help/StepUp/Select-authentication-context.png">
+                </a>
             </div>
 
             <div id="step-5" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger5">
@@ -81,7 +91,10 @@
                     Select the check box for the authentication context that you created. In this example,
                     we selected the <b>Require strong authentication</b>.
                 </p>
-                <img class="img-fluid border" src="~/Help/StepUp/Select-require-strong-authentication.png">
+
+                <a href="#" class="pop" onclick="return false;">
+                    <img class="img-fluid border" src="~/Help/StepUp/Select-require-strong-authentication.png">
+                </a>
             </div>
 
             <div id="step-6" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger6">
@@ -93,9 +106,11 @@
                     Confirm your settings and
                     set <b>Enable policy</b> to <b>On</b>.
                     Select <b>Create</b> to create your policy.
-
                 </p>
-                <img class="img-fluid border" src="~/Help/StepUp/Require-mfa.png">
+
+                <a href="#" class="pop" onclick="return false;">
+                    <img class="img-fluid border" src="~/Help/StepUp/Require-mfa.png">
+                </a>
             </div>
 
             <div id="step-7" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger7">
@@ -113,7 +128,10 @@
                         registrations</b> and select your application. In this example we select the Woodgrove Groceries
                     application.
                 </p>
-                <img class="img-fluid border" src="~/Help/StepUp/Select-app.png">
+
+                <a href="#" class="pop" onclick="return false;">
+                    <img class="img-fluid border" src="~/Help/StepUp/Select-app.png">
+                </a>
             </div>
 
             <div id="step-8" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger8">
@@ -122,9 +140,11 @@
                     the manifest.
                     Add the following option claim to both <b>ID token</b> and <b>access token</b>.
                     When finished, select <b>Save</b>.
-
                 </p>
-                <img class="img-fluid border" src="~/Help/StepUp/Add-claim.png">
+
+                <a href="#" class="pop" onclick="return false;">
+                    <img class="img-fluid border" src="~/Help/StepUp/Add-claim.png">
+                </a>
             </div>
 
             <div id="step-9" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger9">
@@ -153,7 +173,8 @@
                             href="https://github.com/microsoft/woodgrove-groceries/blob/main/Program.cs">contains</a>
                         the <b>claims</b> extra query string parameter.
                         Tha value of the <b>claims</b> parameter is
-                        <code>{"access_token":{"acrs":{"essential":true,"value":"c1"}}}</code>.</li>
+                        <code>{"access_token":{"acrs":{"essential":true,"value":"c1"}}}</code>.
+                    </li>
                 </ol>
 
                 Note, your application should always evaluate the access token <b>acrs</b> claim.

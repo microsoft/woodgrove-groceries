@@ -17,7 +17,7 @@
         more information, learn how to <a
             href="https://learn.microsoft.com/entra/external-id/customers/how-to-use-app-roles-customers"
             target="_blank" class="link-dark link-offset-2">use
-            role-based access control for applications</a>. 
+            role-based access control for applications</a>.
     </p>
     @await Html.PartialAsync("_StepsButtons.cshtml")
 
@@ -38,7 +38,9 @@
 
                 </p>
 
-                <img class="img-fluid border" src="~/Help/RBAC/Select-app.png">
+                <a href="#" class="pop" onclick="return false;">
+                    <img class="img-fluid border" src="~/Help/RBAC/Select-app.png">
+                </a>
             </div>
 
             <div id="step-2" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger2">
@@ -46,7 +48,9 @@
                     Select <b>App roles</b>, and then select <b>Create app role</b>.
                 </p>
 
-                <img class="img-fluid border" src="~/Help/RBAC/Create-app-role-1.png">
+                <a href="#" class="pop" onclick="return false;">
+                    <img class="img-fluid border" src="~/Help/RBAC/Create-app-role-1.png">
+                </a>
             </div>
             <div id="step-3" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger3">
                 <p>
@@ -64,7 +68,11 @@
                 You can add more roles to your app. Added another role named <b>Orders manager</b> with a value
                 of <b>Orders.Manager</b>.
                 <br>
-                <img class="img-fluid border" src="~/Help/RBAC/Create-app-role-2.png">
+
+
+                <a href="#" class="pop" onclick="return false;">
+                    <img class="img-fluid border" src="~/Help/RBAC/Create-app-role-2.png">
+                </a>
             </div>
 
             <div id="step-4" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger4">
@@ -73,7 +81,8 @@
                     roles. Assignment of users and groups to roles can be done through the admin center, or
                     programmatically using <a
                         href="https://learn.microsoft.com/en-us/graph/api/user-post-approleassignments" target="_blank"
-                        class="link-dark link-offset-2">Microsoft Graph</a>. When the users who assigned to the various app
+                        class="link-dark link-offset-2">Microsoft Graph</a>. When the users who assigned to the various
+                    app
                     roles sign-in to
                     the application, their tokens have their assigned roles in the <b>roles</b> claim.
                 </p>
@@ -83,9 +92,12 @@
                     <b>Managed application in local directory</b> . Note, you can also browse to <b>Enterprise
                         applications</b>, then under
                     Manage, select <b>All applications</b>, and then select your application from the list</b>.
-
                 </p>
-                <img class="img-fluid border" src="~/Help/RBAC/Select-service-principal.png">
+
+
+                <a href="#" class="pop" onclick="return false;">
+                    <img class="img-fluid border" src="~/Help/RBAC/Select-service-principal.png">
+                </a>
             </div>
 
             <div id="step-5" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger5">
@@ -93,7 +105,9 @@
                     Under <b>Manage</b>, select <b>Users and groups</b>, then select <b>Add user/group</b>.
                 </p>
 
-                <img class="img-fluid border" src="~/Help/RBAC/Add-users-and-groups.png">
+                <a href="#" class="pop" onclick="return false;">
+                    <img class="img-fluid border" src="~/Help/RBAC/Add-users-and-groups.png">
+                </a>
             </div>
 
             <div id="step-6" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger6">
@@ -104,7 +118,9 @@
                     Once you've selected users and groups, choose <b>Select</b>.
                 </p>
 
-                <img class="img-fluid border" src="~/Help/RBAC/Select-users.png">
+                <a href="#" class="pop" onclick="return false;">
+                    <img class="img-fluid border" src="~/Help/RBAC/Select-users.png">
+                </a>
             </div>
 
             <div id="step-7" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger7">
@@ -114,7 +130,9 @@
                     appear. Select a role, and then choose <b>Select</b>. You can select one role at a time.
                 </p>
 
-                <img class="img-fluid border" src="~/Help/RBAC/Select-role.png">
+                <a href="#" class="pop" onclick="return false;">
+                    <img class="img-fluid border" src="~/Help/RBAC/Select-role.png">
+                </a>
             </div>
 
             <div id="step-8" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger8">
@@ -127,10 +145,12 @@
                 <div class="alert alert-success" role="alert">
                     <h4 class="alert-heading">Well done!</h4>
                     <p> Now when users who assiged roles sign-in to
-                    the application, their tokens have their assigned roles in the roles claim.</p>
+                        the application, their tokens have their assigned roles in the roles claim.</p>
                 </div>
 
-                <img class="img-fluid border" src="~/Help/RBAC/Assing.png">
+                <a href="#" class="pop" onclick="return false;">
+                    <img class="img-fluid border" src="~/Help/RBAC/Assing.png">
+                </a>
             </div>
         </div>
     </div>
