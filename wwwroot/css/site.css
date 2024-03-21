@@ -482,7 +482,7 @@ hr.vertical {
   padding: 5px 20px;
   height: 40px;
   cursor: pointer;
-  color: white!important;
+  color: white !important;
   background-image: linear-gradient(60deg, #0B60B0 30%, #40A2D8 100%);
   border-radius: 5px 5px 0 0;
   border-color: #0B60B0;
@@ -493,4 +493,19 @@ hr.vertical {
   position: fixed;
   bottom: -4px;
   right: 10px;
+}
+
+/***************** Help buttons ****************/
+#showEntraAdminCenter,
+#GraphApiContent {
+  display: none;
+}
+
+pre {
+  color: #0B60B0;
+}
+
+.graph-header {
+  padding-top: 18px;
+  padding-bottom: 5px;
 }

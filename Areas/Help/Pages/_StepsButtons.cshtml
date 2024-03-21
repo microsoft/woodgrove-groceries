@@ -1,18 +1,35 @@
-﻿<div style="padding-top: 10px;padding-bottom: 5px;">
-    <a href="#" id="movePrevious"
-        class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-        onclick="stepper.previous(); return false;"><i class="bi bi-arrow-left-circle"></i> Previous</a>
+﻿<div class="row">
+    <div class="col">
+        <div style="padding-top: 10px;padding-bottom: 5px;" id="stepNavigatorContainer">
+            <a href="#" id="movePrevious"
+                class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+                onclick="stepper.previous(); return false;"><i class="bi bi-arrow-left-circle"></i> Previous</a>
 
-    <!-- Example single danger button -->
-    <div class="btn-group" style="margin-left: 20px;">
-        <button type="button" class="btn btn-light dropdown-toggle" id="stepNumber" data-bs-toggle="dropdown" aria-expanded="false">
-            1
-        </button>
-        <ul class="dropdown-menu" id="stepNavigator">
-        </ul>
+            <!-- Example single danger button -->
+            <div class="btn-group" style="margin-left: 20px;">
+                <button type="button" class="btn btn-light dropdown-toggle" id="stepNumber" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    1
+                </button>
+                <ul class="dropdown-menu" id="stepNavigator">
+                </ul>
+            </div>
+
+            <a style="margin-left: 20px;" href="#" id="moveNext"
+                class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+                onclick="stepper.next(); return false;"><i class="bi bi-arrow-right-circle"></i> Next</a>
+        </div>
     </div>
+    <div class="col  align-self-center">
 
-    <a style="margin-left: 20px;" href="#" id="moveNext"
-        class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-        onclick="stepper.next(); return false;"><i class="bi bi-arrow-right-circle"></i> Next</a>
+        <div class="float-end"><a style="margin-left: 20px;" href="#" id="showEntraAdminCenter"
+                class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+                onclick="showEntraAdminCenter(); return false;"><i class="bi bi-display"></i> Switch to Microsoft Entra admin
+                center</a></div>
+
+        <div class="float-end"><a style="margin-left: 20px;" href="#" id="showGraphAPI"
+                class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+                onclick="showGraphAPI(); return false;"><i class="bi bi-terminal"></i> Switch to Graph API</a></div>
+
+    </div>
 </div>

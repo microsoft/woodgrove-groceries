@@ -9,6 +9,16 @@
 
 <div>
 
+    <p>
+        <a href="https://learn.microsoft.com/en-us/entra/external-id/customers/how-to-user-flow-sign-up-sign-in-customers"
+            target="_blank" class="link-dark link-offset-2">User flow</a> defines the series of sign-up steps customers
+        follow and the sign-in methods they can use (such as
+        email and password, one-time passcodes, or social accounts from Google or Facebook). You can also collect
+        information from customers during sign-up by selecting from a series of built-in user attributes or adding your
+        own custom attributes. You can create multiple user flows if you have multiple applications that you want to
+        offer to customers.
+    </p>
+
     @await Html.PartialAsync("_StepsButtons.cshtml")
 
     <div class="bs-stepper vertical">
@@ -17,8 +27,8 @@
         <div class="bs-stepper-content">
             <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
                 <p>
-                    To start, sign in to the <a href="https://entra.microsoft.com/" target="_blank"
-                        class="link-dark link-offset-2">Microsoft Entra admin center</a>
+                    To create a sign-up and sign-in user flow, sign in to the <a href="https://entra.microsoft.com/"
+                        target="_blank" class="link-dark link-offset-2">Microsoft Entra admin center</a>
                     and browse to <b>Identity</b> > <b>External Identities</b>.
                 </p>
 
@@ -125,5 +135,160 @@
                 </a>
             </div>
         </div>
+    </div>
+
+    <div id="GraphApiContent">
+
+        <h4 class="graph-header">Dependencies</h4>
+        This script is self contained. Optinally, you can add an application to the user flow.
+
+        <h4 class="graph-header">Create a user flow</h4>
+        <p>
+            To create a user flow, you
+            <a href="https://learn.microsoft.com/graph/api/identitycontainer-post-authenticationeventsflows?view=graph-rest-beta&tabs=http"
+                target="_blank" class="link-dark link-offset-2">create authentication events flow</a> object that is of
+            the
+            type specified in the request body.
+        </p>
+
+        <code style="color: black;">POST https://graph.microsoft.com/beta/identity/authenticationEventsFlows</code>
+
+        <pre>
+{
+    "@@odata.type": "#microsoft.graph.externalUsersSelfServiceSignUpEventsFlow",
+    "displayName": "Default",
+    "description": "Woodgrove default sign-up and sign-in flow",
+    "priority": 500,
+    "onInteractiveAuthFlowStart": {
+        "@@odata.type": "#microsoft.graph.onInteractiveAuthFlowStartExternalUsersSelfServiceSignUp",
+        "isSignUpAllowed": true
+    },
+    "onAuthenticationMethodLoadStart": {
+        "@@odata.type": "#microsoft.graph.onAuthenticationMethodLoadStartExternalUsersSelfServiceSignUp",
+        "identityProviders": [
+            {
+                "id": "EmailPassword-OAUTH"
+            }
+        ]
+    },
+    "onAttributeCollection": {
+        "@@odata.type": "#microsoft.graph.onAttributeCollectionExternalUsersSelfServiceSignUp",
+        "accessPackages": [],
+        "attributeCollectionPage": {
+            "customStringsFileId": null,
+            "views": [
+                {
+                    "title": null,
+                    "description": null,
+                    "inputs": [
+                        {
+                            "attribute": "email",
+                            "label": "Email Address",
+                            "inputType": "text",
+                            "defaultValue": null,
+                            "hidden": true,
+                            "editable": false,
+                            "writeToDirectory": true,
+                            "required": true,
+                            "validationRegEx": "^[a-zA-Z0-9.!#$%&amp;&#8217;'*+/=?^_`{|}~-]+@@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$",
+                            "options": []
+                        },
+                        {
+                            "attribute": "displayName",
+                            "label": "Display Name",
+                            "inputType": "text",
+                            "defaultValue": null,
+                            "hidden": false,
+                            "editable": true,
+                            "writeToDirectory": true,
+                            "required": true,
+                            "validationRegEx": "^.*",
+                            "options": []
+                        },
+                        {
+                            "attribute": "country",
+                            "label": "Country/Region",
+                            "inputType": "radioSingleSelect",
+                            "defaultValue": null,
+                            "hidden": false,
+                            "editable": true,
+                            "writeToDirectory": true,
+                            "required": false,
+                            "validationRegEx": "^.*",
+                            "options": [
+                                {
+                                    "label": "Australia",
+                                    "value": "au"
+                                },
+                                {
+                                    "label": "Spain",
+                                    "value": "es"
+                                },
+                                {
+                                    "label": "United States",
+                                    "value": "us"
+                                }
+                            ]
+                        },
+                        {
+                            "attribute": "city",
+                            "label": "City",
+                            "inputType": "text",
+                            "defaultValue": null,
+                            "hidden": false,
+                            "editable": true,
+                            "writeToDirectory": true,
+                            "required": false,
+                            "validationRegEx": "^.*",
+                            "options": []
+                        }
+                    ]
+                }
+            ]
+        },
+        "attributes": [
+            {
+                "id": "email"
+            },
+            {
+                "id": "city"
+            },
+            {
+                "id": "country"
+            },
+            {
+                "id": "displayName"
+            }
+        ]
+    },
+    "onUserCreateStart": {
+        "@@odata.type": "#microsoft.graph.onUserCreateStartExternalUsersSelfServiceSignUp",
+        "userTypeToCreate": "member",
+        "accessPackages": []
+    }
+}
+        </pre>
+
+        <h4 class="graph-header">Add your applicaiton to the user flow</h4>
+        <p>
+            To <a href="https://learn.microsoft.com/graph/api/authenticationconditionsapplications-post-includeapplications?view=graph-rest-beta&tabs=http"
+                target="_blank" class="link-dark link-offset-2">add or link an application to a user user flow</a> user the follow
+                Microsoft Graph. Replace the <b>{user-flow-ID}</b> with your <a
+                href="https://learn.microsoft.com/en-us/graph/api/identitycontainer-list-authenticationeventsflows?view=graph-rest-beta&tabs=http"
+                target="_blank" class="link-dark link-offset-2">user flow ID</a>.
+
+                Replace the <b>{app-ID}</b> with your <a
+                href="https://learn.microsoft.com/en-us/graph/api/application-list?view=graph-rest-beta&tabs=http"
+                target="_blank" class="link-dark link-offset-2"application ID</a>.
+        </p>
+
+        <code style="color: black;">POST https://graph.microsoft.com/beta/identity/authenticationEventsFlows/<b>{user-flow-ID}</b>/conditions/applications/includeApplications</code>
+
+        <pre>
+{
+    "@@odata.type": "#microsoft.graph.authenticationConditionApplication",
+    "appId": "<b>{app-ID}</b>"
+}
+        </pre>
     </div>
 </div>
