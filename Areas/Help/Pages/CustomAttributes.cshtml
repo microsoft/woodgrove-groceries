@@ -244,7 +244,7 @@
                             "editable": false,
                             "writeToDirectory": true,
                             "required": true,
-                            "validationRegEx": "^[a-zA-Z0-9.!#$%&amp;&#8217;'*+/=?^_`{|}~-]+@@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$",
+                            "validationRegEx": "^[a-zA-Z0-9.!#$%&amp;amp;&amp;#8217;'*+/=?^_`{|}~-]+@@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$",
                             "options": []
                         },
                         {
@@ -285,20 +285,19 @@
                             ]
                         },
                         {
-                            "attribute": "<span class="highlight">{attribute-ID}</span>",
-                            "label": "Special diet",
+                            "attribute": "city",
+                            "label": "City",
                             "inputType": "text",
                             "defaultValue": null,
                             "hidden": false,
                             "editable": true,
                             "writeToDirectory": true,
-                            "required": false,
+                            "required": true,
                             "validationRegEx": "^.*",
                             "options": []
-                        },
-                        {
-                            "attribute": "city",
-                            "label": "City",
+                        },                        {
+                            "attribute": "<span class="highlight">{attribute-ID}</span>",
+                            "label": "Special diet",
                             "inputType": "text",
                             "defaultValue": null,
                             "hidden": false,

@@ -147,6 +147,202 @@
     </div>
 
     <div id="GraphApiContent">
-        Graph API tutorial coming soon.
+
+        <h4 class="graph-header">Dependencies</h4>
+        <ul>
+            <li>User flow</li>
+        </ul>
+
+        <h4 class="graph-header">Create custom attribute</h4>
+        <p>
+            To a
+            <a href="https://learn.microsoft.com/en-us/graph/api/identityuserflowattribute-post?view=graph-rest-beta&tabs=http"
+                target="_blank" class="link-dark link-offset-2">create custom attribute</a>, run the following
+            Microsoft Graph.
+        </p>
+
+        <code style="color: black;">POST https://graph.microsoft.com/beta/identity/userFlowAttributes</code>
+
+        <pre>
+{
+    "displayName": "PolicyAgreement",
+    "description": "A required attribute that indicates whether a user consented to the terms and conditions.",
+    "dataType": "boolean"
+}
+        </pre>
+
+        <h4 class="graph-header">Add attribute to a user flow</h4>
+        <p>
+            To <a
+                href="https://learn.microsoft.com/en-us/graph/api/onattributecollectionexternalusersselfservicesignup-post-attributes?view=graph-rest-beta&tabs=http"
+                target="_blank" class="link-dark link-offset-2">add an attribute to a user flow</a>, run the
+            Microsoft Graph below.
+
+            Replace the <b>{user-flow-ID}</b> with your <a
+                href="https://learn.microsoft.com/en-us/graph/api/identitycontainer-list-authenticationeventsflows?view=graph-rest-beta&tabs=http"
+                target="_blank" class="link-dark link-offset-2">user flow ID</a>.
+
+            Replace the <b>{attribute-ID}</b> with your <a
+                href="https://learn.microsoft.com/en-us/graph/api/identityuserflowattribute-list?view=graph-rest-beta&tabs=http"
+                target="_blank" class="link-dark link-offset-2">attribute ID</a>.
+        </p>
+
+        <code
+            style="color: black;">POST https://graph.microsoft.com/beta/identity/authenticationEventsFlows/<span class="highlight">{user-flow-ID}</span>/microsoft.graph.externalUsersSelfServiceSignUpEventsFlow/onAttributeCollection/microsoft.graph.onAttributeCollectionExternalUsersSelfServiceSignUp/attributes/$ref</code>
+
+        <pre>
+{
+    "@@odata.id":"https://graph.microsoft.com/beta/identity/userFlowAttributes/<span class="highlight">{attribute-ID}</span>"
+}
+        </pre>
+
+        <a class="btn btn-outline-primary btn-sm" data-bs-toggle="collapse" href="#collapseExample1" role="button"
+            aria-expanded="false" aria-controls="collapseExample1">
+            Example
+        </a>
+        <div class="collapse" id="collapseExample1">
+            <code
+                style="color: black;">POST https://graph.microsoft.com/beta/identity/authenticationEventsFlows/12345678-1234-1234-1234-123456789012/microsoft.graph.externalUsersSelfServiceSignUpEventsFlow/onAttributeCollection/microsoft.graph.onAttributeCollectionExternalUsersSelfServiceSignUp/attributes/$ref</code>
+
+            <pre class="example">
+{
+    "@@odata.id":"https://graph.microsoft.com/beta/identity/userFlowAttributes/extension_98765432200c4c148da909f1d84b7b65_PolicyAgreement"
+}
+            </pre>
+        </div>
+
+
+        <h4 class="graph-header">Update the page layout</h4>
+        <p>
+            Usually the attribute appears at the bottom on the sign-up page. You can <a
+                href="https://learn.microsoft.com/en-us/graph/api/authenticationeventsflow-update?view=graph-rest-beta&tabs=http"
+                target="_blank" class="link-dark link-offset-2">update the sign-up page layout</a>.
+            In the page layout you can indicate which attributes are
+            required and arrange the display order. You can also edit attribute labels, create radio buttons or
+            checkboxes,
+            and more.
+        </p>
+        <p>
+            To do so, you need to update the user flow. In the request body, supply only the values for properties that
+            should be updated. Existing properties that
+            aren't included in the request body maintains their previous values or be recalculated based on changes to
+            other
+            property values.
+
+        <div class="alert alert-danger" role="alert">
+            <i class="bi bi-exclamation-triangle-fill"></i> The <b>inputs</b> collection must contain all of the
+            attributes.
+            To add or remove an attribute, make sure to include all other attributes.
+        </div>
+        </p>
+        <p>
+            Replace the <b>{user-flow-ID}</b> with your <a
+                href="https://learn.microsoft.com/en-us/graph/api/identitycontainer-list-authenticationeventsflows?view=graph-rest-beta&tabs=http"
+                target="_blank" class="link-dark link-offset-2">user flow ID</a>.
+
+            Replace the <b>{attribute-ID}</b> with your <a
+                href="https://learn.microsoft.com/en-us/graph/api/identityuserflowattribute-list?view=graph-rest-beta&tabs=http"
+                target="_blank" class="link-dark link-offset-2">attribute ID</a>.
+        </p>
+        <code
+            style="color: black;">PATCH https://graph.microsoft.com/beta/identity/authenticationEventsFlows/<span class="highlight">{user-flow-ID}</span></code>
+
+        <pre>
+{
+    "@@odata.type": "#microsoft.graph.externalUsersSelfServiceSignUpEventsFlow",
+    "onAttributeCollection": {
+        "@@odata.type": "#microsoft.graph.onAttributeCollectionExternalUsersSelfServiceSignUp",
+        "attributeCollectionPage": {
+            "customStringsFileId": null,
+            "views": [
+                {
+                    "title": null,
+                    "description": null,
+                    "inputs": [
+                        {
+                            "attribute": "email",
+                            "label": "Email Address",
+                            "inputType": "text",
+                            "defaultValue": null,
+                            "hidden": true,
+                            "editable": false,
+                            "writeToDirectory": true,
+                            "required": true,
+                            "validationRegEx": "^[a-zA-Z0-9.!#$%&amp;amp;&amp;#8217;'*+/=?^_`{|}~-]+@@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$",
+                            "options": []
+                        },
+                        {
+                            "attribute": "displayName",
+                            "label": "Display Name",
+                            "inputType": "text",
+                            "defaultValue": null,
+                            "hidden": false,
+                            "editable": true,
+                            "writeToDirectory": true,
+                            "required": true,
+                            "validationRegEx": "^.*",
+                            "options": []
+                        },
+                        {
+                            "attribute": "country",
+                            "label": "Country/Region",
+                            "inputType": "radioSingleSelect",
+                            "defaultValue": null,
+                            "hidden": false,
+                            "editable": true,
+                            "writeToDirectory": true,
+                            "required": false,
+                            "validationRegEx": "^.*",
+                            "options": [
+                                {
+                                    "label": "Australia",
+                                    "value": "au"
+                                },
+                                {
+                                    "label": "Spain",
+                                    "value": "es"
+                                },
+                                {
+                                    "label": "United States",
+                                    "value": "us"
+                                }
+                            ]
+                        },
+                        {
+                            "attribute": "city",
+                            "label": "City",
+                            "inputType": "text",
+                            "defaultValue": null,
+                            "hidden": false,
+                            "editable": true,
+                            "writeToDirectory": true,
+                            "required": true,
+                            "validationRegEx": "^.*",
+                            "options": []
+                        },
+                        {
+                            "attribute": "<span class="highlight">{attribute-ID}</span>",
+                            "label": "I have read and agree to the [terms of use](https://woodgrovedemo.com/tos) and the [privacy policy](https://woodgrovedemo.com/privacy)",
+                            "inputType": "boolean",
+                            "defaultValue": null,
+                            "hidden": false,
+                            "editable": true,
+                            "writeToDirectory": true,
+                            "required": true,
+                            "validationRegEx": "",
+                            "options": [
+                                {
+                                    "label": "I have read and agree to the [terms of use](https://woodgrovedemo.com/tos) and the [privacy policy](https://woodgrovedemo.com/privacy)",
+                                    "value": "true"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
+        </pre>
     </div>
 </div>
