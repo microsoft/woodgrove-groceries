@@ -509,3 +509,9 @@ pre {
   padding-top: 18px;
   padding-bottom: 5px;
 }
+
+.highlight {
+  font-weight: bold;
+  color: #084884;
+  background-color: rgb(228, 228, 228);
+}

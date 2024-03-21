@@ -263,8 +263,7 @@
     },
     "onUserCreateStart": {
         "@@odata.type": "#microsoft.graph.onUserCreateStartExternalUsersSelfServiceSignUp",
-        "userTypeToCreate": "member",
-        "accessPackages": []
+        "userTypeToCreate": "member"
     }
 }
         </pre>
@@ -282,12 +281,12 @@
                 target="_blank" class="link-dark link-offset-2">application ID</a>.
         </p>
 
-        <code style="color: black;">POST https://graph.microsoft.com/beta/identity/authenticationEventsFlows/<b>{user-flow-ID}</b>/conditions/applications/includeApplications</code>
+        <code style="color: black;">POST https://graph.microsoft.com/beta/identity/authenticationEventsFlows/<span class="highlight">{user-flow-ID}</span>/conditions/applications/includeApplications</code>
 
         <pre>
 {
     "@@odata.type": "#microsoft.graph.authenticationConditionApplication",
-    "appId": "<b>{app-ID}</b>"
+    "appId": "<span class="highlight">{app-ID}</span>"
 }
         </pre>
     </div>
