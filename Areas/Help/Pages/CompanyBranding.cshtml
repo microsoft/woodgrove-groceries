@@ -1,0 +1,234 @@
+﻿@page
+@model woodgrovedemo.Help.Pages.CompanyBrandingModel
+
+@{
+    ViewData["Title"] = "Company branding";
+    Layout = "_Layout";
+}
+
+<h1 style="margin-top: 25px; margin-bottom: 25px;">Customize the look and feel (company branding)
+</h1>
+
+<div>
+
+    <p>
+
+        After creating a new customer tenant, you can customize the end-user experience. Create a custom look and feel
+        for users signing in to your apps by configuring Company branding settings for your tenant. With these settings,
+        you can add your own background images, colors, company logos, and text to customize the sign-in experiences
+        across your apps.
+
+        You can create a personalized <a
+            href="https://learn.microsoft.com/en-us/entra/external-id/customers/how-to-customize-branding-customers"
+            target="_blank" class="link-dark link-offset-2">default</a> sign-in experience for users who sign in.
+        Or create personalized <a
+            href="https://learn.microsoft.com/en-us/entra/external-id/customers/how-to-customize-languages-customers"
+            target="_blank" class="link-dark link-offset-2">per language</a> sign-in experience, for a specific browser
+        language by
+        customizing the branding elements for that browser language.
+    </p>
+    @await Html.PartialAsync("_StepsButtons.cshtml")
+
+    <div class="bs-stepper vertical" id="Stepper">
+        @await Html.PartialAsync("_Steps.cshtml", 9)
+
+        <div class="bs-stepper-content">
+            <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
+                @await Html.PartialAsync("_Prerequisites.cshtml")
+
+                <p>
+                    To create or update your tenant company branding (default or per language), sign in to the <a
+                        href="https://entra.microsoft.com/" target="_blank" class="link-dark link-offset-2">Microsoft
+                        Entra admin center</a>
+                    and browse to <b>User experiences </b> > <b>Company Branding</b>. If you can't find it, select the
+                    <b>... Show more</b>.
+                </p>
+                <p>
+                    On the <b>Company Branding</b> page you can choose to edit the <b>Default sign-in experience</b>, or
+                    <b>Customize by browser language</b>.
+                    For this demo we'll edit the default one. If you select the <b>Customize by browser language</b>,
+                    you will have to select the language to customize.
+                </p>
+
+                <a href="#" class="pop" onclick="return false;">
+                    <img class="img-fluid border" src="~/Help/CompanyBranding/Select-company-branding.png">
+                </a>
+            </div>
+
+            <div id="step-2" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger2">
+                <p>
+                    On the <b>Basics</b> tab, modify any of the background elements. Then select <b>Next</b>.
+                <ul>
+                    <li><b>Favicon</b> - The icon that displays in the web browser tab.</li>
+                    <li><b>Background image</b> - The large image that displays on the sign-in page. If you upload an
+                        image, it will scale and crop to fill the browser window.</li>
+                    <li><b>Page background color</b> - The color that replaces the background image whenever the image
+                        can’t be loaded, for example due to connection latency.</li>
+                </ul>
+                </p>
+
+                <a href="#" class="pop" onclick="return false;">
+                    <img class="img-fluid border" src="~/Help/CompanyBranding/1-basic.png">
+                </a>
+            </div>
+
+            <div id="step-3" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger3">
+                <p>
+                    On the <b>Layout</b> tab, select the placement of web page elements on the sign-in page. Then select
+                    <b>Next</b>.
+                <ul>
+                    <li><b>Template</b> - Full screen background</li>
+                    <li><b>Header</b> - Show</li>
+                    <li><b>Footer</b> - Show</li>
+                    <li><b>Custom CSS</b> - Upload your own CSS file to replace default Microsoft styling with your own
+                        styling for: color, font, text size, position of elements, and displays for different devices
+                        and screen sizes.</li>
+                </ul>
+                </p>
+
+                <a href="#" class="pop" onclick="return false;">
+                    <img class="img-fluid border" src="~/Help/CompanyBranding/2-layout.png">
+                </a>
+            </div>
+
+            <div id="step-4" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger4">
+                <p>
+                    On the <b>Header</b> tab, select the <b>Header logo</b> to display in the header of the sign-in
+                    page. Then select <b>Next</b>.
+                </p>
+
+                <a href="#" class="pop" onclick="return false;">
+                    <img class="img-fluid border" src="~/Help/CompanyBranding/3-header.png">
+                </a>
+            </div>
+
+            <div id="step-5" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger5">
+                <p>
+                    On the <b>Footer</b> tab, you can customize the URLs and link text for the privacy and terms of use
+                    hyperlinks that appear in the footer of the sign-in page.
+                <ul>
+                    <li><b>Privacy & Cookies</b> - Select the checkbox next to Privacy & Cookies to display this
+                        hyperlink in the footer. The Microsoft default privacy link will display unless you enter your
+                        own hyperlink Display text and URL.</li>
+                    <li><b>Terms of Use</b> - Select the checkbox next to Terms of Use to display this hyperlink in the
+                        footer. The Microsoft terms of use link will display unless you enter your own hyperlink Display
+                        text and URL.</li>
+                </ul>
+                </p>
+
+                <a href="#" class="pop" onclick="return false;">
+                    <img class="img-fluid border" src="~/Help/CompanyBranding/4-footer.png">
+                </a>
+            </div>
+
+            <div id="step-6" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger6">
+                <p>
+                    On the <b>Sign-in</b> form tab, configure elements of the sign-in form.
+                <ul>
+                    <li><b>Banner logo</b> - Displays on the sign-in page and in the user’s access panel</li>
+                    <li><b>Sign-in page text</b> - Appears at the bottom of the sign-in and sign-up pages. </li>
+                    <li><b>Show self-service password reset</b> - Yes</li>
+                </ul>
+                </p>
+
+                <a href="#" class="pop" onclick="return false;">
+                    <img class="img-fluid border" src="~/Help/CompanyBranding/5-sing-in-form.png">
+                </a>
+                <div style="padding-top: 25px;">
+                    Scroll down for more options.
+                </div>
+                <a href="#" class="pop" onclick="return false;" style="padding-top: 0; margin-top: 0;">
+                    <img class="img-fluid border" src="~/Help/CompanyBranding/6-sing-in-form.png">
+                </a>
+            </div>
+
+            <div id="step-7" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger7">
+                <p>
+                    To customize soem of the labels, on the <b>Text</b> tab select <b>Add Custom Text</b>.
+                </p>
+
+                <a href="#" class="pop" onclick="return false;">
+                    <img class="img-fluid border" src="~/Help/CompanyBranding/7-text.png">
+                </a>
+            </div>
+
+            <div id="step-8" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger8">
+                <p>
+                    Select the text you want to customize, and enter the label.
+                </p>
+
+                <a href="#" class="pop" onclick="return false;">
+                    <img class="img-fluid border" src="~/Help/CompanyBranding/8-text.png">
+                </a>
+            </div>
+
+            <div id="step-9" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger9">
+                <p>
+                    Review to review all your modifications. Then select <b>Save</b> if you'd like to save your changes
+                    or <b>Previous</b> if you want to continue customizing.
+                </p>
+                <div class="alert alert-success" role="alert">
+                    <h4 class="alert-heading">Well done!</h4>
+                    <p> You completed configuring the company branding. To check the user experience, sign-up to your
+                        application.</p>
+                </div>
+
+
+                <a href="#" class="pop" onclick="return false;">
+                    <img class="img-fluid border" src="~/Help/CompanyBranding/9-review.png">
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="GraphApiContent">
+
+        <h4 class="graph-header">Dependencies</h4>
+        This script is self contained.
+
+        <h4 class="graph-header">Update the default company branding</h4>
+        <p>
+           Update (not create) the properties of the default localization, run the following Microsoft Graph.
+            Replace the <b>{Tenant-ID}</b> with your tenant ID.
+     
+        </p>
+        <code style="color: black;">PATHC https://graph.microsoft.com/v1.0/organization/<span class="highlight">{Tenant-ID}</span>/branding/localizations/0</code>
+
+        <pre>
+{
+    "id": "0",
+    "backgroundColor": "#cddfcc",
+    "customAccountResetCredentialsUrl": null,
+    "customCannotAccessYourAccountText": null,
+    "customCannotAccessYourAccountUrl": null,
+    "customForgotMyPasswordText": null,
+    "customPrivacyAndCookiesText": "Privacy & Cookies",
+    "customPrivacyAndCookiesUrl": "https://woodgrovedemo.com/Privacy",
+    "customResetItNowText": null,
+    "customTermsOfUseText": "Terms of Use",
+    "customTermsOfUseUrl": "https://woodgrovedemo.com/TOS",
+    "headerBackgroundColor": null,
+    "signInPageText": "Welcome to the **Woodgrove groceries** online store. Sign-in with your credentials, or create a new account. You can also sign-in with your *social accounts*, such as Facebook or Google. For help, please [contact us](https://woodgrovedemo.com/help).",
+    "squareLogoRelativeUrl": null,
+    "squareLogoDarkRelativeUrl": null,
+    "usernameHintText": null,
+    "loginPageTextVisibilitySettings": {
+        "hideCannotAccessYourAccount": null,
+        "hideAccountResetCredentials": false,
+        "hideTermsOfUse": false,
+        "hidePrivacyAndCookies": false,
+        "hideForgotMyPassword": null,
+        "hideResetItNow": null
+    },
+    "loginPageLayoutConfiguration": {
+        "layoutTemplateType": "default",
+        "isHeaderShown": true,
+        "isFooterShown": true
+    }
+}
+        </pre>
+
+
+    </div>
+</div>
