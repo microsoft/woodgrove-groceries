@@ -195,6 +195,188 @@
     </div>
 
     <div id="GraphApiContent">
-        Graph API tutorial coming soon.
+        <h4 class="graph-header">Register a custom authentication extension</h4>
+
+        <p>
+            Next, you <a
+                href="https://learn.microsoft.com/en-us/graph/api/identitycontainer-post-customauthenticationextensions?view=graph-rest-beta&tabs=http"
+                target="_blank" class="link-dark link-offset-2">register the custom authentication extension</a>.
+            You register the custom authentication extension by
+            associating it with the <b>Custom authentication extension security app</b> you created, and to your
+            REST API endpoint. Replace:
+        <ul>
+            <li><b>{app-ID}</b> with the app ID from the previous call <b>Custom authentication extension security
+                    app</b>.</li>
+            <li><b>{REST-API-domain}</b>with your rest API domain name</li>
+            <li><b>{Endpoint-URL}</b> - with the RUL of your REST API endpoint</li>
+            <li><b>claimsForTokenConfiguration</b> - Collection of attribute your REST API returns</li>
+        </ul>
+        </p>
+
+        <code style="color: black;">POST https://graph.microsoft.com/beta/identity/customAuthenticationExtensions</code>
+        <pre>
+{
+    "@@odata.type": "#microsoft.graph.onAttributeCollectionStartCustomExtension",
+    "displayName": "Prepopulate sign-up attributes",
+    "description": "Prepopulate sign-up attributes from a REST API",
+    "behaviorOnError": null,
+    "authenticationConfiguration": {
+        "@@odata.type": "#microsoft.graph.azureAdTokenAuthentication",
+        "resourceId": "api://<span class="highlight">{REST-API-domain}</span>/<span class="highlight">{app-ID}</span>"
+    },
+    "endpointConfiguration": {
+        "@@odata.type": "#microsoft.graph.httpRequestEndpoint",
+        "targetUrl": "<span class="highlight">{Endpoint-URL}</span>"
+    },
+    "clientConfiguration": {
+        "timeoutInMilliseconds": null,
+        "maximumRetries": null
+    }
+}
+        </pre>
+
+
+        <a class="btn btn-outline-primary btn-sm" data-bs-toggle="collapse" href="#collapseExample3" role="button"
+            aria-expanded="false" aria-controls="collapseExample3">
+            Example
+        </a>
+        <div class="collapse" id="collapseExample3">
+            <code
+                style="color: black;">POST https://graph.microsoft.com/beta/identity/customAuthenticationExtensions</code>
+
+            <pre class="example">
+{
+    "@@odata.type": "#microsoft.graph.onAttributeCollectionStartCustomExtension",
+    "displayName": "Prepopulate sign-up attributes",
+    "description": "Prepopulate sign-up attributes from a REST API",
+    "behaviorOnError": null,
+    "authenticationConfiguration": {
+        "@@odata.type": "#microsoft.graph.azureAdTokenAuthentication",
+        "resourceId": "api://auth-api.woodgrovedemo.com/12345678-1234-1234-1234-000000000000"
+    },
+    "endpointConfiguration": {
+        "@@odata.type": "#microsoft.graph.httpRequestEndpoint",
+        "targetUrl": "https://auth-api.woodgrovedemo.com/OnAttributeCollectionStart"
+    },
+    "clientConfiguration": {
+        "timeoutInMilliseconds": null,
+        "maximumRetries": null
+    }
+}
+            </pre>
+        </div>
+
+        <h4 class="graph-header">Create authentication event listener</h4>
+        <p>
+            After you register you registered your custom authentication extension, <a
+                href="https://learn.microsoft.com/en-us/graph/api/identitycontainer-post-authenticationeventlisteners?view=graph-rest-beta&tabs=http"
+                target="_blank" class="link-dark link-offset-2">create authentication event listener</a>.
+
+            In the next JSON, replace:
+        <ul>
+            <li><b>{web-or-mobile-app-ID}</b> with your web or mobile application. Not the <b>Custom authentication
+                    extension security
+                    app</b>. It's a collection, you can add more apps as needed.</li>
+            <li><b>{Custom-auth-extension-ID}</b> with the custome authentication extension you just created.</li>
+        </ul>
+        </p>
+        <code style="color: black;">POST https://graph.microsoft.com/beta/identity/authenticationEventListeners</code>
+
+        <pre>
+{
+    "@@odata.type": "#microsoft.graph.onAttributeCollectionStartListener",
+    "conditions": {
+        "applications": {
+            "includeAllApplications": false,
+            "includeApplications": [
+                {
+                    "appId": "<span class="highlight">{web-or-mobile-app-ID}</span>"
+                }
+            ]
+        }
+    },
+    "priority": 500,
+    "handler": {
+        "@@odata.type": "#microsoft.graph.onAttributeCollectionStartCustomExtensionHandler",
+        "customExtension": {
+            "id": "<span class="highlight">{Custom-auth-extension-ID}</span>"
+        }
+    }
+}
+        </pre>
+
+
+        <a class="btn btn-outline-primary btn-sm" data-bs-toggle="collapse" href="#collapseExample3" role="button"
+            aria-expanded="false" aria-controls="collapseExample3">
+            Example
+        </a>
+        <div class="collapse" id="collapseExample3">
+            <code
+                style="color: black;">POST https://graph.microsoft.com/beta/identity/authenticationEventListeners</code>
+
+            <pre class="example">
+{
+    "@@odata.type": "#microsoft.graph.onAttributeCollectionStartListener",
+    "conditions": {
+        "applications": {
+            "includeAllApplications": false,
+            "includeApplications": [
+                {
+                    "appId": "722f9405-d07c-4980-baed-4717ce4ec710"
+                },
+                {
+                    "appId": "c92b6a8a-d591-4234-bd51-6929d07d90aa"
+                }
+            ]
+        }
+    },
+    "priority": 500,
+    "handler": {
+        "@@odata.type": "#microsoft.graph.onAttributeCollectionStartCustomExtensionHandler",
+        "customExtension": {
+            "id": "22222222-2222-3333-3333-444444444444"
+        }
+    }
+}
+            </pre>
+        </div>
+
+        <h4 class="graph-header">Link the custom authentication extension to a user flow</h4>
+        <p>
+            <a href="https://learn.microsoft.com/en-us/graph/api/authenticationeventsflow-update?view=graph-rest-beta&tabs=http"
+                target="_blank" class="link-dark link-offset-2">Update your user flow</a>.
+
+            In the next JSON, replace:
+        <ul>
+            <li><b>{user-flow-ID}</b> with your <a
+                    href="https://learn.microsoft.com/en-us/graph/api/identitycontainer-list-authenticationeventsflows?view=graph-rest-beta&tabs=http"
+                    target="_blank" class="link-dark link-offset-2">user flow ID</a>.</li>
+            <li><b>{Custom-auth-extension-ID}</b> with the custome authentication extension you just created.</li>
+        </ul>
+        </p>
+        <code
+            style="color: black;"><b>PUT</b> https://graph.microsoft.com/beta/identity/authenticationEventsFlows/<span class="highlight">{user-flow-ID}</span>/microsoft.graph.externalUsersSelfServiceSignUpEventsFlow/onAttributeCollectionStart/microsoft.graph.onAttributeCollectionStartCustomExtensionHandler/customExtension/$ref</code>
+
+        <pre>
+{
+    "@@odata.id": "https://graph.microsoft.com/beta/identity/customAuthenticationExtensions/<span class="highlight">{Custom-auth-extension-ID}</span>"
+}
+        </pre>
+
+
+        <a class="btn btn-outline-primary btn-sm" data-bs-toggle="collapse" href="#collapseExample2" role="button"
+            aria-expanded="false" aria-controls="collapseExample2">
+            Example
+        </a>
+        <div class="collapse" id="collapseExample2">
+            <code
+                style="color: black;"><b>PUT</b> https://graph.microsoft.com/beta/identity/authenticationEventsFlows/44444444-4444-4444-4444-445555555555/microsoft.graph.externalUsersSelfServiceSignUpEventsFlow/onAttributeCollectionStart/microsoft.graph.onAttributeCollectionStartCustomExtensionHandler/customExtension/$ref</code>
+
+            <pre class="example">
+{
+    "@@odata.id": "https://graph.microsoft.com/beta/identity/customAuthenticationExtensions/22222222-2222-3333-3333-444444444444"
+}
+            </pre>
+        </div>
     </div>
 </div>
