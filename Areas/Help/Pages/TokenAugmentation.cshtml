@@ -27,7 +27,7 @@
         <div>
             <i class="bi bi-github"></i> The <a target="_blank"
                 href="https://github.com/microsoft/woodgrove-auth-api/blob/main/Controllers/OnTokenIssuanceStartController.cs">
-                source code</a> for this demo is avaliable in our
+                source code</a> for this demo is available in our
             <a href="https://github.com/microsoft/woodgrove-auth-api" target="_blank">Woodgrove authentication API
                 GitHub
                 repository</a>.
@@ -94,7 +94,7 @@
                     To ensure the communications between the custom authentication extension and your REST API are
                     secured appropriately, multiple security controls must be applied. The first step is to create or
                     choose
-                    an applicaion that Microsoft Entra ID uses the OAuth 2.0 client credentials grant flow to secure the
+                    an application that Microsoft Entra ID uses the OAuth 2.0 client credentials grant flow to secure the
                     call to your API endpoint.
                 </p>
                 <p>
@@ -116,7 +116,7 @@
                     If you have already configured a custom authentication extension, in <b>API Authentication</b>,
                     select
                     the
-                    <b>Select an existing app registration in this directory</b> option, and select the applicaion you
+                    <b>Select an existing app registration in this directory</b> option, and select the application you
                     configured for the other custom authentication extensions.
                 </p>
 
@@ -294,6 +294,344 @@
     </div>
 
     <div id="GraphApiContent">
-        Graph API tutorial coming soon.
+        <h4 class="graph-header">Dependencies</h4>
+        <ul>
+            <li>Application registers</li>
+        </ul>
+
+        <h4 style="padding-top: 25px;padding-bottom: 5px;">Register a web application</h4>
+        <p>
+            To <a
+                href="https://learn.microsoft.com/en-us/graph/api/application-post-applications?view=graph-rest-beta&tabs=http"
+                target="_blank" class="link-dark link-offset-2">register a web application</a>, use the following
+            Microsoft
+            Graph and replace.
+        <ul>
+            <li>Value of <b>displayName</b> with your app displayed name. For example, <i>Woodgrove Groceries</i></li>
+            <li>Values of the <b>redirectUris</b> with the redirect URI of your application. For example,
+                <i>https://woodgrovedemo.com/signin-oidc</i>
+            </li>
+        </ul>
+        </p>
+        <code style="color: black;">POST https://graph.microsoft.com/v1.0/applications</code>
+
+        <pre>
+{
+    "<span class="highlight">displayName</span>": "Custom authentication extension security app",
+    "description": "Ensure the communications between the custom authentication extension and your REST API are secured",
+    "signInAudience": "AzureADMyOrg",
+        "tags": [
+        "HideApp"
+    ],
+    "api": {
+        "acceptMappedClaims": null,
+        "requestedAccessTokenVersion": 2
+    },
+    "requiredResourceAccess": [
+        {
+            "resourceAppId": "00000003-0000-0000-c000-000000000000",
+            "resourceAccess": [
+                {
+                    "id": "214e810f-fda8-4fd7-a475-29461495eb00",
+                    "type": "Role"
+                }
+            ]
+        }
+    ]
+}
+        </pre>
+
+        <h4 class="graph-header">Update the application identifier URI</h4>
+        <p>
+            After you register you registered your application, <a
+                href="https://learn.microsoft.com/en-us/graph/api/application-update?view=graph-rest-beta&tabs=http"
+                target="_blank" class="link-dark link-offset-2">Update the application</a>'s' identifier URI.
+            Replace the <b>{app-ID}</b> with the app ID from the previous call (not the object ID).
+            Replace the <b>{REST-API-domain}</b> with your rest API domain name.
+
+        </p>
+        <code
+            style="color: black;">PATCH https://graph.microsoft.com/v1.0/applications(appId='<span class="highlight">{app-ID}</span>')</code>
+
+        <pre>
+{
+    "identifierUris": [
+        "api://<span class="highlight">{REST-API-domain}</span>/<span class="highlight">{app-ID}</span>"
+    ]
+}
+        </pre>
+
+
+        <a class="btn btn-outline-primary btn-sm" data-bs-toggle="collapse" href="#collapseExample1" role="button"
+            aria-expanded="false" aria-controls="collapseExample1">
+            Example
+        </a>
+        <div class="collapse" id="collapseExample1">
+            <code
+                style="color: black;">PATCH https://graph.microsoft.com/v1.0/applications(appId='12345678-1234-1234-1234-000000000000')</code>
+
+            <pre class="example">
+{
+       "identifierUris": [
+        "api://auth-api.woodgrovedemo.com/12345678-1234-1234-1234-000000000000</span>"
+    ]
+}
+            </pre>
+        </div>
+
+        <h4 class="graph-header">Create a service principal for your application</h4>
+        <p>
+            After you register you registered your application, <a
+                href="https://learn.microsoft.com/en-us/graph/api/serviceprincipal-post-serviceprincipals?view=graph-rest-1.0&tabs=http"
+                target="_blank" class="link-dark link-offset-2">create a service principal</a>. The following Microsoft
+            Graph creates a service principal. Replace the <b>{app-ID}</b> with the app ID from the previous call
+            (not the
+            object ID).
+        </p>
+        <code style="color: black;">POST https://graph.microsoft.com/v1.0/servicePrincipals</code>
+
+        <pre>
+{
+    "appId": "<span class="highlight">{app-ID}</span>"
+}
+        </pre>
+
+
+        <a class="btn btn-outline-primary btn-sm" data-bs-toggle="collapse" href="#collapseExample2" role="button"
+            aria-expanded="false" aria-controls="collapseExample2">
+            Example
+        </a>
+        <div class="collapse" id="collapseExample2">
+            <code style="color: black;">POST https://graph.microsoft.com/v1.0/servicePrincipals</code>
+
+            <pre class="example">
+{
+    "appId": "12345678-1234-1234-1234-000000000000"
+}
+            </pre>
+        </div>
+
+        <h4 class="graph-header">Consent to the required permissions</h4>
+        <p>
+
+            Since the tenant is a customer's tenant, the consumer users themselves can't consent to these permissions.
+            You as the admin must <a
+                href="https://learn.microsoft.com/en-us/graph/api/serviceprincipal-post-approleassignments?view=graph-rest-1.0&tabs=http"
+                target="_blank" class="link-dark link-offset-2">consent to these permissions</a> on behalf of all the
+            users in the tenant:
+
+            Replace the <b>{service-principal-id}</b> with the service-principal ID you created in the previous step.
+        </p>
+        <p>
+            Note, in the following JSON snippet, the <i>69309946-6ba5-4714-bb0e-38138430fcfd</i> is the object ID
+            of the Microsoft Graph application. The <i>214e810f-fda8-4fd7-a475-29461495eb00</i> ID is the
+            <b>CustomAuthenticationExtension.Receive.Payload</b> application role.
+        </p>
+
+        <code
+            style="color: black;">POST https://graph.microsoft.com/v1.0/servicePrincipals/<span class="highlight">{service-principal-id}</span>/appRoleAssignments</code>
+
+        <pre>
+{
+    "principalId": "<span class="highlight">{service-principal-id}</span>",
+    "resourceId": "69309946-6ba5-4714-bb0e-38138430fcfd",
+    "appRoleId": "214e810f-fda8-4fd7-a475-29461495eb00"
+}
+        </pre>
+
+
+        <h4 class="graph-header">Register a custom authentication extension</h4>
+
+        <p>
+            Next, you <a
+                href="https://learn.microsoft.com/en-us/graph/api/identitycontainer-post-customauthenticationextensions?view=graph-rest-beta&tabs=http"
+                target="_blank" class="link-dark link-offset-2">register the custom authentication extension</a>.
+            You register the custom authentication extension by
+            associating it with the <b>Custom authentication extension security app</b> you created, and to your
+            REST API endpoint. Replace:
+        <ul>
+            <li><b>{app-ID}</b> with the app ID from the previous call <b>Custom authentication extension security
+                    app</b>.</li>
+            <li><b>{REST-API-domain}</b>with your rest API domain name</li>
+            <li><b>{Endpoint-URL}</b> - with the RUL of your REST API endpoint</li>
+            <li><b>claimsForTokenConfiguration</b> - Collection of attribute your REST API returns</li>
+        </ul>
+        </p>
+
+        <code style="color: black;">POST https://graph.microsoft.com/beta/identity/customAuthenticationExtensions</code>
+        <pre>
+{
+    "@@odata.type": "#microsoft.graph.onTokenIssuanceStartCustomExtension",
+    "displayName": " Add claims from customer relationship REST API",
+    "description": "Returns the loyaltyNumber, loyaltySince, and loyaltyTier claims with some random values",
+    "behaviorOnError": null,
+    "authenticationConfiguration": {
+        "@@odata.type": "#microsoft.graph.azureAdTokenAuthentication",
+        "resourceId": "api://<span class="highlight">{REST-API-domain}</span>/<span class="highlight">{app-ID}</span>"
+    },
+    "endpointConfiguration": {
+        "@@odata.type": "#microsoft.graph.httpRequestEndpoint",
+        "targetUrl": "<span class="highlight">{Endpoint-URL}</span>"
+    },
+    "clientConfiguration": {
+        "timeoutInMilliseconds": null,
+        "maximumRetries": null
+    },
+    "<span class="highlight">claimsForTokenConfiguration</span>": [
+        {
+            "claimIdInApiResponse": "loyaltyNumber"
+        },
+        {
+            "claimIdInApiResponse": "customRoles"
+        },
+        {
+            "claimIdInApiResponse": "apiVersion"
+        },
+        {
+            "claimIdInApiResponse": "correlationId"
+        },
+        {
+            "claimIdInApiResponse": "loyaltySince"
+        },
+        {
+            "claimIdInApiResponse": "loyaltyTier"
+        }
+    ]
+}
+        </pre>
+
+
+        <a class="btn btn-outline-primary btn-sm" data-bs-toggle="collapse" href="#collapseExample3" role="button"
+            aria-expanded="false" aria-controls="collapseExample3">
+            Example
+        </a>
+        <div class="collapse" id="collapseExample3">
+            <code
+                style="color: black;">POST https://graph.microsoft.com/beta/identity/customAuthenticationExtensions</code>
+
+            <pre class="example">
+{
+    "@@odata.type": "#microsoft.graph.onTokenIssuanceStartCustomExtension",
+    "displayName": " Add claims from customer relationship REST API",
+    "description": "Returns the loyaltyNumber, loyaltySince, and loyaltyTier claims with some random values",
+    "behaviorOnError": null,
+    "authenticationConfiguration": {
+        "@@odata.type": "#microsoft.graph.azureAdTokenAuthentication",
+        "resourceId": "api://auth-api.woodgrovedemo.com/12345678-1234-1234-1234-000000000000"
+    },
+    "endpointConfiguration": {
+        "@@odata.type": "#microsoft.graph.httpRequestEndpoint",
+        "targetUrl": "https://auth-api.woodgrovedemo.com/OnTokenIssuanceStart"
+    },
+    "clientConfiguration": {
+        "timeoutInMilliseconds": null,
+        "maximumRetries": null
+    },
+    "claimsForTokenConfiguration": [
+        {
+            "claimIdInApiResponse": "loyaltyNumber"
+        },
+        {
+            "claimIdInApiResponse": "customRoles"
+        },
+        {
+            "claimIdInApiResponse": "apiVersion"
+        },
+        {
+            "claimIdInApiResponse": "correlationId"
+        },
+        {
+            "claimIdInApiResponse": "loyaltySince"
+        },
+        {
+            "claimIdInApiResponse": "loyaltyTier"
+        }
+    ]
+}
+
+            </pre>
+        </div>
+
+        <h4 class="graph-header">Create authentication event listener</h4>
+        <p>
+            After you register you registered your custom authentication extension, <a
+                href="https://learn.microsoft.com/en-us/graph/api/identitycontainer-post-authenticationeventlisteners?view=graph-rest-beta&tabs=http"
+                target="_blank" class="link-dark link-offset-2">create authentication event listener</a>.
+
+            In the next JSON, replace:
+        <ul>
+            <li><b>{web-or-mobile-app-ID}</b> with your web or mobile application. Not the <b>Custom authentication
+                    extension security
+                    app</b>. It's a collection, you can add more apps as needed.</li>
+            <li><b>{Custom-auth-extension-ID}</b> with the custome authentication extension you just created.</li>
+        </ul>
+        </p>
+        <code style="color: black;">POST https://graph.microsoft.com/beta/identity/authenticationEventListeners</code>
+
+        <pre>
+{
+    "@@odata.type": "#microsoft.graph.onTokenIssuanceStartListener",
+    "conditions": {
+        "applications": {
+            "includeAllApplications": false,
+            "includeApplications": [
+                {
+                    "appId": "<span class="highlight">{web-or-mobile-app-ID}</span>"
+                }
+            ]
+        }
+    },
+    "priority": 500,
+    "handler": {
+        "@@odata.type": "#microsoft.graph.onTokenIssuanceStartCustomExtensionHandler",
+        "customExtension": {
+            "id": "<span class="highlight">{Custom-auth-extension-ID}</span>"
+        }
+    }
+}
+        </pre>
+
+
+        <a class="btn btn-outline-primary btn-sm" data-bs-toggle="collapse" href="#collapseExample2" role="button"
+            aria-expanded="false" aria-controls="collapseExample2">
+            Example
+        </a>
+        <div class="collapse" id="collapseExample2">
+            <code
+                style="color: black;">POST https://graph.microsoft.com/beta/identity/authenticationEventListeners</code>
+
+            <pre class="example">
+{
+    "@@odata.type": "#microsoft.graph.onTokenIssuanceStartListener",
+    "conditions": {
+        "applications": {
+            "includeAllApplications": false,
+            "includeApplications": [
+                {
+                    "appId": "722f9405-d07c-4980-baed-4717ce4ec710"
+                },
+                {
+                    "appId": "c92b6a8a-d591-4234-bd51-6929d07d90aa"
+                }
+            ]
+        }
+    },
+    "priority": 500,
+    "handler": {
+        "@@odata.type": "#microsoft.graph.onTokenIssuanceStartCustomExtensionHandler",
+        "customExtension": {
+            "id": "22222222-2222-3333-3333-444444444444"
+        }
+    }
+}
+            </pre>
+        </div>
+
+        <h4 class="graph-header">Assign a custom claims provider to your app</h4>
+
+        For tokens to be issued with claims incoming from the custom authentication extension, you must <a
+            href="https://learn.microsoft.com/en-us/entra/identity-platform/custom-extension-tokenissuancestart-configuration?tabs=microsoft-graph%2Cworkforce-tenant#step-3-assign-a-custom-claims-provider-to-your-app"
+            target="_blank" class="link-dark link-offset-2">assign a custom claims provider to your application</a>.
+
     </div>
 </div>
