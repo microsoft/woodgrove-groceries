@@ -127,6 +127,70 @@
     </div>
 
     <div id="GraphApiContent">
-        Graph API tutorial coming soon.
+        <h4 class="graph-header">Create conditional access policy</h4>
+        <p>
+            Next <a
+                href="https://learn.microsoft.com/en-us/graph/api/conditionalaccessroot-post-policies?view=graph-rest-beta&tabs=http">
+                create conditional access policy</a>. The following example includes all uses and excludes tenant global
+            administrator. In the JSON below, replace the <b>{web-or-mobile-app-ID}</b> with your web or mobile
+            application (App ID, not object ID). Note, you can add more applications.
+        </p>
+
+        <code style="color: black;">POST https://graph.microsoft.com/v1.0/identity/conditionalAccess/policies</code>
+
+        <pre>
+{
+    "templateId": null,
+    "displayName": "Woodgrove demo - sign in risk",
+    "state": "enabled",
+    "sessionControls": null,
+    "conditions": {
+        "userRiskLevels": [],
+        "signInRiskLevels": [
+            "high",
+            "medium"
+        ],
+        "clientAppTypes": [
+            "all"
+        ],
+        "platforms": null,
+        "locations": null,
+        "times": null,
+        "deviceStates": null,
+        "devices": null,
+        "clientApplications": null,
+        "applications": {
+            "includeApplications": [
+                "<span class="highlight">{web-or-mobile-app-ID}</span>"
+            ],
+            "excludeApplications": [],
+            "includeUserActions": [],
+            "includeAuthenticationContextClassReferences": [],
+            "applicationFilter": null
+        },
+        "users": {
+            "includeUsers": [
+                "All"
+            ],
+            "excludeUsers": [],
+            "includeGroups": [],
+            "excludeGroups": [],
+            "includeRoles": [],
+            "excludeRoles": [],
+            "includeGuestsOrExternalUsers": null,
+            "excludeGuestsOrExternalUsers": null
+        }
+    },
+    "grantControls": {
+        "operator": "OR",
+        "builtInControls": [
+            "mfa"
+        ],
+        "customAuthenticationFactors": [],
+        "termsOfUse": [],
+        "authenticationStrength": null
+    }
+}
+        </pre>
     </div>
 </div>
