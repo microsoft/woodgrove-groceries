@@ -186,6 +186,92 @@
     </div>
 
     <div id="GraphApiContent">
-        Graph API tutorial coming soon.
+
+        <h4 class="graph-header">Dependencies</h4>
+        This script is self contained.
+
+        <h4 class="graph-header">Create authentication context</h4>
+        <p>
+            To
+            <a href="https://learn.microsoft.com/en-us/graph/api/conditionalaccessroot-post-authenticationcontextclassreferences?view=graph-rest-beta&tabs=http"
+                target="_blank" class="link-dark link-offset-2">create authentication context</a>, run the following
+            Microsoft Graph.
+        </p>
+
+        <code
+            style="color: black;">POST https://graph.microsoft.com/beta/identity/conditionalAccess/authenticationContextClassReferences</code>
+
+        <pre>
+{
+    "id": "c1",
+    "displayName": "Require strong authentication",
+    "description": "Require strong authentication for risky actions",
+    "isAvailable": true
+}
+        </pre>
+
+        <h4 class="graph-header">Create conditional access policy</h4>
+        <p>
+            Next <a
+                href="https://learn.microsoft.com/en-us/graph/api/conditionalaccessroot-post-policies?view=graph-rest-beta&tabs=http">
+                create conditional access policy</a>. The following example includes all uses and excludes tenant global
+            administrator.
+        </p>
+
+        <code style="color: black;">POST https://graph.microsoft.com/beta/identity/conditionalAccess/policies</code>
+
+        <pre>
+{
+    "templateId": null,
+    "displayName": "Woodgrove step up authentication",
+    "state": "enabled",
+    "sessionControls": null,
+    "conditions": {
+        "userRiskLevels": [],
+        "signInRiskLevels": [],
+        "clientAppTypes": [
+            "all"
+        ],
+        "platforms": null,
+        "locations": null,
+        "times": null,
+        "deviceStates": null,
+        "devices": null,
+        "clientApplications": null,
+        "applications": {
+            "includeApplications": [],
+            "excludeApplications": [],
+            "includeUserActions": [],
+            "includeAuthenticationContextClassReferences": [
+                "<span class="highlight">c1</span>"
+            ],
+            "applicationFilter": null
+        },
+        "users": {
+            "includeUsers": [
+                "All"
+            ],
+            "excludeUsers": [],
+            "includeGroups": [],
+            "excludeGroups": [],
+            "includeRoles": [],
+            "excludeRoles": [
+                "62e90394-69f5-4237-9190-012177145e10"
+            ],
+            "includeGuestsOrExternalUsers": null,
+            "excludeGuestsOrExternalUsers": null
+        }
+    },
+    "grantControls": {
+        "operator": "OR",
+        "builtInControls": [
+            "<span class="highlight">mfa</span>"
+        ],
+        "customAuthenticationFactors": [],
+        "termsOfUse": [],
+        "authenticationStrength": null
+    }
+}
+        </pre>
     </div>
 </div>
