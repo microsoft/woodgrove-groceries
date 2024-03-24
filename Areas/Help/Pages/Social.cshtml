@@ -116,7 +116,7 @@
             Replace the <b>{Facebook app ID}</b> with the App ID of the Facebook application that you created earlier.
             Replace the <b>{Facebook app secret}</b> with the App Secret that you recorded.
         </p>
-        <code style="color: black;">POST https://graph.microsoft.com/beta/identity/authenticationEventsFlows</code>
+        <code style="color: black;">POST https://graph.microsoft.com/beta/identityProviders</code>
 
         <pre>
 {
@@ -159,7 +159,7 @@
             Replace the <b>{Google app secret}</b> with the App Secret that you recorded.
         </p>
 
-        <code style="color: black;">POST https://graph.microsoft.com/beta/identity/authenticationEventsFlows</code>
+        <code style="color: black;">POST https://graph.microsoft.com/beta/identityProviders</code>
 
         <pre>
 {
@@ -181,7 +181,6 @@
         </p>
         <code
             style="color: black;">POST https://graph.microsoft.com/beta/identity/authenticationEventsFlows/<span class="highlight">{user-flow-ID}</span>/microsoft.graph.externalUsersSelfServiceSignUpEventsFlow/onAuthenticationMethodLoadStart/microsoft.graph.onAuthenticationMethodLoadStartExternalUsersSelfServiceSignUp/identityProviders/$ref</code>
-
         <pre>
 {
     "@@odata.id": "https://graph.microsoft.com/beta/identityProviders/Google-OAUTH"
