@@ -140,6 +140,29 @@
     </div>
 
     <div id="GraphApiContent">
-        Graph API tutorial coming soon.
+        <h4 class="graph-header">Enable Email OTP authentication method</h4>
+
+        <p>
+            The following Graph <a href="https://learn.microsoft.com/en-us/graph/api/emailauthenticationmethodconfiguration-update?view=graph-rest-beta&tabs=http"
+                target="_blank" class="link-dark link-offset-2">enables email OTP authentication method</a> for all users in your tenant.
+        </p>
+
+        <code
+            style="color: black;">PATCH https://graph.microsoft.com/v1.0/policies/authenticationMethodsPolicy/authenticationMethodConfigurations/email</code>
+
+        <pre>
+{
+    "state": "enabled",
+    "allowExternalIdToUseEmailOtp": "default",
+    "excludeTargets": [],
+    "includeTargets": [
+        {
+            "targetType": "group",
+            "id": "all_users",
+            "isRegistrationRequired": false
+        }
+    ]
+}
+        </pre>
     </div>
 </div>
