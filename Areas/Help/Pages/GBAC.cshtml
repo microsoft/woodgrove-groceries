@@ -170,6 +170,119 @@
     </div>
 
     <div id="GraphApiContent">
-        Graph API tutorial coming soon.
+        
+
+        <h4 class="graph-header">Create a security group</h4>
+        <p>
+            Start by  <a
+                href="https://learn.microsoft.com/en-us/graph/api/group-post-groups?view=graph-rest-1.0&tabs=http"
+                target="_blank" class="link-dark link-offset-2">creating a security group</a>.
+            After the group is creaetd, take a note of the security group object <b>id</b>. You will use the ID to configure your application.
+        </p>
+
+
+        <code
+            style="color: black;">POST https://graph.microsoft.com/v1.0/groups</code>
+
+        <pre>
+{
+    "description": "Commercial accounts",
+    "displayName": "Woodgrove commercial accounts",
+    "mailNickname": "CommercialAccounts",
+    "securityEnabled": true,
+    "mailEnabled": false
+}
+        </pre>
+
+        <h4 class="graph-header">Add a member to the security group</h4>
+        <p>
+            Once you've created the security group, you can <a
+                href="https://learn.microsoft.com/en-us/graph/api/group-post-members?view=graph-rest-1.0&tabs=http"
+                target="_blank" class="link-dark link-offset-2">add users</a>.
+            
+            In the following Graph, replace the <b>{group-id}</b> with the group ID you created. And replace the <b>{user-id-*}</b> with the user object ID you want to add. 
+        </p>
+
+
+        <code
+            style="color: black;">POST https://graph.microsoft.com/v1.0/groups/<span class="highlight">{group-id}</span>/members/$ref</code>
+
+        <pre>
+{
+  "@@odata.id": "https://graph.microsoft.com/v1.0/directoryObjects/{user-id}"
+}
+        </pre>
+
+        You can also add multiple members (up to 20 members can be added in a single request) to a group.
+        Use OData bind in a PATCH operation. <br>
+        <code
+            style="color: black;">PATCH https://graph.microsoft.com/v1.0/groups/<span class="highlight">{group-id}</span></code>
+
+        <pre>
+{
+  "members@odata.bind": [
+    "https://graph.microsoft.com/v1.0/directoryObjects/{user-id-1}",
+    "https://graph.microsoft.com/v1.0/directoryObjects/{user-id-2}",
+    "https://graph.microsoft.com/v1.0/directoryObjects/{user-id-3}"
+    ]
+}
+        </pre>
+
+        <h4 class="graph-header">Configure the app to include the groups claims in the security tokens</h4>
+
+        <p>
+
+            To emit the group membership claims in security tokens, <a
+                href="https://learn.microsoft.com/en-us/graph/api/application-update?view=graph-rest-1.0&tabs=http"
+                target="_blank" class="link-dark link-offset-2">update the app</a>.
+            In the following JSON, replace the <b>{App-ID}</b> with your application ID (not object ID).
+
+        </p>
+
+        <code
+            style="color: black;">PATCH https://graph.microsoft.com/v1.0/applications(appId='<span class="highlight">{App-ID}</span>')</code>
+        <pre>
+{
+    "groupMembershipClaims": "SecurityGroup",
+    "optionalClaims": {
+        "idToken": [
+            {
+                "name": "groups",
+                "source": null,
+                "essential": false,
+                "additionalProperties": []
+            },
+            {
+                "name": "acrs",
+                "source": null,
+                "essential": false,
+                "additionalProperties": []
+            }
+        ],
+        "accessToken": [
+            {
+                "name": "groups",
+                "source": null,
+                "essential": false,
+                "additionalProperties": []
+            },
+            {
+                "name": "acrs",
+                "source": null,
+                "essential": false,
+                "additionalProperties": []
+            }
+        ],
+        "saml2Token": [
+            {
+                "name": "groups",
+                "source": null,
+                "essential": false,
+                "additionalProperties": []
+            }
+        ]
+    }
+}
+        </pre>
     </div>
 </div>
