@@ -101,6 +101,121 @@
     </div>
 
     <div id="GraphApiContent">
-        Graph API tutorial coming soon.
+        <h4 class="graph-header">Dependencies</h4>
+        This script is self contained.
+
+        <h4 style="padding-top: 25px;padding-bottom: 5px;">Register a web application</h4>
+        <p>
+            To <a
+                href="https://learn.microsoft.com/en-us/graph/api/application-post-applications?view=graph-rest-beta&tabs=http"
+                target="_blank" class="link-dark link-offset-2">register a web application</a>, use the following Microsoft
+            Graph and replace.
+        <ul>
+            <li>Value of <b>displayName</b> with your app displayed name. For example, <i>Woodgrove Groceries</i></li>
+            <li>Values of the <b>redirectUris</b> with the redirect URI of your application. For example,
+                <i>https://jwt.ms</i>
+            </li>
+        </ul>
+        </p>
+        <code style="color: black;">POST https://graph.microsoft.com/v1.0/applications</code>
+
+        <pre>
+{
+    "<span class="highlight">displayName</span>": "Woodgrove partners portal",
+    "description": "Woodgrove partners portal demo application (user assignment is required)",
+    "signInAudience": "AzureADMyOrg",
+    "api": {
+        "acceptMappedClaims": false,
+        "requestedAccessTokenVersion": 2
+    },
+    "requiredResourceAccess": [
+        {
+            "resourceAppId": "00000003-0000-0000-c000-000000000000",
+            "resourceAccess": [
+                {
+                    "id": "37f7f235-527c-4136-accd-4a02d197296e",
+                    "type": "Scope"
+                },
+                {
+                    "id": "7427e0e9-2fba-42fe-b0c0-848c9e6a8182",
+                    "type": "Scope"
+                }
+            ]
+        }
+    ],
+    "web": {
+        "<span class="highlight">redirectUris</span>": [
+            "https://jwt.ms"
+        ],
+        "implicitGrantSettings": {
+            "enableAccessTokenIssuance": false,
+            "enableIdTokenIssuance": true
+        }
+    }
+}
+        </pre>
+
+        <h4 class="graph-header">Create a service principal for your application</h4>
+        <p>
+            After you register you registered your application, <a
+                href="https://learn.microsoft.com/en-us/graph/api/serviceprincipal-post-serviceprincipals?view=graph-rest-1.0&tabs=http"
+                target="_blank" class="link-dark link-offset-2">create a service principal</a>. The following Microsoft
+                Graph creates a service principal. Replace the <b>{app-ID}</b> with the app ID from the previous call
+                (not the
+                object ID).
+        </p>
+        <code style="color: black;">POST https://graph.microsoft.com/v1.0/servicePrincipals</code>
+
+        <pre>
+{
+    "appId": "<span class="highlight">{app-ID}</span>"
+}
+        </pre>
+
+        <h4  class="graph-header">Configure role assignment requirement</h4>
+
+        <p>
+
+            <a
+                href="https://learn.microsoft.com/en-us/graph/api/serviceprincipal-update?view=graph-rest-1.0&tabs=http"
+                target="_blank" class="link-dark link-offset-2">Update the service principal</a>
+                 of your application to require role assignment.
+
+            Replace the <b>{service-principal-id}</b> with the service-principal ID you created in the previous step.
+
+        </p>
+
+        <code style="color: black;">PATCH https://graph.microsoft.com/v1.0/servicePrincipals/<span class="highlight">{service-principal-id}</span></code>
+
+        <pre>
+{
+    "appRoleAssignmentRequired": true
+}
+        </pre>
+
+        <h4  class="graph-header">Consent to the required permissions</h4>
+
+        <p>
+
+            Since the tenant is a customer's tenant, the consumer users themselves can't consent to these permissions.
+            You as the admin must  <a
+                href="https://learn.microsoft.com/en-us/graph/api/oauth2permissiongrant-post?view=graph-rest-1.0&tabs=http"
+                target="_blank" class="link-dark link-offset-2">consent to these permissions</a> on behalf of all the users in the tenant:
+
+            Replace the <b>{service-principal-id}</b> with the service-principal ID you created in the previous step.
+
+        </p>
+
+        <code style="color: black;">POST https://graph.microsoft.com/v1.0/oauth2PermissionGrants</code>
+
+        <pre>
+{
+    "clientId": "<span class="highlight">{service-principal-id}</span>",
+    "consentType": "AllPrincipals",
+    "resourceId": "69309946-6ba5-4714-bb0e-38138430fcfd",
+    "scope": "openid offline_access"
+}
+        </pre>
     </div>
 </div>
+
