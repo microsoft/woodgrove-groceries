@@ -156,6 +156,82 @@
     </div>
 
     <div id="GraphApiContent">
-        Graph API tutorial coming soon.
+        <h4 class="graph-header">Configure role assignment requirement</h4>
+
+        <p>
+
+            To add roles for your application, you need to <a
+                href="https://learn.microsoft.com/en-us/graph/api/application-update?view=graph-rest-1.0&tabs=http"
+                target="_blank" class="link-dark link-offset-2">update the app</a>. 
+            In the following JSON, make sure the <b>IDs</b> are valid unique GUID (global unique identifier).
+            Replace the <b>{App-ID}</b> with your application ID (not object ID).
+
+        </p>
+
+        <code
+            style="color: black;">PATCH https://graph.microsoft.com/beta/applications(appId='<span class="highlight">{App-ID}</span>')</code>
+
+        <pre>
+{
+    "appRoles": [
+        {
+            "allowedMemberTypes": [
+                "User",
+                "Application"
+            ],
+            "description": "Woodgrove Groceries products contributor",
+            "displayName": "Products contributor",
+            "<span class="highlight">id</span>": "50000002-0211-4131-bfab-000000000000",
+            "isEnabled": true,
+            "origin": "Application",
+            "value": "Products.Contributor",
+            "isPreAuthorizationRequired": false,
+            "isPrivate": false
+        },
+        {
+            "allowedMemberTypes": [
+                "User",
+                "Application"
+            ],
+            "description": "Woodgrove Groceries online orders manager",
+            "displayName": "Orders manager",
+            "<span class="highlight">id</span>": "50000001-0211-4131-bfab-000000000000",
+            "isEnabled": true,
+            "origin": "Application",
+            "value": "Orders.Manager",
+            "isPreAuthorizationRequired": false,
+            "isPrivate": false
+        }
+    ]
+}
+        </pre>
+
+        <h4 class="graph-header">Configure role assignment requirement</h4>
+
+        <p>
+
+            Once you've added app roles in your application, you can <a
+                href="https://learn.microsoft.com/en-us/graph/api/user-post-approleassignments?view=graph-rest-1.0&tabs=http"
+                target="_blank" class="link-dark link-offset-2">assign users and groups to the roles</a>. 
+                Note, to add a user to more than one role, repeat this step and change the {App-role-ID}. 
+                Also, you can <a
+                href="https://learn.microsoft.com/en-us/graph/api/group-post-approleassignments?view=graph-rest-1.0&tabs=http" target="_blank" class="link-dark link-offset-2">add a security group</a> to application role (using the <b>groups</b> endpoint).
+            In the following Graph, replace:
+            <lu>
+                <li><b>{User-ID}</b> with the user object ID.</li>
+                <li><b>{service-principal-id}</b> with the service-principal ID of your web or mobile application.</li>
+                <li><b>{App-role-ID}</b> with the app role ID (you created earlier). For example 50000002-0211-4131-bfab-000000000000.</li>
+            </lu>
+        </p>
+
+        <code
+            style="color: black;">POST https://graph.microsoft.com/v1.0/users/<span class="highlight">{User-ID}</span>/appRoleAssignments</code>
+        <pre>
+{
+    "appRoleId": "<span class="highlight">{App-role-ID}</span>",
+    "principalId": "<span class="highlight">{User-ID}</span>",
+    "resourceId": "<span class="highlight">{service-principal-id}</span>"
+}
+        </pre>
     </div>
 </div>
