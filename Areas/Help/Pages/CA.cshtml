@@ -129,10 +129,10 @@
     <div id="GraphApiContent">
         <h4 class="graph-header">Create conditional access policy</h4>
         <p>
-            Next <a
+           The following example <a
                 href="https://learn.microsoft.com/en-us/graph/api/conditionalaccessroot-post-policies?view=graph-rest-beta&tabs=http">
-                create conditional access policy</a>. The following example includes all uses and excludes tenant global
-            administrator. In the JSON below, replace the <b>{web-or-mobile-app-ID}</b> with your web or mobile
+                creates a conditional access policy</a>. This policy targets risk sign-ins for all users (excludes tenant global
+            administrator). In the JSON below, replace the <b>{web-or-mobile-app-ID}</b> with your web or mobile
             application (App ID, not object ID). Note, you can add more applications.
         </p>
 
@@ -142,7 +142,7 @@
 {
     "templateId": null,
     "displayName": "Woodgrove demo - sign in risk",
-    "state": "enabled",
+    "state": "disabled",
     "sessionControls": null,
     "conditions": {
         "userRiskLevels": [],
