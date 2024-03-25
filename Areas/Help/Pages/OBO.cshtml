@@ -1,0 +1,351 @@
+﻿@page
+@model woodgrovedemo.Help.Pages.OBOModel
+
+@{
+    ViewData["Title"] = "OAuth 2.0 On-Behalf-Of flow";
+    Layout = "_Layout";
+}
+
+<h1 style="margin-top: 25px; margin-bottom: 25px;">OAuth 2.0 On-Behalf-Of flow</h1>
+
+
+<div>
+
+    <p>
+        The on-behalf-of (OBO) flow describes the scenario of a web API using an identity other than its own
+        to call another downstream web API. For the middle-tier web API to make authenticated requests to
+        the
+        downstream web API it needs a different audience and another set of scopes (permissions). For more
+        information, <a class="link-dark"
+            href="https://learn.microsoft.com/entra/identity-platform/v2-oauth2-on-behalf-of-flow">
+            Microsoft identity platform and OAuth 2.0 On-Behalf-Of flow</a>
+        <br>&nbsp;<br>
+        This demo shows:
+
+    <ol>
+        <li>How the Woodgrove Groceries makes authenticated requests to a <a
+                href="https://github.com/microsoft/woodgrove-groceries-api">Account web
+                API</a>.</li>
+        <li>And how the <a href="https://github.com/microsoft/woodgrove-groceries-api">Account web
+                API</a> makes authenticated requests to a downstream <b>Payment web API</b>. To call the Payment web
+            API, the Account web API acquires an access
+            token for the Payment web API (audience or aud claim) and another set of scopes (permissions) that
+            require by the Payment web API.</li>
+    </ol>
+
+    </p>
+    @await Html.PartialAsync("_StepsButtons.cshtml")
+
+    <div class="bs-stepper vertical" id="Stepper">
+        @await Html.PartialAsync("_Steps.cshtml", 8)
+
+        <div class="bs-stepper-content">
+            <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
+                @await Html.PartialAsync("_Prerequisites.cshtml")
+                <p>
+                    To register your API application, sign in to the <a href="https://entra.microsoft.com/"
+                        target="_blank" class="link-dark link-offset-2">Microsoft Entra admin center</a>
+                    and browse to <b>Applications </b> > <b> App registrations</b>. Then, select <b>+ New
+                        registration</b>.
+                </p>
+
+                <a href="#" class="pop" onclick="return false;">
+                    <img class="img-fluid border" src="~/Help/OBO/First-select-app-registration.png">
+                </a>
+            </div>
+
+            <div id="step-2" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger2">
+                <p>
+                    In the <b>Register an application</b> page that appears, enter a meaningful application <b>Name</b>
+                    that is
+                    displayed to users of the app,
+                    for example <b>Woodgrove Groceries Account API</b>. Under <b>Supported account types</b>, select
+                    <b>Accounts in
+                        this organizational directory only</b>. Then, select <b>Register</b>
+                </p>
+
+                <a href="#" class="pop" onclick="return false;">
+                    <img class="img-fluid border" src="~/Help/OBO/First-app-registration.png">
+                </a>
+            </div>
+            <div id="step-3" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger3">
+                <p>
+                    An API needs to publish a minimum of one scope, also called <a target="_blank"
+                        class="link-dark link-offset-2"
+                        href="https://learn.microsoft.com/en-us/entra/identity-platform/permissions-consent-overview">Delegated
+                        Permission</a>, for the client
+                    apps to obtain an access token for a user successfully. To publish a scope, under <b>Manage</b>,
+                    select <b>Expose an API</b>.
+
+                    At the top of the page, next to Application ID URI, select the <b>Add</b> link to generate a URI
+                    that is
+                    unique for this app.
+                </p>
+
+                <a href="#" class="pop" onclick="return false;">
+                    <img class="img-fluid border" src="~/Help/OBO/First-set-app-uri.png">
+                </a>
+            </div>
+
+            <div id="step-4" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger4">
+                <p>
+                    Under <b>Scopes defined by this API</b>, select <b>Add a scope</b>.
+                    Enter the following values that define a read account access to the API.
+                </p>
+
+                <a href="#" class="pop" onclick="return false;">
+                    <img class="img-fluid border" src="~/Help/OBO/First-add-scope.png">
+                </a>
+            </div>
+
+            <div id="step-5" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger5">
+                <p>
+                    After you added the <b>API scopes</b> to your web API application registration, go to your web or
+                    mobile application.
+                    In this example, we select the <b>Woodgrove Groceries</b> web app. From the menu, select <b>API
+                        permissions</b>, and select
+                    <b>Add a permission</b>
+                </p>
+
+                <a href="#" class="pop" onclick="return false;">
+                    <img class="img-fluid border" src="~/Help/OBO/First-add-api-permissions-1.png">
+                </a>
+            </div>
+
+            <div id="step-6" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger6">
+                <p>
+                    Select <b>APIs my organization uses</b>, then select the web API application registration you
+                    created.
+                </p>
+
+                <a href="#" class="pop" onclick="return false;">
+                    <img class="img-fluid border" src="~/Help/OBO/First-add-api-permissions-2.png">
+                </a>
+            </div>
+
+            <div id="step-7" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger7">
+                <p>
+                    Select <b>Delegated permission</b>, then select the <b>permission</b> you created.
+                </p>
+
+                <a href="#" class="pop" onclick="return false;">
+                    <img class="img-fluid border" src="~/Help/OBO/First-add-api-permissions-3.png">
+                </a>
+            </div>
+
+            <div id="step-8" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger8">
+                <p>
+                <div class="alert alert-success" role="alert">
+                    <h4 class="alert-heading">Well done!</h4>
+                    <p>Now your application is ready to use.</p>
+                </div>
+                </p>
+
+                <p>
+                    If your application needs to call a downstream web API (Payment web API). Repeat the process:
+                <ol>
+                    <li>Register the downstream web API (Payment web API).</li>
+                    <li>Add application ID URI, and add the scopes of the downstream API.</li>
+                    <li>This time go to the first API (Account web API, not your web or mobile app) and grant
+                        permissions to the downstream API (Payment web API).</li>
+                </ol>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div id="GraphApiContent">
+        <h4 class="graph-header">Dependencies</h4>
+        <ul>
+            <li>Web or mobile app registration</li>
+        </ul>
+
+        <h4 style="padding-top: 25px;padding-bottom: 5px;">Register a web API</h4>
+        <p>
+            To <a
+                href="https://learn.microsoft.com/en-us/graph/api/application-post-applications?view=graph-rest-1.0&tabs=http"
+                target="_blank" class="link-dark link-offset-2">register a web APIs</a>, use the following
+            Microsoft
+            Graph. Replace the <b>displayName</b> with your app displayed name. For example, <i>Woodgrove Groceries
+                Account API</i>.
+        </p>
+        <code style="color: black;">POST https://graph.microsoft.com/v1.0/applications</code>
+
+        <pre>
+{
+    "displayName": "<span class="highlight">Woodgrove Groceries Account API</span>",
+    "description": "Woodgrove Groceries Account REST API",
+    "identifierUris": [
+        "api://woodgrovelive.onmicrosoft.com/groceries-api1"
+    ],
+    "signInAudience": "AzureADMyOrg",
+    "api": {
+        "acceptMappedClaims": true,
+        "requestedAccessTokenVersion": 2
+    },
+    "appRoles": [],
+    "parentalControlSettings": {
+        "countriesBlockedForMinors": [],
+        "legalAgeGroupRule": "Allow"
+    },
+    "requiredResourceAccess": [
+        {
+            "resourceAppId": "00000003-0000-0000-c000-000000000000",
+            "resourceAccess": [
+                {
+                    "id": "e1fe6dd8-ba31-4d61-89e7-88639da4683d",
+                    "type": "Scope"
+                }
+            ]
+        }
+    ]
+}
+        </pre>
+
+        <h4 class="graph-header">Create a service principal for your application</h4>
+        <p>
+            After you registered your web API, <a
+                href="https://learn.microsoft.com/en-us/graph/api/serviceprincipal-post-serviceprincipals?view=graph-rest-1.0&tabs=http"
+                target="_blank" class="link-dark link-offset-2">create a service principal</a>. The following Microsoft
+            Graph creates a service principal. Replace the <b>{app-ID}</b> with the app ID from the previous call
+            (not the
+            object ID).
+        </p>
+        <code style="color: black;">POST https://graph.microsoft.com/v1.0/servicePrincipals</code>
+
+        <pre>
+{
+    "appId": "<span class="highlight">{app-ID}</span>"
+}
+        </pre>
+
+        <h4 class="graph-header">Add application scope</h4>
+        <p>
+            To add the scopes to the web API, you need to <a
+                href="https://learn.microsoft.com/en-us/graph/api/application-update?view=graph-rest-1.0&tabs=http"
+                target="_blank" class="link-dark link-offset-2">update your application registration</a>.
+            Replace the <b>{app-ID}</b> with the app ID from the previous call
+            (not the object ID).
+        </p>
+        <code
+            style="color: black;">PATCH https://graph.microsoft.com/v1.0/applications(appId='<span class="highlight">{app-Id}</span>')</code>
+
+        <pre>
+{
+    "api": {
+        "acceptMappedClaims": true,
+        "requestedAccessTokenVersion": 2,
+        "oauth2PermissionScopes": [
+            {
+                "adminConsentDescription": "Allows users to manage their own account",
+                "adminConsentDisplayName": "Account.Read",
+                "isEnabled": true,
+                "type": "User",
+                "userConsentDescription": null,
+                "userConsentDisplayName": null,
+                "value": "Account.Read"
+            }
+        ],
+        "preAuthorizedApplications": []
+    }
+}
+        </pre>
+
+
+
+        <h4 class="graph-header">Add permission to your web or mobile application</h4>
+
+        <p>
+            To grant the web or mobile application with permissions to the web API, <a
+                href="https://learn.microsoft.com/en-us/graph/api/application-update?view=graph-rest-1.0&tabs=http"
+                target="_blank" class="link-dark link-offset-2">update your application registration</a>.
+        </p>
+
+        <div class="alert alert-danger" role="alert">
+            <i class="bi bi-exclamation-triangle-fill"></i> The <b>requiredResourceAccess</b> collection must contain
+            all of the
+            resources.
+            To add or remove permissions, make sure to include all other permissions. In this exampe, we also include
+            the
+            <b>Graph</b> (00000003-0000-0000-c000-000000000000) permissions.
+        </div>
+
+        <p>
+            Replace the following placehoders:
+        <ul>
+            <li><b>{app-ID}</b> with the app ID (not the object ID) of your web or mobile application.</li>
+            <li><b>{web-api-app-id}</b> with the application ID of the web API you created in the previous step
+                (Woodgrove Groceries Account API).</li>
+            <li><b>{web-api-scope-id}</b> with the scope you created. You can get the ID from the application
+                manifest using GET https://graph.microsoft.com/v1.0/applications(appId='<span
+                    class="highlight">{app-Id}</span>') query.</li>
+        </ul>
+
+        </p><br>
+
+        <code
+            style="color: black;">PATCH https://graph.microsoft.com/v1.0/applications(appId='<span class="highlight">{app-Id}</span>')</code>
+
+        <pre>
+{
+    "requiredResourceAccess": [
+        {
+            "resourceAppId": "<span class="highlight">{web-api-app-id}</span>",
+            "resourceAccess": [
+                {
+                    "id": "<span class="highlight">{web-api-scope-id}</span>",
+                    "type": "Scope"
+                }
+            ]
+        },
+        {
+            "resourceAppId": "00000003-0000-0000-c000-000000000000",
+            "resourceAccess": [
+                {
+                    "id": "7427e0e9-2fba-42fe-b0c0-848c9e6a8182",
+                    "type": "Scope"
+                },
+                {
+                    "id": "37f7f235-527c-4136-accd-4a02d197296e",
+                    "type": "Scope"
+                },
+                {
+                    "id": "e1fe6dd8-ba31-4d61-89e7-88639da4683d",
+                    "type": "Scope"
+                }
+            ]
+        }
+    ]
+}
+        </pre>
+
+
+        <h4 class="graph-header">Consent to the required permissions</h4>
+
+        <p>
+
+            Since the tenant is a customer's tenant, the consumer users themselves can't consent to these permissions.
+            You as the admin must <a
+                href="https://learn.microsoft.com/en-us/graph/api/oauth2permissiongrant-post?view=graph-rest-1.0&tabs=http"
+                target="_blank" class="link-dark link-offset-2">consent to these permissions</a> on behalf of all the
+            users in the tenant. Replace the following placehoders:
+        </p>
+
+        <ul>
+            <li><b>{service-principal-id}</b> with the service-principal ID of your web or mobile application .</li>
+            <li><b>{web-api-service-principal-id}}</b> with the service-principal ID of the web API you created
+                in the previous step (Woodgrove Groceries Account API).</li>
+        </ul>
+        <code style="color: black;">POST https://graph.microsoft.com/v1.0/oauth2PermissionGrants</code>
+
+        <pre>
+{
+    "clientId": "<span class="highlight">{service-principal-id}</span>",
+    "consentType": "AllPrincipals",
+    "resourceId": "<span class="highlight">{web-api-service-principal-id}</span>",
+    "scope": "Account.Read"
+}
+        </pre>
+
+    </div>
+</div>
