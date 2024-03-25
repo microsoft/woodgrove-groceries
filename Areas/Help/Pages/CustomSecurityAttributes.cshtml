@@ -21,7 +21,7 @@
             href="https://learn.microsoft.com/entra/identity/conditional-access/concept-filter-for-applications"
             target="_blank" class="link-dark link-offset-2">filter your applications</a> or to help determine who gets
         access to resources.
-        This page shows how the Woodgrove live demo tenat is configured the Configure conditional access policy with
+        This page shows how the Woodgrove live demo tenant is configured the Configure conditional access policy with
         Custom Security attributes.
     </p>
     @await Html.PartialAsync("_StepsButtons.cshtml")
@@ -239,6 +239,253 @@
     </div>
 
     <div id="GraphApiContent">
-        Graph API tutorial coming soon.
+
+        <h4 class="graph-header">Dependencies</h4>
+        This script is self contained.
+
+        <h4 class="graph-header">Create attribute set</h4>
+        <p>
+            Start by
+            <a href="https://learn.microsoft.com/en-us/graph/api/directory-post-attributesets?view=graph-rest-1.0&tabs=http"
+                target="_blank" class="link-dark link-offset-2">adding a security attribute set</a>.
+        </p>
+
+        <code style="color: black;">POST https://graph.microsoft.com/v1.0/directory/attributeSets</code>
+
+        <pre>
+{
+    "description": "Customers attribute",
+    "id": "Customers",
+    "maxAttributesPerSet": 25
+}
+        </pre>
+
+        <h4 class="graph-header">Create a custom security attribute</h4>
+        <p>
+            Then
+            <a href="https://learn.microsoft.com/en-us/graph/api/directory-post-customsecurityattributedefinitions?view=graph-rest-1.0&tabs=http"
+                target="_blank" class="link-dark link-offset-2">add a custom security attribute</a>, to the attribute
+            set you created <b>Customers</b>. The attribute name is <b>SecurityRequirements</b> with two values <b>BlockGuestUsers</b> and <b>RequireMFA</b>.
+        </p>
+
+        <code
+            style="color: black;">POST https://graph.microsoft.com/v1.0/directory/customSecurityAttributeDefinitions</code>
+
+        <pre>
+{
+    "attributeSet": "<span class="highlight">Customers</span>",
+    "description": "Customer's application security requirements",
+    "isCollection": true,
+    "isSearchable": true,
+    "name": "<span class="highlight">SecurityRequirements</span>",
+    "status": "Available",
+    "type": "String",
+    "usePreDefinedValuesOnly": true,
+    "allowedValues": [
+        {
+            "id": "<span class="highlight">BlockGuestUsers</span>",
+            "isActive": true
+        },
+        {
+            "id": "<span class="highlight">RequireMFA</span>",
+            "isActive": true
+        }
+    ]
+}
+        </pre>
+
+        <h4 class="graph-header">Create conditional access policy</h4>
+        <p>
+            Next <a target="_blank" class="link-dark link-offset-2"
+                href="https://learn.microsoft.com/en-us/graph/api/conditionalaccessroot-post-policies?view=graph-rest-beta&tabs=http">
+                create conditional access policy</a>. The following example blocks access to all users (excludes tenant
+            administrators). It targets applications that tagged as <b>BlockGuestUsers</b>.
+        </p>
+
+        <code style="color: black;">POST https://graph.microsoft.com/v1.0/identity/conditionalAccess/policies</code>
+
+        <pre>
+{
+    "templateId": null,
+    "displayName": "Block access to Woodgrove admin portal",
+    "modifiedDateTime": null,
+    "state": "enabled",
+    "sessionControls": null,
+    "conditions": {
+        "userRiskLevels": [],
+        "signInRiskLevels": [],
+        "clientAppTypes": [
+            "all"
+        ],
+        "servicePrincipalRiskLevels": [],
+        "platforms": null,
+        "locations": null,
+        "devices": null,
+        "clientApplications": null,
+        "applications": {
+            "includeApplications": [],
+            "excludeApplications": [],
+            "includeUserActions": [],
+            "includeAuthenticationContextClassReferences": [],
+            "<span class="highlight">applicationFilter</span>": {
+                "mode": "include",
+                "rule": "CustomSecurityAttribute.Customers_SecurityRequirements -contains \"BlockGuestUsers\""
+            }
+        },
+        "users": {
+            "includeUsers": [
+                "All"
+            ],
+            "excludeUsers": [],
+            "includeGroups": [],
+            "excludeGroups": [],
+            "includeRoles": [],
+            "excludeRoles": [
+                "62e90394-69f5-4237-9190-012177145e10",
+                "f2ef992c-3afb-46b9-b7cf-a126ee74c451",
+                "ac434307-12b9-4fa1-a708-88bf58caabc1"
+            ],
+            "includeGuestsOrExternalUsers": null,
+            "excludeGuestsOrExternalUsers": null
+        }
+    },
+    "grantControls": {
+        "operator": "OR",
+        "builtInControls": [
+            "block"
+        ],
+        "customAuthenticationFactors": [],
+        "termsOfUse": [],
+        "authenticationStrength": null
+    }
+}
+        </pre>
+
+        <h4 style="padding-top: 25px;padding-bottom: 5px;">Register a web application</h4>
+        <p>
+            To <a
+                href="https://learn.microsoft.com/en-us/graph/api/application-post-applications?view=graph-rest-1.0&tabs=http"
+                target="_blank" class="link-dark link-offset-2">register a web application</a>, use the following
+            Microsoft
+            Graph and replace.
+        <ul>
+            <li>Value of <b>enableIdTokenIssuance</b> is set to <b>true</b> to allow OAuth2 implicit flow.</li>
+        </ul>
+        </p>
+        <code style="color: black;">POST https://graph.microsoft.com/v1.0/applications</code>
+
+        <pre>
+{
+    "displayName": "Woodgrove admin portal",
+    "description": "Simulates a Woodgrove admin portal where only administrators have access",
+    "signInAudience": "AzureADMyOrg",
+    "api": {
+        "acceptMappedClaims": true,
+        "requestedAccessTokenVersion": 2
+    },
+    "requiredResourceAccess": [
+        {
+            "resourceAppId": "00000003-0000-0000-c000-000000000000",
+            "resourceAccess": [
+                {
+                    "id": "37f7f235-527c-4136-accd-4a02d197296e",
+                    "type": "Scope"
+                },
+                {
+                    "id": "7427e0e9-2fba-42fe-b0c0-848c9e6a8182",
+                    "type": "Scope"
+                }
+            ]
+        }
+    ],
+    "web": {
+        "redirectUris": [
+            "https://jwt.ms"
+        ],
+        "implicitGrantSettings": {
+            "enableAccessTokenIssuance": false,
+            "<span class="highlight">enableIdTokenIssuance</span>": true
+        }
+    }
+}
+        </pre>
+
+        <h4 class="graph-header">Create a service principal for your application</h4>
+        <p>
+            After you register you registered your application, <a
+                href="https://learn.microsoft.com/en-us/graph/api/serviceprincipal-post-serviceprincipals?view=graph-rest-1.0&tabs=http"
+                target="_blank" class="link-dark link-offset-2">create a service principal</a>. The following Microsoft
+            Graph creates a service principal. Replace the <b>{app-ID}</b> with the app ID from the previous call
+            (not the
+            object ID).
+        </p>
+        <code style="color: black;">POST https://graph.microsoft.com/v1.0/servicePrincipals</code>
+
+        <pre>
+{
+    "appId": "<span class="highlight">{app-ID}</span>"
+}
+        </pre>
+
+        <h4 class="graph-header">Consent to the required permissions</h4>
+
+        <p>
+
+            Since the tenant is a customer's tenant, the consumer users themselves can't consent to these permissions.
+            You as the admin must <a
+                href="https://learn.microsoft.com/en-us/graph/api/oauth2permissiongrant-post?view=graph-rest-1.0&tabs=http"
+                target="_blank" class="link-dark link-offset-2">consent to these permissions</a> on behalf of all the
+            users in the tenant:
+
+            Replace the <b>{service-principal-id}</b> with the service-principal ID you created in the previous step.
+
+        </p>
+
+        <code style="color: black;">POST https://graph.microsoft.com/v1.0/oauth2PermissionGrants</code>
+
+        <pre>
+{
+    "clientId": "<span class="highlight">{service-principal-id}</span>",
+    "consentType": "AllPrincipals",
+    "resourceId": "69309946-6ba5-4714-bb0e-38138430fcfd",
+    "scope": "openid offline_access"
+}
+        </pre>
+
+
+        <h4 class="graph-header">Add the security attributes to the application</h4>
+
+        <p>
+
+            In the final step, you <a
+                href="https://learn.microsoft.com/en-us/entra/identity/enterprise-apps/custom-security-attributes-apps?toc=%2Fentra%2Ffundamentals%2Ftoc.json&bc=%2Fentra%2Ffundamentals%2Fbreadcrumb%2Ftoc.json&pivots=ms-graph"
+                target="_blank" class="link-dark link-offset-2">add the security attributes to the application</a>.
+
+            Replace the <b>{service-principal-id}</b> with the service-principal ID you created in the previous step. In
+            the following exampe:
+            <ul>
+                <li><b>Customers</b> is the attribute set.</li>
+                <li><b>SecurityRequirements</b> is the attribute name.</li>
+                <li><b>BlockGuestUsers</b> is the attribute value.</li>
+            </ul>
+
+        </p>
+
+        <code style="color: black;">POST https://graph.microsoft.com/v1.0/servicePrincipals/<span class="highlight">{service-principal-id}</span>)</code>
+
+        <pre>
+{
+    "customSecurityAttributes": {
+        "<span class="highlight">Customers</span>": {
+            "@@odata.type": "#Microsoft.DirectoryServices.CustomSecurityAttributeValue",
+            "<span class="highlight">SecurityRequirements</span>@@odata.type": "#Collection(String)",
+            "<span class="highlight">SecurityRequirements</span>": [
+                "<span class="highlight">BlockGuestUsers</span>"
+            ]
+        }
+    }
+}
+        </pre>
+
     </div>
 </div>
