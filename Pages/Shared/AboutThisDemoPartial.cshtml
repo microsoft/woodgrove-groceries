@@ -1,3 +1,6 @@
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+
 <div>
 
     Select a use-case or a feature, read the instructions and start the demo:
@@ -88,6 +91,8 @@
             </li>
             <li><a class="dropdown-item" href="#usecase=CompanyBranding"><i class="bi bi-palette"></i>&nbsp; Customize
                     the look and feel</a></li>
+            <li><a class="dropdown-item" href="#usecase=CustomDomain"><i class="bi bi-globe2"></i>&nbsp; Custom domain
+                    name</a></li>
             <li><a class="dropdown-item" href="#usecase=Language"><i class="bi bi-translate"></i>&nbsp; Customize the
                     language</a></li>
             <li><a class="dropdown-item" href="#usecase=UserInsights"><i class="bi bi-lightbulb"></i>&nbsp; Insights
@@ -136,8 +141,16 @@
                 </p>
 
                 <p class="fs-5">
-                    <i class="bi bi-play-circle"></i> From the above dropdown list, select a use-case and start the
+                    From the above dropdown list, select a use-case and start the
                     demo.
+                </p>
+
+                <iframe style="width: 100%; margin-top: 30px;" height="315" src="https://www.youtube.com/embed/Lk-T_7asA00?si=VTRV3bxXjcr2I2JD"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <p>
+                    Watch this video to learn more about the Woodgorve live demo.
                 </p>
             </div>
 
@@ -203,6 +216,29 @@
             <i class="bi bi-play-circle"></i> <a class="" style="margin-top: 100px;" role="button"
                 href="/help/CompanyBranding">
                 Learn how we configured the Woodgrove tenant</a>
+        </div>
+
+        <div id="useCase_CustomDomain" class="useCase">
+            <h4>Custom domain</h4>
+            <p>
+                The custom domain provides a more seamless user experience. From the user's perspective, they remain in
+                your domain during
+                the sign in process rather than redirecting to the Microsoft Entra external ID default domain
+                <b>{tenant-name}</b>.ciamlogin.com. Note, this feature is currently in private preview and also limited
+                to sign-in with local accounts.
+                Social accounts such as Google or Facebook are not yet supported.
+                <br>
+
+            <ol>
+                <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                <li>Take a look on the URL in the web browser address bar. It should be
+                    <b>@Configuration.GetSection("Demos:CustomDomain").Value</b>
+                </li>
+                <li>You can sign-up or sign-in with local account. Do NOT use the Facebook or Google options.</li>
+            </ol>
+            </p>
+            <a class="btn header-button" role="button" href="/SignIn?handler=CustomDomain"><i
+                    class="bi bi-play-circle"></i> Start the use case</a>
         </div>
 
         <div id="useCase_Language" class="useCase">
@@ -619,8 +655,7 @@
                 case</a>
 
             <br>&nbsp;<br>
-            <i class="bi bi-play-circle"></i> <a class="" style="margin-top: 100px;" role="button"
-                href="/help/OBO">
+            <i class="bi bi-play-circle"></i> <a class="" style="margin-top: 100px;" role="button" href="/help/OBO">
                 Learn how we configured the Woodgrove tenant</a>
         </div>
 
@@ -1153,7 +1188,7 @@
             usecase = 'Default';
         }
 
-        var useCases = ["Default", "AssignmentRequired", "StepUp", "CSA", "PolicyAgreement", "EmailAndPassword", "OBO", "SSO", "MFA", "CA", "ForceSignIn", "UserInsights", "BlockSignUp", "CompanyBranding", "Language", "SSPR", "Social", "TokenAugmentation", "TokenClaims", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "Activity", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Finance"];
+        var useCases = ["Default", "CustomDomain", "AssignmentRequired", "StepUp", "CSA", "PolicyAgreement", "EmailAndPassword", "OBO", "SSO", "MFA", "CA", "ForceSignIn", "UserInsights", "BlockSignUp", "CompanyBranding", "Language", "SSPR", "Social", "TokenAugmentation", "TokenClaims", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "Activity", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Finance"];
 
         if (($('#offcanvasRight').length > 0) && usecase && (useCases.indexOf(usecase) > -1)) {
 

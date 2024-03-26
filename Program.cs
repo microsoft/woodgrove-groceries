@@ -101,7 +101,16 @@ async Task OnRedirectToIdentityProviderFunc(RedirectContext context)
         context.ProtocolMessage.Parameters.Add("claims", "%7B%22access_token%22%3A%7B%22acrs%22%3A%7B%22essential%22%3Atrue%2C%22value%22%3A%22c1%22%7D%7D%7D"); ;
     }
 
+    // Read the 'StepUp' custom parameter
+    var domain = context.Properties.Items.FirstOrDefault(x => x.Key == "domain").Value;
 
+    // Add your custom code here
+    if (domain != null)
+    {
+        var builder = new UriBuilder(context.ProtocolMessage.IssuerAddress);
+        builder.Host = domain;
+        context.ProtocolMessage.IssuerAddress = builder.Uri.ToString();
+    }
 
     // Don't remove this line
     await Task.CompletedTask.ConfigureAwait(false);

@@ -1,3 +1,4 @@
+using System.Security.AccessControl;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -20,7 +21,7 @@ namespace MyApp.Namespace
             _telemetry = telemetry;
         }
 
-        private IActionResult TrackAndAuth(string ID, string redirectUri = "/", bool reauth = false)
+        private IActionResult TrackAndAuth(string ID, string redirectUri = "/", bool reauth = false, string? extraParam = null, string? extraParamValue = null)
         {
             _telemetry.TrackPageView($"Sign-in:{ID}");
 
@@ -41,6 +42,12 @@ namespace MyApp.Namespace
             if (ID == "StepUp" || ID == "MFA")
             {
                 challengeResult.Properties.Items.Add("StepUp", "true");
+            }
+
+            // Extra parameter
+            if (!string.IsNullOrEmpty(extraParam) && !string.IsNullOrEmpty(extraParamValue))
+            {
+                challengeResult.Properties.Items.Add(extraParam, extraParamValue);
             }
 
             return challengeResult;
@@ -154,7 +161,7 @@ namespace MyApp.Namespace
         {
 
             _telemetry.TrackPageView($"Sign-in:SSO-Continue");
- 
+
             return Redirect("https://bank.woodgrovedemo.com/Auth/Login");
         }
 
@@ -164,7 +171,7 @@ namespace MyApp.Namespace
 
             return Redirect(this.Configuration.GetSection("Demos:AssignmentRequiredURL").Value);
         }
-        
+
         public IActionResult OnGetTokenAugmentation()
         {
             return this.TrackAndAuth("TokenAugmentation", "/", true);
@@ -195,11 +202,15 @@ namespace MyApp.Namespace
             return this.TrackAndAuth("GBAC", "/", true);
         }
 
+        public IActionResult OnGetCustomDomain()
+        {
+            return this.TrackAndAuth("CustomDomain", "/", true, "domain", this.Configuration.GetSection("Demos:CustomDomain").Value);
+        }
+
         public IActionResult OnGetSSPR()
         {
             return this.TrackAndAuth("SSPR", "/", true);
         }
-
         public IActionResult OnGetCustomAttributes()
         {
             return this.TrackAndAuth("CustomAttributes", "/", true);
