@@ -43,7 +43,8 @@
                     Validate
                     sign-up attributes (extension)</a></li>
             <li>
-
+            <li><a class="dropdown-item" href="#usecase=ModifyAttributeValues"><i class="bi bi-code-slash"></i>&nbsp;
+                    Modify attribute values (extension)</a></li>
             <li><a class="dropdown-item" href="#usecase=BlockSignUp"><i class="bi bi-code-slash"></i>&nbsp; Block
                     sign-up process (extension)</a></li>
 
@@ -73,6 +74,13 @@
             </li>
             <li><a class="dropdown-item" href="#usecase=CSA"><i class="bi bi-person-lock"></i>&nbsp; Custom security
                     attribute based conditional access</a>
+            </li>
+
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li>
+                <h6 class="dropdown-header" style="color: var(--color-very-dark);">Access management</h6>
             </li>
             <li><a class="dropdown-item" href="#usecase=RBAC"><i class="bi bi-person-badge-fill"></i>&nbsp; Role-based
                     access control</a>
@@ -145,8 +153,9 @@
                     demo.
                 </p>
 
-                <iframe style="width: 100%; margin-top: 30px;" height="315" src="https://www.youtube.com/embed/Lk-T_7asA00?si=VTRV3bxXjcr2I2JD"
-                    title="YouTube video player" frameborder="0"
+                <iframe style="width: 100%; margin-top: 30px;" height="315"
+                    src="https://www.youtube.com/embed/Lk-T_7asA00?si=VTRV3bxXjcr2I2JD" title="YouTube video player"
+                    frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 <p>
@@ -739,6 +748,40 @@
                 Learn how we configured the Woodgrove tenant</a>
         </div>
 
+        <div id="useCase_ModifyAttributeValues" class="useCase">
+            <h4>Modify sign-up's attribute values</h4>
+            <p>
+                The custom authentication extension supports the on <a class="link-dark"
+                    href="https://learn.microsoft.com/en-us/entra/identity-platform/custom-extension-attribute-collection?context=%2Fentra%2Fexternal-id%2Fcustomers%2Fcontext%2Fcustomers-context&tabs=start-continue%2Csubmit-continue">
+                    attribute collection submit</a> event. These event allows you to
+                modify and override attributes provided by the user.
+                This example shows how to modify the display name and the name of the city.
+            </p>
+            <ol>
+                <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                <li>Sign-up with your email, or a social account. If you already have an account,
+                    <a class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+                        href="#usecase=DeleteAccount">delete it</a>.
+                </li>
+                <li>After you validate your email, or sign-in with your social account, enter a <b>display name</b> in upper case. For example, DAVID</li>
+                <li>For the <b>city</b> attribute, enter <b>modify</b>.</li>
+                <li>Select <b>next</b> to try to create a Woodgrove online identity. At this time the custom
+                    authentication extension
+                    will <b>capitalize</b> the dispaly name (only first leter in upper case). The city will be modified
+                    to <b>Madrid</b>.
+                <li>Select your name from the header, it shows the content of the access token.</li>
+            </ol>
+
+            <a class="btn header-button" role="button" href="/SignIn?handler=ModifyAttributeValues"><i
+                    class="bi bi-play-circle"></i> Start
+                the use case</a>
+
+            <br>&nbsp;<br>
+            <i class="bi bi-play-circle"></i> <a class="" style="margin-top: 100px;" role="button"
+                href="/help/PostAttributeCollection">
+                Learn how we configured the Woodgrove tenant</a>
+        </div>
+
         <div id="useCase_BlockSignUp" class="useCase">
             <h4>Block a user from continuing the sign-up process</h4>
             <p>
@@ -776,8 +819,8 @@
             <i class="bi bi-play-circle"></i> <a class="" style="margin-top: 100px;" role="button"
                 href="/help/PostAttributeCollection">
                 Learn how we configured the Woodgrove tenant</a>
-
         </div>
+
 
         <div id="useCase_RBAC" class="useCase">
             <h4>Role-based access control</h4>
@@ -1188,7 +1231,7 @@
             usecase = 'Default';
         }
 
-        var useCases = ["Default", "CustomDomain", "AssignmentRequired", "StepUp", "CSA", "PolicyAgreement", "EmailAndPassword", "OBO", "SSO", "MFA", "CA", "ForceSignIn", "UserInsights", "BlockSignUp", "CompanyBranding", "Language", "SSPR", "Social", "TokenAugmentation", "TokenClaims", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "Activity", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Finance"];
+        var useCases = ["Default", "CustomDomain", "AssignmentRequired", "StepUp", "CSA", "PolicyAgreement", "EmailAndPassword", "OBO", "SSO", "MFA", "CA", "ForceSignIn", "UserInsights", "ModifyAttributeValues", "BlockSignUp", "CompanyBranding", "Language", "SSPR", "Social", "TokenAugmentation", "TokenClaims", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "Activity", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Finance"];
 
         if (($('#offcanvasRight').length > 0) && usecase && (useCases.indexOf(usecase) > -1)) {
 

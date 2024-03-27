@@ -27,7 +27,7 @@ public class SelectUseCaseController : ControllerBase
     [HttpGet("usecase")]
     public IActionResult RecordUseCase(string ID, string trigger, string referral = null)
     {
-        string[] useCases = { "Default", "CustomDomain", "AssignmentRequired", "OnlineRetail", "StepUp", "CSA", "PolicyAgreement", "EmailAndPassword", "OBO", "SSO", "MFA", "CA", "ForceSignIn", "UserInsights", "BlockSignUp", "CompanyBranding", "Language", "SSPR", "Social", "TokenAugmentation", "TokenClaims", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "Activity", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Finance" };
+        string[] useCases = { "Default", "CustomDomain", "AssignmentRequired", "OnlineRetail", "StepUp", "CSA", "PolicyAgreement", "EmailAndPassword", "OBO", "SSO", "MFA", "CA", "ForceSignIn", "UserInsights", "ModifyAttributeValues", "BlockSignUp", "CompanyBranding", "Language", "SSPR", "Social", "TokenAugmentation", "TokenClaims", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "Activity", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Finance" };
         string[] triggers = { "Link", "Start", "Select" };
 
         string referralDomain = string.Empty;

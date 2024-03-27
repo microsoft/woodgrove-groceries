@@ -59,11 +59,15 @@ namespace MyApp.Namespace
             return this.TrackAndAuth("Default");
         }
 
+        public IActionResult OnGetModifyAttributeValues()
+        {
+            return this.TrackAndAuth("ModifyAttributeValues", "/", true);
+        }
+        
         public IActionResult OnGetBlockSignUp()
         {
             return this.TrackAndAuth("BlockSignUp", "/", true);
         }
-
         public IActionResult OnGetCSA()
         {
 
