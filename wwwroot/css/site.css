@@ -179,6 +179,10 @@ body {
   color: var(--color-very-dark);
 }
 
+#useCases h5 {
+  color: var(--color-very-dark);
+}
+
 #useCases b {
   color: var(--color-very-dark);
 }
