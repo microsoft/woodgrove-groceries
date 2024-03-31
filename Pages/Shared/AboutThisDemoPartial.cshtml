@@ -14,7 +14,7 @@
             <li> <a class="dropdown-item" href="#usecase=Default"><i class="bi bi-house-door"></i>&nbsp; Home</a>
             </li>
             <li><a class="dropdown-item" href="#usecase=OnlineRetail" style="color: rgb(0, 84, 0);"><i
-                        class="bi bi-shop"></i></i>&nbsp;
+                        class="bi bi-shop"></i>&nbsp;
                     Online retail demo</a></li>
             <li>
                 <hr class="dropdown-divider">
@@ -46,7 +46,8 @@
             <li><a class="dropdown-item" href="#usecase=PreAttributeCollection"><i class="bi bi-ui-checks"></i>&nbsp;
                     Prepopulate
                     sign-up attributes (extension)</a></li>
-            <li><a class="dropdown-item" href="#usecase=PostAttributeCollection"><i class="bi bi-hand-thumbs-up"></i>&nbsp;
+            <li><a class="dropdown-item" href="#usecase=PostAttributeCollection"><i
+                        class="bi bi-hand-thumbs-up"></i>&nbsp;
                     Validate
                     sign-up attributes (extension)</a></li>
             <li>
@@ -54,8 +55,8 @@
                     Modify attribute values (extension)</a></li>
             <li><a class="dropdown-item" href="#usecase=BlockSignUp"><i class="bi bi-sign-stop"></i>&nbsp; Stop
                     the sign-up process (extension)</a></li>
-
-            <hr class="dropdown-divider">
+            <li>
+                <hr class="dropdown-divider">
             </li>
             <li>
                 <h6 class="dropdown-header" style="color: var(--color-very-dark);">User profile</h6>
@@ -74,7 +75,7 @@
             </li>
             <li><a class="dropdown-item" href="#usecase=MFA"><i class="bi bi-envelope-at"></i>&nbsp; Multifactor
                     authentication (MFA)</a>
-            <li><a class="dropdown-item" href="#usecase=CA"><i class="bi bi-shield-lock"></i></i>&nbsp; Conditional
+            <li><a class="dropdown-item" href="#usecase=CA"><i class="bi bi-shield-lock"></i>&nbsp; Conditional
                     access (with MFA)</a>
             <li><a class="dropdown-item" href="#usecase=StepUp"><i class="bi bi-arrow-up-right-square"></i>&nbsp;
                     Step-up authentication (with MFA)</a>
@@ -113,7 +114,8 @@
                     language</a></li>
             <li><a class="dropdown-item" href="#usecase=UserInsights"><i class="bi bi-lightbulb"></i>&nbsp; Insights
                     into your app's user activity</a></li>
-            <hr class="dropdown-divider">
+            <li>
+                <hr class="dropdown-divider">
             </li>
             <li>
                 <h6 class="dropdown-header" style="color: var(--color-very-dark);">Token and session</h6>
@@ -121,7 +123,7 @@
             <li><a class="dropdown-item" href="#usecase=TokenClaims"><i class="bi bi-file-text"></i>&nbsp; Add directory
                     claims</a></li>
             <li><a class="dropdown-item" href="#usecase=TokenAugmentation"><i class="bi bi-database-add"></i>&nbsp; Add
-                    claims from exteral systems (extension)</a></li>
+                    claims from external systems (extension)</a></li>
             <li>
             <li><a class="dropdown-item" href="#usecase=SSO"><i class="bi bi-arrow-left-right"></i>&nbsp; Single sign-on
                     (SSO)</a></li>
@@ -175,7 +177,7 @@
 
         <div id="useCases">
             <div id="useCase_OnlineRetail" class="useCase">
-                <h4>Online retail</h4>
+                <h4>Online retail demo</h4>
                 <div>
                     <p>
                         The online retail demo illustrates several of the most common authentication
@@ -241,7 +243,7 @@
                         <li>Since you specified the eggs allergy, a warning appears next to the eggs. For the warning,
                             the app reads <a
                                 class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                                href="#usecase=TokenClaims">a claim from the security token</a>.</li>
+                                href="#usecase=TokenClaims">a claim from the security token</a>.
                         </li>
                     </ol>
 
@@ -261,7 +263,6 @@
                             <a class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
                                 href="#usecase=TokenClaims">was added to the security token</a>.
                         </li>
-                        </li>
                     </ol>
 
                     <h5>6. Edit your profile</h5>
@@ -280,13 +281,12 @@
                                 href="#usecase=RBAC">Grant yourself permissions
                                 Sign-in activity</a>, or add yourself to Woodgrove <a
                                 class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                                href="#usecase=GBAC">Commercial Accounts security group<b></a></b>.
+                                href="#usecase=GBAC">Commercial Accounts security group</a>.
                         </li>
 
                         <li>Finally, check the
                             <a class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
                                 href="#usecase=Activity">sign-in activity</a>.
-                        </li>
                         </li>
                     </ol>
 
@@ -299,7 +299,7 @@
 
             <div id="useCase_EmailAndPassword" class="useCase">
                 <h4>Sign-up or sign-in with email and password</h4>
-                <p>
+
                 <h5>Create a new Woodgrove account</h5>
                 <ol>
                     <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
@@ -311,13 +311,14 @@
                         and enter your account details.</li>
                     <li>Select <b>next</b> to complete the registration.</li>
                 </ol>
+
                 <h5>Sign-in with your Woodgrove account</h5>
                 <ol>
                     <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
                     <li>On the sign-in page, enter your email, and select <b>next</b>.</li>
                     <li>Enter your password and select <b>sign in</b>.</li>
                 </ol>
-                </p>
+
                 <a class="btn header-button" role="button" href="/SignIn?handler=EmailAndPassword"><i
                         class="bi bi-play-circle"></i> Start the use
                     case</a>
@@ -337,9 +338,9 @@
                     So that the sign-in page blends seamlessly into woodgrove applications’ look and feel.
                     For more information, learn <a class="link-dark"
                         href="https://learn.microsoft.com/entra/external-id/customers/how-to-customize-branding-customers">how
-                        to customize the neutral branding in your customer tenant</a> .
+                        to customize the neutral branding in your customer tenant</a>.
                     <br>
-
+                </p>
                 <ol>
                     <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
                     <li>On the sign-in page take a look on the header, the header logo, the banner logo, the title,
@@ -349,7 +350,7 @@
                         can be customized</li>
                     <li>Every text on the screen can be localized.</li>
                 </ol>
-                </p>
+
                 <a class="btn header-button" role="button" href="/SignIn?handler=CompanyBranding"><i
                         class="bi bi-play-circle"></i>
                     Start the use
@@ -372,7 +373,7 @@
                     to sign-in with local accounts.
                     Social accounts such as Google or Facebook are not yet supported.
                     <br>
-
+                </p>
                 <ol>
                     <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
                     <li>Take a look on the URL in the web browser address bar. It should be
@@ -380,7 +381,7 @@
                     </li>
                     <li>You can sign-up or sign-in with local account. Do NOT use the Facebook or Google options.</li>
                 </ol>
-                </p>
+
                 <a class="btn header-button" role="button" href="/SignIn?handler=CustomDomain"><i
                         class="bi bi-play-circle"></i> Start the use case</a>
             </div>
@@ -394,7 +395,7 @@
                     For more information, learn <a class="link-dark"
                         href="https://learn.microsoft.com/entra/external-id/customers/how-to-customize-branding-customers#to-customize-user-attributes">how
                         to customize the language of the authentication experience</a>.
-
+                </p>
                 <ol>
                     <li>Make sure your browser is configure to any language other than German</li>
                     <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
@@ -406,7 +407,7 @@
                     <li>The sign-in text now should appear in German. This is because we configured a special branding
                         for the German language</li>
                 </ol>
-                </p>
+
                 <a class="btn header-button" role="button" href="/SignIn?handler=Language"><i
                         class="bi bi-play-circle"></i>
                     Start the use
@@ -428,12 +429,13 @@
                         href="https://learn.microsoft.com/en-us/entra/external-id/customers/how-to-enable-password-reset-customers">
                         how to enable self-service password reset.</a>
 
-                    <br />&nbsp;<br />
+                    <br>&nbsp;<br>
                     Before you start, make sure you've created an account
                     with Woodgrove Groceries using the <a
                         class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
                         href="#usecase=EmailAndPassword">Sign-up or sign-in with email
-                        and password</a> flow.</li>
+                        and password</a> flow.
+                </p>
                 <ol>
                     <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
                     <li>On the sign-in page, enter your email, and select <b>next</b>.</li>
@@ -443,7 +445,7 @@
                     <li>After your email was verified, enter a password, and re-enter the password and
                         select <b>next</b> to update your password.</li>
                 </ol>
-                </p>
+
                 <a class="btn header-button" role="button" href="/SignIn?handler=SSPR"><i class="bi bi-play-circle"></i>
                     Start the use
                     case</a>
@@ -464,16 +466,16 @@
                     and <a class="link-dark"
                         href="https://learn.microsoft.com/entra/external-id/customers/how-to-facebook-federation-customers">Facebook</a>
                     identity providers.
-
+                </p>
                 <ol>
                     <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
                     <li>From the sign-in page, select Google. Then you will be redirected to Google
-                        sign-in page.</b></li>
+                        sign-in page.</li>
                     <li>If asked, consent to grant the permissions that Microsoft Entra external ID is requesting.</li>
                     <li>Upon first sign-in, complete the registration by entering your account details. </li>
                     <li>Select <b>next</b> to create the Woodgrove account.</li>
                 </ol>
-                </p>
+
                 <a class="btn header-button" role="button" href="/SignIn?handler=Social"><i
                         class="bi bi-play-circle"></i>
                     Start the use case</a>
@@ -491,6 +493,7 @@
                     With this option, the customer signs in with a temporary passcode instead of a stored
                     password
                     each time they sign in.
+                </p>
 
                 <h5>Create a new Woodgrove account</h5>
                 <ol>
@@ -502,6 +505,7 @@
                     <li>After the email was verified, enter your account details.</li>
                     <li>Select <b>next</b> to complete the registration.</li>
                 </ol>
+
                 <h5>Sign-in with your email</h5>
                 <ol>
                     <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
@@ -509,7 +513,7 @@
                     <li>Open your mailbox and copy the verification code sent to you. Then, on the sign-in
                         page enter the verification code and select <b>next</b>.</li>
                 </ol>
-                </p>
+
                 <a class="btn header-button" role="button" href="#"><i class="bi bi-play-circle"></i>
                     Start the use case</a>
             </div>
@@ -721,7 +725,7 @@
                     <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
                     <li>Sign-up your email, or a social account.</li>
                     <li>After you validate your email, or sign-in with your social account, complete the
-                        registration by providing your details.</b>
+                        registration by providing your details.
                         The <b>special diet</b> is a custom attribute you can provide. For the demo enter,
                         <b>Egg allergy</b> This attribute will be included in the security token that return
                         to the Woodgrove application.
@@ -747,7 +751,7 @@
                     For more information, learn <a class="link-dark"
                         href="https://learn.microsoft.com/en-us/entra/identity-platform/custom-extension-get-started?context=%2Fentra%2Fexternal-id%2Fcustomers%2Fcontext%2Fcustomers-context&tabs=entra-admin-center%2Chttp">
                         how to configure a custom claim provider token issuance event</a>.
-
+                </p>
                 <ol>
                     <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
                     <li>Sign-up or sign-in with your email, or a social account.</li>
@@ -758,7 +762,7 @@
                         claims and check their value. These claims were returned by a custom authentication
                         extension REST API with some random values.</li>
                 </ol>
-                </p>
+
                 <a class="btn header-button" role="button" href="/SignIn?handler=TokenAugmentation"><i
                         class="bi bi-play-circle"></i> Start the use
                     case</a>
@@ -785,7 +789,7 @@
                     To call the Payment web API, the Account web API acquires an access
                     token for the Payment web API (audience or aud claim) and another set of scopes (permissions) that
                     require by the Payment web API.
-
+                </p>
                 <ol>
                     <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
                     <li>Sign-up or sign-in with your email, or a social account.</li>
@@ -800,7 +804,7 @@
                         API.</li>
                     <li>Compare the access tokens to understand the on-behalf-of flow.</li>
                 </ol>
-                </p>
+
                 <a class="btn header-button" role="button" href="/SignIn?handler=OBO"><i class="bi bi-play-circle"></i>
                     Start the use
                     case</a>
@@ -870,7 +874,7 @@
                             href="#usecase=DeleteAccount">delete it</a>.
                     </li>
                     <li>After you validate your email, or sign-in with your social account, complete the
-                        registration by providing your details.</b>
+                        registration by providing your details.
                         For the country, leave the <b>Spain</b> selected, and then for the city <b>Berlin</b> (Berlin is
                         not a city in Spain).</li>
                     <li>Select <b>next</b> to create a Woodgrove online identity. And you should get an
@@ -1000,7 +1004,7 @@
                     href="/help/RBAC">
                     Learn how we configured the Woodgrove tenant</a>
 
-                <br />&nbsp;<br>
+                <br>&nbsp;<br>
 
                 Note, you can select your name from the header, it shows the content of the access token
                 issued by Microsoft Entra external ID that returned to the application.
@@ -1019,7 +1023,7 @@
                     applications. It helps you manage who has access to your application and what they can
                     do in the application. You can also alter the UI based on the user's membership.
 
-                    <br />&nbsp;<br>
+                    <br>&nbsp;<br>
                     In this demo, you add yourself to the <b>Commercial Accounts</b> security group and you will get
                     a discount for some of the products.
                 </p>
@@ -1064,7 +1068,7 @@
                         href="https://learn.microsoft.com/en-us/entra/external-id/customers/how-to-define-custom-attributes">
                         how to collect user attributes during sign-up.</a>
 
-                    <br />&nbsp;<br />
+                    <br>&nbsp;<br>
                     On the sign-up page the user enters the information, and it's stored with their
                     profile in your directory.
 
@@ -1084,7 +1088,7 @@
                             href="#usecase=DeleteAccount">delete it</a>.
                     </li>
                     <li>After you validate your email, or sign-in with your social account, complete the
-                        registration by providing your details.</b>
+                        registration by providing your details.
                         The <b>special diet</b> is a custom attribute you can provide. For the demo enter,
                         <b>Egg allergy</b> This attribute will be included in the security token that return
                         to the Woodgrove application.
@@ -1118,7 +1122,7 @@
                         href="https://learn.microsoft.com/entra/external-id/customers/how-to-define-custom-attributes#to-configure-a-single-select-checkbox-checkboxsingleselect">and
                         configure a single-select checkbox</a>.
 
-                    <br />&nbsp;<br />
+                    <br>&nbsp;<br>
                     This demo shows to add links to <b>terms of use and privacy policies</b>. To start the demo:
                 </p>
                 <ol>
@@ -1131,7 +1135,7 @@
                             href="#usecase=DeleteAccount">delete it</a>.
                     </li>
                     <li>After you validate your email, or sign-in with your social account, complete the
-                        registration by providing your details.</b>
+                        registration by providing your details.
                     </li>
                     <li>
                         Select the <b>terms of use and privacy policies</b> links which will be opened in a new browser
@@ -1345,69 +1349,4 @@
             </div>
         </div>
     </div>
-
-
-
-    <script>
-
-        // When the page is loaded start the demo
-        var waitForJQuery = setInterval(function () {
-            if (typeof $ != 'undefined') {
-
-                clearInterval(waitForJQuery);
-                showUseCase(1);
-            }
-        }, 500);
-
-        // Listen to the URL hash change event and stert the demo
-        window.addEventListener("hashchange", function () {
-            showUseCase(3);
-        });
-
-        // Show the demo
-        function showUseCase(trigger) {
-            var myUrl = new URL(window.location.href.replace(/#/g, "?"));
-            var usecase = myUrl.searchParams.get("usecase");
-            var cmd = myUrl.searchParams.get("cmd");
-
-            if (cmd === "StepUpCompleted") {
-                completeOrder();
-                return;
-            }
-
-            // Click on the right button
-            if (trigger === 2) {
-                usecase = 'Default';
-            }
-
-            var useCases = ["Default", "OnlineRetail", "CustomDomain", "AssignmentRequired", "StepUp", "CSA", "PolicyAgreement", "EmailAndPassword", "OBO", "SSO", "MFA", "CA", "ForceSignIn", "UserInsights", "ModifyAttributeValues", "BlockSignUp", "CompanyBranding", "Language", "SSPR", "Social", "TokenAugmentation", "TokenClaims", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "Activity", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Finance"];
-
-            if (($('#offcanvasRight').length > 0) && usecase && (useCases.indexOf(usecase) > -1)) {
-
-                $("#offcanvasRight").offcanvas('show');
-                useCaseId = "useCase_" + usecase;
-
-                $(".useCase").hide();
-                $("#" + useCaseId).show();
-
-                // Telemetry to improve the demo 
-                var triggerIDs = ["Link", "Start", "Select"];
-
-                $.get("/SelectUseCase/usecase?id=" + useCaseId.replace('useCase_', '') + "&trigger=" + triggerIDs[trigger - 1] + "&referral=" + document.referrer, function (data) {
-
-                }).fail(function (response) {
-                    console.log("Telemetry error:");
-                    console.log(response)
-                });
-            }
-            else {
-                $("#offcanvasRight").offcanvas('hide');
-                window.location.hash = '';
-            }
-        }
-
-        const myOffcanvas = document.getElementById('offcanvasRight');
-        myOffcanvas.addEventListener('hidden.bs.offcanvas', () => {
-            window.location.hash = '';
-        }) 
-    </script>
+</div>
