@@ -70,6 +70,10 @@ To provide help page for your use case (recommented), do the following:
 1. Create a sub folder with your use case ID under the [/wwwroot/Help/](./wwwroot/Help/) folder.
 1. Add the screenshots into the folder you created.
 
+## Create a pull request
+
+When creating a pull request always set the target branch as **vNext**. Changes to this branch will be automatically deployed to the <https://private.woodgrovedemo.com>. So you can test it in the staging environment. After you confirm everything works as expected. Create another PR to merge the changes into the **main** branch.
+
 ## Deployment
 
 After you completed writing your code, and tested it locally in your development workstation, it's time to publish your changes. 
