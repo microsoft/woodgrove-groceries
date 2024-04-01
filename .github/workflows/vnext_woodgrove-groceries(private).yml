@@ -40,22 +40,13 @@ jobs:
     environment:
       name: 'private'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    permissions:
-      id-token: write #This is required for requesting the JWT
-
+    
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
           name: .net-app
       
-      - name: Login to Azure
-        uses: azure/login@v1
-        with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_B6E4C3276F8145D695A03E0566293499 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_6197768F502E400D8152585FB3EC7FD0 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_64F325E763AA41B5AF8FC508E1A72C8A }}
-
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
@@ -63,4 +54,4 @@ jobs:
           app-name: 'woodgrove-groceries'
           slot-name: 'private'
           package: .
-          
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_CA7F5A6C0BFC4ADE8EC6F982F43EAF8D }}
