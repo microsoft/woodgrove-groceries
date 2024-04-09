@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Identity.Abstractions;
 using Microsoft.Identity.Client;
+using Microsoft.Identity.Web;
 
 namespace woodgrovedemo.Pages
 {
@@ -29,7 +30,6 @@ namespace woodgrovedemo.Pages
         public async Task<IActionResult> OnGetAsync()
         {
             _telemetry.TrackPageView("Token");
-
 
             // Read app settings
             string baseUrl = _configuration.GetSection("WoodgroveGroceriesApi:BaseUrl").Value!;
@@ -68,16 +68,23 @@ namespace woodgrovedemo.Pages
                 // Get an access token to call the "Account" API (the first API in line)
                 AccessToken = await _authorizationHeaderProvider.CreateAuthorizationHeaderForUserAsync(scopes);
             }
-            catch (System.Exception ex)
+            catch (MicrosoftIdentityWebChallengeUserException ex)
             {
-                if (ex.GetType().ToString().Contains("MicrosoftIdentityWebChallengeUserException"))
+                if (ex.MsalUiRequiredException.ErrorCode == "user_null")
                 {
                     AccessTokenError = "The token cache does not contain the token to access the web APIs. To get the access token, sign-out and sign-in again.";
                 }
                 else
                 {
-                    AccessTokenError = ex.Message;
+                    AccessTokenError = ex.MsalUiRequiredException.Message;
                 }
+
+                return Page();
+            }
+            catch (System.Exception ex)
+            {
+
+                AccessTokenError = ex.Message;
 
                 return Page();
             }
