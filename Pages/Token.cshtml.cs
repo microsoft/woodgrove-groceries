@@ -1,5 +1,7 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Text.Json;
 using Microsoft.ApplicationInsights;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -15,6 +17,9 @@ namespace woodgrovedemo.Pages
         private readonly IConfiguration _configuration;
         private TelemetryClient _telemetry;
         readonly IAuthorizationHeaderProvider _authorizationHeaderProvider;
+
+        public string IdToken { get; set; }
+        public string IdTokenExpiresIn { get; set; }
         public string AccessToken { get; set; }
         public string AccessTokenError { get; set; }
         public string DownstreamAccessToken { get; set; }
@@ -65,8 +70,24 @@ namespace woodgrovedemo.Pages
 
             try
             {
+                this.IdToken = await HttpContext.GetTokenAsync("id_token");
+
+                var handler = new JwtSecurityTokenHandler();
+
+                var jsonToken = handler.ReadToken(this.IdToken);
+                var diff = (DateTime.UtcNow - jsonToken.ValidTo);
+                this.IdTokenExpiresIn  = $"The ID token expires in {diff:hh\\:mm\\:ss}";
+            }
+            catch (System.Exception ex)
+            {
+                IdTokenExpiresIn = ex.Message;
+            }
+
+            try
+            {
                 // Get an access token to call the "Account" API (the first API in line)
                 AccessToken = await _authorizationHeaderProvider.CreateAuthorizationHeaderForUserAsync(scopes);
+                string at = await HttpContext.GetTokenAsync("access_token");
             }
             catch (MicrosoftIdentityWebChallengeUserException ex)
             {

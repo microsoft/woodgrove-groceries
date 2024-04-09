@@ -37,6 +37,7 @@ builder.Services.Configure<OpenIdConnectOptions>(OpenIdConnectDefaults.Authentic
                                                      options.Events.OnAuthenticationFailed += OnAuthenticationFailedFunc;
                                                      options.Events.OnRemoteFailure += OnRemoteFailureFunc;
                                                      options.RemoteAuthenticationTimeout = TimeSpan.FromMinutes(30);
+                                                     options.SaveTokens = true;
                                                  });
 
 
