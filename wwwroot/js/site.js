@@ -25,14 +25,31 @@ var waitForJQuery = setInterval(function () {
     if (typeof $ != 'undefined') {
 
         clearInterval(waitForJQuery);
-        showUseCase(1);
+
+        checkForHashParam(1);;
     }
 }, 500);
 
-// Listen to the URL hash change event and stert the demo
+// Listen to the URL hash change event
 window.addEventListener("hashchange", function () {
-    showUseCase(3);
+    checkForHashParam(3);
 });
+
+function checkForHashParam(eventType){
+    var myUrl = new URL(window.location.href.replace(/#/g, "?"));
+    var graph = myUrl.searchParams.get("graph");
+
+    if (graph != null)
+    {
+        // Show help's Graph
+        showGraphAPI();
+    }
+    else
+    {
+        // Start a demo
+        showUseCase(eventType);
+    }    
+}
 
 // Show the demo
 function showUseCase(trigger) {
