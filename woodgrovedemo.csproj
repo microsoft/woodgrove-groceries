@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-woodgrovedemo-FBF1B85E-DADD-4187-9E01-DBB8923E80F7</UserSecretsId>
-    <AssemblyVersion>1.0.0.19</AssemblyVersion>
+    <AssemblyVersion>1.0.0.20</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
