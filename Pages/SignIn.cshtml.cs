@@ -21,7 +21,7 @@ namespace MyApp.Namespace
             _telemetry = telemetry;
         }
 
-        private IActionResult TrackAndAuth(string ID, string redirectUri = "/", bool reauth = false, string? extraParam = null, string? extraParamValue = null)
+        private IActionResult TrackAndAuth(string ID, string redirectUri = "/", bool reauth = false, string? extraParam = null, string? extraParamValue = null, string? ui_locales = null)
         {
             _telemetry.TrackPageView($"Sign-in:{ID}");
 
@@ -44,6 +44,14 @@ namespace MyApp.Namespace
                 challengeResult.Properties.Items.Add("StepUp", "true");
             }
 
+
+            // ui_locales
+            if (ID == "PreSelectLanguage")
+            {
+                challengeResult.Properties.Items.Add("ui_locales", ui_locales);
+            }
+
+
             // Extra parameter
             if (!string.IsNullOrEmpty(extraParam) && !string.IsNullOrEmpty(extraParamValue))
             {
@@ -63,7 +71,7 @@ namespace MyApp.Namespace
         {
             return this.TrackAndAuth("ModifyAttributeValues", "/", true);
         }
-        
+
         public IActionResult OnGetBlockSignUp()
         {
             return this.TrackAndAuth("BlockSignUp", "/", true);
@@ -125,7 +133,10 @@ namespace MyApp.Namespace
         {
             return this.TrackAndAuth("Language", "/", true);
         }
-
+        public IActionResult OnGetPreSelectLanguage()
+        {
+            return this.TrackAndAuth("PreSelectLanguage", "/", true, null, null, this.Request.Query["ui_locales"]);
+        }
         public IActionResult OnGetProfileSignin()
         {
             return this.TrackAndAuth("ProfileSignin", "/", true);

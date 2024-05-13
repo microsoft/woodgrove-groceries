@@ -35,20 +35,18 @@ window.addEventListener("hashchange", function () {
     checkForHashParam(3);
 });
 
-function checkForHashParam(eventType){
+function checkForHashParam(eventType) {
     var myUrl = new URL(window.location.href.replace(/#/g, "?"));
     var graph = myUrl.searchParams.get("graph");
 
-    if (graph != null)
-    {
+    if (graph != null) {
         // Show help's Graph
         showGraphAPI();
     }
-    else
-    {
+    else {
         // Start a demo
         showUseCase(eventType);
-    }    
+    }
 }
 
 // Show the demo
@@ -67,7 +65,7 @@ function showUseCase(trigger) {
         usecase = 'Default';
     }
 
-    var useCases = ["Default", "OnlineRetail", "CustomDomain", "AssignmentRequired", "StepUp", "CSA", "PolicyAgreement", "EmailAndPassword", "OBO", "SSO", "MFA", "CA", "ForceSignIn", "UserInsights", "ModifyAttributeValues", "BlockSignUp", "CompanyBranding", "Language", "SSPR", "Social", "TokenAugmentation", "TokenClaims", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "Activity", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Finance"];
+    var useCases = ["Default", "OnlineRetail", "CustomDomain", "AssignmentRequired", "StepUp", "CSA", "PolicyAgreement", "EmailAndPassword", "OBO", "SSO", "MFA", "CA", "ForceSignIn", "UserInsights", "ModifyAttributeValues", "BlockSignUp", "CompanyBranding", "Language", "PreSelectLanguage", "SSPR", "Social", "TokenAugmentation", "TokenClaims", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "Activity", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Finance"];
 
     if (($('#offcanvasRight').length > 0) && usecase && (useCases.indexOf(usecase) > -1)) {
 
@@ -96,4 +94,12 @@ function showUseCase(trigger) {
 const myOffcanvas = document.getElementById('offcanvasRight');
 myOffcanvas.addEventListener('hidden.bs.offcanvas', () => {
     window.location.hash = '';
-}) 
+})
+
+
+
+function onPreSelectLanguagesSelected() {
+
+    var preSelectLanguages = document.getElementById("preSelectLanguages");
+    window.location = "/SignIn?handler=PreSelectLanguage&ui_locales=" + preSelectLanguages.options[preSelectLanguages.selectedIndex].value
+}

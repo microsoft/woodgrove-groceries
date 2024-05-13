@@ -107,9 +107,11 @@
             </li>
             <li><a class="dropdown-item" href="#usecase=CompanyBranding"><i class="bi bi-palette"></i>&nbsp; Customize
                     the look and feel</a></li>
-            <li><a class="dropdown-item" href="#usecase=CustomDomain"><i
-                        class="bi bi-globe2"></i>&nbsp; Custom URL domain</a></li>
+            <li><a class="dropdown-item" href="#usecase=CustomDomain"><i class="bi bi-globe2"></i>&nbsp; Custom URL
+                    domain</a></li>
             <li><a class="dropdown-item" href="#usecase=Language"><i class="bi bi-translate"></i>&nbsp; Customize the
+                    language</a></li>
+            <li><a class="dropdown-item" href="#usecase=PreSelectLanguage"><i class="bi bi-translate"></i>&nbsp; Preselect a
                     language</a></li>
             <li><a class="dropdown-item" href="#usecase=UserInsights"><i class="bi bi-lightbulb"></i>&nbsp; Insights
                     into your app's user activity</a></li>
@@ -364,7 +366,9 @@
                 <h4>Custom domain</h4>
                 <p>
                     The <a class="link-dark"
-                        href="https://learn.microsoft.com/en-us/entra/external-id/customers/concept-custom-url-domain">custom URL domain</a> provides a more seamless user experience. From the user's perspective, they remain
+                        href="https://learn.microsoft.com/en-us/entra/external-id/customers/concept-custom-url-domain">custom
+                        URL domain</a> provides a more seamless user experience. From the user's perspective, they
+                    remain
                     in
                     your domain during
                     the sign in process rather than redirecting to the Microsoft Entra external ID default domain
@@ -377,7 +381,7 @@
                 <ol>
                     <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
                     <li>Take a look on the URL in the web browser address bar. It should be
-                        <b>@Configuration.GetSection("Demos:CustomDomain").Value</b>
+                        <b>login.woodgrovegroceries.com</b>
                     </li>
                     <li>You can sign-up or sign-in with local account. Do NOT use the Facebook or Google options.</li>
                 </ol>
@@ -408,6 +412,8 @@
                         for the German language</li>
                 </ol>
 
+
+
                 <a class="btn header-button" role="button" href="/SignIn?handler=Language"><i
                         class="bi bi-play-circle"></i>
                     Start the use
@@ -418,6 +424,66 @@
                     Learn how we configured the Woodgrove tenant</a>
             </div>
 
+            <div id="useCase_PreSelectLanguage" class="useCase">
+                <h4>Preselect a language</h4>
+                <p>
+                    Duing the sign-up or sign-in flow, the user's language is dictated by their browser's settings. 
+                    Application can pass the <b>ui_locales</b> and <b>mkt</b> parameters with a specific language.    
+                </p>
+                
+                <br>&nbsp;<br>
+                    Select one a language and start the demo:<br>
+
+                <select id="preSelectLanguages">
+                    <option value="ar-SA">Arabic (Saudi Arabia)</option>
+                    <option value="eu-ES">Basque (Basque)</option>
+                    <option value="bg-BG">Bulgarian (Bulgaria)</option>
+                    <option value="ca-ES">Catalan (Catalan)</option>
+                    <option value="zh-CN">Chinese (China)</option>
+                    <option value="zh-HK">Chinese (Hong Kong SAR)</option>
+                    <option value="hr-HR">Croatian (Croatia)</option>
+                    <option value="cs-CZ">Czech (Czechia)</option>
+                    <option value="da-DK">Danish (Denmark)</option>
+                    <option value="nl-NL">Dutch (Netherlands)</option>
+                    <option value="en-US">English (United States)</option>
+                    <option value="et-EE">Estonian (Estonia)</option>
+                    <option value="fi-FI">Finnish (Finland)</option>
+                    <option value="fr-FR">French (France)</option>
+                    <option value="gl-ES">Galician (Galician)</option>
+                    <option value="de-DE">German (Germany)</option>
+                    <option value="el-GR">Greek (Greece)</option>
+                    <option value="he-IL">Hebrew (Israel)</option>
+                    <option value="hu-HU">Hungarian (Hungary)</option>
+                    <option value="it-IT">Italian (Italy)</option>
+                    <option value="ja-JP">Japanese (Japan)</option>
+                    <option value="kk-KZ">Kazakh (Kazakhstan)</option>
+                    <option value="ko-KR">Korean (Korea)</option>
+                    <option value="lv-LV">Latvian (Latvia)</option>
+                    <option value="lt-LT">Lithuanian (Lithuania</option>
+                    <option value="nb-NO">Norwegian Bokmål (Norway)</option>
+                    <option value="pl-PL">Polish (Poland)</option>
+                    <option value="pt-BR">Portuguese (Brazil)</option>
+                    <option value="pt-PT">Portuguese (Portugal)</option>
+                    <option value="ro-RO">Romanian (Romania)</option>
+                    <option value="ru-RU">Russian (Russia)</option>
+                    <option value="sr-Latn-RS">Serbian (Latin, Serbia)</option>
+                    <option value="sk-SK">Slovak (Slovakia)</option>
+                    <option value="sl-Sl">Slovenian (Sierra Leone)</option>
+                    <option value="es-ES">Spanish (Spain)</option>
+                    <option value="sv-SE">Swedish (Sweden)</option>
+                    <option value="th-TH">Thai (Thailand)</option>
+                    <option value="tr-TR">Turkish (Turkey)</option>
+                    <option value="uk-UA">Ukrainian (Ukraine)</option>
+                </select>
+
+                <br>&nbsp;<br>
+
+                <a class="btn header-button" role="button" onclick="onPreSelectLanguagesSelected(); return false;"><i
+                        class="bi bi-play-circle"></i>
+                    Start the use
+                    case</a>
+
+            </div>
 
             <div id="useCase_SSPR" class="useCase">
                 <h4>Self-service password reset</h4>

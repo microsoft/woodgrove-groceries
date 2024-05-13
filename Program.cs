@@ -113,6 +113,16 @@ async Task OnRedirectToIdentityProviderFunc(RedirectContext context)
         context.ProtocolMessage.IssuerAddress = builder.Uri.ToString();
     }
 
+
+    // Read the 'StepUp' custom parameter
+    var ui_locales = context.Properties.Items.FirstOrDefault(x => x.Key == "ui_locales").Value;
+
+    if (ui_locales != null)
+    {
+        context.ProtocolMessage.Parameters.Add("mkt", ui_locales); 
+        context.ProtocolMessage.UiLocales = ui_locales;
+    }
+
     // Don't remove this line
     await Task.CompletedTask.ConfigureAwait(false);
 }
