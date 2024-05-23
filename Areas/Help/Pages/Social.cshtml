@@ -103,7 +103,7 @@
             <li>User flow</li>
         </ul>
 
-        <h4 class="graph-header">Register Facebook</h4>
+        <h4 class="graph-header">1. Register Facebook</h4>
         <p>
             To add Facebook as an identity provider, you first need to <a
                 href="https://learn.microsoft.com/entra/external-id/customers/how-to-facebook-federation-customers"
@@ -116,8 +116,19 @@
             Replace the <b>{Facebook app ID}</b> with the App ID of the Facebook application that you created earlier.
             Replace the <b>{Facebook app secret}</b> with the App Secret that you recorded.
         </p>
-        <code style="color: black;">POST https://graph.microsoft.com/beta/identityProviders</code>
+        <code style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/beta/identityProviders</code>
 
+        <pre>
+{
+    "type": "Facebook",
+    "name": "Facebook",
+    "clientId": "<span class="highlight">{Facebook app ID}</span>",
+    "clientSecret": "<span class="highlight">{Facebook app secret}</span>"
+}
+        </pre>
+        <p>
+            In some tenants it may be:
+        </p>
         <pre>
 {
     "@@odata.type": "#microsoft.graph.socialIdentityProvider",
@@ -127,8 +138,7 @@
     "clientSecret": "<span class="highlight">{Facebook app secret}</span>"
 }
         </pre>
-
-        <h4 class="graph-header">Add Facebook identity provider to a user flow</h4>
+        <h5 class="graph-header">1.2 Add Facebook identity provider to a user flow</h5>
         <p>
             After you register  the Facebook identity provider to your Microsoft Entra external ID tenant, you can
             <a
@@ -138,7 +148,7 @@
                 target="_blank" class="link-dark link-offset-2">user flow ID</a>.
         </p>
         <code
-            style="color: black;">POST https://graph.microsoft.com/beta/identity/authenticationEventsFlows/<span class="highlight">{user-flow-ID}</span>/microsoft.graph.externalUsersSelfServiceSignUpEventsFlow/onAuthenticationMethodLoadStart/microsoft.graph.onAuthenticationMethodLoadStartExternalUsersSelfServiceSignUp/identityProviders/$ref</code>
+            style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/beta/identity/authenticationEventsFlows/<span class="highlight">{user-flow-ID}</span>/microsoft.graph.externalUsersSelfServiceSignUpEventsFlow/onAuthenticationMethodLoadStart/microsoft.graph.onAuthenticationMethodLoadStartExternalUsersSelfServiceSignUp/identityProviders/$ref</code>
 
         <pre>
 {
@@ -146,7 +156,7 @@
 }
         </pre>
 
-        <h4 class="graph-header">Register Google</h4>
+        <h4 class="graph-header">2. Register Google</h4>
 
         <p>
             To add Google as an identity provider, you first need to <a
@@ -161,8 +171,19 @@
             Replace the <b>{Google app secret}</b> with the App Secret that you recorded.
         </p>
 
-        <code style="color: black;">POST https://graph.microsoft.com/beta/identityProviders</code>
+        <code style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/beta/identityProviders</code>
 
+        <pre>
+{
+    "type": "Google",
+    "name": "Google",
+    "clientId": "<span class="highlight">{Google app ID}</span>",
+    "clientSecret": "<span class="highlight">{Google app secret}</span>"
+}
+        </pre>
+        <p>
+            In some tenants it may be:
+        </p>
         <pre>
 {
     "@@odata.type": "#microsoft.graph.socialIdentityProvider",
@@ -172,9 +193,7 @@
     "clientSecret": "<span class="highlight">{Google app secret}</span>"
 }
         </pre>
-
-
-        <h4 class="graph-header">Add Google identity provider to a user flow</h4>
+        <h5 class="graph-header">2.1 Add Google identity provider to a user flow</h5>
         <p>
             After you register  the Google identity provider to your Microsoft Entra external ID tenant, you can
             <a
@@ -184,7 +203,7 @@
                 target="_blank" class="link-dark link-offset-2">user flow ID</a>.
         </p>
         <code
-            style="color: black;">POST https://graph.microsoft.com/beta/identity/authenticationEventsFlows/<span class="highlight">{user-flow-ID}</span>/microsoft.graph.externalUsersSelfServiceSignUpEventsFlow/onAuthenticationMethodLoadStart/microsoft.graph.onAuthenticationMethodLoadStartExternalUsersSelfServiceSignUp/identityProviders/$ref</code>
+            style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/beta/identity/authenticationEventsFlows/<span class="highlight">{user-flow-ID}</span>/microsoft.graph.externalUsersSelfServiceSignUpEventsFlow/onAuthenticationMethodLoadStart/microsoft.graph.onAuthenticationMethodLoadStartExternalUsersSelfServiceSignUp/identityProviders/$ref</code>
         <pre>
 {
     "@@odata.id": "https://graph.microsoft.com/beta/identityProviders/Google-OAUTH"

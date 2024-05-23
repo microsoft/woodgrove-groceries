@@ -519,3 +519,8 @@ pre {
   color: #084884;
   background-color: rgb(228, 228, 228);
 }
+
+.method{
+  font-weight: bold;
+  color: #771622;
+}
