@@ -142,7 +142,7 @@
         <h4 class="graph-header">Dependencies</h4>
         This script is self contained. Optinally, you can add an application to the user flow.
 
-        <h4 class="graph-header">Create a user flow</h4>
+        <h4 class="graph-header">1. Create a user flow</h4>
         <p>
             To create a user flow, you
             <a href="https://learn.microsoft.com/graph/api/identitycontainer-post-authenticationeventsflows?view=graph-rest-beta&tabs=http"
@@ -155,10 +155,16 @@
 
         <pre>
 {
+    "@@odata.context": "https://graph.microsoft.com/beta/$metadata#identity/authenticationEventsFlows/$entity",
     "@@odata.type": "#microsoft.graph.externalUsersSelfServiceSignUpEventsFlow",
-    "displayName": "Default",
+    "displayName": "Default sign-up and sign-in",
     "description": "Woodgrove default sign-up and sign-in flow",
     "priority": 500,
+    "conditions": {
+        "applications": {
+            "includeAllApplications": false
+        }
+    },
     "onInteractiveAuthFlowStart": {
         "@@odata.type": "#microsoft.graph.onInteractiveAuthFlowStartExternalUsersSelfServiceSignUp",
         "isSignUpAllowed": true
@@ -167,6 +173,7 @@
         "@@odata.type": "#microsoft.graph.onAuthenticationMethodLoadStartExternalUsersSelfServiceSignUp",
         "identityProviders": [
             {
+                "@@odata.type": "#microsoft.graph.builtInIdentityProvider",
                 "id": "EmailPassword-OAUTH"
             }
         ]
@@ -190,7 +197,7 @@
                             "editable": false,
                             "writeToDirectory": true,
                             "required": true,
-                            "validationRegEx": "^[a-zA-Z0-9.!#$%&amp;&#8217;'*+/=?^_`{|}~-]+@@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$",
+                            "validationRegEx": "^[a-zA-Z0-9.!#$%&amp;amp;&amp;#8217;'*+/=?^_`{|}~-]+@@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$",
                             "options": []
                         },
                         {
@@ -263,12 +270,27 @@
     },
     "onUserCreateStart": {
         "@@odata.type": "#microsoft.graph.onUserCreateStartExternalUsersSelfServiceSignUp",
-        "userTypeToCreate": "member"
+        "userTypeToCreate": "member",
+        "accessPackages": []
     }
 }
         </pre>
 
-        <h4 class="graph-header">Add your application to the user flow</h4>
+
+        <h5 class="graph-header">1.1 Copy the user flow ID</h5>
+        From the response, copy the value of the value of the user flow <b>id</b>. For example:
+        <pre>
+{
+    "@@odata.context": "https://graph.microsoft.com/beta/$metadata#identity/authenticationEventsFlows/$entity",
+    "@@odata.type": "#microsoft.graph.externalUsersSelfServiceSignUpEventsFlow",
+    "<span class="highlight">id</span>": "5a92f14b-0000-0000-c000-000000000000",
+    "displayName": "Default sign-up and sign-in1",
+    "description": "Woodgrove default sign-up and sign-in flow",
+    ...
+}      
+        </pre>
+
+        <h4 class="graph-header">2. Add your application to the user flow</h4>
         <p>
             To <a href="https://learn.microsoft.com/graph/api/authenticationconditionsapplications-post-includeapplications?view=graph-rest-beta&tabs=http"
                 target="_blank" class="link-dark link-offset-2">add or link an application to a user user flow</a> user the follow
