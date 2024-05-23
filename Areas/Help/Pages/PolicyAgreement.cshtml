@@ -153,7 +153,7 @@
             <li>User flow</li>
         </ul>
 
-        <h4 class="graph-header">Create custom attribute</h4>
+        <h4 class="graph-header">1. Create custom attribute</h4>
         <p>
             To a
             <a href="https://learn.microsoft.com/en-us/graph/api/identityuserflowattribute-post?view=graph-rest-beta&tabs=http"
@@ -161,7 +161,7 @@
             Microsoft Graph.
         </p>
 
-        <code style="color: black;">POST https://graph.microsoft.com/beta/identity/userFlowAttributes</code>
+        <code style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/beta/identity/userFlowAttributes</code>
 
         <pre>
 {
@@ -171,7 +171,20 @@
 }
         </pre>
 
-        <h4 class="graph-header">Add attribute to a user flow</h4>
+        <h5 class="graph-header">1.1 Copy the custom attribute</h5>
+        From the response, copy the value of the custom attribute <b>id</b>. For example:
+        <pre>
+{
+    "@@odata.context": "https://graph.microsoft.com/beta/$metadata#identity/userFlowAttributes/$entity",
+    "<span class="highlight">id</span>": "extension_12345678900000000000000012345678_PolicyAgreement",
+    "displayName": "PolicyAgreement",
+    "description": "A required attribute that indicates whether a user consented to the terms and conditions.",
+    "userFlowAttributeType": "custom",
+    "dataType": "boolean"
+}  
+        </pre>
+
+        <h4 class="graph-header">2. Add attribute to a user flow</h4>
         <p>
             To <a
                 href="https://learn.microsoft.com/en-us/graph/api/onattributecollectionexternalusersselfservicesignup-post-attributes?view=graph-rest-beta&tabs=http"
@@ -188,7 +201,7 @@
         </p>
 
         <code
-            style="color: black;">POST https://graph.microsoft.com/beta/identity/authenticationEventsFlows/<span class="highlight">{user-flow-ID}</span>/microsoft.graph.externalUsersSelfServiceSignUpEventsFlow/onAttributeCollection/microsoft.graph.onAttributeCollectionExternalUsersSelfServiceSignUp/attributes/$ref</code>
+            style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/beta/identity/authenticationEventsFlows/<span class="highlight">{user-flow-ID}</span>/microsoft.graph.externalUsersSelfServiceSignUpEventsFlow/onAttributeCollection/microsoft.graph.onAttributeCollectionExternalUsersSelfServiceSignUp/attributes/$ref</code>
 
         <pre>
 {
@@ -202,7 +215,7 @@
         </a>
         <div class="collapse" id="collapseExample1">
             <code
-                style="color: black;">POST https://graph.microsoft.com/beta/identity/authenticationEventsFlows/12345678-1234-1234-1234-123456789012/microsoft.graph.externalUsersSelfServiceSignUpEventsFlow/onAttributeCollection/microsoft.graph.onAttributeCollectionExternalUsersSelfServiceSignUp/attributes/$ref</code>
+                style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/beta/identity/authenticationEventsFlows/12345678-1234-1234-1234-123456789012/microsoft.graph.externalUsersSelfServiceSignUpEventsFlow/onAttributeCollection/microsoft.graph.onAttributeCollectionExternalUsersSelfServiceSignUp/attributes/$ref</code>
 
             <pre class="example">
 {
@@ -212,7 +225,7 @@
         </div>
 
 
-        <h4 class="graph-header">Update the page layout</h4>
+        <h4 class="graph-header">3. Update the page layout</h4>
         <p>
             Usually the attribute appears at the bottom on the sign-up page. You can <a
                 href="https://learn.microsoft.com/en-us/graph/api/authenticationeventsflow-update?view=graph-rest-beta&tabs=http"
@@ -245,7 +258,7 @@
                 target="_blank" class="link-dark link-offset-2">attribute ID</a>.
         </p>
         <code
-            style="color: black;">PATCH https://graph.microsoft.com/beta/identity/authenticationEventsFlows/<span class="highlight">{user-flow-ID}</span></code>
+            style="color: black;"><span class="method">PATCH</span> https://graph.microsoft.com/beta/identity/authenticationEventsFlows/<span class="highlight">{user-flow-ID}</span></code>
 
         <pre>
 {
