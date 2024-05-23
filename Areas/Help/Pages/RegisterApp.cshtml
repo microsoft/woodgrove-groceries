@@ -164,7 +164,7 @@
         <h4 class="graph-header">Dependencies</h4>
         This script is self contained.
 
-        <h4 style="padding-top: 25px;padding-bottom: 5px;">Register a web application</h4>
+        <h4 style="padding-top: 25px;padding-bottom: 5px;">1. Register a web application</h4>
         <p>
             To <a
                 href="https://learn.microsoft.com/en-us/graph/api/application-post-applications?view=graph-rest-1.0&tabs=http"
@@ -215,12 +215,25 @@
 }
         </pre>
 
-        <h4 class="graph-header">Create a service principal for your application</h4>
+        <h5 class="graph-header">1.1 Copy the application ID</h5>
+        From the response, copy the value of the <b>appId</b>. For example:
+        <pre>
+{
+    "@@odata.context": "https://graph.microsoft.com/v1.0/$metadata#applications/$entity",
+    "id": "12345678-0000-0000-0000-000000000000",
+    "<span class="highlight">appId</span>": "22222222-0000-0000-0000-000000000000",
+    "displayName": "Woodgrove Groceries",
+    "description": "Woodgrove Groceries live demo application",
+    ...
+}        
+        </pre>
+
+        <h4 class="graph-header">2. Create a service principal for your application</h4>
         <p>
             After you register you registered your application, <a
                 href="https://learn.microsoft.com/en-us/graph/api/serviceprincipal-post-serviceprincipals?view=graph-rest-1.0&tabs=http"
                 target="_blank" class="link-dark link-offset-2">create a service principal</a>. The following Microsoft
-                Graph creates a service principal. Replace the <b>{app-ID}</b> with the app ID from the previous call
+                Graph creates a service principal. Replace the <b>{appId}</b> with the app <b>appId</b> from the previous call
                 (not the
                 object ID).
         </p>
@@ -228,11 +241,22 @@
 
         <pre>
 {
-    "appId": "<span class="highlight">{app-ID}</span>"
+    "appId": "<span class="highlight">{appId}</span>"
 }
         </pre>
 
-        <h4  class="graph-header">Consent to the required permissions</h4>
+        <h5 class="graph-header">2.1 Copy the service principal ID</h5>
+        From the response, copy the value of the <b>id</b>. For example:
+        <pre>
+{
+    "@@odata.context": "https://graph.microsoft.com/v1.0/$metadata#servicePrincipals/$entity",
+    "<span class="highlight">id</span>": "44444444-0000-0000-0000-000000000000",
+    "displayName": "Woodgrove Groceries",
+    "description": "Woodgrove Groceries live demo application",
+    ...
+}        
+        </pre>
+        <h4  class="graph-header">3. Consent to the required permissions</h4>
 
         <p>
 
@@ -240,10 +264,27 @@
             You as the admin must  <a
                 href="https://learn.microsoft.com/en-us/graph/api/oauth2permissiongrant-post?view=graph-rest-1.0&tabs=http"
                 target="_blank" class="link-dark link-offset-2">consent to these permissions</a> on behalf of all the users in the tenant:
-
-            Replace the <b>{service-principal-id}</b> with the service-principal ID you created in the previous step.
-
         </p>
+        <h5 class="graph-header">3.1 Get the Microsoft Graph's service principal ID</h5>
+
+        <p>Run the following GET request and cope the <b>id</b> from the response:</p>
+
+        <code style="color: black;">GET https://graph.microsoft.com/v1.0/servicePrincipals(appId='00000003-0000-0000-c000-000000000000')</code>
+
+        <pre>
+{
+    "<span class="highlight">id</span>": "66666666-0000-0000-c000-000000000000"
+    "appDisplayName": "Microsoft Graph",
+    "appId": "00000003-0000-0000-c000-000000000000",
+}
+        </pre>
+
+        <h5  class="graph-header">3.2 Grant the required permissions</h5>
+        <p>
+            Replace the <b>{service-principal-id}</b> with the service-principal <b>id</b> you copied in the previous step.
+            Replace the <b>{graph-service-principal-id}</b> with the service-principal <b>id</b> you copied in the last step.
+        </p>
+
 
         <code style="color: black;">POST https://graph.microsoft.com/v1.0/oauth2PermissionGrants</code>
 
@@ -251,10 +292,50 @@
 {
     "clientId": "<span class="highlight">{service-principal-id}</span>",
     "consentType": "AllPrincipals",
-    "resourceId": "69309946-6ba5-4714-bb0e-38138430fcfd",
+    "resourceId": "<span class="highlight">{graph-service-principal-id}</span>",
     "scope": "openid offline_access"
 }
         </pre>
 
+
+
+        <h5  class="graph-header">4 [Optionally] Add a client secret</h5>
+        <p>
+            Credentials enable confidential applications to identify themselves to the authentication service when receiving tokens. 
+            For a higher level of assurance, we recommend using a <a
+                href="https://learn.microsoft.com/en-us/graph/api/application-addkey?view=graph-rest-1.0&tabs=http"
+                target="_blank" class="link-dark link-offset-2">certificate</a> (instead of a client secret) as a credential.
+            To a <a
+                href="https://learn.microsoft.com/en-us/graph/api/application-addpassword?view=graph-rest-1.0&tabs=http"
+                target="_blank" class="link-dark link-offset-2">client secret</a>, run the following request.  
+            Replace the <b>{graph-service-principal-id}</b> with the <b>appId</b> with the appId from the fist step.
+        </p>
+
+
+        <code style="color: black;">POST https://graph.microsoft.com/v1.0/applications(appId='<span class="highlight">appId</span>')/addPassword</code>
+
+        <pre>
+{
+    "passwordCredential": {
+        "displayName": "My app client secret"
+    }
+}
+        </pre>
+
+        <p>
+            From the response, copy the value of the <b>secretText</b>:
+        </p>
+
+        <pre>
+{
+    "@@odata.context": "https://graph.microsoft.com/v1.0/$metadata#microsoft.graph.passwordCredential",
+    "displayName": "My app client secret",
+    "endDateTime": "2026-05-23T15:16:42.,
+    "hint": "iqi",
+    "keyId": "98765432-0000-0000-0000-000000000000",
+    "secretText": "<span class="highlight">Copy this value</span>",
+    "startDateTime": "2024-05-23T15:16:42"
+}
+        </pre>
     </div>
 </div>
