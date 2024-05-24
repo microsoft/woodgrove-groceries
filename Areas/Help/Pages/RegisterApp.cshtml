@@ -265,15 +265,16 @@
                 href="https://learn.microsoft.com/en-us/graph/api/oauth2permissiongrant-post?view=graph-rest-1.0&tabs=http"
                 target="_blank" class="link-dark link-offset-2">consent to these permissions</a> on behalf of all the users in the tenant:
         </p>
+
         <h5 class="graph-header">3.1 Get the Microsoft Graph's service principal ID</h5>
 
         <p>Run the following GET request and cope the <b>id</b> from the response:</p>
 
-        <code style="color: black;">GET https://graph.microsoft.com/v1.0/servicePrincipals(appId='00000003-0000-0000-c000-000000000000')</code>
+        <code style="color: black;"><span class="method">GET</span> https://graph.microsoft.com/v1.0/servicePrincipals(appId='00000003-0000-0000-c000-000000000000')</code>
 
         <pre>
 {
-    "<span class="highlight">id</span>": "66666666-0000-0000-c000-000000000000"
+    "<span class="highlight">id</span>": "66666666-0000-0000-0000-000000000000"
     "appDisplayName": "Microsoft Graph",
     "appId": "00000003-0000-0000-c000-000000000000",
 }

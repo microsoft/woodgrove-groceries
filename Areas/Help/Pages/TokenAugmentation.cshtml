@@ -299,21 +299,15 @@
             <li>Application registers</li>
         </ul>
 
-        <h4 style="padding-top: 25px;padding-bottom: 5px;">Register a web application</h4>
+        <h4 style="padding-top: 25px;padding-bottom: 5px;">1. Register custom authentication extension application</h4>
         <p>
             To <a
                 href="https://learn.microsoft.com/en-us/graph/api/application-post-applications?view=graph-rest-1.0&tabs=http"
                 target="_blank" class="link-dark link-offset-2">register a web application</a>, use the following
             Microsoft
-            Graph and replace.
-        <ul>
-            <li>Value of <b>displayName</b> with your app displayed name. For example, <i>Woodgrove Groceries</i></li>
-            <li>Values of the <b>redirectUris</b> with the redirect URI of your application. For example,
-                <i>https://woodgrovedemo.com/signin-oidc</i>
-            </li>
-        </ul>
+            Graph. The name of the application will be <b>Custom authentication extension security app</b>.
         </p>
-        <code style="color: black;">POST https://graph.microsoft.com/v1.0/applications</code>
+        <code style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/v1.0/applications</code>
 
         <pre>
 {
@@ -341,7 +335,21 @@
 }
         </pre>
 
-        <h4 class="graph-header">Update the application identifier URI</h4>
+
+        <h5 class="graph-header">1.1 Copy the application ID</h5>
+        From the response, copy the value of the <b>appId</b>. For example:
+        <pre>
+{
+    "@@odata.context": "https://graph.microsoft.com/v1.0/$metadata#applications/$entity",
+    "id": "12345678-0000-0000-0000-000000000000",
+    "<span class="highlight">appId</span>": "22222222-0000-0000-0000-000000000000",
+    "displayName": "Custom authentication extension security app",
+    "description": "Ensure the communications between the custom authentication extension and your REST API are secured",
+    ...
+}        
+        </pre>
+
+        <h5 class="graph-header">1.2 Update the application identifier URI</h5>
         <p>
             After you register you registered your application, <a
                 href="https://learn.microsoft.com/en-us/graph/api/application-update?view=graph-rest-beta&tabs=http"
@@ -351,7 +359,7 @@
 
         </p>
         <code
-            style="color: black;">PATCH https://graph.microsoft.com/v1.0/applications(appId='<span class="highlight">{app-ID}</span>')</code>
+            style="color: black;"><span class="method">PATCH</span> https://graph.microsoft.com/v1.0/applications(appId='<span class="highlight">{app-ID}</span>')</code>
 
         <pre>
 {
@@ -368,7 +376,7 @@
         </a>
         <div class="collapse" id="collapseExample1">
             <code
-                style="color: black;">PATCH https://graph.microsoft.com/v1.0/applications(appId='12345678-1234-1234-1234-000000000000')</code>
+                style="color: black;"><span class="method">PATCH</span> https://graph.microsoft.com/v1.0/applications(appId='12345678-1234-1234-1234-000000000000')</code>
 
             <pre class="example">
 {
@@ -379,7 +387,7 @@
             </pre>
         </div>
 
-        <h4 class="graph-header">Create a service principal for your application</h4>
+        <h5 class="graph-header">1.3 Create a service principal for your application</h5>
         <p>
             After you register you registered your application, <a
                 href="https://learn.microsoft.com/en-us/graph/api/serviceprincipal-post-serviceprincipals?view=graph-rest-1.0&tabs=http"
@@ -388,7 +396,7 @@
             (not the
             object ID).
         </p>
-        <code style="color: black;">POST https://graph.microsoft.com/v1.0/servicePrincipals</code>
+        <code style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/v1.0/servicePrincipals</code>
 
         <pre>
 {
@@ -402,7 +410,7 @@
             Example
         </a>
         <div class="collapse" id="collapseExample2">
-            <code style="color: black;">POST https://graph.microsoft.com/v1.0/servicePrincipals</code>
+            <code style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/v1.0/servicePrincipals</code>
 
             <pre class="example">
 {
@@ -411,7 +419,36 @@
             </pre>
         </div>
 
-        <h4 class="graph-header">Consent to the required permissions</h4>
+
+        <h5 class="graph-header">1.4 Copy the service principal ID</h5>
+        From the response, copy the value of the <b>id</b>. For example:
+        <pre>
+{
+    "@@odata.context": "https://graph.microsoft.com/v1.0/$metadata#servicePrincipals/$entity",
+    "<span class="highlight">id</span>": "77777777-0000-0000-0000-000000000000",
+    "appDisplayName": "Custom authentication extension security app",
+    "appDescription": "Ensure the communications between the custom authentication extension and your REST API are secured",
+    "appId": "12345678-1234-1234-1234-000000000000",
+}
+        </pre>
+
+
+
+        <h5 class="graph-header">1.5 Get the Microsoft Graph's service principal ID</h5>
+
+        <p>Run the following GET request and cope the <b>id</b> from the response:</p>
+
+        <code style="color: black;"><span class="method">GET</span> https://graph.microsoft.com/v1.0/servicePrincipals(appId='00000003-0000-0000-c000-000000000000')</code>
+
+        <pre>
+{
+    "<span class="highlight">id</span>": "66666666-0000-0000-0000-000000000000"
+    "appDisplayName": "Microsoft Graph",
+    "appId": "00000003-0000-0000-c000-000000000000",
+}
+        </pre>
+
+        <h5 class="graph-header">1.6 Consent to the required permissions</h5>
         <p>
 
             Since the tenant is a customer's tenant, the consumer users themselves can't consent to these permissions.
@@ -421,26 +458,26 @@
             users in the tenant:
 
             Replace the <b>{service-principal-id}</b> with the service-principal ID you created in the previous step.
+            Replace the <b>{graph-service-principal-id}</b> with the service-principal <b>id</b> you copied in the last step.
         </p>
         <p>
-            Note, in the following JSON snippet, the <i>69309946-6ba5-4714-bb0e-38138430fcfd</i> is the object ID
-            of the Microsoft Graph application. The <i>214e810f-fda8-4fd7-a475-29461495eb00</i> ID is the
+            Note, in the following JSON snippet, the <i>214e810f-fda8-4fd7-a475-29461495eb00</i> ID is the
             <b>CustomAuthenticationExtension.Receive.Payload</b> application role.
         </p>
 
         <code
-            style="color: black;">POST https://graph.microsoft.com/v1.0/servicePrincipals/<span class="highlight">{service-principal-id}</span>/appRoleAssignments</code>
+            style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/v1.0/servicePrincipals/<span class="highlight">{service-principal-id}</span>/appRoleAssignments</code>
 
         <pre>
 {
     "principalId": "<span class="highlight">{service-principal-id}</span>",
-    "resourceId": "69309946-6ba5-4714-bb0e-38138430fcfd",
+    "resourceId": "<span class="highlight">{graph-service-principal-id}</span>",
     "appRoleId": "214e810f-fda8-4fd7-a475-29461495eb00"
 }
         </pre>
 
 
-        <h4 class="graph-header">Register a custom authentication extension</h4>
+        <h4 class="graph-header">2. Register a custom authentication extension</h4>
 
         <p>
             Next, you <a
@@ -458,7 +495,7 @@
         </ul>
         </p>
 
-        <code style="color: black;">POST https://graph.microsoft.com/beta/identity/customAuthenticationExtensions</code>
+        <code style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/beta/identity/customAuthenticationExtensions</code>
         <pre>
 {
     "@@odata.type": "#microsoft.graph.onTokenIssuanceStartCustomExtension",
@@ -507,7 +544,7 @@
         </a>
         <div class="collapse" id="collapseExample3">
             <code
-                style="color: black;">POST https://graph.microsoft.com/beta/identity/customAuthenticationExtensions</code>
+                style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/beta/identity/customAuthenticationExtensions</code>
 
             <pre class="example">
 {
@@ -552,7 +589,20 @@
             </pre>
         </div>
 
-        <h4 class="graph-header">Create authentication event listener</h4>
+
+        <h5 class="graph-header">2.1 Copy the custom authentication extension ID</h5>
+        From the response, copy the value of the <b>id</b>. For example:
+        <pre>
+{
+    "@@odata.context": "https://graph.microsoft.com/beta/$metadata#identity/customAuthenticationExtensions/$entity",
+    "@@odata.type": "#microsoft.graph.onTokenIssuanceStartCustomExtension",
+    "<span class="highlight">id</span>": "22222222-2222-3333-3333-444444444444",
+    "displayName": " Add claims from customer relationship REST API",
+    "description": "Returns the loyaltyNumber, loyaltySince, and loyaltyTier claims with some random values",
+}
+        </pre>
+
+        <h5 class="graph-header">2.2 Create authentication event listener</h5>
         <p>
             After you register you registered your custom authentication extension, <a
                 href="https://learn.microsoft.com/en-us/graph/api/identitycontainer-post-authenticationeventlisteners?view=graph-rest-beta&tabs=http"
@@ -563,10 +613,10 @@
             <li><b>{web-or-mobile-app-ID}</b> with your web or mobile application. Not the <b>Custom authentication
                     extension security
                     app</b>. It's a collection, you can add more apps as needed.</li>
-            <li><b>{Custom-auth-extension-ID}</b> with the custome authentication extension you just created.</li>
+            <li><b>{Custom-auth-extension-ID}</b> with the custom authentication extension you just created.</li>
         </ul>
         </p>
-        <code style="color: black;">POST https://graph.microsoft.com/beta/identity/authenticationEventListeners</code>
+        <code style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/beta/identity/authenticationEventListeners</code>
 
         <pre>
 {
@@ -598,7 +648,7 @@
         </a>
         <div class="collapse" id="collapseExample2">
             <code
-                style="color: black;">POST https://graph.microsoft.com/beta/identity/authenticationEventListeners</code>
+                style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/beta/identity/authenticationEventListeners</code>
 
             <pre class="example">
 {
@@ -627,7 +677,23 @@
             </pre>
         </div>
 
-        <h4 class="graph-header">Assign a custom claims provider to your app</h4>
+        <h5 class="graph-header">3. Update your applications' manifest</h5>
+        <p>
+            Configure your web or mobile application metadata's <b>acceptMappedClaims</b> attribute to <b>true</b>. Also, the <b>accessTokenAcceptedVersion</b> to <b>2</b>.
+            Replace the <b>{app-ID}</b> with your web or mobile application. If you have more than one application, repeat this step.
+        </p>
+        <code
+            style="color: black;"><span class="method">PATCH</span> https://graph.microsoft.com/v1.0/applications(appId='<span class="highlight">{app-ID}</span>')</code>
+
+        <pre>
+{
+    "api": {
+        "acceptMappedClaims": true,
+        "requestedAccessTokenVersion": 2
+    }
+}
+        </pre>
+        <h4 class="graph-header">4. Assign a custom claims provider to your app</h4>
 
         For tokens to be issued with claims incoming from the custom authentication extension, you must <a
             href="https://learn.microsoft.com/en-us/entra/identity-platform/custom-extension-tokenissuancestart-configuration?tabs=microsoft-graph%2Cworkforce-tenant#step-3-assign-a-custom-claims-provider-to-your-app"

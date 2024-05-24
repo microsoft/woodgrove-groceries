@@ -195,7 +195,13 @@
     </div>
 
     <div id="GraphApiContent">
-        <h4 class="graph-header">Register a custom authentication extension</h4>
+        <h4 class="graph-header">1. Register custom authentication extension application</h4>
+
+        <p>
+            If this is your first custom authentication extension, <a href="~/help/TokenAugmentation#graph">register the custom authentication extension application</a>.</a>.
+        </p>
+
+        <h4 class="graph-header">2. Register custom authentication extension</h4>
 
         <p>
             Next, you <a
@@ -207,13 +213,12 @@
         <ul>
             <li><b>{app-ID}</b> with the app ID from the previous call <b>Custom authentication extension security
                     app</b>.</li>
-            <li><b>{REST-API-domain}</b>with your rest API domain name</li>
+            <li><b>{REST-API-domain}</b> with your rest API domain name</li>
             <li><b>{Endpoint-URL}</b> - with the RUL of your REST API endpoint</li>
-            <li><b>claimsForTokenConfiguration</b> - Collection of attribute your REST API returns</li>
         </ul>
         </p>
 
-        <code style="color: black;">POST https://graph.microsoft.com/beta/identity/customAuthenticationExtensions</code>
+        <code style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/beta/identity/customAuthenticationExtensions</code>
         <pre>
 {
     "@@odata.type": "#microsoft.graph.onAttributeCollectionStartCustomExtension",
@@ -235,14 +240,13 @@
 }
         </pre>
 
-
         <a class="btn btn-outline-primary btn-sm" data-bs-toggle="collapse" href="#collapseExample3" role="button"
             aria-expanded="false" aria-controls="collapseExample3">
             Example
         </a>
         <div class="collapse" id="collapseExample3">
             <code
-                style="color: black;">POST https://graph.microsoft.com/beta/identity/customAuthenticationExtensions</code>
+                style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/beta/identity/customAuthenticationExtensions</code>
 
             <pre class="example">
 {
@@ -266,21 +270,29 @@
             </pre>
         </div>
 
-        <h4 class="graph-header">Create authentication event listener</h4>
+
+        <h5 class="graph-header">2.1 Copy the custom authentication extension ID</h5>
+        From the response, copy the value of the <b>id</b>. For example:
+        <pre>
+{
+    "@@odata.context": "https://graph.microsoft.com/beta/$metadata#identity/customAuthenticationExtensions/$entity",
+    "@@odata.type": "#microsoft.graph.onAttributeCollectionSubmitCustomExtension",
+    "<span class="highlight">id</span>": "22222222-2222-3333-3333-444444444444",
+    "displayName": "Validate sign-up user input",
+    "description": "Validate user input including the city name and may ask the user to correct the data or block the user",
+}
+        </pre>
+
+        <h5 class="graph-header">2.2 Create authentication event listener</h5>
         <p>
             After you register you registered your custom authentication extension, <a
                 href="https://learn.microsoft.com/en-us/graph/api/identitycontainer-post-authenticationeventlisteners?view=graph-rest-beta&tabs=http"
                 target="_blank" class="link-dark link-offset-2">create authentication event listener</a>.
 
-            In the next JSON, replace:
-        <ul>
-            <li><b>{web-or-mobile-app-ID}</b> with your web or mobile application. Not the <b>Custom authentication
-                    extension security
-                    app</b>. It's a collection, you can add more apps as needed.</li>
-            <li><b>{Custom-auth-extension-ID}</b> with the custome authentication extension you just created.</li>
+            In the next JSON, replace the <b>{Custom-auth-extension-ID}</b> with the custom authentication extension you just created.
         </ul>
         </p>
-        <code style="color: black;">POST https://graph.microsoft.com/beta/identity/authenticationEventListeners</code>
+        <code style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/beta/identity/authenticationEventListeners</code>
 
         <pre>
 {
@@ -288,11 +300,7 @@
     "conditions": {
         "applications": {
             "includeAllApplications": false,
-            "includeApplications": [
-                {
-                    "appId": "<span class="highlight">{web-or-mobile-app-ID}</span>"
-                }
-            ]
+            "includeApplications": []
         }
     },
     "priority": 500,
@@ -312,7 +320,7 @@
         </a>
         <div class="collapse" id="collapseExample3">
             <code
-                style="color: black;">POST https://graph.microsoft.com/beta/identity/authenticationEventListeners</code>
+                style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/beta/identity/authenticationEventListeners</code>
 
             <pre class="example">
 {
@@ -320,14 +328,7 @@
     "conditions": {
         "applications": {
             "includeAllApplications": false,
-            "includeApplications": [
-                {
-                    "appId": "722f9405-d07c-4980-baed-4717ce4ec710"
-                },
-                {
-                    "appId": "c92b6a8a-d591-4234-bd51-6929d07d90aa"
-                }
-            ]
+            "includeApplications": []
         }
     },
     "priority": 500,
@@ -341,7 +342,7 @@
             </pre>
         </div>
 
-        <h4 class="graph-header">Link the custom authentication extension to a user flow</h4>
+        <h5 class="graph-header">2.3 Link the custom authentication extension to a user flow</h5>
         <p>
             <a href="https://learn.microsoft.com/en-us/graph/api/authenticationeventsflow-update?view=graph-rest-beta&tabs=http"
                 target="_blank" class="link-dark link-offset-2">Update your user flow</a>.
@@ -351,7 +352,7 @@
             <li><b>{user-flow-ID}</b> with your <a
                     href="https://learn.microsoft.com/en-us/graph/api/identitycontainer-list-authenticationeventsflows?view=graph-rest-beta&tabs=http"
                     target="_blank" class="link-dark link-offset-2">user flow ID</a>.</li>
-            <li><b>{Custom-auth-extension-ID}</b> with the custome authentication extension you just created.</li>
+            <li><b>{Custom-auth-extension-ID}</b> with the custom authentication extension you just created.</li>
         </ul>
         </p>
         <code
