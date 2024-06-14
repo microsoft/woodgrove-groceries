@@ -3,7 +3,8 @@
 @{
 }
 
-<h1 style="color: green; padding-bottom: 15px; padding-top: 15px;">Edit your profile</h1>
+<h1 style="color: green; padding-bottom: 15px; padding-top: 15px;">Your Woodgrove account</h1>
+
 
 <style>
     .form-group {
@@ -40,6 +41,21 @@
 
     @if (User.Identity?.IsAuthenticated == true)
     {
+        <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
+            <div class="card-header"><img src="~/woodgrove-favicon.ico"><img>&nbsp;&nbsp;Woodgrove Loyalty Card</div>
+            <div class="card-body">
+                <p class="card-text" style="padding-left: 7px;">
+                    Name: @User.Claims.FirstOrDefault(c => c.Type.ToLower() == "name")?.Value <br>
+                    Number: @User.Claims.FirstOrDefault(c => c.Type.ToLower() == "loyaltynumber")?.Value <br>
+                    Tier: @User.Claims.FirstOrDefault(c => c.Type.ToLower() == "loyaltytier")?.Value <br>
+                    Since: @User.Claims.FirstOrDefault(c => c.Type.ToLower() == "loyaltysince")?.Value
+                </p>
+            </div>
+        </div>
+
+
+        <h2 style="color: green; padding-bottom: 15px; padding-top: 15px;">Your profile</h2>
+
         <div class="text-left">
             <form method="post">
                 <div class="form-group row">

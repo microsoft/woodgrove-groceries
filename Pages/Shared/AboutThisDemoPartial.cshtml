@@ -709,9 +709,14 @@
                 <ol>
                     @if (User.Identity?.IsAuthenticated == false)
                     {
-                        <li>Select the <b>start the use case</b> button at the bottom of this page. Sign-up or sign-in with
-                            your account.</li>
+                        <li>Select the <b>start the use case</b> button at the bottom of this page. Sign-in with
+                            your account. Note,  if you create a new account, you fulfill the MFA requirement since the email is already verified. Therefore, make sure you sign-in with an existing account.</li>
                         <li> After you singed-in, select this use-case again.</li>
+                    }
+                    else if (User.Identity?.IsAuthenticated == true && User.Claims.Any(c => c.Type == "acrs" && c.Value == "c1"))
+                    {
+                        <li>You fulfilled the MFA requirement. No further action required.</li>
+                        <li>To start the demo again, select the <b>Start over</b> button.</li>
                     }
                     else
                     {
@@ -731,7 +736,6 @@
                 }
                 else
                 {
-                    <p>To start the demo again, select the <b>Start over</b> button.</p>
                     <a class="btn header-button" role="button" href="/SignIn?handler=StepUpIntro"><i
                             class="bi bi-play-circle"></i> Start Over</a>
                 }
