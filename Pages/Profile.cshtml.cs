@@ -404,7 +404,7 @@ namespace MyApp.Namespace
                 }
                 else
                 {
-                    this.Identities += $"<b>Sign-in type:</b> {identity.SignInType} <b>Issuer</b>: {identity.Issuer} <b>ID</b>: {identity.IssuerAssignedId} <br/>";
+                    this.Identities += $"<li><b>Sign-in type:</b> {identity.SignInType} <b>Issuer</b>: {identity.Issuer} <b>ID</b>: {identity.IssuerAssignedId} <ui/>";
                 }
 
                 // Get the username of local accounts

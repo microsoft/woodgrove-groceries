@@ -183,11 +183,16 @@
     </h2>
     <div class="profile-content">
         <h4 style="color: green; padding-bottom: 5px; padding-top: 10px;">Identities</h4>
-        @Html.Raw(Model.Identities)<br>
+        <p>
+            The identities attribute represents a set of identities you can sign in to your account:
+        </p>
+        <ul>
+            @Html.Raw(Model.Identities)
+        </ul>
 
-        <h4 style="color: green; padding-top: 10px;">User object ID</h4>
 
-        <input type="text" readonly class="form-control-plaintext" id="staticID" asp-for="ObjectId"><br>
+        <h4 style="color: green; padding-bottom: 5px; padding-top: 10px;">User object ID</h4>
+        The globally <b>unique identifier</b> of your account: @Model.ObjectId
     </div>
 </div>
 
