@@ -3,7 +3,7 @@
 @{
 }
 
-<h1 style="color: green; padding-bottom: 15px; padding-top: 15px;">Your Woodgrove account</h1>
+<h1 style="color: green; padding-top: 30px;">Your Woodgrove account</h1>
 
 
 <style>
@@ -41,72 +41,67 @@
 
     @if (User.Identity?.IsAuthenticated == true)
     {
-        <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
-            <div class="card-header"><img src="~/woodgrove-favicon.ico"><img>&nbsp;&nbsp;Woodgrove Loyalty Card</div>
-            <div class="card-body">
-                <p class="card-text" style="padding-left: 7px;">
-                    Name: @User.Claims.FirstOrDefault(c => c.Type.ToLower() == "name")?.Value <br>
-                    Number: @User.Claims.FirstOrDefault(c => c.Type.ToLower() == "loyaltynumber")?.Value <br>
-                    Tier: @User.Claims.FirstOrDefault(c => c.Type.ToLower() == "loyaltytier")?.Value <br>
-                    Since: @User.Claims.FirstOrDefault(c => c.Type.ToLower() == "loyaltysince")?.Value
-                </p>
+        <div style="padding-left: 30px; margin-top: 45px; margin-bottom: 0!important; max-width: 30rem; ">
+            <div>
+                Woodgrove Loyalty Card offers exclusive benefits, early access to new products, and personalized
+                experiences.
+            </div>
+            <div class="card text-white profile-card mb-3" style="max-width: 20rem; margin-top: 10px !important;  margin-bottom: 0!important;">
+                <div class="card-header profile-card-header h5" style="border-bottom: none;"><img
+                        src="~/woodgrove-favicon.ico" alt="Woodgrove logo">&nbsp;&nbsp;Woodgrove Loyalty Card</div>
+                <div class="card-body">
+                    <p class="card-text profile-card-text" style="padding-left: 7px;">
+                        Name: @User.Claims.FirstOrDefault(c => c.Type.ToLower() == "name")?.Value <br>
+                        ID: @User.Claims.FirstOrDefault(c => c.Type.ToLower() == "loyaltynumber")?.Value <br>
+                        Tier: @User.Claims.FirstOrDefault(c => c.Type.ToLower() == "loyaltytier")?.Value <br>
+                        Since: @User.Claims.FirstOrDefault(c => c.Type.ToLower() == "loyaltysince")?.Value
+                    </p>
+                </div>
             </div>
         </div>
 
 
-        <h2 style="color: green; padding-bottom: 15px; padding-top: 15px;">Your profile</h2>
+        <h2 class="profile-header">Edit your profile</h2>
 
-        <div class="text-left">
+        <div class="text-left profile-content">
             <form method="post">
                 <div class="form-group row">
                     <label for="inputDisplayName" class="col-sm-2 col-form-label">Display name</label>
-                    <div class="col-sm-10">
+                    <div class="col-sm-5">
                         <input type="text" class="form-control" id="inputDisplayName" asp-for="DisplayName" required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputGivenName" class="col-sm-2 col-form-label">Given name</label>
-                    <div class="col-sm-10">
+                    <div class="col-sm-5">
                         <input type="text" class="form-control" id="inputGivenName" asp-for="GivenName">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputSurname" class="col-sm-2 col-form-label">Surname</label>
-                    <div class="col-sm-10">
+                    <div class="col-sm-5">
                         <input type="text" class="form-control" id="inputSurname" asp-for="Surname">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputCountry" class="col-sm-2 col-form-label">Country</label>
-                    <div class="col-sm-10">
+                    <div class="col-sm-5">
                         <input type="text" class="form-control" id="inputCountry" asp-for="Country">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputCity" class="col-sm-2 col-form-label">City</label>
-                    <div class="col-sm-10">
+                    <div class="col-sm-5">
                         <input type="text" class="form-control" id="inputCity" asp-for="City">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputSpecialDiet" class="col-sm-2 col-form-label">Special diet</label>
-                    <div class="col-sm-10">
+                    <div class="col-sm-5">
                         <input type="text" class="form-control" id="inputSpecialDiet" asp-for="SpecialDiet">
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Identities</label>
-                    <div class="col-sm-10">
-                        @Html.Raw(Model.Identities)
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="staticID" class="col-sm-2 col-form-label">ID</label>
-                    <div class="col-sm-10">
-                        <input type="text" readonly class="form-control-plaintext" id="staticID" asp-for="ObjectId">
-                    </div>
-                </div>
-                <div class="form-group row">
+                <div class="form-group row" style="padding-bottom: 10px; padding-top: 10px;">
                     <div class="col-sm-6">
                         <button type="submit" asp-page-handler="Profile" class="btn header-button"><i
                                 class="bi bi-save2"></i> Save</button>&nbsp;&nbsp;
@@ -115,34 +110,37 @@
                     </div>
                 </div>
             </form>
+        </div>
 
-            <h2 style="color: green; padding-bottom: 15px; padding-top: 75px;">Your Woodgrove app roles and security groups
-            </h2>
-
+        <h2 style="color: green; padding-bottom: 15px; padding-top: 55px;">Your Woodgrove app roles and security groups
+        </h2>
+        <div class="profile-content">
             You are eligible for activating the following application roles and security groups. You can request to activate
-            the roles and add yourself to the security groups when you need its privileges. Then you'll have Woodgrove
-            contributor or manage control for this demo application and have access to manage online orders, update the
-            products, or get discounts as a member of the 'Commercial Accounts' group.
+            the roles and add yourself to the security groups when you need its privileges. For this online demo, your
+            request will be automatically approved.
             <form method="post">
                 <div class="form-group">
-                    <h4 style="color: rgb(45, 45, 45); padding-bottom: 5px;">Security groups</h4>
+                    <h4 style="color: green; padding-bottom: 5px;">Security groups</h4>
                     <div class="form-check">
                         <input type="checkbox" value="true" class="form-check-input" name="MemberOfCommercialAccounts"
                             checked="@(Model.MemberOfCommercialAccounts)">
-                        <label for="MemberOfCommercialAccounts">Member of 'Commercial Accounts' group</label>
+                        <label for="MemberOfCommercialAccounts"><b style="color: darkslategray;">Commercial Accounts</b>
+                            group. Members of this group get a special discount.</label>
                     </div>
                 </div>
                 <div class="form-group">
-                    <h4 style="color: rgb(45, 45, 45); padding-bottom: 5px; padding-top: 10px;">Application roles</h4>
+                    <h4 style="color: green; padding-bottom: 5px; padding-top: 10px;">Application roles</h4>
                     <div class="form-check">
                         <input type="checkbox" value="true" class="form-check-input" name="HasProductsContributorRole"
                             checked="@(Model.HasProductsContributorRole)">
-                        <label for="HasProductsContributorRole">Products.Contributor application role</label>
+                        <label for="HasProductsContributorRole"><b style="color: darkslategray;">Products Contributor</b>
+                            application role. Grant you access to track and manage the inventory in the warehouse.</label>
                     </div>
                     <div class="form-check">
                         <input type="checkbox" value="true" class="form-check-input" name="HasOrdersManagerRole"
                             checked="@(Model.HasOrdersManagerRole)">
-                        <label for="HasOrdersManagerRole">Orders.Manager Manager role</label>
+                        <label for="HasOrdersManagerRole"><b style="color: darkslategray;">Orders Manager</b> application
+                            role. Grant you access to manage online orders.</label>
                     </div>
                 </div>
                 <div class="form-group" style="padding-top: 15px;">
@@ -150,9 +148,10 @@
                         Update app roles and security groups</button>
                 </div>
             </form>
-
-            <h2 style="color: green; padding-bottom: 5px; padding-top: 75px;">Sign-in activity
-            </h2>
+        </div>
+        <h2 class="profile-header">Sign-in activity
+        </h2>
+        <div class="profile-content">
             <p>
                 Your last sign-in date and time. Woodgrove can use <a
                     href="https://learn.microsoft.com/graph/api/resources/signinactivity?view=graph-rest-1.0"
@@ -169,9 +168,10 @@
                 <b>Last sign-in</b>: @Model.LastSignInDateTime <br>
                 <b>Last sign-in request ID</b>: @Model.LastSignInRequestId
             </p>
-
-            <h2 style="color: green; padding-bottom: 5px; padding-top: 35px;">Password change date and time
-            </h2>
+        </div>
+        <h2 class="profile-header">Password change date and time
+        </h2>
+        <div class="profile-content">
             <p>
                 The time when you last changed your password or when your account created,
                 whichever date the latest action was performed. The
@@ -188,5 +188,18 @@
             <i class="bi bi-info-circle"></i>&nbsp; To edit your profile, please sign-in!
         </div>
     }
+
+    <h2 class="profile-header">Your account
+    </h2>
+    <div class="profile-content">
+        <h4 style="color: green; padding-bottom: 5px; padding-top: 10px;">Identities</h4>
+        @Html.Raw(Model.Identities)<br>
+
+        <h4 style="color: green; padding-top: 10px;">User object ID</h4>
+
+        <input type="text" readonly class="form-control-plaintext" id="staticID" asp-for="ObjectId"><br>
+    </div>
+</div>
+
 
 </div>

@@ -520,7 +520,33 @@ pre {
   background-color: rgb(228, 228, 228);
 }
 
-.method{
+.method {
   font-weight: bold;
   color: #771622;
+}
+
+/************* Profile card ********/
+.profile-header {
+  color: green;
+  padding-bottom: 5px;
+  padding-top: 55px;
+}
+
+.profile-content {
+  margin-left: 30px;
+  background-color: #0080000a;
+  padding: 10px 10px 10px 30px;
+  border-radius: 10px;
+}
+
+.profile-card {
+  background-image: linear-gradient(to bottom right, #1b5702 60%, var(--color-light) 100%);
+}
+
+.profile-card-header {
+  text-shadow: 1px 1px 10px rgb(3, 80, 2);
+}
+
+.profile-card-text {
+  line-height: 1.75;
 }
