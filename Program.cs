@@ -114,7 +114,7 @@ async Task OnRedirectToIdentityProviderFunc(RedirectContext context)
     }
 
 
-    // Read the 'StepUp' custom parameter
+    // Read the 'ui_locales' custom parameter
     var ui_locales = context.Properties.Items.FirstOrDefault(x => x.Key == "ui_locales").Value;
 
     if (ui_locales != null)
@@ -123,6 +123,13 @@ async Task OnRedirectToIdentityProviderFunc(RedirectContext context)
         context.ProtocolMessage.UiLocales = ui_locales;
     }
 
+    // Read the 'login_hint' custom parameter
+    var login_hint = context.Properties.Items.FirstOrDefault(x => x.Key == "login_hint").Value;
+
+    if (login_hint != null)
+    {
+        context.ProtocolMessage.LoginHint = login_hint;
+    }
     // Don't remove this line
     await Task.CompletedTask.ConfigureAwait(false);
 }

@@ -31,6 +31,8 @@
             <li><a class="dropdown-item" href="#usecase=Social"><i class="bi bi-facebook"></i>&nbsp; Sign-up or sign-in
                     with a social
                     account</a></li>
+            <li><a class="dropdown-item" href="#usecase=LoginHint"><i class="bi bi-person-check"></i> </i>&nbsp;
+                    Prepopulate the sign in name</a></li>
             <li>
                 <hr class="dropdown-divider">
             </li>
@@ -111,7 +113,8 @@
                     domain</a></li>
             <li><a class="dropdown-item" href="#usecase=Language"><i class="bi bi-translate"></i>&nbsp; Customize the
                     language</a></li>
-            <li><a class="dropdown-item" href="#usecase=PreSelectLanguage"><i class="bi bi-translate"></i>&nbsp; Preselect a
+            <li><a class="dropdown-item" href="#usecase=PreSelectLanguage"><i class="bi bi-translate"></i>&nbsp;
+                    Preselect a
                     language</a></li>
             <li><a class="dropdown-item" href="#usecase=UserInsights"><i class="bi bi-lightbulb"></i>&nbsp; Insights
                     into your app's user activity</a></li>
@@ -427,12 +430,12 @@
             <div id="useCase_PreSelectLanguage" class="useCase">
                 <h4>Preselect a language</h4>
                 <p>
-                    Duing the sign-up or sign-in flow, the user's language is dictated by their browser's settings. 
-                    Application can pass the <b>ui_locales</b> and <b>mkt</b> parameters with a specific language.    
+                    Duing the sign-up or sign-in flow, the user's language is dictated by their browser's settings.
+                    Application can pass the <b>ui_locales</b> and <b>mkt</b> parameters with a specific language.
                 </p>
-                
+
                 <br>&nbsp;<br>
-                    Select one a language and start the demo:<br>
+                Select one a language and start the demo:<br>
 
                 <select id="preSelectLanguages">
                     <option value="ar-SA">Arabic (Saudi Arabia)</option>
@@ -551,6 +554,28 @@
                     href="/help/Social">
                     Learn how we configured the Woodgrove tenant</a>
             </div>
+
+            <div id="useCase_LoginHint" class="useCase">
+                <h4>Prepopulate the sign in name</h4>
+                <p>
+                    During a sign-in an application may target a specific user. When targeting a user, an application can specify, in the authorization request, the
+                    'login_hint' query parameter with the user sign-in name. Microsoft Entra external ID automatically populates the
+                    sign-in name, while the user only needs to provide the password.
+                </p>
+                <ol>
+                    <li>Enter a username: <input type="email" id="loginHint" placeholder="someone@woodgrovedemo.com" oninput="document.getElementById('loginHintStart').href='/SignIn?handler=LoginHint&id=' + document.getElementById('loginHint').value">
+                    Make sure you enter an account that exists in the directory.</li>
+                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                    <li>From the sign-in page, notice that the username aleardy entered.</li>
+                    <li>Enter your password and sign-in.</li>
+                </ol>
+
+                <a class="btn header-button" role="button" href="/SignIn?handler=LoginHint&id=someone@woodgrovedemo.com" id="loginHintStart"><i
+                        class="bi bi-play-circle"></i>
+                    Start the use case</a>
+            </div>
+
+
             <div id="useCase_EmailOTP" class="useCase">
                 <h4>Sign-up with email one-time passcode</h4>
                 <p>
@@ -710,10 +735,12 @@
                     @if (User.Identity?.IsAuthenticated == false)
                     {
                         <li>Select the <b>start the use case</b> button at the bottom of this page. Sign-in with
-                            your account. Note,  if you create a new account, you fulfill the MFA requirement since the email is already verified. Therefore, make sure you sign-in with an existing account.</li>
+                            your account. Note, if you create a new account, you fulfill the MFA requirement since the email
+                            is already verified. Therefore, make sure you sign-in with an existing account.</li>
                         <li> After you singed-in, select this use-case again.</li>
                     }
-                    else if (User.Identity?.IsAuthenticated == true && User.Claims.Any(c => c.Type == "acrs" && c.Value == "c1"))
+                    else if (User.Identity?.IsAuthenticated == true && User.Claims.Any(c => c.Type == "acrs" && c.Value
+                    == "c1"))
                     {
                         <li>You fulfilled the MFA requirement. No further action required.</li>
                         <li>To start the demo again, select the <b>Start over</b> button.</li>

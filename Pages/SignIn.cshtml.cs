@@ -21,7 +21,13 @@ namespace MyApp.Namespace
             _telemetry = telemetry;
         }
 
-        private IActionResult TrackAndAuth(string ID, string redirectUri = "/", bool reauth = false, string? extraParam = null, string? extraParamValue = null, string? ui_locales = null)
+        private IActionResult TrackAndAuth(string ID,
+            string redirectUri = "/",
+            bool reauth = false, string?
+            extraParam = null, string?
+            extraParamValue = null,
+            string? ui_locales = null,
+            string? login_hint = null)
         {
             _telemetry.TrackPageView($"Sign-in:{ID}");
 
@@ -51,6 +57,11 @@ namespace MyApp.Namespace
                 challengeResult.Properties.Items.Add("ui_locales", ui_locales);
             }
 
+            // login_hint
+            if (!string.IsNullOrEmpty(login_hint))
+            {
+                challengeResult.Properties.Items.Add("login_hint", login_hint);
+            }
 
             // Extra parameter
             if (!string.IsNullOrEmpty(extraParam) && !string.IsNullOrEmpty(extraParamValue))
@@ -137,11 +148,14 @@ namespace MyApp.Namespace
         {
             return this.TrackAndAuth("PreSelectLanguage", "/", true, null, null, this.Request.Query["ui_locales"]);
         }
-        public IActionResult OnGetProfileSignin()
+        public IActionResult OnGetProfileSignin(string? id)
         {
-            return this.TrackAndAuth("ProfileSignin", "/", true);
+            return this.TrackAndAuth("ProfileSignin", "/", true, null, null, null, id);
         }
-
+        public IActionResult OnGetLoginHint(string id)
+        {
+            return this.TrackAndAuth("LoginHint", "/", true, null, null, null, id);
+        }
         public IActionResult OnGetTokenSignin()
         {
             return this.TrackAndAuth("TokenSignin", "/token");

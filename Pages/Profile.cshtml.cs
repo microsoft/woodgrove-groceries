@@ -28,7 +28,6 @@ namespace MyApp.Namespace
         // User interface messages
         public string ErrorMessage { get; private set; } = "";
         public bool UserNeedsToSignInAgain { get; private set; } = false;
-        public bool UserNeedsToSignInAgainAfterSignUp { get; private set; } = false;
 
         /* User attributes*/
         [BindProperty]
@@ -45,6 +44,7 @@ namespace MyApp.Namespace
         public string SpecialDiet { get; set; } = "";
         [BindProperty]
         public string Identities { get; private set; } = "";
+        public string Username { get; private set; } = "";
         [BindProperty]
         public string ObjectId { get; private set; } = "";
 
@@ -405,6 +405,12 @@ namespace MyApp.Namespace
                 else
                 {
                     this.Identities += $"<b>Sign-in type:</b> {identity.SignInType} <b>Issuer</b>: {identity.Issuer} <b>ID</b>: {identity.IssuerAssignedId} <br/>";
+                }
+
+                // Get the username of local accounts
+                if (identity.SignInType == "emailAddress")
+                {
+                    this.Username = identity.IssuerAssignedId!;
                 }
             }
         }
