@@ -37,7 +37,16 @@ window.addEventListener("hashchange", function () {
 
 function checkForHashParam(eventType) {
     var myUrl = new URL(window.location.href.replace(/#/g, "?"));
+
     var graph = myUrl.searchParams.get("graph");
+    var usecase = myUrl.searchParams.get("usecase");
+    var cmd = myUrl.searchParams.get("cmd");
+
+    // If searchParams is empty, hide the offcanvas and exist
+    if (myUrl.searchParams === null || myUrl.searchParams.size == 0 || (graph === null && usecase === null && cmd === null)) {
+        $("#offcanvasRight").offcanvas('hide');
+        return;
+    }
 
     if (graph != null) {
         // Show help's Graph
@@ -93,7 +102,14 @@ function showUseCase(trigger) {
 
 const myOffcanvas = document.getElementById('offcanvasRight');
 myOffcanvas.addEventListener('hidden.bs.offcanvas', () => {
-    window.location.hash = '';
+
+    var myUrl = new URL(window.location.href.replace(/#/g, "?"));
+    var usecase = myUrl.searchParams.get("usecase");
+
+    if (usecase) {
+        window.location.hash = '';
+    }
+
 })
 
 
