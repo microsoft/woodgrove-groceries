@@ -43,11 +43,16 @@ builder.Services.Configure<OpenIdConnectOptions>(OpenIdConnectDefaults.Authentic
 
 builder.Services.AddAuthentication();
 
-// builder.Services.AddAuthorization(options =>
-// {
-//     // By default, all incoming requests will be authorized according to the default policy.
-//     options.FallbackPolicy = options.DefaultPolicy;
-// });
+builder.Services.AddAuthorization(options =>
+{
+
+    // Get the commercial accounts security group ID
+    string commercialAccountsSecurityGroup = ((ConfigurationSection)builder.Configuration.GetSection("AppRoles:CommercialAccountsSecurityGroup")).Value;
+
+    // Check whether the account is a member of the commercial accounts security group
+    options.AddPolicy("CommercialOnly", policy => policy.RequireClaim("groups", commercialAccountsSecurityGroup));
+
+});
 
 builder.Services.AddRazorPages()
     .AddMicrosoftIdentityUI();
@@ -119,7 +124,7 @@ async Task OnRedirectToIdentityProviderFunc(RedirectContext context)
 
     if (ui_locales != null)
     {
-        context.ProtocolMessage.Parameters.Add("mkt", ui_locales); 
+        context.ProtocolMessage.Parameters.Add("mkt", ui_locales);
         context.ProtocolMessage.UiLocales = ui_locales;
     }
 

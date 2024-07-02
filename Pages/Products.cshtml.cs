@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace woodgrovedemo.Pages
 {
     [Authorize]
+    //[Authorize(Roles = "Products.Contributor")]
     public class ProductsModel : PageModel
     {
         public bool UserHasAccess { get; private set; } = false;
@@ -22,7 +23,7 @@ namespace woodgrovedemo.Pages
         {
             _telemetry.TrackPageView("Products");
 
-            // Check if user is member of security groups
+            // Check if user is assigned to the Products.Contributor application role
             UserHasAccess = User.IsInRole("Products.Contributor");
 
             return Page();

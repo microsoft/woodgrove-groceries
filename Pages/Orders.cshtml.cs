@@ -1,18 +1,13 @@
 using Microsoft.ApplicationInsights;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace woodgrovedemo.Pages
 {
-    public class Order
-    {
-        public string ID { get; set; } = "";
-        public string account { get; set; } = "";
-        public int Items { get; set; } = 0;
-        public int Total { get; set; } = 0;
 
-
-    }
+    //[Authorize]
+    //[Authorize(Roles = "Orders.Manager")]
     public class OrdersModel : PageModel
     {
         public bool UserHasAccess { get; private set; } = false;
@@ -37,7 +32,7 @@ namespace woodgrovedemo.Pages
                 return Page();
             }
 
-            // Check if user is member of security groups
+            // Check if user is assigned to the Orders.Manager application role
             UserHasAccess = User.IsInRole("Orders.Manager");
 
             // Add orders
@@ -65,5 +60,13 @@ namespace woodgrovedemo.Pages
 
 
         }
+    }
+
+    public class Order
+    {
+        public string ID { get; set; } = "";
+        public string account { get; set; } = "";
+        public int Items { get; set; } = 0;
+        public int Total { get; set; } = 0;
     }
 }
