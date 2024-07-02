@@ -102,6 +102,96 @@
     </div>
 
     <div id="GraphApiContent">
-        Graph API tutorial coming soon.
+        <h4 class="graph-header">Dependencies</h4>
+        This script is self-contained.
+
+        <h4 style="padding-top: 25px;padding-bottom: 5px;">1. Create a user</h4>
+        <p>
+            To <a href="https://learn.microsoft.com/graph/api/user-post-users" target="_blank"
+                class="link-dark link-offset-2">create a user</a>, use the following Microsoft
+            Graph and replace:
+        <ul>
+            <li><b>displayName</b> with the user display name.</li>
+            <li><b>mailNickname</b> with a mail alias for the user. This property must be specified when a user is
+                created.</li>
+            <li><b>userPrincipalName</b> with the principal name (UPN) of the user. The general format is alias@domain,
+                where the domain must be present in the tenant's collection of verified domains. </li>
+            <li><b>password</b> with a temporary password that you will share with the user. During the first sign-in,
+                the user will be asked to change their password.</li>
+        </ul>
+
+        The following example shows how to create a new user account for Adele Vance.
+        </p>
+        <code
+            style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/v1.0/applications</code>
+
+        <pre>
+{
+    "accountEnabled": true,
+    "<span class="highlight">displayName</span>": "Adele Vance",
+    "<span class="highlight">mailNickname</span>": "AdeleV",
+    "<span class="highlight">userPrincipalName</span>": "AdeleV@wggdemo.onmicrosoft.com",
+    "passwordProfile": {
+        "forceChangePasswordNextSignIn": true,
+        "<span class="highlight">password</span>": "xWwvJ]6NMw+bWH-d"
+    }
+}
+        </pre>
+
+        <h5 class="graph-header">1.1 Copy the user ID</h5>
+        From the response, copy the value of the <b>id</b>. For example:
+        <pre>
+{
+    "@@odata.context": "https://graph.microsoft.com/v1.0/$metadata#users/$entity",
+    "<span class="highlight">id</span>": "623bf2e5-a0b7-44b0-a616-734299b8a944",
+    ...
+}        
+        </pre>
+
+        <h4 class="graph-header">2. Assign custom admin role</h4>
+        <p>
+            After the new user is created, <a
+                href="https://learn.microsoft.com/graph/api/rbacapplication-post-roleassignments"
+                target="_blank" class="link-dark link-offset-2">create a (unified) role assignment</a>.
+            In the following Graph, replace the:
+
+        <ul>
+            <li><b>{user-id}</b> with the user <b>id</b> from the previous step.</li>
+            <li><b>{role-id}</b> with one of the <a
+                href="https://learn.microsoft.com/entra/identity/role-based-access-control/permissions-reference"
+                target="_blank" class="link-dark link-offset-2">Microsoft Entra built-in roles</a>.</li>
+        </ul>
+        </p>
+
+        <code
+            style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/v1.0/servicePrincipals</code>
+
+        <pre>
+{
+    "@@odata.type": "#microsoft.graph.unifiedRoleAssignment",
+    "principalId": "<span class="highlight">{user-id}</span>",
+    "roleDefinitionId": "<span class="highlight">{role-id}</span>",
+    "directoryScopeId": "/"
+}
+        </pre>
+
+        <a class="btn btn-outline-primary btn-sm" data-bs-toggle="collapse" href="#collapseExample1" role="button"
+            aria-expanded="false" aria-controls="collapseExample1">
+            Example
+        </a>
+        <div class="collapse" id="collapseExample1">
+            The following example assigns the <b>Global Administrator</b> role to Adele Vance
+            <code
+                style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/v1.0/roleManagement/directory/roleAssignments</code>
+
+            <pre class="example">
+{
+    "@@odata.type": "#microsoft.graph.unifiedRoleAssignment",
+    "principalId": "623bf2e5-a0b7-44b0-a616-734299b8a944",
+    "roleDefinitionId": "62e90394-69f5-4237-9190-012177145e10",
+    "directoryScopeId": "/"
+}
+            </pre>
+        </div>
     </div>
 </div>

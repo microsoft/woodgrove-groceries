@@ -30,23 +30,14 @@
         {
             <ul>
                 <li>The <a href='https://jwt.ms/#access_token=@Model.IdToken.Replace("Bearer ", "")'
-                    target="_blank">https://jwt.ms</a> shows the ID token.</li>
+                        target="_blank">https://jwt.ms</a> shows the ID token.</li>
                 <li>@Model.IdTokenExpiresIn</li>
-            </ul>             
+            </ul>
         }
     </div>
 
-    <p>
-        <button class="btn header-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
-            aria-expanded="false" aria-controls="collapseExample">
-            <i class="bi bi-file-earmark-lock"></i> Access token to call a web API
-        </button>
-
-
-        <a class="btn header-button" role="button" href="/SignIn?handler=TokenSignin"><i class="bi bi-person"></i>
-            Sign-in with SSO</a>
-    </p>
-    <div class="collapse" id="collapseExample">
+    <h2 style="color: green;">Access token to call web API</h2>
+    <div>
 
         @if (!string.IsNullOrEmpty(@Model.AccessToken))
         {
@@ -85,4 +76,7 @@
         }
 
     </div>
+
+    <a class="btn header-button" role="button" href="/SignIn?handler=TokenSignin"><i class="bi bi-person"></i>
+        Sign-in with SSO</a>
 </div>
