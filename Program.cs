@@ -47,12 +47,25 @@ builder.Services.AddAuthorization(options =>
 {
 
     // Get the commercial accounts security group ID
-    string commercialAccountsSecurityGroup = ((ConfigurationSection)builder.Configuration.GetSection("AppRoles:CommercialAccountsSecurityGroup")).Value;
+    string commercialAccountsSecurityGroup = ((ConfigurationSection)builder.Configuration.GetSection("AppRoles:CommercialAccountsSecurityGroup")).Value!;
 
     // Check whether the account is a member of the commercial accounts security group
     options.AddPolicy("CommercialOnly", policy => policy.RequireClaim("groups", commercialAccountsSecurityGroup));
 
+    // Loyalty authorization policy
+    options.AddPolicy("LoyaltyAccess", policy =>
+        policy.RequireAssertion(context =>
+            
+            // Verify whether the loyalty number or loyalty tier claims are included within the security token.
+            context.User.HasClaim(c => (c.Type == "loyaltyTier" || c.Type == "loyaltyNumber"))
+            &&
+            // Verify whether the user has been enrolled in the loyalty program for at least one month.
+            context.User.Claims.Any(c => c.Type == "loyaltySince" && DateTime.UtcNow.AddMonths(-1) >= DateTime.Parse(c.Value) )
+        ));
+
 });
+
+
 
 builder.Services.AddRazorPages()
     .AddMicrosoftIdentityUI();
