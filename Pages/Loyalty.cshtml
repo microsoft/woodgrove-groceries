@@ -1,0 +1,42 @@
+﻿@page
+@model woodgrovedemo.Pages.LoyaltyModel
+@{
+}
+@section FullScreen {
+<div style="background-image: url(/images/Loyalty/loyalty1.png), url(/images/Loyalty/loyalty2.png);
+    background-repeat: no-repeat;
+    background-size: 167px, 65%;
+    background-position: left bottom, right top;
+    height: 100vh;
+    width: 100%;
+    z-index: -250;
+    position: absolute;">
+
+</div>
+}
+<div class="row">
+    <h1 style="margin-top: 80px; font-family: 'Oswald', var(--bs-body-font-family);">Woodgrove Groceries loyalty</h1>
+    <div class="col fs-4">
+        <p style="margin-top: 100px;">
+            Woodgrove loyalty progarm offers discounts, priority support, and flexible free shippoing.
+        <h4>Loyal to You, Loyal to Quality</h4>
+        <ul class="col fs-6">
+            <li>Benefit from free Wi-Fi access in all Woodgrove Groceries stores and Cafes.</li>
+            <li>Exclusive access to sales or events.</li>
+            <li>Free shipping and return.</li>
+            <li>Enjoy VIP perks, birthday gifts and rewards.</li>
+        </ul>
+
+        <button type="button" style="margin-top: 50px;" class="btn btn-secondary btn-lg" onclick="startDemo();"><i
+                class="bi bi-gift"></i>
+            Get Woodgrove loyalty card now</button>
+        </p>
+
+    </div>
+    <div class="col" style="padding-left: 100px;">
+        <p class="text-center">
+            <i class="bi bi-gift" style="font-size: 150pt; color: white;"></i>
+        </p>
+
+    </div>
+</div>

@@ -12,6 +12,11 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/woodgrovedemo.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/bs-stepper.min.css">
+
+    <!--- Font ---->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -46,6 +51,9 @@
         </nav>
         @RenderSection("Jumbotron", required: false)
     </header>
+
+    @RenderSection("FullScreen", required: false)
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()

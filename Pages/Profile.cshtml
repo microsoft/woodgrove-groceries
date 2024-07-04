@@ -30,24 +30,26 @@
 
     @if (User.Identity?.IsAuthenticated == true)
     {
+
         <div style="padding-left: 30px; margin-top: 45px; margin-bottom: 0!important; max-width: 30rem; ">
             <div>
                 Woodgrove Loyalty Card offers exclusive benefits, early access to new products, and personalized
                 experiences.
-            </div>
-            <div class="card text-white profile-card mb-3"
-                style="max-width: 20rem; margin-top: 10px !important;  margin-bottom: 0!important;">
-                <div class="card-header profile-card-header h5" style="border-bottom: none;"><img
-                        src="~/woodgrove-favicon.ico" alt="Woodgrove logo">&nbsp;&nbsp;Woodgrove Loyalty Card</div>
-                <div class="card-body">
-                    <p class="card-text profile-card-text" style="padding-left: 7px;">
-                        Name: @User.Claims.FirstOrDefault(c => c.Type.ToLower() == "name")?.Value <br>
-                        ID: @User.Claims.FirstOrDefault(c => c.Type.ToLower() == "loyaltynumber")?.Value <br>
-                        Tier: @User.Claims.FirstOrDefault(c => c.Type.ToLower() == "loyaltytier")?.Value <br>
-                        Since: @User.Claims.FirstOrDefault(c => c.Type.ToLower() == "loyaltysince")?.Value
-                    </p>
+            </div><a href="/Loyalty" style="text-decoration: none; display: block; max-width: 20rem">
+                <div class="card text-white profile-card mb-3"
+                    style="max-width: 20rem; margin-top: 10px !important;  margin-bottom: 0!important;">
+                    <div class="card-header profile-card-header h5" style="border-bottom: none;"><img
+                            src="~/woodgrove-favicon.ico" alt="Woodgrove logo">&nbsp;&nbsp;Woodgrove Loyalty Card</div>
+                    <div class="card-body">
+                        <p class="card-text profile-card-text" style="padding-left: 7px;">
+                            Name: @User.Claims.FirstOrDefault(c => c.Type.ToLower() == "name")?.Value <br>
+                            ID: @User.Claims.FirstOrDefault(c => c.Type.ToLower() == "loyaltynumber")?.Value <br>
+                            Tier: @User.Claims.FirstOrDefault(c => c.Type.ToLower() == "loyaltytier")?.Value <br>
+                            Since: @User.Claims.FirstOrDefault(c => c.Type.ToLower() == "loyaltysince")?.Value
+                        </p>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
 
 
