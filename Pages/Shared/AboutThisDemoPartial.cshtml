@@ -1004,10 +1004,9 @@
                     </li>
                     <li>To reflect the changes in the security token, sign-in again with the same account (you won't be
                         asked to enter the credentials).</li>
-                    <li>Aftr you sign-in, the <b>Orders</b> button appears in the header.</li>
-                    <li>And since you also have the Products.Contributor role, the <b>Manage products</b> button appears
-                        as
-                        well.</li>
+                    <li>After you sign-in, the <b>Manage products</b> and <b>Orders</b> buttons appear in the header.</li>
+                    <li>Select your name from the header to show the security token.
+                        It should contain the role claims you assigned to.</li>
                 </ol>
 
                 <a class="btn header-button" role="button" href="/SignIn?handler=RBAC"><i class="bi bi-play-circle"></i>
@@ -1017,14 +1016,6 @@
                 <i class="bi bi-play-circle"></i> <a class="" style="margin-top: 100px;" role="button"
                     href="/help/RBAC">
                     Learn how we configured the Woodgrove tenant</a>
-
-                <br>&nbsp;<br>
-
-                Note, you can select your name from the header, it shows the content of the access token
-                issued by Microsoft Entra external ID that returned to the application.
-                It should contain the role claims you assigned.
-                This demo application checks the claim’s value and grants access to manage products
-                and online orders.
             </div>
 
             <div id="useCase_GBAC" class="useCase">
