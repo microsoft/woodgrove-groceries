@@ -172,11 +172,10 @@
         </p>
 
         <code
-            style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/v1.0/servicePrincipals</code>
+            style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/v1.0/roleManagement/directory/roleAssignments</code>
 
         <pre>
 {
-    "@@odata.type": "#microsoft.graph.unifiedRoleAssignment",
     "principalId": "<span class="highlight">{user-id}</span>",
     "roleDefinitionId": "<span class="highlight">{role-id}</span>",
     "directoryScopeId": "/"
@@ -189,12 +188,12 @@
         </a>
         <div class="collapse" id="collapseExample1">
             The following example assigns the <b>Global Administrator</b> role to Adele Vance
+            <br>
             <code
                 style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/v1.0/roleManagement/directory/roleAssignments</code>
 
             <pre class="example">
 {
-    "@@odata.type": "#microsoft.graph.unifiedRoleAssignment",
     "principalId": "623bf2e5-a0b7-44b0-a616-734299b8a944",
     "roleDefinitionId": "62e90394-69f5-4237-9190-012177145e10",
     "directoryScopeId": "/"
