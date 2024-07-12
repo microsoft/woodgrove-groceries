@@ -151,6 +151,195 @@
     </div>
 
     <div id="GraphApiContent">
-        Graph API tutorial coming soon.
+        <h4 class="graph-header">Dependencies</h4>
+        You must have an Azure Subscription.
+
+        <h4 class="graph-header">Using Azure REST API</h4>
+        <p>
+            Before you start, please notice that for creating a tenant you use Azure REST API and not Microsoft Graph.
+            Check out the links to the relevant documentation. The document allows you to run the REST API directly from
+            your browser without the need to develop and register and application.
+
+            The following screenshot shows how to run a particular API.
+            <img class="img-fluid border pop" src="~/Help/CreateTenant/Azure-API.png">
+        </p>
+
+        <h4 style="padding-top: 25px;padding-bottom: 5px;">1. Check Name Availability</h4>
+        <p>
+            Before you create a new tenant <a
+                href="https://learn.microsoft.com/en-us/rest/api/activedirectory/check-name-availability/check-name-availability?view=rest-activedirectory-2023-05-17-preview&tabs=HTTP"
+                target="_blank" class="link-dark link-offset-2">check the availability and validity of a domain name for
+                the tenant</a>.
+            Run the following Azure REST API and replace:
+        <ul>
+            <li><b>{subscriptionId}</b> with your Azure subscription ID.</li>
+            <li><b>{tenan-name}</b> with the name of the tenant you want to check. For example, woodgorve.</li>
+        </ul>
+
+        </p>
+        <code
+            style="color: black;"><span class="method">POST</span> https://management.azure.com/subscriptions/<span class="highlight">{subscriptionId}</span>/providers/Microsoft.AzureActiveDirectory/checkNameAvailability?api-version=2023-05-17-preview</code>
+
+        <pre>
+{
+    countryCode: "US",
+    name: "<span class="highlight">{tenan-name}</span>"
+}
+        </pre>
+
+
+        <a class="btn btn-success btn-sm" style="margin-top: -35px;" data-bs-toggle="collapse" href="#collapseExample1" role="button"
+            aria-expanded="false" aria-controls="collapseExample1">
+            Show example
+        </a>
+
+        <div class="collapse" id="collapseExample1">
+            The following example checks a tenant name <b>woodgrove</b> using a subscription ID
+            <b>12345678-0000-0000-0000-000000000000</b>.
+            <br>
+            <code
+                style="color: black;"><span class="method">POST</span> https://management.azure.com/subscriptions/12345678-0000-0000-0000-000000000000/providers/Microsoft.AzureActiveDirectory/checkNameAvailability?api-version=2023-05-17-preview</code>
+
+            <pre class="example">
+{
+  "name": "woodgrove",
+  "countryCode": "US"
+}
+            </pre>
+        </div>
+
+        <h5 class="graph-header" style="padding-top: 25px;padding-bottom: 5px;">1.1 Check the response.</h5>
+        Check the <b>nameAvailable</b> and the <b>message</b>. The following example shows unavailable tenant name:
+        <pre>
+{
+  "nameAvailable": <span class="highlight">false</span>,
+  "reason": "AlreadyExists",
+  "message": "The given domain name is not available."
+}     
+        </pre>
+
+        The following example shows an available tenant name:
+        <pre>
+{
+  "nameAvailable": <span class="highlight">true</span>,
+  "reason": null,
+  "message": null
+}   
+        </pre>
+
+        <h4 class="graph-header" style="padding-top: 25px;padding-bottom: 5px;">2. Create a resource group</h4>
+        <p>
+            To create a new Microsoft Entra external ID tenant, you need to have a resource group where the tenant will
+            be created.
+            You can choose an existing one, or <a
+                href="https://learn.microsoft.com/en-us/rest/api/resources/resource-groups/create-or-update?view=rest-resources-2021-04-01&tabs=HTTP#code-try-0"
+                target="_blank" class="link-dark link-offset-2">create a Resource Groups</a>.
+            In the following Azure REST API, replace the:
+
+        <ul>
+            <li><b>{subscriptionId}</b> with your Azure subscription ID.</li>
+            <li><b>{resourceGroupName}</b> with the name of the resource group to create.</li>
+            <li><b>{azure-location}</b> with the location of the resource group. It cannot be changed after the resource
+                group has been created. It must be one of the supported Azure locations.</li>
+        </ul>
+        </p>
+
+        <code
+            style="color: black;"><span class="method">PUT</span> https://management.azure.com/subscriptions/<span class="highlight">{subscriptionId}</span>/resourcegroups/<span class="highlight">{resourceGroupName}</span>?api-version=2021-04-01</code>
+
+        <pre>
+{
+  "location": "<span class="highlight">{azure-location}</span>"
+}
+        </pre>
+
+        <a class="btn btn-success btn-sm" style="margin-top: -35px;"  data-bs-toggle="collapse" href="#collapseExample2" role="button"
+            aria-expanded="false" aria-controls="collapseExample2">
+            Show example
+        </a>
+        <div class="collapse" id="collapseExample2">
+            The following example creates a resource group name <b>my-resource-group</b> in <b>eastus</b>.
+            <br>
+            <code
+                style="color: black;"><span class="method">PUT</span> https://management.azure.com/subscriptions/12345678-0000-0000-0000-000000000000/resourcegroups/my-resource-group?api-version=2021-04-01</code>
+
+            <pre class="example">
+{
+  "location": "eastus"
+}
+            </pre>
+        </div>
+
+
+
+
+
+        <h4 class="graph-header" style="padding-top: 25px;padding-bottom: 5px;">3. Create Microsoft Entra external ID tenant</h4>
+        <p>
+            Initiates an async request to <a
+                href="https://learn.microsoft.com/en-us/rest/api/resources/resource-groups/create-or-update?view=rest-resources-2021-04-01&tabs=HTTP#code-try-0"
+                target="_blank" class="link-dark link-offset-2">create Microsoft Entra external ID tenant</a> linked to
+            your subscription and within the resource group you created.
+            In the following Azure REST API, replace the:
+
+        <ul>
+            <li><b>{subscriptionId}</b> with your Azure subscription ID.</li>
+            <li><b>{resourceGroupName}</b> with the name of the resource group you created earlier.</li>
+            <li><b>{resourceName}</b> with The initial sub domain of the tenant. For example, contoso, or woodgrove.
+            </li>
+            <li><b>{location}</b> with the location in which the resource is hosted and data resides. Can be one of
+                'United States', 'Europe', 'Asia Pacific', or 'Australia'.</li>
+            <li><b>{displayName}</b> with a display name of your tenant.</li>
+        </ul>
+        </p>
+
+        <code
+            style="color: black;"><span class="method">PUT</span>&nbsp;https://management.azure.com/subscriptions/<span class="highlight">{subscriptionId}</span>/resourceGroups/<span class="highlight">{resourceGroupName}</span>/providers/Microsoft.AzureActiveDirectory/ciamDirectories/<span class="highlight">{resourceName}</span>?api-version=2023-05-17-preview</code>
+
+        <pre>
+{
+  "location": "<span class="highlight">{location}</span>",
+  "sku": {
+    "name": "Standard",
+    "tier": "A0"
+  },
+  "properties": {
+    "createTenantProperties": {
+      "displayName": "{displayName}",
+      "countryCode": "US"
+    }
+  }
+}
+        </pre>
+
+        <a class="btn btn-success btn-sm" style="margin-top: -35px;"  data-bs-toggle="collapse" href="#collapseExample3" role="button"
+            aria-expanded="false" aria-controls="collapseExample3">
+            Show example
+        </a>
+        <div class="collapse" id="collapseExample3">
+            The following example creates a tenant name <b>contoso</b> within in a resource group
+            <b>my-resource-group</b> linked to the 12345678-0000-0000-0000-000000000000 subscription.
+            <br>
+            <code
+                style="color: black;"><span class="method">PUT</span> https://management.azure.com/subscriptions/12345678-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/Microsoft.AzureActiveDirectory/ciamDirectories/contoso?api-version=2023-05-17-preview</code>
+
+            <pre class="example">
+{
+  "location": "United States",
+  "sku": {
+    "name": "Standard",
+    "tier": "A0"
+  },
+  "properties": {
+    "createTenantProperties": {
+      "displayName": "Contoso",
+      "countryCode": "US"
+    }
+  }
+}
+            </pre>
+        </div>
     </div>
+</div>
+
 </div>
