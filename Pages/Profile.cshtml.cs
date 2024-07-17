@@ -220,7 +220,7 @@ namespace MyApp.Namespace
             }
             catch (Exception ex)
             {
-                ErrorMessage = $"The account cannot be deleted due to the following error: {ex.Message}";
+                ErrorMessage = $"The account cannot be updated due to the following error: {ex.Message}";
                 TrackException(ex, "OnPostProfileAsync");
             }
 

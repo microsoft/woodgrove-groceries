@@ -55,6 +55,10 @@ namespace MyApp.Namespace
                 await graphClient.Users[userObjectId]
                     .DeleteAsync();
 
+                // Delete the object from the recycle bin
+                await graphClient.Directory.DeletedItems[userObjectId].DeleteAsync();
+
+
                 Message = "Your account has been successfully deleted. Please sign-out from the application";
             }
             catch (ODataError odataError)
