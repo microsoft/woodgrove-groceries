@@ -6,122 +6,146 @@
 }
 
 <h1 style="margin-top: 25px; margin-bottom: 25px;">Restrict app to a set of users</h1>
+<p>
+    Applications registered in a Microsoft Entra tenant are, by default, available to all users of the tenant who
+    authenticate successfully. You can configure your application to be <a
+        href="https://learn.microsoft.com/entra/identity-platform/howto-restrict-your-app-to-a-set-of-users"
+        target="_blank" class="link-dark link-offset-2">restricted to a certain set of users or apps</a>.
+</p>
 
-<div>
-    <p>
-        Applications registered in a Microsoft Entra tenant are, by default, available to all users of the tenant who
-        authenticate successfully. You can configure your application to be <a
-            href="https://learn.microsoft.com/entra/identity-platform/howto-restrict-your-app-to-a-set-of-users"
-            target="_blank" class="link-dark link-offset-2">restricted to a certain set of users or apps</a>.
-    </p>
-    @await Html.PartialAsync("_StepsButtons.cshtml")
+@await Html.PartialAsync("_HelpSelector.cshtml", 2)
+<div class="tab-content wg-tab-content">
+    <div class="tab-pane active" id="microsoftEntraAdminCenter" role="tabpanel"
+        aria-labelledby="microsoftEntraAdminCenter-tab" tabindex="0">
 
-    <div class="bs-stepper vertical">
-        @await Html.PartialAsync("_Steps.cshtml", 5)
+        @await Html.PartialAsync("_StepsButtons.cshtml")
 
-        <div class="bs-stepper-content">
-            <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
-                @await Html.PartialAsync("_Prerequisites.cshtml")
-                <p>
-                    To start, sign in to the <a href="https://entra.microsoft.com/" target="_blank"
-                        class="link-dark link-offset-2">Microsoft Entra admin center</a>
-                    and browse to <b>Identity</b> > <b>App registrations</b>. Select <b>All applications</b> and
-                    select the application you want to configure to require assignment. In this example,
-                    we want to restrict accesss to the <b>Woodgrove partners portal</b> app.
-                </p>
+        <div class="bs-stepper vertical">
+            @await Html.PartialAsync("_Steps.cshtml", 5)
 
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/AssignmentRequired/Select-app-registration.png">
-                </a>
-            </div>
+            <div class="bs-stepper-content">
+                <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
+                    @await Html.PartialAsync("_Prerequisites.cshtml")
+                    <p>
+                        To start, sign in to the <a href="https://entra.microsoft.com/" target="_blank"
+                            class="link-dark link-offset-2">Microsoft Entra admin center</a>
+                        and browse to <b>Identity</b> > <b>App registrations</b>. Select <b>All applications</b> and
+                        select the application you want to configure to require assignment. In this example,
+                        we want to restrict accesss to the <b>Woodgrove partners portal</b> app.
+                    </p>
 
-            <div id="step-2" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger2">
-                <p>
-                    From the app <b>Overview</b> page, select the link next to <b>Managed application in local
-                        directory</b>.
-                    Note, you can also browse to <b>Enterprise applications</b>, then under <b>Manage</b>, select <b>All
-                        applications</b>, and then select your application from the list.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/AssignmentRequired/Select-service-principal.png">
-                </a>
-            </div>
-
-            <div id="step-3" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger3">
-                <p>
-                    On the application's <b>Overview</b> page, under <b>Manage</b>, select <b>Properties</b>.
-                    Locate the setting <b>Assignment required?</b> and set it to <b>Yes</b>. When this option is set to
-                    Yes, users must first be assigned for this
-                    application, or they won't be able to sign-in or obtain an access token.
-                    Select <b>Save</b> on the top bar.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/AssignmentRequired/Configure-assignment-required.png">
-                </a>
-            </div>
-
-            <div id="step-4" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger4">
-                <p>
-                    Now that you configured that users must first be assigned for the
-                    application. The next step is to assign the app to users. You can do it from Microsoft Entra Admin
-                    center (or <a href="https://learn.microsoft.com/en-us/graph/api/resources/approleassignment"
-                        target="_blank" class="link-dark link-offset-2">use Graph API</a>).
-                    Under <b>Manage</b>, select the <b>Users and groups</b> then select <b>Add user/group</b>.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/AssignmentRequired/Assign-users.png">
-                </a>
-            </div>
-
-            <div id="step-5" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger5">
-                <p>
-                    From the <b>Add Assignment</b> page, select the <b>Users and groups</b> selector.
-
-                    A list of users and security groups are shown along with a textbox to search and locate a certain
-                    user. This screen allows you to select multiple users and groups in one go.
-                    Note, if your application is configured with <a
-                        href="https://learn.microsoft.com/en-us/entra/external-id/customers/how-to-use-app-roles-customers"
-                        target="_blank" class="link-dark link-offset-2">app roles</a>, select the corresponding roles.
-                </p>
-
-                <div class="alert alert-success" role="alert">
-                    <h4 class="alert-heading">Well done!</h4>
-                    <p> Your application restricts access to the users you assigned. To check the user experience,
-                        sign-in to your application.</p>
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/AssignmentRequired/Select-app-registration.png">
+                    </a>
                 </div>
 
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/AssignmentRequired/Assign-users-select.png">
-                </a>
+                <div id="step-2" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger2">
+                    <p>
+                        From the app <b>Overview</b> page, select the link next to <b>Managed application in local
+                            directory</b>.
+                        Note, you can also browse to <b>Enterprise applications</b>, then under <b>Manage</b>, select
+                        <b>All
+                            applications</b>, and then select your application from the list.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/AssignmentRequired/Select-service-principal.png">
+                    </a>
+                </div>
+
+                <div id="step-3" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger3">
+                    <p>
+                        On the application's <b>Overview</b> page, under <b>Manage</b>, select <b>Properties</b>.
+                        Locate the setting <b>Assignment required?</b> and set it to <b>Yes</b>. When this option is set
+                        to
+                        Yes, users must first be assigned for this
+                        application, or they won't be able to sign-in or obtain an access token.
+                        Select <b>Save</b> on the top bar.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/AssignmentRequired/Configure-assignment-required.png">
+                    </a>
+                </div>
+
+                <div id="step-4" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger4">
+                    <p>
+                        Now that you configured that users must first be assigned for the
+                        application. The next step is to assign the app to users. You can do it from Microsoft Entra
+                        Admin
+                        center (or <a href="https://learn.microsoft.com/en-us/graph/api/resources/approleassignment"
+                            target="_blank" class="link-dark link-offset-2">use Graph API</a>).
+                        Under <b>Manage</b>, select the <b>Users and groups</b> then select <b>Add user/group</b>.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/AssignmentRequired/Assign-users.png">
+                    </a>
+                </div>
+
+                <div id="step-5" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger5">
+                    <p>
+                        From the <b>Add Assignment</b> page, select the <b>Users and groups</b> selector.
+
+                        A list of users and security groups are shown along with a textbox to search and locate a
+                        certain
+                        user. This screen allows you to select multiple users and groups in one go.
+                        Note, if your application is configured with <a
+                            href="https://learn.microsoft.com/en-us/entra/external-id/customers/how-to-use-app-roles-customers"
+                            target="_blank" class="link-dark link-offset-2">app roles</a>, select the corresponding
+                        roles.
+                    </p>
+
+                    <div class="alert alert-success" role="alert">
+                        <h4 class="alert-heading">Well done!</h4>
+                        <p> Your application restricts access to the users you assigned. To check the user experience,
+                            sign-in to your application.</p>
+                    </div>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/AssignmentRequired/Assign-users-select.png">
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-
-    <div id="GraphApiContent">
+    
+    <div class="tab-pane" id="microsoftGraph" role="tabpanel" aria-labelledby="microsoftGraph-tab" tabindex="0">
         <h4 class="graph-header">Dependencies</h4>
         This script is self-contained.
 
-        <h4 style="padding-top: 25px;padding-bottom: 5px;">Register a web application</h4>
-        <p>
+        <h4 class="graph-header graph-header-space">1. Register a web application</h4>
+        <div>
             To <a
                 href="https://learn.microsoft.com/en-us/graph/api/application-post-applications?view=graph-rest-1.0&tabs=http"
-                target="_blank" class="link-dark link-offset-2">register a web application</a>, use the following Microsoft
+                target="_blank" class="link-dark link-offset-2">register a web application</a>, use the following
+            Microsoft
             Graph and replace.
-        <ul>
-            <li>Value of <b>displayName</b> with your app displayed name. For example, <i>Woodgrove Groceries</i></li>
-            <li>Values of the <b>redirectUris</b> with the redirect URI of your application. For example,
-                <i>https://jwt.ms</i>
-            </li>
-        </ul>
-        </p>
-        <code style="color: black;">POST https://graph.microsoft.com/v1.0/applications</code>
+            <ul>
+                <li>Value of <b>{DisplayName}</b> with your app displayed name. For example, <i>Woodgrove Groceries</i>
+                </li>
+                <li>Values of the <b>{RedirectUris}</b> with the redirect URI of your application. For example,
+                    <i>https://jwt.ms</i>
+                </li>
+            </ul>
+        </div>
 
-        <pre>
+        <!-- HTTP method-->
+        <div class="function-http">
+            <code><span class="method">POST</span> https://graph.microsoft.com/v1.0/applications</code>
+        </div>
+
+        <!-- PowerShell method-->
+        <div class="function-powershell">
+            <code><span class="method">Import-Module</span> Microsoft.Graph.Applications</code><br>
+            <code><span class="method">Connect-MgGraph</span> <span class="param">-Scopes</span> "Application.ReadWrite.All"</code>
+        </div>
+
+        <!-- Code-->
+        <a type="button" class="link-opacity-75 copyToClipboard" href="#"><i class="bi bi-copy"></i></a>
+        <pre class="replace" style="margin-top: 10px;">
 {
-    "<span class="highlight">displayName</span>": "Woodgrove partners portal",
+    "displayName": "<span class="highlight">{DisplayName}</span>",
     "description": "Woodgrove partners portal demo application (user assignment is required)",
     "signInAudience": "AzureADMyOrg",
     "api": {
@@ -144,8 +168,8 @@
         }
     ],
     "web": {
-        "<span class="highlight">redirectUris</span>": [
-            "https://jwt.ms"
+        "redirectUris": [
+            "<span class="highlight">{RedirectUris}</span>"
         ],
         "implicitGrantSettings": {
             "enableAccessTokenIssuance": false,
@@ -155,67 +179,414 @@
 }
         </pre>
 
-        <h4 class="graph-header">Create a service principal for your application</h4>
+
+        <!-- PowerShell method-->
+        <div class="function-powershell">
+            <code><span class="method">New-MgApplication</span> <span class="param">-BodyParameter</span> $params</code><br>&nbsp;<br><br>
+        </div>
+
+        <!-- Example-->
+        <a class="btn btn-success btn-sm" data-bs-toggle="collapse"
+            href="#collapseRegisterAppExample" role="button" aria-expanded="false"
+            aria-controls="collapseRegisterAppExample">
+            Show example
+        </a><br>
+        <div class="collapse example" id="collapseRegisterAppExample">
+            <br>
+            <div class="function-http">
+                <code><span class="method">POST</span> https://graph.microsoft.com/v1.0/applications</code>
+            </div>
+
+            <a type="button" class="link-opacity-75 copyToClipboard" href="#"><i class="bi bi-copy"></i></a>
+            <pre class="example replace">
+{
+    "displayName": "Woodgrove partners portal",
+    "description": "Woodgrove partners portal demo application (user assignment is required)",
+    "signInAudience": "AzureADMyOrg",
+    "api": {
+        "acceptMappedClaims": false,
+        "requestedAccessTokenVersion": 2
+    },
+    "requiredResourceAccess": [
+        {
+            "resourceAppId": "00000003-0000-0000-c000-000000000000",
+            "resourceAccess": [
+                {
+                    "id": "37f7f235-527c-4136-accd-4a02d197296e",
+                    "type": "Scope"
+                },
+                {
+                    "id": "7427e0e9-2fba-42fe-b0c0-848c9e6a8182",
+                    "type": "Scope"
+                }
+            ]
+        }
+    ],
+    "web": {
+        "redirectUris": [
+            "https://jwt.ms"
+        ],
+        "implicitGrantSettings": {
+            "enableAccessTokenIssuance": false,
+            "enableIdTokenIssuance": true
+        }
+    }
+}
+
+</pre>
+
+            <!-- PowerShell method-->
+            <div class="function-powershell">
+                <code><span class="method">New-MgApplication</span> <span class="param">-BodyParameter</span> $params</code><br>&nbsp;<br><br>
+            </div>
+
+        </div> <!--End of example-->
+
+
+
+        <h4 class="graph-header graph-header-space">1.1 Copy your applicaion ID</h4>
+        <p>
+            From the response, copy the <b>appId</b> (not the <b>id</b>). For example:
+        </p>
+
+        <!-- HTTP method-->
+        <div class="function-http">
+            <pre>
+{
+    "@@odata.context": "https://graph.microsoft.com/v1.0/$metadata#servicePrincipals/$entity",
+    "id": "12345678-0000-0000-0000-000000000000",
+    "appDisplayName": "Woodgrove partners portal",
+    "appDescription": "Woodgrove partners portal demo application (user assignment is required)",
+    "appId": "<span class="highlight">11111111-0000-0000-0000-000000000000</span>"
+    ...
+}
+        </pre>
+        </div>
+
+        <!-- PowerShell method-->
+        <div class="function-powershell">
+            <!-- PowerShell response-->
+            <div class="function-powershell">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td scope="col">DisplayName</td>
+                            <td scope="col">Id</td>
+                            <td scope="col"><span class="highlight">AppId</span></td>
+                        </tr>
+                    </thead>
+                    <tr scope="row">
+                        <td>Woodgrove partners portal</td>
+                        <td>12345678-0000-0000-0000-000000000000</td>
+                        <td>11111111-0000-0000-0000-000000000000</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+
+
+        <h4 class="graph-header graph-header-space">1.2 Create a service principal for your application</h4>
         <p>
             After you register you registered your application, <a
                 href="https://learn.microsoft.com/en-us/graph/api/serviceprincipal-post-serviceprincipals?view=graph-rest-1.0&tabs=http"
                 target="_blank" class="link-dark link-offset-2">create a service principal</a>. The following Microsoft
-                Graph creates a service principal. Replace the <b>{app-ID}</b> with the app ID from the previous call
-                (not the
-                object ID).
+            Graph creates a service principal. Replace the <b>{app-ID}</b> with the app ID from the previous call
+            (not the
+            object ID).
         </p>
-        <code style="color: black;">POST https://graph.microsoft.com/v1.0/servicePrincipals</code>
 
-        <pre>
+        <!-- HTTP method-->
+        <div class="function-http">
+            <code><span class="method">POST</span> https://graph.microsoft.com/v1.0/servicePrincipals</code>
+        </div>
+
+        <!-- PowerShell method-->
+        <div class="function-powershell">
+            <code><span class="method">Import-Module</span> Microsoft.Graph.Applications</code><br>
+            <code><span class="method">Connect-MgGraph</span> <span class="param">-Scopes</span> "Application.ReadWrite.All"</code>
+        </div>
+
+        <!-- Code-->
+        <a type="button" class="link-opacity-75 copyToClipboard" href="#"><i class="bi bi-copy"></i></a>
+        <pre class="replace" style="margin-top: 10px;">
 {
     "appId": "<span class="highlight">{app-ID}</span>"
 }
         </pre>
 
-        <h4  class="graph-header">Configure role assignment requirement</h4>
+        <!-- PowerShell method-->
+        <div class="function-powershell">
+            <code><span class="method">New-MgServicePrincipal</span> <span class="param">-BodyParameter</span> $params</code><br>&nbsp;<br><br>
+        </div>
+
+
+
+        <!-- Example-->
+        <a class="btn btn-success btn-sm" data-bs-toggle="collapse"
+            href="#collapseCreateSpExample" role="button" aria-expanded="false" aria-controls="collapseCreateSpExample">
+            Show example
+        </a><br>
+        <div class="collapse example" id="collapseCreateSpExample">
+            <br>
+            <div class="function-http">
+                <code><span class="method">POST</span> https://graph.microsoft.com/v1.0/servicePrincipals</code>
+            </div>
+
+            <a type="button" class="link-opacity-75 copyToClipboard" href="#"><i class="bi bi-copy"></i></a>
+            <pre class="example replace">
+{
+    "appId": "11111111-0000-0000-0000-000000000000"
+}
+
+</pre>
+
+            <!-- PowerShell method-->
+            <div class="function-powershell">
+                <code><span class="method">New-MgServicePrincipal</span> <span class="param">-BodyParameter</span> $params</code><br>&nbsp;<br><br>
+            </div>
+
+        </div> <!--End of example-->
+
+
+        <h4 class="graph-header graph-header-space">1.3 Copy your service principal ID</h4>
+        <p>
+            From the response, copy the <b>id</b>. For example:
+        </p>
+
+        <!-- HTTP method-->
+        <div class="function-http">
+            <pre>
+{
+    @@odata.context": "https://graph.microsoft.com/v1.0/$metadata#servicePrincipals/$entity",
+    "id": "<span class="highlight">22222222-0000-0000-0000-000000000000</span>",
+    "appId": "11111111-0000-0000-0000-000000000000"
+    ...
+}
+        </pre>
+        </div>
+
+        <!-- PowerShell method-->
+        <div class="function-powershell">
+            <!-- PowerShell response-->
+            <div class="function-powershell">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td scope="col">DisplayName</td>
+                            <td scope="col"><span class="highlight">Id</span></td>
+                            <td scope="col">AppId</td>
+                        </tr>
+                    </thead>
+                    <tr scope="row">
+                        <td>Woodgrove partners portal</td>
+                        <td>22222222-0000-0000-0000-000000000000</td>
+                        <td>11111111-0000-0000-0000-000000000000</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+
+
+
+
+        <h5 class="graph-header graph-header-space">1.4 Get the Microsoft Graph's service principal ID</h5>
+
+        <p>Run the following command to get the Microsoft Graph service principal ID:</p>
+
+
+        <!-- HTTP method-->
+        <div class="function-http">
+            <code
+                style="color: black;"><span class="method">GET</span> https://graph.microsoft.com/v1.0/servicePrincipals(appId='00000003-0000-0000-c000-000000000000')</code>
+        </div>
+
+        <!-- PowerShell method-->
+        <div class="function-powershell">
+            <code><span class="method">Get-MgServicePrincipal</span> <span class="param">-ServicePrincipalId</span> appId='00000003-0000-0000-c000-000000000000' </code><br>
+        </div>
+
+        <h5 class="graph-header graph-header-space">1.4.1 Copy the service principal ID</h5>
+        <p>
+            Copy the <b>id</b> from the response:
+
+        </p>
+        <!-- Result-->
+
+        <!-- HTTP method-->
+        <div class="function-http">
+            <pre style="margin-top: 10px;">
+{
+    "id": "<span class="highlight">33333333-0000-0000-0000-000000000000</span>"
+    "appDisplayName": "Microsoft Graph",
+    "appId": "00000003-0000-0000-c000-000000000000",
+}
+        </pre>
+        </div>
+
+
+        <!-- PowerShell response-->
+        <div class="function-powershell">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td scope="col">DisplayName</td>
+                        <td scope="col"><span class="highlight">Id</span></td>
+                        <td scope="col">AppId</td>
+                    </tr>
+                </thead>
+                <tr scope="row">
+                    <td>Microsoft Graph</td>
+                    <td>33333333-0000-0000-0000-000000000000</td>
+                    <td>00000003-0000-0000-c000-000000000000</td>
+                </tr>
+            </table>
+        </div>
+
+
+        <h4 class="graph-header graph-header-space">1.5 Consent to the required permissions</h4>
 
         <p>
 
-            <a
-                href="https://learn.microsoft.com/en-us/graph/api/serviceprincipal-update?view=graph-rest-1.0&tabs=http"
+            Since the tenant is a customer's tenant, the consumer users themselves can't consent to these permissions.
+            You as the admin must <a
+                href="https://learn.microsoft.com/en-us/graph/api/oauth2permissiongrant-post?view=graph-rest-1.0&tabs=http"
+                target="_blank" class="link-dark link-offset-2">consent to these permissions</a> on behalf of all the
+            users in the tenant:
+
+            Replace the <b>{service-principal-id}</b> with the service-principal <b>id</b> you copied in the previous
+            step.
+            Replace the <b>{graph-service-principal-id}</b> with the Microsot Graph service-principal ID you created in
+            the previous step.
+
+        </p>
+
+        <!-- HTTP method-->
+        <div class="function-http">
+            <code><span class="method">POST</span> https://graph.microsoft.com/v1.0/oauth2PermissionGrants</code>
+        </div>
+
+        <!-- PowerShell method-->
+        <div class="function-powershell">
+            <code><span class="method">Import-Module</span> Microsoft.Graph.Identity.SignIns</code><br>
+            <code><span class="method">Connect-MgGraph</span> <span class="param">-Scopes</span> "DelegatedPermissionGrant.ReadWrite.All"</code>
+        </div>
+
+        <!-- Code-->
+        <a type="button" class="link-opacity-75 copyToClipboard" href="#"><i class="bi bi-copy"></i></a>
+        <pre class="replace" style="margin-top: 10px;">
+{
+    "clientId": "<span class="highlight">{service-principal-id}</span>",
+    "consentType": "AllPrincipals",
+    "resourceId": "<span class="highlight">{graph-service-principal-id}</span>",
+    "scope": "openid offline_access"
+}
+        </pre>
+
+        <!-- PowerShell method-->
+        <div class="function-powershell">
+            <code><span class="method">New-MgOauth2PermissionGrant</span> <span class="param">-BodyParameter</span> $params</code><br>&nbsp;
+        </div>
+
+        <!-- Example-->
+        <a class="btn btn-success btn-sm" data-bs-toggle="collapse"
+            href="#collapseConsentExample" role="button" aria-expanded="false" aria-controls="collapseConsentExample">
+            Show example
+        </a><br>
+        <div class="collapse example" id="collapseConsentExample">
+            <br>
+            <div class="function-http">
+                <code><span class="method">POST</span> https://graph.microsoft.com/v1.0/oauth2PermissionGrants</code>
+            </div>
+
+            <pre class="example">
+{
+    "clientId": "22222222-0000-0000-0000-000000000000",
+    "consentType": "AllPrincipals",
+    "resourceId": "33333333-0000-0000-0000-000000000000",
+    "scope": "openid offline_access"
+}
+</pre>
+
+
+            <!-- PowerShell method-->
+            <div class="function-powershell">
+                <code><span class="method">New-MgOauth2PermissionGrant</span> <span class="param">-BodyParameter</span> $params</code><br>&nbsp;
+            </div>
+
+        </div> <!--End of example-->
+
+        <h4 class="graph-header graph-header-space">2. Configure role assignment requirement</h4>
+
+        <p>
+
+            <a href="https://learn.microsoft.com/en-us/graph/api/serviceprincipal-update?view=graph-rest-1.0&tabs=http"
                 target="_blank" class="link-dark link-offset-2">Update the service principal</a>
-                 of your application to require role assignment.
+            of your application to require role assignment.
 
             Replace the <b>{service-principal-id}</b> with the service-principal ID you created in the previous step.
 
         </p>
 
-        <code style="color: black;">PATCH https://graph.microsoft.com/v1.0/servicePrincipals/<span class="highlight">{service-principal-id}</span></code>
+        <!-- HTTP method-->
+        <div class="function-http">
+            <code><span class="method">PATCH</span> https://graph.microsoft.com/v1.0/servicePrincipals/<span class="highlight">{service-principal-id}</span></code>
+        </div>
 
-        <pre>
+        <!-- PowerShell method-->
+        <div class="function-powershell">
+            <code><span class="method">Import-Module</span> Microsoft.Graph.Applications</code><br>
+            <code><span class="method">Connect-MgGraph</span> <span class="param">-Scopes</span> "Application.ReadWrite.All"</code>
+        </div>
+
+        <!-- Code-->
+        <a type="button" class="link-opacity-75 copyToClipboard" href="#"><i class="bi bi-copy"></i></a>
+        <pre class="replace" style="margin-top: 10px;">
 {
     "appRoleAssignmentRequired": true
 }
         </pre>
 
-        <h4  class="graph-header">Consent to the required permissions</h4>
+        <!-- PowerShell method-->
+        <div class="function-powershell">
+            <code><span class="method">Update-MgServicePrincipal</span> <span class="param">-ServicePrincipalId</span> <span class="highlight">{service-principal-id}</span> <span class="param">-BodyParameter</span> $params</code><br>&nbsp;
+        </div>
 
-        <p>
+        <!-- Example-->
+        <a class="btn btn-success btn-sm" data-bs-toggle="collapse"
+            href="#collapseRoleAssignmentRequirementExample" role="button" aria-expanded="false"
+            aria-controls="collapseRoleAssignmentRequirementExample">
+            Show example
+        </a><br>
+        <div class="collapse example" id="collapseRoleAssignmentRequirementExample">
+            <br>
+            <div class="function-http">
+                <code><span class="method">PATCH</span> https://graph.microsoft.com/v1.0/servicePrincipals/22222222-0000-0000-0000-000000000000</code>
+            </div>
 
-            Since the tenant is a customer's tenant, the consumer users themselves can't consent to these permissions.
-            You as the admin must  <a
-                href="https://learn.microsoft.com/en-us/graph/api/oauth2permissiongrant-post?view=graph-rest-1.0&tabs=http"
-                target="_blank" class="link-dark link-offset-2">consent to these permissions</a> on behalf of all the users in the tenant:
-
-            Replace the <b>{service-principal-id}</b> with the service-principal ID you created in the previous step.
-
-        </p>
-
-        <code style="color: black;">POST https://graph.microsoft.com/v1.0/oauth2PermissionGrants</code>
-
-        <pre>
+            <pre class="example replace">
 {
-    "clientId": "<span class="highlight">{service-principal-id}</span>",
-    "consentType": "AllPrincipals",
-    "resourceId": "69309946-6ba5-4714-bb0e-38138430fcfd",
-    "scope": "openid offline_access"
+    "appRoleAssignmentRequired": true
 }
-        </pre>
+</pre>
+
+
+            <!-- PowerShell method-->
+            <div class="function-powershell">
+                <code><span class="method">Update-MgServicePrincipal</span> <span class="param">-ServicePrincipalId</span> <span class="highlight">22222222-0000-0000-0000-000000000000</span> <span class="param">-BodyParameter</span> $params</code><br>&nbsp;
+            </div>
+
+        </div> <!--End of example-->
+
+    </div>
+    <div class="tab-pane" id="graphPowerShell" role="tabpanel" aria-labelledby="graphPowerShell-tab" tabindex="0">
+        Loading...
+    </div>
+
+
+    <div class="tab-pane" id="entraGraphPowerShell" role="tabpanel" aria-labelledby="entraGraphPowerShell-tab"
+        tabindex="0">
+        Loading...
     </div>
 </div>
-

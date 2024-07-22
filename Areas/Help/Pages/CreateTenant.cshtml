@@ -9,152 +9,163 @@
 
 <h1 style="margin-top: 25px; margin-bottom: 25px;">Create a tenant</h1>
 
-<div>
+<p>
+    Microsoft Entra External ID offers a customer identity access management (CIAM) solution that lets you create
+    secure, customized sign-in experiences for your customer-facing apps and services. You'll need to <a
+        href="https://learn.microsoft.com/entra/external-id/customers/quickstart-tenant-setup" target="_blank"
+        class="link-dark link-offset-2">create a tenant with customer configurations</a> in the Microsoft Entra
+    admin center to get started. Once the tenant with
+    customer configurations is created, you can access it in both the Microsoft Entra admin center and the Azure
+    portal.
+</p>
 
-    <p>
-        Microsoft Entra External ID offers a customer identity access management (CIAM) solution that lets you create
-        secure, customized sign-in experiences for your customer-facing apps and services. You'll need to <a
-            href="https://learn.microsoft.com/entra/external-id/customers/quickstart-tenant-setup" target="_blank"
-            class="link-dark link-offset-2">create a tenant with customer configurations</a> in the Microsoft Entra
-        admin center to get started. Once the tenant with
-        customer configurations is created, you can access it in both the Microsoft Entra admin center and the Azure
-        portal.
-    </p>
-    @await Html.PartialAsync("_StepsButtons.cshtml")
+@await Html.PartialAsync("_HelpSelector.cshtml", 0)
+<div class="tab-content wg-tab-content">
+    <div class="tab-pane active" id="microsoftEntraAdminCenter" role="tabpanel"
+        aria-labelledby="microsoftEntraAdminCenter-tab" tabindex="0">
 
-    <div class="bs-stepper vertical" id="Stepper">
-        @await Html.PartialAsync("_Steps.cshtml", 10)
 
-        <div class="bs-stepper-content">
-            <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
+        @await Html.PartialAsync("_StepsButtons.cshtml")
 
-                <p>
-                    To create a tenant, sign in to the <a href="https://entra.microsoft.com/" target="_blank"
-                        class="link-dark link-offset-2">Microsoft Entra admin center</a>
-                    and browse to <b>Identity </b> > <b> Overview </b>. Then, select <b>Manage tenants</b>.
-                </p>
+        <div class="bs-stepper vertical" id="Stepper">
+            @await Html.PartialAsync("_Steps.cshtml", 10)
 
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border pop" src="~/Help/CreateTenant/Select-overview.png">
-                </a>
-            </div>
+            <div class="bs-stepper-content">
+                <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
 
-            <div id="step-2" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger2">
-                <p>
-                    On the <b>Manage tenants</b>, select <b>Create</b>.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/CreateTenant/Create-tenant-1.png">
-                </a>
-            </div>
-
-            <div id="step-3" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger3">
-                <p>
-                    Select <b>External</b>, and then select <b>Continue</b>.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/CreateTenant/Create-tenant-2.png">
-                </a>
-            </div>
-
-            <div id="step-4" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger4">
-                <p>
-                    On the <b>Basics</b> tab, in the <b>Create a tenant for customers</b> page, enter the following
-                    information:
-                    Type your desired <b>Tenant Name</b> (for example Woodgrove live demo).
-                    Type your desired <b>Domain Name</b> (for example woodgrovelive).
-                    Select your desired <b>Location</b>. This selection can't be changed later.
-                    Then, select <b>Next: Add a subscription</b>.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/CreateTenant/Create-tenant-basic.png">
-                </a>
-            </div>
-
-            <div id="step-5" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger5">
-                <p>
-                    On the <b>Add a subscription</b> tab, enter the following information:
-                    Next to <b>Subscription</b>, select your subscription from the menu.
-                    Next to <b>Resource group</b>, select a resource group from the menu. If there are no available
-                    resource groups, select Create new, add a name, and then select OK.
-                    If <b>Resource group location</b> appears, select the geographic location of the resource group from
-                    the menu. Then, select <b>Review + Create</b>.
-
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/CreateTenant/Create-tenant-subscription.png">
-                </a>
-            </div>
-
-            <div id="step-6" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger6">
-                <p>
-                    If the information that you entered is correct, select <b>Create</b>.
-                    The tenant creation process can take up to 30 minutes.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/CreateTenant/Create-tenant-final-step.png">
-                </a>
-            </div>
-
-            <div id="step-7" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger7">
-                <p>
-                    You can monitor the progress of the tenant creation process in the <b>Notifications</b> pane. Once
-                    the
-                    tenant is created, you can access it in both the Microsoft Entra admin center and the Azure portal.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/CreateTenant/Completed.png">
-                </a>
-            </div>
-
-            <div id="step-8" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger8">
-                <p>
-                    Use the <b>Settings</b> icon in the top menu to <b>Switch</b> to your customer tenant you created
-                    from the <b>Directories + subscriptions</b> menu.
-                    If the tenant you created doesn't appear in the list, refresh the page (using the web browser
-                    refresh button).
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/CreateTenant/Switch-directory.png">
-                </a>
-            </div>
-
-            <div id="step-9" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger9">
-                <p>
-                    Browse to <b>Home</b> > <b>Tenant overview</b> to start configure your tenant.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/CreateTenant/Tenant-overview-page.png">
-                </a>
-            </div>
-
-            <div id="step-10" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger10">
-
-                <div class="alert alert-success" role="alert">
-                    <h4 class="alert-heading">Well done!</h4>
-                    <p> At this point, the Microsoft Entra External ID tenant is ready to use.
-                        Now it's time to add your colleagues and grant them access to mange your tenant.</p>
                     <p>
-                        To continue, learn how to <a href="AddAdmins">add administrators</a>
+                        To create a tenant, sign in to the <a href="https://entra.microsoft.com/" target="_blank"
+                            class="link-dark link-offset-2">Microsoft Entra admin center</a>
+                        and browse to <b>Identity </b> > <b> Overview </b>. Then, select <b>Manage tenants</b>.
                     </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border pop" src="~/Help/CreateTenant/Select-overview.png">
+                    </a>
+                </div>
+
+                <div id="step-2" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger2">
+                    <p>
+                        On the <b>Manage tenants</b>, select <b>Create</b>.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/CreateTenant/Create-tenant-1.png">
+                    </a>
+                </div>
+
+                <div id="step-3" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger3">
+                    <p>
+                        Select <b>External</b>, and then select <b>Continue</b>.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/CreateTenant/Create-tenant-2.png">
+                    </a>
+                </div>
+
+                <div id="step-4" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger4">
+                    <p>
+                        On the <b>Basics</b> tab, in the <b>Create a tenant for customers</b> page, enter the following
+                        information:
+                        Type your desired <b>Tenant Name</b> (for example Woodgrove live demo).
+                        Type your desired <b>Domain Name</b> (for example woodgrovelive).
+                        Select your desired <b>Location</b>. This selection can't be changed later.
+                        Then, select <b>Next: Add a subscription</b>.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/CreateTenant/Create-tenant-basic.png">
+                    </a>
+                </div>
+
+                <div id="step-5" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger5">
+                    <p>
+                        On the <b>Add a subscription</b> tab, enter the following information:
+                        Next to <b>Subscription</b>, select your subscription from the menu.
+                        Next to <b>Resource group</b>, select a resource group from the menu. If there are no available
+                        resource groups, select Create new, add a name, and then select OK.
+                        If <b>Resource group location</b> appears, select the geographic location of the resource group
+                        from
+                        the menu. Then, select <b>Review + Create</b>.
+
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/CreateTenant/Create-tenant-subscription.png">
+                    </a>
+                </div>
+
+                <div id="step-6" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger6">
+                    <p>
+                        If the information that you entered is correct, select <b>Create</b>.
+                        The tenant creation process can take up to 30 minutes.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/CreateTenant/Create-tenant-final-step.png">
+                    </a>
+                </div>
+
+                <div id="step-7" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger7">
+                    <p>
+                        You can monitor the progress of the tenant creation process in the <b>Notifications</b> pane.
+                        Once
+                        the
+                        tenant is created, you can access it in both the Microsoft Entra admin center and the Azure
+                        portal.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/CreateTenant/Completed.png">
+                    </a>
+                </div>
+
+                <div id="step-8" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger8">
+                    <p>
+                        Use the <b>Settings</b> icon in the top menu to <b>Switch</b> to your customer tenant you
+                        created
+                        from the <b>Directories + subscriptions</b> menu.
+                        If the tenant you created doesn't appear in the list, refresh the page (using the web browser
+                        refresh button).
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/CreateTenant/Switch-directory.png">
+                    </a>
+                </div>
+
+                <div id="step-9" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger9">
+                    <p>
+                        Browse to <b>Home</b> > <b>Tenant overview</b> to start configure your tenant.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/CreateTenant/Tenant-overview-page.png">
+                    </a>
+                </div>
+
+                <div id="step-10" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger10">
+
+                    <div class="alert alert-success" role="alert">
+                        <h4 class="alert-heading">Well done!</h4>
+                        <p> At this point, the Microsoft Entra External ID tenant is ready to use.
+                            Now it's time to add your colleagues and grant them access to mange your tenant.</p>
+                        <p>
+                            To continue, learn how to <a href="AddAdmins">add administrators</a>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
+
     </div>
 
-    <div id="GraphApiContent">
+    <div class="tab-pane" id="microsoftGraph" role="tabpanel" aria-labelledby="microsoftGraph-tab" tabindex="0">
         <h4 class="graph-header">Dependencies</h4>
         You must have an Azure Subscription.
 
-        <h4 class="graph-header">Using Azure REST API</h4>
+        <h4 class="graph-header graph-header-space">Using Azure REST API</h4>
         <p>
             Before you start, please notice that for creating a tenant you use Azure REST API and not Microsoft Graph.
             Check out the links to the relevant documentation. The document allows you to run the REST API directly from
@@ -164,7 +175,7 @@
             <img class="img-fluid border pop" src="~/Help/CreateTenant/Azure-API.png">
         </p>
 
-        <h4 style="padding-top: 25px;padding-bottom: 5px;">1. Check Name Availability</h4>
+        <h4 class="graph-header graph-header-space">1. Check Name Availability</h4>
         <p>
             Before you create a new tenant <a
                 href="https://learn.microsoft.com/en-us/rest/api/activedirectory/check-name-availability/check-name-availability?view=rest-activedirectory-2023-05-17-preview&tabs=HTTP"
@@ -188,12 +199,12 @@
         </pre>
 
 
-        <a class="btn btn-success btn-sm" style="margin-top: -35px;" data-bs-toggle="collapse" href="#collapseExample1" role="button"
-            aria-expanded="false" aria-controls="collapseExample1">
+        <a class="btn btn-success btn-sm" data-bs-toggle="collapse" href="#collapseExample1"
+            role="button" aria-expanded="false" aria-controls="collapseExample1">
             Show example
         </a>
 
-        <div class="collapse" id="collapseExample1">
+        <div class="collapse example" id="collapseExample1">
             The following example checks a tenant name <b>woodgrove</b> using a subscription ID
             <b>12345678-0000-0000-0000-000000000000</b>.
             <br>
@@ -208,7 +219,7 @@
             </pre>
         </div>
 
-        <h5 class="graph-header" style="padding-top: 25px;padding-bottom: 5px;">1.1 Check the response</h5>
+        <h5 class="graph-header graph-header-space">1.1 Check the response</h5>
         Check the <b>nameAvailable</b> and the <b>message</b>. The following example shows unavailable tenant name:
         <pre>
 {
@@ -227,7 +238,7 @@
 }   
         </pre>
 
-        <h4 class="graph-header" style="padding-top: 25px;padding-bottom: 5px;">2. Create a resource group</h4>
+        <h4 class="graph-header graph-header-space">2. Create a resource group</h4>
         <p>
             To create a new Microsoft Entra external ID tenant, you need to have a resource group where the tenant will
             be created.
@@ -253,11 +264,11 @@
 }
         </pre>
 
-        <a class="btn btn-success btn-sm" style="margin-top: -35px;"  data-bs-toggle="collapse" href="#collapseExample2" role="button"
-            aria-expanded="false" aria-controls="collapseExample2">
+        <a class="btn btn-success btn-sm" data-bs-toggle="collapse" href="#collapseExample2"
+            role="button" aria-expanded="false" aria-controls="collapseExample2">
             Show example
         </a>
-        <div class="collapse" id="collapseExample2">
+        <div class="collapse example" id="collapseExample2">
             The following example creates a resource group name <b>my-resource-group</b> in <b>eastus</b>.
             <br>
             <code
@@ -274,7 +285,8 @@
 
 
 
-        <h4 class="graph-header" style="padding-top: 25px;padding-bottom: 5px;">3. Create Microsoft Entra external ID tenant</h4>
+        <h4 class="graph-header graph-header-space">3. Create Microsoft Entra external ID
+            tenant</h4>
         <p>
             Initiates an async request to <a
                 href="https://learn.microsoft.com/en-us/rest/api/resources/resource-groups/create-or-update?view=rest-resources-2021-04-01&tabs=HTTP#code-try-0"
@@ -312,11 +324,11 @@
 }
         </pre>
 
-        <a class="btn btn-success btn-sm" style="margin-top: -35px;"  data-bs-toggle="collapse" href="#collapseExample3" role="button"
-            aria-expanded="false" aria-controls="collapseExample3">
+        <a class="btn btn-success btn-sm" data-bs-toggle="collapse" href="#collapseExample3"
+            role="button" aria-expanded="false" aria-controls="collapseExample3">
             Show example
         </a>
-        <div class="collapse" id="collapseExample3">
+        <div class="collapse example" id="collapseExample3">
             The following example creates a tenant name <b>contoso</b> within in a resource group
             <b>my-resource-group</b> linked to the 12345678-0000-0000-0000-000000000000 subscription.
             <br>
@@ -340,6 +352,9 @@
             </pre>
         </div>
     </div>
-</div>
 
+    <div class="tab-pane" id="entraGraphPowerShell" role="tabpanel" aria-labelledby="entraGraphPowerShell-tab"
+        tabindex="0">
+        Loading...
+    </div>
 </div>

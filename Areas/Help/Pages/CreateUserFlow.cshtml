@@ -7,155 +7,175 @@
 
 <h1 style="margin-top: 25px; margin-bottom: 25px;">Create a sign-up and sign-in user flow</h1>
 
-<div>
+<p>
+    <a href="https://learn.microsoft.com/en-us/entra/external-id/customers/how-to-user-flow-sign-up-sign-in-customers"
+        target="_blank" class="link-dark link-offset-2">User flow</a> defines the series of sign-up steps customers
+    follow and the sign-in methods they can use (such as
+    email and password, one-time passcodes, or social accounts from Google or Facebook). You can also collect
+    information from customers during sign-up by selecting from a series of built-in user attributes or adding your
+    own custom attributes. You can create multiple user flows if you have multiple applications that you want to
+    offer to customers.
+</p>
 
-    <p>
-        <a href="https://learn.microsoft.com/en-us/entra/external-id/customers/how-to-user-flow-sign-up-sign-in-customers"
-            target="_blank" class="link-dark link-offset-2">User flow</a> defines the series of sign-up steps customers
-        follow and the sign-in methods they can use (such as
-        email and password, one-time passcodes, or social accounts from Google or Facebook). You can also collect
-        information from customers during sign-up by selecting from a series of built-in user attributes or adding your
-        own custom attributes. You can create multiple user flows if you have multiple applications that you want to
-        offer to customers.
-    </p>
+@await Html.PartialAsync("_HelpSelector.cshtml", 2)
 
-    @await Html.PartialAsync("_StepsButtons.cshtml")
+<!-- Tab panes -->
+<div class="tab-content wg-tab-content">
+    <div class="tab-pane active" id="microsoftEntraAdminCenter" role="tabpanel"
+        aria-labelledby="microsoftEntraAdminCenter-tab" tabindex="0">
+        @await Html.PartialAsync("_StepsButtons.cshtml")
 
-    <div class="bs-stepper vertical">
-        @await Html.PartialAsync("_Steps.cshtml", 9)
+        <div class="bs-stepper vertical">
+            @await Html.PartialAsync("_Steps.cshtml", 9)
 
-        <div class="bs-stepper-content">
-            <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
-                <p>
-                    To create a sign-up and sign-in user flow, sign in to the <a href="https://entra.microsoft.com/"
-                        target="_blank" class="link-dark link-offset-2">Microsoft Entra admin center</a>
-                    and browse to <b>Identity</b> > <b>External Identities</b>.
-                </p>
+            <div class="bs-stepper-content">
+                <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
+                    <p>
+                        To create a sign-up and sign-in user flow, sign in to the <a href="https://entra.microsoft.com/"
+                            target="_blank" class="link-dark link-offset-2">Microsoft Entra admin center</a>
+                        and browse to <b>Identity</b> > <b>External Identities</b>.
+                    </p>
 
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/Shared/home-select-external-identities.png">
-                </a>
-            </div>
-
-            <div id="step-2" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger2">
-                <p>
-                    From the menu, select <b>User flows</b>. Then, select <b>New user flow</b>.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/CreateUserFlow/userflows-create.png">
-                </a>
-            </div>
-
-            <div id="step-3" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger3">
-                <p>
-                    On the <b>Create</b> page, enter a <b>Name</b> for the user flow (for example, "SignUpSignIn").
-                    Then, under <b>Identity providers</b>, select the <b>Email Accounts</b> check box, and then select
-                    one of these options.
-                    If you configured other identity providers, you can select them.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/CreateUserFlow/userflows-create-name-and-idp.png">
-                </a>
-
-            </div>
-
-            <div id="step-4" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger4">
-                <p>
-                    Under <b>User attributes</b>, choose the attributes you want to collect from the user during
-                    sign-up.
-                    Select <b>Show more</b> to choose from the full list of attributes, including Job Title, Display
-                    Name, and Postal Code and more.
-                    Then, select <b>Create</b> to create the user flow.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/CreateUserFlow/userflows-create-select-attributes.png">
-                </a>
-            </div>
-
-            <div id="step-5" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger5">
-                <p>
-                    From the list, select the user flow you created.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/CreateUserFlow/userflows-create-select-from-list.png">
-                </a>
-            </div>
-
-            <div id="step-6" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger6">
-                <p>
-                    The following steps activate the sign-up and sign-in experience (the user flow) for users who visit
-                    your
-                    application.
-                    In the left menu, under <b>Use</b>, select <b>Applications</b>.
-
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/CreateUserFlow/userflows-select-apps.png">
-                </a>
-            </div>
-
-            <div id="step-7" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger7">
-                <p>
-                    Select <b>Add Application</b>
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/CreateUserFlow/userflows-add-apps-1.png">
-                </a>
-            </div>
-
-            <div id="step-8" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger8">
-                <p>
-                    Select the application from the list. Or use the search box to find the application, and then select
-                    it. Choose <b>Select</b>.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/CreateUserFlow/userflows-add-apps-2.png">
-                </a>
-            </div>
-            <div id="step-9" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger9">
-
-
-                <div class="alert alert-success" role="alert">
-                    <h4 class="alert-heading">Well done!</h4>
-                    <p> Your user flow successfully created and the
-                        application is linked to the user flow. When users sign-in to the Woodgrove
-                        application they will come across the sign-in and sign-up experience configured in the user
-                        flow.</p>
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/Shared/home-select-external-identities.png">
+                    </a>
                 </div>
 
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/CreateUserFlow/userflows-select-apps-done.png">
-                </a>
+                <div id="step-2" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger2">
+                    <p>
+                        From the menu, select <b>User flows</b>. Then, select <b>New user flow</b>.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/CreateUserFlow/userflows-create.png">
+                    </a>
+                </div>
+
+                <div id="step-3" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger3">
+                    <p>
+                        On the <b>Create</b> page, enter a <b>Name</b> for the user flow (for example, "SignUpSignIn").
+                        Then, under <b>Identity providers</b>, select the <b>Email Accounts</b> check box, and then
+                        select
+                        one of these options.
+                        If you configured other identity providers, you can select them.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/CreateUserFlow/userflows-create-name-and-idp.png">
+                    </a>
+
+                </div>
+
+                <div id="step-4" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger4">
+                    <p>
+                        Under <b>User attributes</b>, choose the attributes you want to collect from the user during
+                        sign-up.
+                        Select <b>Show more</b> to choose from the full list of attributes, including Job Title, Display
+                        Name, and Postal Code and more.
+                        Then, select <b>Create</b> to create the user flow.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border"
+                            src="~/Help/CreateUserFlow/userflows-create-select-attributes.png">
+                    </a>
+                </div>
+
+                <div id="step-5" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger5">
+                    <p>
+                        From the list, select the user flow you created.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/CreateUserFlow/userflows-create-select-from-list.png">
+                    </a>
+                </div>
+
+                <div id="step-6" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger6">
+                    <p>
+                        The following steps activate the sign-up and sign-in experience (the user flow) for users who
+                        visit
+                        your
+                        application.
+                        In the left menu, under <b>Use</b>, select <b>Applications</b>.
+
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/CreateUserFlow/userflows-select-apps.png">
+                    </a>
+                </div>
+
+                <div id="step-7" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger7">
+                    <p>
+                        Select <b>Add Application</b>
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/CreateUserFlow/userflows-add-apps-1.png">
+                    </a>
+                </div>
+
+                <div id="step-8" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger8">
+                    <p>
+                        Select the application from the list. Or use the search box to find the application, and then
+                        select
+                        it. Choose <b>Select</b>.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/CreateUserFlow/userflows-add-apps-2.png">
+                    </a>
+                </div>
+                <div id="step-9" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger9">
+
+
+                    <div class="alert alert-success" role="alert">
+                        <h4 class="alert-heading">Well done!</h4>
+                        <p> Your user flow successfully created and the
+                            application is linked to the user flow. When users sign-in to the Woodgrove
+                            application they will come across the sign-in and sign-up experience configured in the user
+                            flow.</p>
+                    </div>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/CreateUserFlow/userflows-select-apps-done.png">
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 
-    <div id="GraphApiContent">
+    <div class="tab-pane" id="microsoftGraph" role="tabpanel" aria-labelledby="microsoftGraph-tab" tabindex="0">
 
         <h4 class="graph-header">Dependencies</h4>
         This script is self-contained. Optionally, you can add an application to the user flow.
 
-        <h4 class="graph-header">1. Create a user flow</h4>
+        <h4 class="graph-header graph-header-space">1. Create a user flow</h4>
         <p>
             To create a user flow, you
-            <a href="https://learn.microsoft.com/graph/api/identitycontainer-post-authenticationeventsflows?view=graph-rest-beta&tabs=http"
+            <a href="https://learn.microsoft.com/graph/api/identitycontainer-post-authenticationeventsflows?view=v1.0&tabs=http"
                 target="_blank" class="link-dark link-offset-2">create authentication events flow</a> object that is of
             the
             type specified in the request body.
         </p>
 
-        <code style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/beta/identity/authenticationEventsFlows</code>
+        <div class="function-http">
+            <code><span class="method">POST</span> https://graph.microsoft.com/v1.0/identity/authenticationEventsFlows</code>
+        </div>
+        <div class="function-powershell">
+            <code><span class="method">Import-Module</span>  Microsoft.Graph.Beta.Identity.SignIns</code><br>
+            <code><span class="method">Connect-MgGraph</span> <span class="param">-Scopes</span> "EventListener.ReadWrite.All"</code>
 
-        <pre>
+            <div class="alert alert-danger" role="alert">
+                There is an issue with the validationRegEx of the email attribure. Try to use ^[a-zA-Z_][0-9a-zA-Z_
+                ]*[0-9a-zA-Z_]+$
+            </div>
+        </div>
+
+        <a type="button" class="link-opacity-75 copyToClipboard" href="#"><i class="bi bi-copy"></i></a>
+        <pre style="margin-top: 10px;" class="replace">
 {
-    "@@odata.context": "https://graph.microsoft.com/beta/$metadata#identity/authenticationEventsFlows/$entity",
     "@@odata.type": "#microsoft.graph.externalUsersSelfServiceSignUpEventsFlow",
     "displayName": "Default sign-up and sign-in",
     "description": "Woodgrove default sign-up and sign-in flow",
@@ -273,43 +293,119 @@
         "userTypeToCreate": "member",
         "accessPackages": []
     }
-}
-        </pre>
+}</pre>
+        <div class="function-powershell">
+            <code><span class="method">New-MgBetaIdentityAuthenticationEventFlow</span> <span class="param">-BodyParameter</span> $params</code>
+        </div>
 
-
-        <h5 class="graph-header">1.1 Copy the user flow ID</h5>
+        <h5 class="graph-header graph-header-space">1.1 Copy the user flow ID</h5>
         From the response, copy the value of the user flow <b>id</b>. For example:
-        <pre>
+        <pre class="function-http">
 {
-    "@@odata.context": "https://graph.microsoft.com/beta/$metadata#identity/authenticationEventsFlows/$entity",
+    "@@odata.context": "https://graph.microsoft.com/v1.0/$metadata#identity/authenticationEventsFlows/$entity",
     "@@odata.type": "#microsoft.graph.externalUsersSelfServiceSignUpEventsFlow",
-    "<span class="highlight">id</span>": "5a92f14b-0000-0000-c000-000000000000",
-    "displayName": "Default sign-up and sign-in1",
+    "id": "<span class="highlight">11111111-0000-0000-c000-000000000000</span>",
+    "displayName": "Default sign-up and sign-in",
     "description": "Woodgrove default sign-up and sign-in flow",
     ...
-}      
-        </pre>
+}</pre>
 
-        <h4 class="graph-header">2. Add your application to the user flow</h4>
-        <p>
-            To <a href="https://learn.microsoft.com/graph/api/authenticationconditionsapplications-post-includeapplications?view=graph-rest-beta&tabs=http"
-                target="_blank" class="link-dark link-offset-2">add or link an application to a user user flow</a> user the follow
-                Microsoft Graph. Replace the <b>{user-flow-ID}</b> with your <a
-                href="https://learn.microsoft.com/en-us/graph/api/identitycontainer-list-authenticationeventsflows?view=graph-rest-beta&tabs=http"
+        <div class="function-powershell">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td scope="col"><span class="highlight">Id</span></td>
+                        <td scope="col">Description</td>
+                        <td scope="col">DisplayName</td>
+                        <td scope="col">Priority</td>
+                    </tr>
+                </thead>
+                <tr scope="row">
+                    <td>11111111-0000-0000-c000-000000000000</td>
+                    <td>Woodgrove default sign-up and sign-in flow</td>
+                    <td>Default sign-up and sign-in</td>
+                    <td>500</td>
+                </tr>
+            </table>
+        </div>
+
+
+        <h4 class="graph-header graph-header-space">2. Add your application to the user flow</h4>
+        <div>
+            To <a
+                href="https://learn.microsoft.com/graph/api/authenticationconditionsapplications-post-includeapplications?view=v1.0&tabs=http"
+                target="_blank" class="link-dark link-offset-2"> link an application to a user user flow</a>,
+            run
+            the follow
+            Microsoft Graph. Replace the <b>{user-flow-ID}</b> with your <a
+                href="https://learn.microsoft.com/en-us/graph/api/identitycontainer-list-authenticationeventsflows?view=v1.0&tabs=http"
                 target="_blank" class="link-dark link-offset-2">user flow ID</a>.
 
-                Replace the <b>{app-ID}</b> with your <a
-                href="https://learn.microsoft.com/en-us/graph/api/application-list?view=graph-rest-beta&tabs=http"
-                target="_blank" class="link-dark link-offset-2">application ID</a>.
-        </p>
+            Replace the <b>{app-ID}</b> with your <a
+                href="https://learn.microsoft.com/en-us/graph/api/application-list?view=v1.0&tabs=http" target="_blank"
+                class="link-dark link-offset-2">application ID</a>.
+        </div>
 
-        <code style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/beta/identity/authenticationEventsFlows/<span class="highlight">{user-flow-ID}</span>/conditions/applications/includeApplications</code>
+        <!-- HTTP method-->
+        <div class="function-http">
+            <code><span class="method">POST</span> https://graph.microsoft.com/v1.0/identity/authenticationEventsFlows/<span class="highlight">{user-flow-ID}</span>/conditions/applications/includeApplications</code>
+        </div>
 
-        <pre>
+        <!-- PowerShell method-->
+        <div class="function-powershell">
+            <code><span class="method">Import-Module</span> Microsoft.Graph.Beta.Identity.SignIns</code>
+        </div>
+
+        <a type="button" class="link-opacity-75 copyToClipboard" href="#"><i class="bi bi-copy"></i></a>
+        <pre class="replace">
 {
     "@@odata.type": "#microsoft.graph.authenticationConditionApplication",
     "appId": "<span class="highlight">{app-ID}</span>"
 }
-        </pre>
+
+</pre>
+
+        <div class="function-powershell">
+            <code><span class="method">New-MgBetaIdentityAuthenticationEventFlowIncludeApplication</span> <span class="param">-AuthenticationEventsFlowId</span> <span class="highlight">{user-flow-ID}</span> <span class="param">-BodyParameter</span> $params</code><br>&nbsp;<br>
+        </div>
+
+
+
+
+        <!-- Example-->
+        <a class="btn btn-success btn-sm" data-bs-toggle="collapse"
+            href="#collapseAddAppToUserFlow" role="button" aria-expanded="false"
+            aria-controls="collapseAddAppToUserFlow">
+            Show example
+        </a><br>
+        <div class="collapse example" id="collapseAddAppToUserFlow">
+            <br>
+            <p>
+                Run the follow command to add the application ID '22222222-0000-0000-0000-000000000000' to the '11111111-0000-0000-c000-000000000000' user flow.
+            </p>
+            <div class="function-http">
+                <code><span class="method">POST</span> https://graph.microsoft.com/v1.0/identity/authenticationEventsFlows/<span class="highlight">11111111-0000-0000-c000-000000000000</span>/conditions/applications/includeApplications</code>
+            </div>
+
+            <pre class="example replace">
+{
+    "appId": "22222222-0000-0000-0000-000000000000"
+}
+
+</pre>
+
+            <!-- PowerShell method-->
+            <div class="function-powershell">
+                <code><span class="method">New-MgBetaIdentityAuthenticationEventFlowIncludeApplication</span> <span class="param">-AuthenticationEventsFlowId</span> <span class="highlight">11111111-0000-0000-c000-000000000000</span> <span class="param">-BodyParameter</span> $params</code>
+            </div>
+
+        </div> <!--End of example-->
+
+
+
+    </div>
+
+    <div class="tab-pane" id="graphPowerShell" role="tabpanel" aria-labelledby="graphPowerShell-tab" tabindex="0">
+        Loading...
     </div>
 </div>

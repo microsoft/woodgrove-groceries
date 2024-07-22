@@ -8,52 +8,58 @@
 
 <h1 style="margin-top: 25px; margin-bottom: 25px;">Force sign-in</h1>
 
-<div>
+<p>
+    Single sign-on (SSO) adds security and convenience when users sign-in across multiple applications
+    in Microsoft Entra ID. With single sign-on, users sign-in once with a single account and get access to multiple
+    applications. When the user initially signs-in to an application, Microsoft Entra ID initiates a single sign-on
+    session. Upon subsequent authentication requests, Microsoft Entra ID validates the session, and issues a
+    security token without prompting the user to sign in again. The <a
+        href="https://learn.microsoft.com/en-us/entra/identity-platform/v2-oauth2-auth-code-flow" target="_blank"
+        class="link-dark link-offset-2">OAuth 2.0 authorization code flow</a>'s
+    <b>prompt=login</b> query string paramter forces the user to enter their
+    credentials on that request, negating single-sign on.
 
-    <p>
-        Single sign-on (SSO) adds security and convenience when users sign-in across multiple applications
-        in Microsoft Entra ID. With single sign-on, users sign-in once with a single account and get access to multiple
-        applications. When the user initially signs-in to an application, Microsoft Entra ID initiates a single sign-on
-        session. Upon subsequent authentication requests, Microsoft Entra ID validates the session, and issues a
-        security token without prompting the user to sign in again. The <a
-            href="https://learn.microsoft.com/en-us/entra/identity-platform/v2-oauth2-auth-code-flow" target="_blank"
-            class="link-dark link-offset-2">OAuth 2.0 authorization code flow</a>'s
-        <b>prompt=login</b> query string paramter forces the user to enter their
-        credentials on that request, negating single-sign on.
+    Note, users can remove this query string parameter from the authorization
+    request in the web browser address bar and bypass this method.
+</p>
 
-        Note, users can remove this query string parameter from the authorization
-        request in the web browser address bar and bypass this method.
+@await Html.PartialAsync("_HelpSelector.cshtml", 0)
+<div class="tab-content wg-tab-content">
+    <div class="tab-pane active" id="microsoftEntraAdminCenter" role="tabpanel"
+        aria-labelledby="microsoftEntraAdminCenter-tab" tabindex="0">
 
+        @await Html.PartialAsync("_StepsButtons.cshtml")
 
-    </p>
-    @await Html.PartialAsync("_StepsButtons.cshtml")
+        <div class="bs-stepper vertical" id="Stepper">
+            @await Html.PartialAsync("_Steps.cshtml", 3)
 
-    <div class="bs-stepper vertical" id="Stepper">
-        @await Html.PartialAsync("_Steps.cshtml", 3)
+            <div class="bs-stepper-content">
+                <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
+                    @await Html.PartialAsync("_Prerequisites.cshtml")
 
-        <div class="bs-stepper-content">
-            <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
-                @await Html.PartialAsync("_Prerequisites.cshtml")
+                    <p>
+                        The OAuth 2.0 authorization code flow supports the <b>prompt=login</b> query string parameter
+                        which
+                        forces
+                        the user to enter their credentials on that request, negating single-sign on. So, you don't need
+                        to
+                        configure anything special in your Microsoft Entra external ID tenant. In your application
+                        include
+                        the <b>prompt=login</b> parameter.
+                        The .NET code snippets in the next steps demonstrates how to use the
+                        <a href="https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.authentication.openidconnect.openidconnectevents.onredirecttoidentityprovider"
+                            target="_blank" class="link-dark link-offset-2">OnRedirectToIdentityProvider</a> event to
+                        pass
+                        the prompt parameter.
+                    </p>
 
-                <p>
-                    The OAuth 2.0 authorization code flow supports the <b>prompt=login</b> query string parameter which
-                    forces
-                    the user to enter their credentials on that request, negating single-sign on. So, you don't need to
-                    configure anything special in your Microsoft Entra external ID tenant. In your application include
-                    the <b>prompt=login</b> parameter.
-                    The .NET code snippets in the next steps demonstrates how to use the
-                    <a href="https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.authentication.openidconnect.openidconnectevents.onredirecttoidentityprovider"
-                        target="_blank" class="link-dark link-offset-2">OnRedirectToIdentityProvider</a> event to pass
-                    the prompt parameter.
-                </p>
-
-                <p>
-                    In the sign-in action of your code, use the <a
-                        href="https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.controllerbase.challenge"
-                        target="_blank" class="link-dark link-offset-2">Challenge Method</a>
-                    to pass a custom property that informs the MSAL library that a custom code is required.
-                </p>
-                <code>
+                    <p>
+                        In the sign-in action of your code, use the <a
+                            href="https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.controllerbase.challenge"
+                            target="_blank" class="link-dark link-offset-2">Challenge Method</a>
+                        to pass a custom property that informs the MSAL library that a custom code is required.
+                    </p>
+                    <code style="color: black;">
                     public IActionResult OnGetSignIn()<br>
                     {<br>
                     &nbsp;&nbsp;&nbsp;ChallengeResult challengeResult = new ChallengeResult(<br>
@@ -68,20 +74,20 @@
                     &nbsp;&nbsp;&nbsp;return challengeResult;<br>
                     }
                 </code>
-            </div>
+                </div>
 
-            <div id="step-2" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger2">
-                <p>
-                    Next in your <b>Program.cs</b> file add the following code. The code sets the
-                    <a href="https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.authentication.openidconnect.openidconnectevents.onredirecttoidentityprovider"
-                        target="_blank" class="link-dark link-offset-2">OnRedirectToIdentityProvider</a> event
-                    with a reference to the
-                    <b>OnRedirectToIdentityProviderFunc</b> method.
-                    This method will be invoked before redirecting to the identity
-                    provider (Microsoft Entra ID) to authenticate.
-                </p>
+                <div id="step-2" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger2">
+                    <p>
+                        Next in your <b>Program.cs</b> file add the following code. The code sets the
+                        <a href="https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.authentication.openidconnect.openidconnectevents.onredirecttoidentityprovider"
+                            target="_blank" class="link-dark link-offset-2">OnRedirectToIdentityProvider</a> event
+                        with a reference to the
+                        <b>OnRedirectToIdentityProviderFunc</b> method.
+                        This method will be invoked before redirecting to the identity
+                        provider (Microsoft Entra ID) to authenticate.
+                    </p>
 
-                <code>
+                    <code style="color: black;">
                     builder.Services.Configure<OpenIdConnectOptions>(OpenIdConnectDefaults.AuthenticationScheme,<br>
                     &nbsp;&nbsp;&nbsp;options =><br>
                     &nbsp;&nbsp;&nbsp;{<br>
@@ -90,13 +96,13 @@
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>options.Events.OnRedirectToIdentityProvider += OnRedirectToIdentityProviderFunc;</b><br>
                     &nbsp;&nbsp;&nbsp;});<br>
                 </code>
-            </div>
-            <div id="step-3" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger3">
-                <p>
-                    Finally, add the OnRedirectToIdentityProviderFunc method to the Startup.cs class.
-                </p>
+                </div>
+                <div id="step-3" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger3">
+                    <p>
+                        Finally, add the OnRedirectToIdentityProviderFunc method to the Startup.cs class.
+                    </p>
 
-                <code>
+                    <code style="color: black!important;">
                     async Task OnRedirectToIdentityProviderFunc(RedirectContext context)<br>
                     {<br>
                     &nbsp;&nbsp;&nbsp;// Read the 'force' custom parameter<br>
@@ -112,11 +118,18 @@
                     &nbsp;&nbsp;&nbsp;await Task.CompletedTask.ConfigureAwait(false);<br>
                     }
                 </code>
+                </div>
             </div>
         </div>
+
     </div>
 
-    <div id="GraphApiContent">
+    <div class="tab-pane" id="microsoftGraph" role="tabpanel" aria-labelledby="microsoftGraph-tab" tabindex="0">
         There is not need to configure your tenat. See the screenshot for details.
+    </div>
+
+    <div class="tab-pane" id="entraGraphPowerShell" role="tabpanel" aria-labelledby="entraGraphPowerShell-tab"
+        tabindex="0">
+        Loading...
     </div>
 </div>

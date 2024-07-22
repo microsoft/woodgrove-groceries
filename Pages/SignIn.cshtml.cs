@@ -171,6 +171,11 @@ namespace MyApp.Namespace
             return this.TrackAndAuth("Social", "/", true);
         }
 
+        public IActionResult OnGetTokenTTL()
+        {
+            return this.TrackAndAuth("TokenTTL", "/", true);
+        }
+
         public IActionResult OnGetSSO1()
         {
             return this.TrackAndAuth("SSO-Start");

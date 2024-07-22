@@ -10,7 +10,6 @@
 <h1 style="margin-top: 25px; margin-bottom: 25px;">Add claims to security tokens from a REST API</h1>
 
 <div>
-
     <p>
         When a user authenticates to an application, a <a
             href="https://learn.microsoft.com/entra/identity-platform/custom-claims-provider-overview" target="_blank"
@@ -23,7 +22,7 @@
         These claims return by a custom authentication extension REST API with some random values.
     </p>
 
-    <div class="alert alert-primary d-flex align-items-center" role="alert">
+    <div class="alert alert-light d-flex align-items-center" role="alert">
         <div>
             <i class="bi bi-github"></i> The <a target="_blank"
                 href="https://github.com/microsoft/woodgrove-auth-api/blob/main/Controllers/OnTokenIssuanceStartController.cs">
@@ -33,273 +32,293 @@
                 repository</a>.
         </div>
     </div>
+</div>
 
-    @await Html.PartialAsync("_StepsButtons.cshtml")
+@await Html.PartialAsync("_HelpSelector.cshtml", 0)
+<div class="tab-content wg-tab-content">
+    <div class="tab-pane active" id="microsoftEntraAdminCenter" role="tabpanel"
+        aria-labelledby="microsoftEntraAdminCenter-tab" tabindex="0">
 
-    <div class="bs-stepper vertical" id="Stepper">
-        @await Html.PartialAsync("_Steps.cshtml", 15)
+        @await Html.PartialAsync("_StepsButtons.cshtml")
 
-        <div class="bs-stepper-content">
-            <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
-                @await Html.PartialAsync("_Prerequisites.cshtml")
+        <div class="bs-stepper vertical" id="Stepper">
+            @await Html.PartialAsync("_Steps.cshtml", 15)
 
-                <p>
-                    To add a custom authentication extension, sign in to the <a href="https://entra.microsoft.com/"
-                        target="_blank" class="link-dark link-offset-2">Microsoft Entra admin center</a>
-                    and browse to <b>External Identities </b> > <b> Custom authentication extensions </b>.
+            <div class="bs-stepper-content">
+                <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
+                    @await Html.PartialAsync("_Prerequisites.cshtml")
 
-                    Note, you can also browse to <b>Applications</b> > <b>Enterprise applications </b> > <b> Custom
-                        authentication extensions </b>.
-                    From the <b> Custom authentication extensions</b> page, select <b>Create a custom extension</b>.
-                </p>
+                    <p>
+                        To add a custom authentication extension, sign in to the <a href="https://entra.microsoft.com/"
+                            target="_blank" class="link-dark link-offset-2">Microsoft Entra admin center</a>
+                        and browse to <b>External Identities </b> > <b> Custom authentication extensions </b>.
 
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border"
-                        src="~/Help/TokenAugmentation/Select-custom-authentication-extension.png">
-                </a>
-            </div>
+                        Note, you can also browse to <b>Applications</b> > <b>Enterprise applications </b> > <b> Custom
+                            authentication extensions </b>.
+                        From the <b> Custom authentication extensions</b> page, select <b>Create a custom extension</b>.
+                    </p>
 
-            <div id="step-2" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger2">
-                <p>
-                    In <b>Basics</b>, select the <b>TokenIssuanceStart</b> event type and select <b>Next</b>.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border"
-                        src="~/Help/TokenAugmentation/New-custom-authentication-extension-step-1.png">
-                </a>
-            </div>
-            <div id="step-3" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger3">
-                In <b>Endpoint Configuration</b>, fill in the following properties:
-                <ul>
-                    <li><b>Name</b> - A name for your custom authentication extension. For example, <i>
-                            Add claims from customer relationship REST API</i>.</li>
-                    <li><b>Target URL</b> - The URL of your REST API.</li>
-                    <li><b>Timeout in milliseconds</b> - The maximum number of retries the API endpoint will be called
-                        in case of failure. If empty, will default to service default.</li>
-                    <li><b>Maximum Retries</b> - The maximum number of retries the API endpoint will be called in case
-                        of failure. If empty, will default to service default..</li>
-                    <li><b>Description</b> - A description for your custom authentication extensions.</li>
-                </ul>
-                To continue, select <b>Next</b>.
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border"
-                        src="~/Help/TokenAugmentation/New-custom-authentication-extension-step-2.png">
-                </a>
-            </div>
-
-            <div id="step-4" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger4">
-                <p>
-                    To ensure the communications between the custom authentication extension and your REST API are
-                    secured appropriately, multiple security controls must be applied. The first step is to create or
-                    choose
-                    an application that Microsoft Entra ID uses the OAuth 2.0 client credentials grant flow to secure the
-                    call to your API endpoint.
-                </p>
-                <p>
-                    If this is your first custom authentication extension (if not, scroll down), in <b>API
-                        Authentication</b>, select the
-                    <b>Create new app registration</b> option to create an app registration
-                    that represents your REST API.
-                    Give the app a <b>name</b>, for example <b>Custom authentication extension security app</b> and
-                    select <b>Next</b>.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border"
-                        src="~/Help/TokenAugmentation/New-custom-authentication-extension-step-3-a.png">
-                </a>
-                <br>
-
-                <p style="padding-top: 20px;">
-                    If you have already configured a custom authentication extension, in <b>API Authentication</b>,
-                    select
-                    the
-                    <b>Select an existing app registration in this directory</b> option, and select the application you
-                    configured for the other custom authentication extensions.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border"
-                        src="~/Help/TokenAugmentation/New-custom-authentication-extension-step-3-b.png">
-                </a>
-            </div>
-
-            <div id="step-5" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger5">
-                <p>
-                    In <b>Claims</b>, enter the attributes that you expect your custom authentication extension to parse
-                    from
-                    your REST API and will be merged into the token. Then, to continue select <b>Next</b>.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border"
-                        src="~/Help/TokenAugmentation/New-custom-authentication-extension-step-4.png">
-                </a>
-            </div>
-
-            <div id="step-6" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger6">
-                <p>
-                    Review your configuration and select <b>Create</b>, which registers the custom authentication
-                    extension and the associated application registration
-                    you selected or choose to create.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border"
-                        src="~/Help/TokenAugmentation/New-custom-authentication-extension-step-5.png">
-                </a>
-            </div>
-
-            <div id="step-7" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger7">
-                <p>
-                    If earlier you choose the <b>Create new app registration</b> option, after your custom
-                    authentication
-                    extension is created, you need to grant permissions to the API.
-
-                    Open the <b>Overview</b> page of your new custom authentication extension. Under <b>API
-                        Authentication</b>, select <b>Grant permission</b>.
-
-                    A new window opens, and once signed in, it requests permissions to receive custom authentication
-                    extension HTTP requests. This allows the custom authentication extension to authenticate to your
-                    API. Select <b>Accept</b>.
-                </p>
-                <p>
-                    Take a note of the <b>App ID</b> under
-                    API Authentication, as it will be needed when you configure your REST API access token validation.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border"
-                        src="~/Help/TokenAugmentation/New-custom-authentication-extension-step-6.png">
-                </a>
-            </div>
-
-            <div id="step-8" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger8">
-                <p>
-                    At this point your custom authentication extension is configured but is not associated with any
-                    application.
-                    In the next few steps you will configure your application to add the attributes
-                    returned from the custom authentication extension mapped into the security tokens.
-                    From the menu, select <b>App registrations</b> and select your application. In this example we
-                    select the Woodgrove Groceries
-                    application.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/TokenAugmentation/Select-app.png">
-                </a>
-            </div>
-
-            <div id="step-9" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger9">
-                <p>
-                    In your application registration, under <b>Manage</b>, select <b>Manifest</b>.
-                    A web-based manifest editor opens, allowing you to edit
-                    the manifest.
-                    In the manifest, locate the <b>acceptMappedClaims</b> attribute, and set the value to <b>true</b>.
-                    Set the <b>accessTokenAcceptedVersion</b> to <b>2</b>.
-                    Select <b>Save</b> to save the changes.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/TokenAugmentation/App-manifest.png">
-                </a>
-            </div>
-
-            <div id="step-10" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger10">
-                <p>
-                    To assign the custom authentication extension as a custom claims provider source, from the
-                    app <b>Overview</b> page, select the link next to <b>Managed application in local directory</b>.
-                    Note, you can also browse to <b>Enterprise applications</b>, then under <b>Manage</b>, select <b>All
-                        applications</b>, and then select your application from the list.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/TokenAugmentation/Select-service-principal.png">
-                </a>
-            </div>
-
-            <div id="step-11" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger11">
-                <p>
-                    From the menue, select <b>Single sign-on</b>. Then, under <b>Attributes & Claims</b>, select
-                    <b>Edit</b>.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/TokenAugmentation/Service-principal-sso.png">
-                </a>
-            </div>
-
-
-            <div id="step-12" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger12">
-                <p>
-                    Expand the <b>Advanced settings</b> menu. Next to <b>Custom claims provider</b>, select
-                    <b>Configure</b>.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/TokenAugmentation/Configure-claims-provider.png">
-                </a>
-            </div>
-
-
-            <div id="step-13" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger13">
-                <p>
-                    Expand the <b>Custom claims provider</b> drop-down box, and select the Token issuance event you
-                    created
-                    earlier. Select <b>Save</b> to save the changes.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/TokenAugmentation/Select-custom-auth-extension.png">
-                </a>
-            </div>
-
-            <div id="step-14" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger14">
-                <p>
-                    Next, assign the attributes from the custom claims provider, which should be issued into the token
-                    as claims:
-                    Select <b>Add new claim</b> to add a new claim.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/TokenAugmentation/Add-claims-1.png">
-                </a>
-            </div>
-
-            <div id="step-15" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger15">
-                <p>
-                    Provide a <b>name</b> to the claim you want to be issued, for example loyaltyNumber.
-
-                    Under Source, select <b>Attribute</b>, and choose <b>customClaimsProvider.loyaltyNumber</b> from the
-                    Source
-                    attribute drop-down box. Note, the <b>name</b> can be differed from the source. For example, the
-                    name can be
-                    CustomerNumber, while the source must be one from the list.
-                </p>
-
-                <div class="alert alert-success" role="alert">
-                    <h4 class="alert-heading">Well done!</h4>
-                    <p>Your custom authentication extension is
-                        configured, and
-                        claims that it returns will be included in the access token for your application.</p>
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border"
+                            src="~/Help/TokenAugmentation/Select-custom-authentication-extension.png">
+                    </a>
                 </div>
 
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/TokenAugmentation/Add-claims-2.png">
-                </a>
+                <div id="step-2" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger2">
+                    <p>
+                        In <b>Basics</b>, select the <b>TokenIssuanceStart</b> event type and select <b>Next</b>.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border"
+                            src="~/Help/TokenAugmentation/New-custom-authentication-extension-step-1.png">
+                    </a>
+                </div>
+                <div id="step-3" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger3">
+                    In <b>Endpoint Configuration</b>, fill in the following properties:
+                    <ul>
+                        <li><b>Name</b> - A name for your custom authentication extension. For example, <i>
+                                Add claims from customer relationship REST API</i>.</li>
+                        <li><b>Target URL</b> - The URL of your REST API.</li>
+                        <li><b>Timeout in milliseconds</b> - The maximum number of retries the API endpoint will be
+                            called
+                            in case of failure. If empty, will default to service default.</li>
+                        <li><b>Maximum Retries</b> - The maximum number of retries the API endpoint will be called in
+                            case
+                            of failure. If empty, will default to service default..</li>
+                        <li><b>Description</b> - A description for your custom authentication extensions.</li>
+                    </ul>
+                    To continue, select <b>Next</b>.
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border"
+                            src="~/Help/TokenAugmentation/New-custom-authentication-extension-step-2.png">
+                    </a>
+                </div>
+
+                <div id="step-4" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger4">
+                    <p>
+                        To ensure the communications between the custom authentication extension and your REST API are
+                        secured appropriately, multiple security controls must be applied. The first step is to create
+                        or
+                        choose
+                        an application that Microsoft Entra ID uses the OAuth 2.0 client credentials grant flow to
+                        secure
+                        the
+                        call to your API endpoint.
+                    </p>
+                    <p>
+                        If this is your first custom authentication extension (if not, scroll down), in <b>API
+                            Authentication</b>, select the
+                        <b>Create new app registration</b> option to create an app registration
+                        that represents your REST API.
+                        Give the app a <b>name</b>, for example <b>Custom authentication extension security app</b> and
+                        select <b>Next</b>.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border"
+                            src="~/Help/TokenAugmentation/New-custom-authentication-extension-step-3-a.png">
+                    </a>
+                    <br>
+
+                    <p style="padding-top: 20px;">
+                        If you have already configured a custom authentication extension, in <b>API Authentication</b>,
+                        select
+                        the
+                        <b>Select an existing app registration in this directory</b> option, and select the application
+                        you
+                        configured for the other custom authentication extensions.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border"
+                            src="~/Help/TokenAugmentation/New-custom-authentication-extension-step-3-b.png">
+                    </a>
+                </div>
+
+                <div id="step-5" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger5">
+                    <p>
+                        In <b>Claims</b>, enter the attributes that you expect your custom authentication extension to
+                        parse
+                        from
+                        your REST API and will be merged into the token. Then, to continue select <b>Next</b>.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border"
+                            src="~/Help/TokenAugmentation/New-custom-authentication-extension-step-4.png">
+                    </a>
+                </div>
+
+                <div id="step-6" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger6">
+                    <p>
+                        Review your configuration and select <b>Create</b>, which registers the custom authentication
+                        extension and the associated application registration
+                        you selected or choose to create.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border"
+                            src="~/Help/TokenAugmentation/New-custom-authentication-extension-step-5.png">
+                    </a>
+                </div>
+
+                <div id="step-7" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger7">
+                    <p>
+                        If earlier you choose the <b>Create new app registration</b> option, after your custom
+                        authentication
+                        extension is created, you need to grant permissions to the API.
+
+                        Open the <b>Overview</b> page of your new custom authentication extension. Under <b>API
+                            Authentication</b>, select <b>Grant permission</b>.
+
+                        A new window opens, and once signed in, it requests permissions to receive custom authentication
+                        extension HTTP requests. This allows the custom authentication extension to authenticate to your
+                        API. Select <b>Accept</b>.
+                    </p>
+                    <p>
+                        Take a note of the <b>App ID</b> under
+                        API Authentication, as it will be needed when you configure your REST API access token
+                        validation.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border"
+                            src="~/Help/TokenAugmentation/New-custom-authentication-extension-step-6.png">
+                    </a>
+                </div>
+
+                <div id="step-8" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger8">
+                    <p>
+                        At this point your custom authentication extension is configured but is not associated with any
+                        application.
+                        In the next few steps you will configure your application to add the attributes
+                        returned from the custom authentication extension mapped into the security tokens.
+                        From the menu, select <b>App registrations</b> and select your application. In this example we
+                        select the Woodgrove Groceries
+                        application.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/TokenAugmentation/Select-app.png">
+                    </a>
+                </div>
+
+                <div id="step-9" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger9">
+                    <p>
+                        In your application registration, under <b>Manage</b>, select <b>Manifest</b>.
+                        A web-based manifest editor opens, allowing you to edit
+                        the manifest.
+                        In the manifest, locate the <b>acceptMappedClaims</b> attribute, and set the value to
+                        <b>true</b>.
+                        Set the <b>accessTokenAcceptedVersion</b> to <b>2</b>.
+                        Select <b>Save</b> to save the changes.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/TokenAugmentation/App-manifest.png">
+                    </a>
+                </div>
+
+                <div id="step-10" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger10">
+                    <p>
+                        To assign the custom authentication extension as a custom claims provider source, from the
+                        app <b>Overview</b> page, select the link next to <b>Managed application in local directory</b>.
+                        Note, you can also browse to <b>Enterprise applications</b>, then under <b>Manage</b>, select
+                        <b>All
+                            applications</b>, and then select your application from the list.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/TokenAugmentation/Select-service-principal.png">
+                    </a>
+                </div>
+
+                <div id="step-11" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger11">
+                    <p>
+                        From the menue, select <b>Single sign-on</b>. Then, under <b>Attributes & Claims</b>, select
+                        <b>Edit</b>.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/TokenAugmentation/Service-principal-sso.png">
+                    </a>
+                </div>
+
+
+                <div id="step-12" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger12">
+                    <p>
+                        Expand the <b>Advanced settings</b> menu. Next to <b>Custom claims provider</b>, select
+                        <b>Configure</b>.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/TokenAugmentation/Configure-claims-provider.png">
+                    </a>
+                </div>
+
+
+                <div id="step-13" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger13">
+                    <p>
+                        Expand the <b>Custom claims provider</b> drop-down box, and select the Token issuance event you
+                        created
+                        earlier. Select <b>Save</b> to save the changes.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/TokenAugmentation/Select-custom-auth-extension.png">
+                    </a>
+                </div>
+
+                <div id="step-14" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger14">
+                    <p>
+                        Next, assign the attributes from the custom claims provider, which should be issued into the
+                        token
+                        as claims:
+                        Select <b>Add new claim</b> to add a new claim.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/TokenAugmentation/Add-claims-1.png">
+                    </a>
+                </div>
+
+                <div id="step-15" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger15">
+                    <p>
+                        Provide a <b>name</b> to the claim you want to be issued, for example loyaltyNumber.
+
+                        Under Source, select <b>Attribute</b>, and choose <b>customClaimsProvider.loyaltyNumber</b> from
+                        the
+                        Source
+                        attribute drop-down box. Note, the <b>name</b> can be differed from the source. For example, the
+                        name can be
+                        CustomerNumber, while the source must be one from the list.
+                    </p>
+
+                    <div class="alert alert-success" role="alert">
+                        <h4 class="alert-heading">Well done!</h4>
+                        <p>Your custom authentication extension is
+                            configured, and
+                            claims that it returns will be included in the access token for your application.</p>
+                    </div>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/TokenAugmentation/Add-claims-2.png">
+                    </a>
+                </div>
             </div>
         </div>
+
     </div>
 
-    <div id="GraphApiContent">
-        <h4 class="graph-header">Dependencies</h4>
+    <div class="tab-pane" id="microsoftGraph" role="tabpanel" aria-labelledby="microsoftGraph-tab" tabindex="0">
+        <h4 class="graph-header graph-header-space">Dependencies</h4>
         <ul>
             <li>Application registers</li>
         </ul>
 
-        <h4 style="padding-top: 25px;padding-bottom: 5px;">1. Register custom authentication extension application</h4>
+        <h4 class="graph-header graph-header-space">1. Register custom authentication extension application</h4>
         <p>
             To <a
                 href="https://learn.microsoft.com/en-us/graph/api/application-post-applications?view=graph-rest-1.0&tabs=http"
@@ -307,7 +326,8 @@
             Microsoft
             Graph. The name of the application will be <b>Custom authentication extension security app</b>.
         </p>
-        <code style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/v1.0/applications</code>
+        <code
+            style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/v1.0/applications</code>
 
         <pre>
 {
@@ -336,7 +356,7 @@
         </pre>
 
 
-        <h5 class="graph-header">1.1 Copy the application ID</h5>
+        <h5 class="graph-header graph-header-space">1.1 Copy the application ID</h5>
         From the response, copy the value of the <b>appId</b>. For example:
         <pre>
 {
@@ -349,7 +369,7 @@
 }        
         </pre>
 
-        <h5 class="graph-header">1.2 Update the application identifier URI</h5>
+        <h5 class="graph-header graph-header-space">1.2 Update the application identifier URI</h5>
         <p>
             After you register you registered your application, <a
                 href="https://learn.microsoft.com/en-us/graph/api/application-update?view=graph-rest-beta&tabs=http"
@@ -370,11 +390,11 @@
         </pre>
 
 
-        <a class="btn btn-outline-primary btn-sm" data-bs-toggle="collapse" href="#collapseExample1" role="button"
+        <a class="btn btn-success btn-sm" data-bs-toggle="collapse" href="#collapseExample1" role="button"
             aria-expanded="false" aria-controls="collapseExample1">
-            Example
+            Show example
         </a>
-        <div class="collapse" id="collapseExample1">
+        <div class="collapse example" id="collapseExample1">
             <code
                 style="color: black;"><span class="method">PATCH</span> https://graph.microsoft.com/v1.0/applications(appId='12345678-1234-1234-1234-000000000000')</code>
 
@@ -387,7 +407,7 @@
             </pre>
         </div>
 
-        <h5 class="graph-header">1.3 Create a service principal for your application</h5>
+        <h5 class="graph-header graph-header-space">1.3 Create a service principal for your application</h5>
         <p>
             After you register you registered your application, <a
                 href="https://learn.microsoft.com/en-us/graph/api/serviceprincipal-post-serviceprincipals?view=graph-rest-1.0&tabs=http"
@@ -396,7 +416,8 @@
             (not the
             object ID).
         </p>
-        <code style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/v1.0/servicePrincipals</code>
+        <code
+            style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/v1.0/servicePrincipals</code>
 
         <pre>
 {
@@ -405,12 +426,13 @@
         </pre>
 
 
-        <a class="btn btn-outline-primary btn-sm" data-bs-toggle="collapse" href="#collapseExample2" role="button"
+        <a class="btn btn-success btn-sm" data-bs-toggle="collapse" href="#collapseExample2" role="button"
             aria-expanded="false" aria-controls="collapseExample2">
-            Example
+            Show example
         </a>
-        <div class="collapse" id="collapseExample2">
-            <code style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/v1.0/servicePrincipals</code>
+        <div class="collapse example" id="collapseExample2">
+            <code
+                style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/v1.0/servicePrincipals</code>
 
             <pre class="example">
 {
@@ -420,7 +442,7 @@
         </div>
 
 
-        <h5 class="graph-header">1.4 Copy the service principal ID</h5>
+        <h5 class="graph-header graph-header-space">1.4 Copy the service principal ID</h5>
         From the response, copy the value of the <b>id</b>. For example:
         <pre>
 {
@@ -434,11 +456,12 @@
 
 
 
-        <h5 class="graph-header">1.5 Get the Microsoft Graph's service principal ID</h5>
+        <h5 class="graph-header graph-header-space">1.5 Get the Microsoft Graph's service principal ID</h5>
 
         <p>Run the following GET request and cope the <b>id</b> from the response:</p>
 
-        <code style="color: black;"><span class="method">GET</span> https://graph.microsoft.com/v1.0/servicePrincipals(appId='00000003-0000-0000-c000-000000000000')</code>
+        <code
+            style="color: black;"><span class="method">GET</span> https://graph.microsoft.com/v1.0/servicePrincipals(appId='00000003-0000-0000-c000-000000000000')</code>
 
         <pre>
 {
@@ -448,7 +471,7 @@
 }
         </pre>
 
-        <h5 class="graph-header">1.6 Consent to the required permissions</h5>
+        <h5 class="graph-header graph-header-space">1.6 Consent to the required permissions</h5>
         <p>
 
             Since the tenant is a customer's tenant, the consumer users themselves can't consent to these permissions.
@@ -458,7 +481,8 @@
             users in the tenant:
 
             Replace the <b>{service-principal-id}</b> with the service-principal ID you created in the previous step.
-            Replace the <b>{graph-service-principal-id}</b> with the service-principal <b>id</b> you copied in the last step.
+            Replace the <b>{graph-service-principal-id}</b> with the service-principal <b>id</b> you copied in the last
+            step.
         </p>
         <p>
             Note, in the following JSON snippet, the <i>214e810f-fda8-4fd7-a475-29461495eb00</i> ID is the
@@ -477,7 +501,7 @@
         </pre>
 
 
-        <h4 class="graph-header">2. Register a custom authentication extension</h4>
+        <h4 class="graph-header graph-header-space">2. Register a custom authentication extension</h4>
 
         <p>
             Next, you <a
@@ -495,7 +519,8 @@
         </ul>
         </p>
 
-        <code style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/beta/identity/customAuthenticationExtensions</code>
+        <code
+            style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/beta/identity/customAuthenticationExtensions</code>
         <pre>
 {
     "@@odata.type": "#microsoft.graph.onTokenIssuanceStartCustomExtension",
@@ -538,11 +563,11 @@
         </pre>
 
 
-        <a class="btn btn-outline-primary btn-sm" data-bs-toggle="collapse" href="#collapseExample3" role="button"
+        <a class="btn btn-success btn-sm" data-bs-toggle="collapse" href="#collapseExample3" role="button"
             aria-expanded="false" aria-controls="collapseExample3">
-            Example
+            Show example
         </a>
-        <div class="collapse" id="collapseExample3">
+        <div class="collapse example" id="collapseExample3">
             <code
                 style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/beta/identity/customAuthenticationExtensions</code>
 
@@ -590,7 +615,7 @@
         </div>
 
 
-        <h5 class="graph-header">2.1 Copy the custom authentication extension ID</h5>
+        <h5 class="graph-header graph-header-space">2.1 Copy the custom authentication extension ID</h5>
         From the response, copy the value of the <b>id</b>. For example:
         <pre>
 {
@@ -602,7 +627,7 @@
 }
         </pre>
 
-        <h5 class="graph-header">2.2 Create authentication event listener</h5>
+        <h5 class="graph-header graph-header-space">2.2 Create authentication event listener</h5>
         <p>
             After you register you registered your custom authentication extension, <a
                 href="https://learn.microsoft.com/en-us/graph/api/identitycontainer-post-authenticationeventlisteners?view=graph-rest-beta&tabs=http"
@@ -616,7 +641,8 @@
             <li><b>{Custom-auth-extension-ID}</b> with the custom authentication extension you just created.</li>
         </ul>
         </p>
-        <code style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/beta/identity/authenticationEventListeners</code>
+        <code
+            style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/beta/identity/authenticationEventListeners</code>
 
         <pre>
 {
@@ -642,11 +668,11 @@
         </pre>
 
 
-        <a class="btn btn-outline-primary btn-sm" data-bs-toggle="collapse" href="#collapseExample2" role="button"
+        <a class="btn btn-success btn-sm" data-bs-toggle="collapse" href="#collapseExample2" role="button"
             aria-expanded="false" aria-controls="collapseExample2">
-            Example
+            Show example
         </a>
-        <div class="collapse" id="collapseExample2">
+        <div class="collapse example" id="collapseExample2">
             <code
                 style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/beta/identity/authenticationEventListeners</code>
 
@@ -677,10 +703,12 @@
             </pre>
         </div>
 
-        <h5 class="graph-header">3. Update your applications' manifest</h5>
+        <h5 class="graph-header graph-header-space">3. Update your applications' manifest</h5>
         <p>
-            Configure your web or mobile application metadata's <b>acceptMappedClaims</b> attribute to <b>true</b>. Also, the <b>accessTokenAcceptedVersion</b> to <b>2</b>.
-            Replace the <b>{app-ID}</b> with your web or mobile application. If you have more than one application, repeat this step.
+            Configure your web or mobile application metadata's <b>acceptMappedClaims</b> attribute to <b>true</b>.
+            Also, the <b>accessTokenAcceptedVersion</b> to <b>2</b>.
+            Replace the <b>{app-ID}</b> with your web or mobile application. If you have more than one application,
+            repeat this step.
         </p>
         <code
             style="color: black;"><span class="method">PATCH</span> https://graph.microsoft.com/v1.0/applications(appId='<span class="highlight">{app-ID}</span>')</code>
@@ -693,11 +721,16 @@
     }
 }
         </pre>
-        <h4 class="graph-header">4. Assign a custom claims provider to your app</h4>
+        <h4 class="graph-header graph-header-space">4. Assign a custom claims provider to your app</h4>
 
         For tokens to be issued with claims incoming from the custom authentication extension, you must <a
             href="https://learn.microsoft.com/en-us/entra/identity-platform/custom-extension-tokenissuancestart-configuration?tabs=microsoft-graph%2Cworkforce-tenant#step-3-assign-a-custom-claims-provider-to-your-app"
             target="_blank" class="link-dark link-offset-2">assign a custom claims provider to your application</a>.
 
+    </div>
+
+    <div class="tab-pane" id="entraGraphPowerShell" role="tabpanel" aria-labelledby="entraGraphPowerShell-tab"
+        tabindex="0">
+        Loading...
     </div>
 </div>

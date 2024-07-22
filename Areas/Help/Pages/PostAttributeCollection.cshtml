@@ -8,7 +8,6 @@
 
 <h1 style="margin-top: 25px; margin-bottom: 25px;">Validate sign-up attributes</h1>
 
-
 <div>
     <p>
         The custom authentication extension supports the <a
@@ -19,10 +18,11 @@
         This demo validates the <b>City</b> name against a list of <b>countries</b> compiled in the Woodgrove custom
         authentication
         extension REST API. Also, if the city contains <b>block</b>, Microsoft Entra ID will show <b>block page</b>.
-        If the city contains <b>modify</b>, Microsoft Entra ID will modify some of the attributes (display name and city).
+        If the city contains <b>modify</b>, Microsoft Entra ID will modify some of the attributes (display name and
+        city).
     </p>
 
-    <div class="alert alert-primary d-flex align-items-center" role="alert">
+    <div class="alert alert-light d-flex align-items-center" role="alert">
         <div>
             <i class="bi bi-github"></i> The <a target="_blank"
                 href="https://github.com/microsoft/woodgrove-auth-api/blob/main/Controllers/OnAttributeCollectionSubmitController.cs">
@@ -32,178 +32,196 @@
                 repository</a>.
         </div>
     </div>
+</div>
 
-    @await Html.PartialAsync("_StepsButtons.cshtml")
 
-    <div class="bs-stepper vertical" id="Stepper">
-        @await Html.PartialAsync("_Steps.cshtml", 9)
+@await Html.PartialAsync("_HelpSelector.cshtml", 0)
+<div class="tab-content wg-tab-content">
+    <div class="tab-pane active" id="microsoftEntraAdminCenter" role="tabpanel"
+        aria-labelledby="microsoftEntraAdminCenter-tab" tabindex="0">
 
-        <div class="bs-stepper-content">
-            <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
-                @await Html.PartialAsync("_Prerequisites.cshtml")
+        @await Html.PartialAsync("_StepsButtons.cshtml")
 
-                <p>
-                    Start by registering a custom authentication extension that is used by Microsoft Entra ID to call
-                    your REST API.
-                    The custom authentication extension contains information about your REST API endpoint, the
-                    attribute collection start action that it parses from your REST API, and how to
-                    authenticate to your REST API.
-                    Sign in to the <a href="https://entra.microsoft.com/" target="_blank"
-                        class="link-dark link-offset-2">Microsoft Entra admin center</a>
-                    and browse to <b>External Identities </b> > <b> Custom authentication extensions</b>.
+        <div class="bs-stepper vertical" id="Stepper">
+            @await Html.PartialAsync("_Steps.cshtml", 9)
 
-                    Note, you can also browse to <b>Applications</b> > <b>Enterprise applications </b> > <b> Custom
-                        authentication extensions </b>.
+            <div class="bs-stepper-content">
+                <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
+                    @await Html.PartialAsync("_Prerequisites.cshtml")
 
-                    Then, select <b>Create a custom extension</b>.
-                </p>
+                    <p>
+                        Start by registering a custom authentication extension that is used by Microsoft Entra ID to
+                        call
+                        your REST API.
+                        The custom authentication extension contains information about your REST API endpoint, the
+                        attribute collection start action that it parses from your REST API, and how to
+                        authenticate to your REST API.
+                        Sign in to the <a href="https://entra.microsoft.com/" target="_blank"
+                            class="link-dark link-offset-2">Microsoft Entra admin center</a>
+                        and browse to <b>External Identities </b> > <b> Custom authentication extensions</b>.
 
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border"
-                        src="~/Help/PostAttributeCollection/Select-custom-authentication-extensions.png">
-                </a>
-            </div>
+                        Note, you can also browse to <b>Applications</b> > <b>Enterprise applications </b> > <b> Custom
+                            authentication extensions </b>.
 
-            <div id="step-2" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger2">
-                <p>
-                    In <b>Basics</b>, select the <b>AttributeCollectionSubmit</b>
-                    event, and then select <b>Next</b>.
-                </p>
+                        Then, select <b>Create a custom extension</b>.
+                    </p>
 
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border"
-                        src="~/Help/PostAttributeCollection/Create-custom-authentication-extension-1.png">
-                </a>
-            </div>
-
-            <div id="step-3" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger3">
-                <p>
-                    In <b>Endpoint Configuration</b>, fill in the following properties:
-                <ul>
-                    <li><b>Name</b> - A name for your custom authentication extension. For example, <i>
-                            Validate sign-up user input</i>.</li>
-                    <li><b>Target URL</b> - The URL of your REST API.</li>
-                    <li><b>Timeout in milliseconds</b> - The maximum number of retries the API endpoint will be called
-                        in case of failure. If empty, will default to service default.</li>
-                    <li><b>Maximum Retries</b> - The maximum number of retries the API endpoint will be called in case
-                        of failure. If empty, will default to service default..</li>
-                    <li><b>Description</b> - A description for your custom authentication extensions.</li>
-                </ul>
-                To continue, select <b>Next</b>.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border"
-                        src="~/Help/PostAttributeCollection/Create-custom-authentication-extension-2.png">
-                </a>
-            </div>
-
-            <div id="step-4" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger4">
-                <p>
-                    To ensure the communications between the custom authentication extension and your REST API are
-                    secured appropriately, multiple security controls must be applied. The first step is to create or
-                    choose an application that Microsoft Entra ID uses the OAuth 2.0 client credentials grant flow to
-                    secure the
-                    call to your API endpoint.
-                </p>
-                <p>
-                    If this is your first custom authentication extension, see how we have configured
-                    our <a href="~/help/TokenAugmentation">TokenIssuanceStart event</a>.
-
-                    Since we already configured a custom authentication extension, in <b>API Authentication</b>,
-                    choose the <b>Select an existing app registration in this directory</b> option.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border"
-                        src="~/Help/PostAttributeCollection/Create-custom-authentication-extension-3.png">
-                </a>
-            </div>
-
-            <div id="step-5" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger5">
-                <p>
-                    Select the application you configured for the other custom authentication extensions, and choose
-                    <b>Select</b>.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border"
-                        src="~/Help/PostAttributeCollection/Create-custom-authentication-extension-4.png">
-                </a>
-            </div>
-
-            <div id="step-6" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger6">
-                <p>
-                    Review your configuration and select <b>Create</b>, which registers the custom authentication
-                    extension and the associated application registration
-                    you selected.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border"
-                        src="~/Help/PostAttributeCollection/Create-custom-authentication-extension-5.png">
-                </a>
-            </div>
-
-            <div id="step-7" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger7">
-                <p>
-                    At this point the custom authenticate extension is configured in your tenant, but not in used in any
-                    of the sign-up pages.
-                    Next you associate the custom authentication extension with one or more of your user flows.
-                    To do so, browse to <b>Identity</b> > <b>External Identities</b> > <b>User flows</b>.
-                    Then, select the user flow from the list.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/PostAttributeCollection/Select-user-flow.png">
-                </a>
-            </div>
-
-            <div id="step-8" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger8">
-                <p>
-                    From the menu, select <b>Custom authentication extensions</b>. To associate your custom
-                    authentication
-                    extension, select the <b>Before collecting information from the user</b> event.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border"
-                        src="~/Help/PostAttributeCollection/Add-custom-authentication-extension-to-user-flow-1.png">
-                </a>
-            </div>
-
-            <div id="step-9" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger9">
-                <p>
-                    The custom extensions configured for the
-                    <b>OnAttributeCollectionStart</b> event will be displayed.
-                    Select one of them for the attribute collection start event, and then choose <b>Select</b> and then
-                    save the changes.
-                </p>
-
-                <div class="alert alert-success" role="alert">
-                    <h4 class="alert-heading">Well done!</h4>
-                    <p>You created a custom authentication extension type of <b>OnAttributeCollectionSubmit</b>. Then
-                        you associated it with your user flow. To check the user experience, sign-up to your
-                        application.</p>
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border"
+                            src="~/Help/PostAttributeCollection/Select-custom-authentication-extensions.png">
+                    </a>
                 </div>
 
+                <div id="step-2" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger2">
+                    <p>
+                        In <b>Basics</b>, select the <b>AttributeCollectionSubmit</b>
+                        event, and then select <b>Next</b>.
+                    </p>
 
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border"
-                        src="~/Help/PostAttributeCollection/Add-custom-authentication-extension-to-user-flow-2.png">
-                </a>
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border"
+                            src="~/Help/PostAttributeCollection/Create-custom-authentication-extension-1.png">
+                    </a>
+                </div>
+
+                <div id="step-3" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger3">
+                    <p>
+                        In <b>Endpoint Configuration</b>, fill in the following properties:
+                    <ul>
+                        <li><b>Name</b> - A name for your custom authentication extension. For example, <i>
+                                Validate sign-up user input</i>.</li>
+                        <li><b>Target URL</b> - The URL of your REST API.</li>
+                        <li><b>Timeout in milliseconds</b> - The maximum number of retries the API endpoint will be
+                            called
+                            in case of failure. If empty, will default to service default.</li>
+                        <li><b>Maximum Retries</b> - The maximum number of retries the API endpoint will be called in
+                            case
+                            of failure. If empty, will default to service default..</li>
+                        <li><b>Description</b> - A description for your custom authentication extensions.</li>
+                    </ul>
+                    To continue, select <b>Next</b>.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border"
+                            src="~/Help/PostAttributeCollection/Create-custom-authentication-extension-2.png">
+                    </a>
+                </div>
+
+                <div id="step-4" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger4">
+                    <p>
+                        To ensure the communications between the custom authentication extension and your REST API are
+                        secured appropriately, multiple security controls must be applied. The first step is to create
+                        or
+                        choose an application that Microsoft Entra ID uses the OAuth 2.0 client credentials grant flow
+                        to
+                        secure the
+                        call to your API endpoint.
+                    </p>
+                    <p>
+                        If this is your first custom authentication extension, see how we have configured
+                        our <a href="~/help/TokenAugmentation">TokenIssuanceStart event</a>.
+
+                        Since we already configured a custom authentication extension, in <b>API Authentication</b>,
+                        choose the <b>Select an existing app registration in this directory</b> option.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border"
+                            src="~/Help/PostAttributeCollection/Create-custom-authentication-extension-3.png">
+                    </a>
+                </div>
+
+                <div id="step-5" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger5">
+                    <p>
+                        Select the application you configured for the other custom authentication extensions, and choose
+                        <b>Select</b>.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border"
+                            src="~/Help/PostAttributeCollection/Create-custom-authentication-extension-4.png">
+                    </a>
+                </div>
+
+                <div id="step-6" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger6">
+                    <p>
+                        Review your configuration and select <b>Create</b>, which registers the custom authentication
+                        extension and the associated application registration
+                        you selected.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border"
+                            src="~/Help/PostAttributeCollection/Create-custom-authentication-extension-5.png">
+                    </a>
+                </div>
+
+                <div id="step-7" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger7">
+                    <p>
+                        At this point the custom authenticate extension is configured in your tenant, but not in used in
+                        any
+                        of the sign-up pages.
+                        Next you associate the custom authentication extension with one or more of your user flows.
+                        To do so, browse to <b>Identity</b> > <b>External Identities</b> > <b>User flows</b>.
+                        Then, select the user flow from the list.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/PostAttributeCollection/Select-user-flow.png">
+                    </a>
+                </div>
+
+                <div id="step-8" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger8">
+                    <p>
+                        From the menu, select <b>Custom authentication extensions</b>. To associate your custom
+                        authentication
+                        extension, select the <b>Before collecting information from the user</b> event.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border"
+                            src="~/Help/PostAttributeCollection/Add-custom-authentication-extension-to-user-flow-1.png">
+                    </a>
+                </div>
+
+                <div id="step-9" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger9">
+                    <p>
+                        The custom extensions configured for the
+                        <b>OnAttributeCollectionStart</b> event will be displayed.
+                        Select one of them for the attribute collection start event, and then choose <b>Select</b> and
+                        then
+                        save the changes.
+                    </p>
+
+                    <div class="alert alert-success" role="alert">
+                        <h4 class="alert-heading">Well done!</h4>
+                        <p>You created a custom authentication extension type of <b>OnAttributeCollectionSubmit</b>.
+                            Then
+                            you associated it with your user flow. To check the user experience, sign-up to your
+                            application.</p>
+                    </div>
+
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border"
+                            src="~/Help/PostAttributeCollection/Add-custom-authentication-extension-to-user-flow-2.png">
+                    </a>
+                </div>
             </div>
         </div>
+
     </div>
 
-    <div id="GraphApiContent">
-        <h4 class="graph-header">1. Register custom authentication extension application</h4>
+    <div class="tab-pane" id="microsoftGraph" role="tabpanel" aria-labelledby="microsoftGraph-tab" tabindex="0">
+        <h4 class="graph-header graph-header-space">1. Register custom authentication extension application</h4>
 
         <p>
-            If this is your first custom authentication extension, <a href="~/help/TokenAugmentation#graph">register the custom authentication extension application</a>.</a>.
+            If this is your first custom authentication extension, <a href="~/help/TokenAugmentation#graph">register the
+                custom authentication extension application</a>.</a>.
         </p>
 
-        <h4 class="graph-header">2. Register custom authentication extension</h4>
+        <h4 class="graph-header graph-header-space">2. Register custom authentication extension</h4>
 
         <p>
             Next, you <a
@@ -220,7 +238,8 @@
         </ul>
         </p>
 
-        <code style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/beta/identity/customAuthenticationExtensions</code>
+        <code
+            style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/beta/identity/customAuthenticationExtensions</code>
         <pre>
 {
     "@@odata.type": "#microsoft.graph.onAttributeCollectionSubmitCustomExtension",
@@ -243,11 +262,11 @@
         </pre>
 
 
-        <a class="btn btn-outline-primary btn-sm" data-bs-toggle="collapse" href="#collapseExample3" role="button"
+        <a class="btn btn-success btn-sm" data-bs-toggle="collapse" href="#collapseExample3" role="button"
             aria-expanded="false" aria-controls="collapseExample3">
-            Example
+            Show example
         </a>
-        <div class="collapse" id="collapseExample3">
+        <div class="collapse example" id="collapseExample3">
             <code
                 style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/beta/identity/customAuthenticationExtensions</code>
 
@@ -273,7 +292,7 @@
             </pre>
         </div>
 
-        <h5 class="graph-header">2.1 Copy the custom authentication extension ID</h5>
+        <h5 class="graph-header graph-header-space">2.1 Copy the custom authentication extension ID</h5>
         From the response, copy the value of the <b>id</b>. For example:
         <pre>
 {
@@ -285,16 +304,18 @@
 }
         </pre>
 
-        <h5 class="graph-header">2.2 Create authentication event listener</h5>
+        <h5 class="graph-header graph-header-space">2.2 Create authentication event listener</h5>
         <p>
             After you register you registered your custom authentication extension, <a
                 href="https://learn.microsoft.com/en-us/graph/api/identitycontainer-post-authenticationeventlisteners?view=graph-rest-beta&tabs=http"
                 target="_blank" class="link-dark link-offset-2">create authentication event listener</a>.
 
-            In the next JSON, replace <b>{Custom-auth-extension-ID}</b> with the custom authentication extension you just created.</li>
-        </ul>
+            In the next JSON, replace <b>{Custom-auth-extension-ID}</b> with the custom authentication extension you
+            just created.</li>
+            </ul>
         </p>
-        <code style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/beta/identity/authenticationEventListeners</code>
+        <code
+            style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/beta/identity/authenticationEventListeners</code>
 
         <pre>
 {
@@ -316,11 +337,11 @@
         </pre>
 
 
-        <a class="btn btn-outline-primary btn-sm" data-bs-toggle="collapse" href="#collapseExample2" role="button"
+        <a class="btn btn-success btn-sm" data-bs-toggle="collapse" href="#collapseExample2" role="button"
             aria-expanded="false" aria-controls="collapseExample2">
-            Example
+            Show example
         </a>
-        <div class="collapse" id="collapseExample2">
+        <div class="collapse example" id="collapseExample2">
             <code
                 style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/beta/identity/authenticationEventListeners</code>
 
@@ -344,7 +365,7 @@
             </pre>
         </div>
 
-        <h5 class="graph-header">2.3Link the custom authentication extension to a user flow</h5>
+        <h5 class="graph-header graph-header-space">2.3Link the custom authentication extension to a user flow</h5>
         <p>
             <a href="https://learn.microsoft.com/en-us/graph/api/authenticationeventsflow-update?view=graph-rest-beta&tabs=http"
                 target="_blank" class="link-dark link-offset-2">Update your user flow</a>.
@@ -367,11 +388,11 @@
         </pre>
 
 
-        <a class="btn btn-outline-primary btn-sm" data-bs-toggle="collapse" href="#collapseExample3" role="button"
+        <a class="btn btn-success btn-sm" data-bs-toggle="collapse" href="#collapseExample3" role="button"
             aria-expanded="false" aria-controls="collapseExample3">
-            Example
+            Show example
         </a>
-        <div class="collapse" id="collapseExample3">
+        <div class="collapse example" id="collapseExample3">
             <code
                 style="color: black;"><b>PUT</b> https://graph.microsoft.com/beta//identity/authenticationEventsFlows/44444444-4444-4444-4444-445555555555/microsoft.graph.externalUsersSelfServiceSignUpEventsFlow/onAttributeCollectionSubmit/microsoft.graph.onAttributeCollectionSubmitCustomExtensionHandler/customExtension/$ref</code>
 
@@ -381,5 +402,10 @@
 }
             </pre>
         </div>
+    </div>
+
+    <div class="tab-pane" id="entraGraphPowerShell" role="tabpanel" aria-labelledby="entraGraphPowerShell-tab"
+        tabindex="0">
+        Loading...
     </div>
 </div>
