@@ -499,19 +499,38 @@ hr.vertical {
   right: 10px;
 }
 
-/***************** Help buttons ****************/
+/***************** Help ****************/
+.nav-underline .nav-link.active, .nav-underline{
+  color: var(--color-dark);
+  border-bottom-color: #ffc107;
+  border-bottom-width: 3px;
+}
+
+.nav-underline .nav-link {
+  color: var(--color-light);
+}
+
+.wg-tab-content{
+  margin-top: 25px;
+}
+
 #showEntraAdminCenter,
 #GraphApiContent {
   display: none;
 }
 
 pre {
-  color: #0B60B0;
+  color: rgb(60, 60, 60);
+  margin-bottom: 0!important
 }
 
 .graph-header {
-  padding-top: 18px;
   padding-bottom: 5px;
+  color: var(--color-dark);
+}
+
+.graph-header-space {
+  padding-top: 25px;
 }
 
 .highlight {
@@ -522,7 +541,46 @@ pre {
 
 .method {
   font-weight: bold;
-  color: #771622;
+  color: #084884;
+}
+
+.param {
+  font-weight: bold;
+  color: #006881;
+}
+
+.function-http code{
+  color: black;
+}
+
+.function-powershell code{
+  color: black;
+}
+
+#microsoftGraph .function-powershell{
+  display: none;
+}
+
+#graphPowerShell .function-http{
+  display: none;
+}
+
+.copyToClipboard{
+  margin-top: 10px;;
+}
+
+.collapse.example{
+  background-color: #0080000a;
+  padding-left: 15px;
+  padding-bottom: 15px;
+  -webkit-transition: none!important;
+  transition: none!important;
+}
+
+.collapsing {
+  -webkit-transition: none;
+  transition: none;
+  display: none;
 }
 
 /************* Profile card ********/

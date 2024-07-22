@@ -9,188 +9,205 @@
 
 <h1 style="margin-top: 25px; margin-bottom: 25px;">Configure conditional access policy with Authentication context</h1>
 
-<div>
 
-    <p>
-        Conditional Access <a
-            href="https://learn.microsoft.com/entra/identity-platform/developer-guide-conditional-access-authentication-context"
-            target="_blank" class="link-dark link-offset-2">authentication context (auth context)</a> allows you to
-        apply granular policies to sensitive data
-        and actions instead of just at the app level. You can refine your Zero Trust policies for least privileged
-        access while minimizing user friction and keeping users more productive and your resources more secure.<br>
+<p>
+    Conditional Access <a
+        href="https://learn.microsoft.com/entra/identity-platform/developer-guide-conditional-access-authentication-context"
+        target="_blank" class="link-dark link-offset-2">authentication context (auth context)</a> allows you to
+    apply granular policies to sensitive data
+    and actions instead of just at the app level. You can refine your Zero Trust policies for least privileged
+    access while minimizing user friction and keeping users more productive and your resources more secure.<br>
 
-        In this demo we use the Microsoft Entra Conditional Access engine's authentication context to trigger a demand
-        for step-up
-        authentication from within your application. For example when the sum of the items in the cart is higher than
-        usual (50$) it requires the user to sign-in with a second factor authentication.
-    </p>
-    @await Html.PartialAsync("_StepsButtons.cshtml")
+    In this demo we use the Microsoft Entra Conditional Access engine's authentication context to trigger a demand
+    for step-up
+    authentication from within your application. For example when the sum of the items in the cart is higher than
+    usual (50$) it requires the user to sign-in with a second factor authentication.
+</p>
 
-    <div class="bs-stepper vertical" id="Stepper">
-        @await Html.PartialAsync("_Steps.cshtml", 9)
+@await Html.PartialAsync("_HelpSelector.cshtml", 0)
+<div class="tab-content wg-tab-content">
+    <div class="tab-pane active" id="microsoftEntraAdminCenter" role="tabpanel"
+        aria-labelledby="microsoftEntraAdminCenter-tab" tabindex="0">
 
-        <div class="bs-stepper-content">
-            <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
-                @await Html.PartialAsync("_Prerequisites.cshtml")
+        @await Html.PartialAsync("_StepsButtons.cshtml")
 
-                <p>
-                    To add an authentication context, sign in to the <a href="https://entra.microsoft.com/"
-                        target="_blank" class="link-dark link-offset-2">Microsoft Entra admin center</a>
-                    and browse to <b>Protection </b> > <b> Conditional Access</b>. Then, select <b>New authentication
-                        context</b>.
-                </p>
+        <div class="bs-stepper vertical" id="Stepper">
+            @await Html.PartialAsync("_Steps.cshtml", 9)
 
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/StepUp/Add-authentication-context.png">
-                </a>
-            </div>
+            <div class="bs-stepper-content">
+                <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
+                    @await Html.PartialAsync("_Prerequisites.cshtml")
 
-            <div id="step-2" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger2">
-                <p>
-                    Enter a <b>name</b> and <b>description</b> and select the <b>Publish to apps</b> check box. Then,
-                    select
-                    and <b>ID</b>. Values <b>C1-C25</b> are available for use as Auth Context IDs in your tenant.
-                    Examples of auth context may be: C1 - Require strong authentication, C2 - Require trusted locations,
-                    and so on.
-                    In this exampe we selected <b>C1</b>. Select <b>Save</b> to add the authentication context.
-                </p>
+                    <p>
+                        To add an authentication context, sign in to the <a href="https://entra.microsoft.com/"
+                            target="_blank" class="link-dark link-offset-2">Microsoft Entra admin center</a>
+                        and browse to <b>Protection </b> > <b> Conditional Access</b>. Then, select <b>New
+                            authentication
+                            context</b>.
+                    </p>
 
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/StepUp/New-authentication-context.png">
-                </a>
-            </div>
-            <div id="step-3" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger3">
-                <p>
-                    In the next steps you create a Conditional Access policy to secure the application.
-                    The conditional access policy <a
-                        href="https://learn.microsoft.com/entra/identity/conditional-access/concept-conditional-access-cloud-apps#authentication-context"
-                        target="_blank" class="link-dark link-offset-2">Target resources</a> is the authentication
-                    context we created.
-                    From the meun, select <b>Policies</b> and then select <b>New policy</b>.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/StepUp/Create-conditinal-access-policy.png">
-                </a>
-            </div>
-
-            <div id="step-4" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger4">
-                <p>
-                    Give your policy a name and select the users in the Assignments. Then, go to
-                    <b>Target resources</b> and under <b>what this policy applies to</b>,
-                    choose <b>Authentication context</b>.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/StepUp/Select-authentication-context.png">
-                </a>
-            </div>
-
-            <div id="step-5" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger5">
-                <p>
-                    Select the check box for the authentication context that you created. In this example,
-                    we selected the <b>Require strong authentication</b>.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/StepUp/Select-require-strong-authentication.png">
-                </a>
-            </div>
-
-            <div id="step-6" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger6">
-                <p>
-                    Under <b>Access controls</b> > <b>Grant</b>, select <b>Grant access</b>. Then select <b>Require
-                        multifactor authentication</b>.
-                    With this grant type, users must complete additional security requirements like email, phone call,
-                    or text message.
-                    Confirm your settings and
-                    set <b>Enable policy</b> to <b>On</b>.
-                    Select <b>Create</b> to create your policy.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/StepUp/Require-mfa.png">
-                </a>
-            </div>
-
-            <div id="step-7" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger7">
-                <p>
-                    For your application to receive information about whether users completed the MFA,
-                    the Conditional Access may issue an ACRS in a token's claims when all Conditional Access policy
-                    assigned
-                    to the ACRS value has been satisfied.
-
-                    In the next steps you configure the Woodgrove application to include the <b>acrs</b> claim in the
-                    access
-                    token.
-
-                    From the menu, select <b>App
-                        registrations</b> and select your application. In this example we select the Woodgrove Groceries
-                    application.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/StepUp/Select-app.png">
-                </a>
-            </div>
-
-            <div id="step-8" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger8">
-                <p>
-                    Under <b>Manage</b>, select <b>Manifest</b>. A web-based manifest editor opens, allowing you to edit
-                    the manifest.
-                    Add the following option claim to both <b>ID token</b> and <b>access token</b>.
-                    When finished, select <b>Save</b>.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/StepUp/Add-claim.png">
-                </a>
-            </div>
-
-            <div id="step-9" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger9">
-
-                <div class="alert alert-success" role="alert">
-                    <h4 class="alert-heading">Well done!</h4>
-                    <p> At this point, the Microsoft Entra ID tenant is configured. Now it's time to configure the
-                        applications.</p>
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/StepUp/Add-authentication-context.png">
+                    </a>
                 </div>
 
-                <p>
+                <div id="step-2" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger2">
+                    <p>
+                        Enter a <b>name</b> and <b>description</b> and select the <b>Publish to apps</b> check box.
+                        Then,
+                        select
+                        and <b>ID</b>. Values <b>C1-C25</b> are available for use as Auth Context IDs in your tenant.
+                        Examples of auth context may be: C1 - Require strong authentication, C2 - Require trusted
+                        locations,
+                        and so on.
+                        In this exampe we selected <b>C1</b>. Select <b>Save</b> to add the authentication context.
+                    </p>
 
-                    In the Woodgrove example, users sign-in to the app. In the home page, they add some items to the
-                    shopping cart, until the total is more that 50$.
-                    When they select the checkout button, if they have not signed-in with MFA, users will be asked to do
-                    so. The Woodgrove application runs the following business logic:
-                </p>
-                <ol>
-                    <li>The code first checks if there is any risk. So, if the total is more that 50$ it's considered a
-                        risk.</li>
-                    <li>The code then <a
-                            href="https://github.com/microsoft/woodgrove-groceries/blob/main/Pages/Index.cshtml.cs">evaluate
-                            the user's security token</a> . If the <b>acrs</b> claim is equal to <b>c1</b>.</li>
-                    <li>If the If the <b>acrs</b> claim is not equal to <b>c1</b>, the Woodgrove app starts a new
-                        authentication request. The request <a
-                            href="https://github.com/microsoft/woodgrove-groceries/blob/main/Program.cs">contains</a>
-                        the <b>claims</b> extra query string parameter.
-                        Tha value of the <b>claims</b> parameter is
-                        <code>{"access_token":{"acrs":{"essential":true,"value":"c1"}}}</code>.
-                    </li>
-                </ol>
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/StepUp/New-authentication-context.png">
+                    </a>
+                </div>
+                <div id="step-3" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger3">
+                    <p>
+                        In the next steps you create a Conditional Access policy to secure the application.
+                        The conditional access policy <a
+                            href="https://learn.microsoft.com/entra/identity/conditional-access/concept-conditional-access-cloud-apps#authentication-context"
+                            target="_blank" class="link-dark link-offset-2">Target resources</a> is the authentication
+                        context we created.
+                        From the meun, select <b>Policies</b> and then select <b>New policy</b>.
+                    </p>
 
-                Note, your application should always evaluate the access token <b>acrs</b> claim.
-                So, if users remove the claims query string parameter, the <b>acrs</b> claim will not be stasfied (c1
-                value)
-                and will not be able to complete the check out or any other action.
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/StepUp/Create-conditinal-access-policy.png">
+                    </a>
+                </div>
+
+                <div id="step-4" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger4">
+                    <p>
+                        Give your policy a name and select the users in the Assignments. Then, go to
+                        <b>Target resources</b> and under <b>what this policy applies to</b>,
+                        choose <b>Authentication context</b>.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/StepUp/Select-authentication-context.png">
+                    </a>
+                </div>
+
+                <div id="step-5" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger5">
+                    <p>
+                        Select the check box for the authentication context that you created. In this example,
+                        we selected the <b>Require strong authentication</b>.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/StepUp/Select-require-strong-authentication.png">
+                    </a>
+                </div>
+
+                <div id="step-6" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger6">
+                    <p>
+                        Under <b>Access controls</b> > <b>Grant</b>, select <b>Grant access</b>. Then select <b>Require
+                            multifactor authentication</b>.
+                        With this grant type, users must complete additional security requirements like email, phone
+                        call,
+                        or text message.
+                        Confirm your settings and
+                        set <b>Enable policy</b> to <b>On</b>.
+                        Select <b>Create</b> to create your policy.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/StepUp/Require-mfa.png">
+                    </a>
+                </div>
+
+                <div id="step-7" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger7">
+                    <p>
+                        For your application to receive information about whether users completed the MFA,
+                        the Conditional Access may issue an ACRS in a token's claims when all Conditional Access policy
+                        assigned
+                        to the ACRS value has been satisfied.
+
+                        In the next steps you configure the Woodgrove application to include the <b>acrs</b> claim in
+                        the
+                        access
+                        token.
+
+                        From the menu, select <b>App
+                            registrations</b> and select your application. In this example we select the Woodgrove
+                        Groceries
+                        application.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/StepUp/Select-app.png">
+                    </a>
+                </div>
+
+                <div id="step-8" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger8">
+                    <p>
+                        Under <b>Manage</b>, select <b>Manifest</b>. A web-based manifest editor opens, allowing you to
+                        edit
+                        the manifest.
+                        Add the following option claim to both <b>ID token</b> and <b>access token</b>.
+                        When finished, select <b>Save</b>.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/StepUp/Add-claim.png">
+                    </a>
+                </div>
+
+                <div id="step-9" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger9">
+
+                    <div class="alert alert-success" role="alert">
+                        <h4 class="alert-heading">Well done!</h4>
+                        <p> At this point, the Microsoft Entra ID tenant is configured. Now it's time to configure the
+                            applications.</p>
+                    </div>
+
+                    <p>
+
+                        In the Woodgrove example, users sign-in to the app. In the home page, they add some items to the
+                        shopping cart, until the total is more that 50$.
+                        When they select the checkout button, if they have not signed-in with MFA, users will be asked
+                        to do
+                        so. The Woodgrove application runs the following business logic:
+                    </p>
+                    <ol>
+                        <li>The code first checks if there is any risk. So, if the total is more that 50$ it's
+                            considered a
+                            risk.</li>
+                        <li>The code then <a
+                                href="https://github.com/microsoft/woodgrove-groceries/blob/main/Pages/Index.cshtml.cs">evaluate
+                                the user's security token</a> . If the <b>acrs</b> claim is equal to <b>c1</b>.</li>
+                        <li>If the If the <b>acrs</b> claim is not equal to <b>c1</b>, the Woodgrove app starts a new
+                            authentication request. The request <a
+                                href="https://github.com/microsoft/woodgrove-groceries/blob/main/Program.cs">contains</a>
+                            the <b>claims</b> extra query string parameter.
+                            Tha value of the <b>claims</b> parameter is
+                            <code>{"access_token":{"acrs":{"essential":true,"value":"c1"}}}</code>.
+                        </li>
+                    </ol>
+
+                    Note, your application should always evaluate the access token <b>acrs</b> claim.
+                    So, if users remove the claims query string parameter, the <b>acrs</b> claim will not be stasfied
+                    (c1
+                    value)
+                    and will not be able to complete the check out or any other action.
+                </div>
             </div>
         </div>
+
     </div>
 
-    <div id="GraphApiContent">
+    <div class="tab-pane" id="microsoftGraph" role="tabpanel" aria-labelledby="microsoftGraph-tab" tabindex="0">
 
-        <h4 class="graph-header">Dependencies</h4>
+        <h4 class="graph-header graph-header-space">Dependencies</h4>
         This script is self-contained.
 
-        <h4 class="graph-header">Create authentication context</h4>
+        <h4 class="graph-header graph-header-space">Create authentication context</h4>
         <p>
             To
             <a href="https://learn.microsoft.com/en-us/graph/api/conditionalaccessroot-post-authenticationcontextclassreferences?view=graph-rest-beta&tabs=http"
@@ -210,11 +227,12 @@
 }
         </pre>
 
-        <h4 class="graph-header">Create conditional access policy</h4>
+        <h4 class="graph-header graph-header-space">Create conditional access policy</h4>
         <p>
             Next <a target="_blank" class="link-dark link-offset-2"
                 href="https://learn.microsoft.com/en-us/graph/api/conditionalaccessroot-post-policies?view=graph-rest-beta&tabs=http">
-                create conditional access policy</a>. The following example includes all users and excludes tenant global
+                create conditional access policy</a>. The following example includes all users and excludes tenant
+            global
             administrator.
         </p>
 
@@ -274,7 +292,7 @@
 }
         </pre>
 
-        <h4 class="graph-header">Configure the app to include the ACRS claim in the security tokens</h4>
+        <h4 class="graph-header graph-header-space">Configure the app to include the ACRS claim in the security tokens</h4>
         <p>
             For your application to receive information about whether users completed the MFA, the Conditional Access
             may
@@ -288,8 +306,10 @@
         </p>
 
         <div class="alert alert-danger" role="alert">
-            <i class="bi bi-exclamation-triangle-fill"></i> The <b>optionalClaims</b> collection must contain all of the claims.
-            To add or remove claims, make sure to include all other attributes. In this exampe, we also include the <b>groups</b> claim.
+            <i class="bi bi-exclamation-triangle-fill"></i> The <b>optionalClaims</b> collection must contain all of the
+            claims.
+            To add or remove claims, make sure to include all other attributes. In this exampe, we also include the
+            <b>groups</b> claim.
         </div>
 
         <code
@@ -337,5 +357,10 @@
     }
 }
 </pre>
+    </div>
+
+    <div class="tab-pane" id="entraGraphPowerShell" role="tabpanel" aria-labelledby="entraGraphPowerShell-tab"
+        tabindex="0">
+        Loading...
     </div>
 </div>

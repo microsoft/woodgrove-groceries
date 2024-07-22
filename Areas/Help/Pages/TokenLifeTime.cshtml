@@ -8,38 +8,45 @@
 
 <h1 style="margin-top: 25px; margin-bottom: 25px;">Token lifetime policy</h1>
 
-<div>
+<p>
+    You can specify the <a href="https://learn.microsoft.com/en-us/entra/identity-platform/configurable-token-lifetimes"
+        target="_blank" class="link-dark link-offset-2">lifetime</a> of an access token, ID token, or SAML token issued
+    by the
+    Microsoft Entra ID.
+    You can set token lifetimes for all apps in your tenant, or for
+    service principals. You cannot set token lifetime policies for refresh tokens and session tokens. In this demo we
+    changed the default lifetime (one hour) to two hours.
+</p>
 
+@await Html.PartialAsync("_HelpSelector.cshtml", 0)
+<div class="tab-content wg-tab-content">
+    <div class="tab-pane active" id="microsoftEntraAdminCenter" role="tabpanel"
+        aria-labelledby="microsoftEntraAdminCenter-tab" tabindex="0">
+        @await Html.PartialAsync("_StepsButtons.cshtml")
 
-    <p>
-        You can specify the <a
-            href="https://learn.microsoft.com/en-us/entra/identity-platform/configurable-token-lifetimes"
-            target="_blank" class="link-dark link-offset-2">lifetime</a> of an access token, ID token, or SAML token issued by the
-        Microsoft Entra ID.
-        You can set token lifetimes for all apps in your tenant, or for
-        service principals. You cannot set token lifetime policies for refresh tokens and session tokens. In this demo we changed the default lifetime (one hour) to two hours.
-    </p>
-    @await Html.PartialAsync("_StepsButtons.cshtml")
+        <div class="bs-stepper vertical" id="Stepper">
+            @await Html.PartialAsync("_Steps.cshtml", 1)
 
-    <div class="bs-stepper vertical" id="Stepper">
-        @await Html.PartialAsync("_Steps.cshtml", 1)
+            <div class="bs-stepper-content">
+                <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
+                    @await Html.PartialAsync("_Prerequisites.cshtml")
 
-        <div class="bs-stepper-content">
-            <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
-                @await Html.PartialAsync("_Prerequisites.cshtml")
-
-                This configuration can be done using <a href="#graph"
-                    class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"> Microsoft Graph</a>.
+                    This configuration can be done using <a href="#graph"
+                        class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                        Microsoft Graph</a>.
+                </div>
             </div>
         </div>
+
     </div>
 
-    <div id="GraphApiContent">
+    <div class="tab-pane" id="microsoftGraph" role="tabpanel" aria-labelledby="microsoftGraph-tab" tabindex="0">
         <h4 class="graph-header">Create a token lifetime policy</h4>
         <p>
             First <a target="_blank" class="link-dark link-offset-2"
-                href="https://learn.microsoft.com/en-us/graph/api/tokenlifetimepolicy-post-tokenlifetimepolicies?">create</a> a 
-                token lifetime policy.
+                href="https://learn.microsoft.com/en-us/graph/api/tokenlifetimepolicy-post-tokenlifetimepolicies?">create</a>
+            a
+            token lifetime policy.
             The following Microsoft Graph creates a policy with two hours lifetime. Important, set the
             <i>isOrganizationDefault</i> to <b>false</b>, so
             your policy will not change the default settings of your tenant.
@@ -86,11 +93,11 @@
 }
         </pre>
 
-        <a class="btn btn-outline-primary btn-sm" data-bs-toggle="collapse" href="#collapseExample3" role="button"
+        <a class="btn btn-success btn-sm" data-bs-toggle="collapse" href="#collapseExample3" role="button"
             aria-expanded="false" aria-controls="collapseExample3">
-            Example
+            Show example
         </a>
-        <div class="collapse" id="collapseExample3">
+        <div class="collapse example" id="collapseExample3">
             <code
                 style="color: black;">POST https://graph.microsoft.com/v1.0/applications(appId='10f90284-3ee4-4e82-a641-55cc4068b633')/tokenLifetimePolicies/$ref</code>
 
@@ -101,3 +108,9 @@
             </pre>
         </div>
     </div>
+
+    <div class="tab-pane" id="entraGraphPowerShell" role="tabpanel" aria-labelledby="entraGraphPowerShell-tab"
+        tabindex="0">
+        Loading...
+    </div>
+</div>

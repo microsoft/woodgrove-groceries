@@ -131,6 +131,8 @@
             <li>
             <li><a class="dropdown-item" href="#usecase=SSO"><i class="bi bi-arrow-left-right"></i>&nbsp; Single sign-on
                     (SSO)</a></li>
+            <li style="display: none;"><a class="dropdown-item" href="#usecase=TokenTTL"><i class="bi bi-stopwatch"></i>&nbsp; Token
+                    lifetime</a></li>
             <li><a class="dropdown-item" href="#usecase=ForceSignIn"><i class="bi bi-person-lock"></i>&nbsp; Force
                     sign-in</a></li>
             <li><a class="dropdown-item" href="#usecase=OBO"><i class="bi bi-arrow-90deg-up"></i>&nbsp; OAuth 2.0
@@ -1004,7 +1006,8 @@
                     </li>
                     <li>To reflect the changes in the security token, sign-in again with the same account (you won't be
                         asked to enter the credentials).</li>
-                    <li>After you sign-in, the <b>Manage products</b> and <b>Orders</b> buttons appear in the header.</li>
+                    <li>After you sign-in, the <b>Manage products</b> and <b>Orders</b> buttons appear in the header.
+                    </li>
                     <li>Select your name from the header to show the security token.
                         It should contain the role claims you assigned to.</li>
                 </ol>
@@ -1203,6 +1206,32 @@
                     <a class="btn header-button" role="button" href="/SignIn?handler=sso1"><i class="bi bi-play-circle"></i>
                         Start the use case</a>
                 }
+            </div>
+
+
+            <div id="useCase_TokenTTL" class="useCase">
+                <h4>Token lifetime (not confirmed)</h4>
+
+                <p>
+                    <b>For tests only!</b> You can specify the lifetime of an access token, ID token, or SAML token issued by the Microsoft
+                    Entra ID. You can set token lifetimes for all apps in your tenant, or for service principals. You
+                    cannot set token lifetime policies for refresh tokens and session tokens. 
+                </p>
+                <ol>
+
+                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                    <li>Sign-up or sign-in with your email, or a social account.</li>
+                    <li>Select your name from the header to show the security token.
+                        Scroll down to check your token expiration.</li>
+                </ol>
+
+                <a class="btn header-button" role="button" href="/SignIn?handler=TokenTTL"><i
+                        class="bi bi-play-circle"></i> Start the use case</a>
+
+                <br>&nbsp;<br>
+                <i class="bi bi-play-circle"></i> <a class="" style="margin-top: 100px;" role="button"
+                    href="/help/TokenLifeTime">
+                    Learn how we configured the Woodgrove tenant</a>
             </div>
 
             <div id="useCase_ForceSignIn" class="useCase">

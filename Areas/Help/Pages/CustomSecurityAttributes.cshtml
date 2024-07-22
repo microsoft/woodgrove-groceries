@@ -10,240 +10,262 @@
 <h1 style="margin-top: 25px; margin-bottom: 25px;">Configure conditional access policy with Custom Security attributes
 </h1>
 
-<div>
+<p>
+    <a href="https://learn.microsoft.com/entra/fundamentals/custom-security-attributes-overview" target="_blank"
+        class="link-dark link-offset-2">Custom security attributes</a>
+    in Microsoft Entra ID are business-specific attributes
+    (key-value pairs) that you can define and assign to Microsoft Entra objects. For example, you can assign custom
+    security attribute to <a
+        href="https://learn.microsoft.com/entra/identity/conditional-access/concept-filter-for-applications"
+        target="_blank" class="link-dark link-offset-2">filter your applications</a> or to help determine who gets
+    access to resources.
+    This page shows how the Woodgrove live demo tenant is configured the Configure conditional access policy with
+    Custom Security attributes.
+</p>
 
-    <p>
-        <a href="https://learn.microsoft.com/entra/fundamentals/custom-security-attributes-overview" target="_blank"
-            class="link-dark link-offset-2">Custom security attributes</a>
-        in Microsoft Entra ID are business-specific attributes
-        (key-value pairs) that you can define and assign to Microsoft Entra objects. For example, you can assign custom
-        security attribute to <a
-            href="https://learn.microsoft.com/entra/identity/conditional-access/concept-filter-for-applications"
-            target="_blank" class="link-dark link-offset-2">filter your applications</a> or to help determine who gets
-        access to resources.
-        This page shows how the Woodgrove live demo tenant is configured the Configure conditional access policy with
-        Custom Security attributes.
-    </p>
-    @await Html.PartialAsync("_StepsButtons.cshtml")
+@await Html.PartialAsync("_HelpSelector.cshtml", 0)
+<div class="tab-content wg-tab-content">
+    <div class="tab-pane active" id="microsoftEntraAdminCenter" role="tabpanel"
+        aria-labelledby="microsoftEntraAdminCenter-tab" tabindex="0">
 
-    <div class="bs-stepper vertical" id="Stepper">
-        @await Html.PartialAsync("_Steps.cshtml", 16)
 
-        <div class="bs-stepper-content">
-            <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
+        @await Html.PartialAsync("_StepsButtons.cshtml")
 
-                @await Html.PartialAsync("_Prerequisites.cshtml")
-                <p>
-                    To start, sign in to the <a href="https://entra.microsoft.com/" target="_blank"
-                        class="link-dark link-offset-2">Microsoft Entra admin center</a>
-                    and browse to <b>Protection </b> > <b>Custom security attributes</b>.
-                </p>
+        <div class="bs-stepper vertical" id="Stepper">
+            @await Html.PartialAsync("_Steps.cshtml", 16)
 
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/CustomSecurityAttributes/select-from-menu.png">
-                </a>
-            </div>
+            <div class="bs-stepper-content">
+                <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
 
-            <div id="step-2" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger2">
-                <p>
-                    Click <b>Add attribute set</b> to add a new attribute set. <a
-                        href="https://learn.microsoft.com/entra/fundamentals/custom-security-attributes-add"
-                        target="_blank" class="link-dark link-offset-2">More information</a>.
-                </p>
+                    @await Html.PartialAsync("_Prerequisites.cshtml")
+                    <p>
+                        To start, sign in to the <a href="https://entra.microsoft.com/" target="_blank"
+                            class="link-dark link-offset-2">Microsoft Entra admin center</a>
+                        and browse to <b>Protection </b> > <b>Custom security attributes</b>.
+                    </p>
 
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/CustomSecurityAttributes/Add-attribute-set.png">
-                </a>
-            </div>
-
-            <div id="step-3" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger3">
-                <p>
-                    Enter a name, description, and maximum number of attributes. In this example we
-                    added a <b>Customers</b> attribute set.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/CustomSecurityAttributes/New-attribute-set.png">
-                </a>
-            </div>
-
-            <div id="step-4" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger4">
-                <p>
-                    The new attribute set appears in the list of attribute sets, select it.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/CustomSecurityAttributes/Select-attribute-set.png">
-                </a>
-            </div>
-
-            <div id="step-5" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger5">
-                <p>
-                    Select <b>Add attribute</b> to add a new custom security attribute to the attribute set you created.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/CustomSecurityAttributes/Add-attribute.png">
-                </a>
-            </div>
-
-            <div id="step-6" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger6">
-                <p>
-                    In the <b>Attribute name</b> box, enter a custom security attribute name. In this example we named
-                    it <b>PolicyRequirement</b>. Enter an optional
-                    <b>Description</b>.
-                    From the <b>Data type</b> list, select the data type for the custom security attribute.
-                    For Allow multiple values to be assigned, select <b>Yes</b>. And for Only allow predefined values to
-                    be assigned, select <b>Yes</b> or <b>No</b>.
-                    Then, select the <b>Add value</b> link, and enter a value. In this example we added the
-                    <b>BlockGuestUsers</b> value.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/CustomSecurityAttributes/New-attribute.png">
-                </a>
-            </div>
-
-            <div id="step-7" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger7">
-                <p>
-                    In the next steps you <a
-                        href="https://learn.microsoft.com/entra/identity/enterprise-apps/custom-security-attributes-apps"
-                        target="_blank" class="link-dark link-offset-2">assign custom security attributes to an
-                        application</a>. From the menu, select <b>App registrations</b> and select your application. In
-                    this example we
-                    select the <b>Woodgrove admin portal</b> application.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/CustomSecurityAttributes/Select-app.png">
-                </a>
-            </div>
-
-            <div id="step-8" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger8">
-                <p>
-                    Now open the service principal of your application. To do so, select the link next to <b>Managed
-                        application in local directory</b>.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/CustomSecurityAttributes/Select-service-principal.png">
-                </a>
-            </div>
-
-            <div id="step-9" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger9">
-                <p>
-                    To add assignment to an app, in the <b>Manage</b> section, select <b>Custom security attributes</b>,
-                    then select <b>Add
-                        assignment</b>.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/CustomSecurityAttributes/Add-assignment.png">
-                </a>
-            </div>
-
-            <div id="step-10" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger10">
-                <p>
-                    In <b>Attribute set</b>, select an attribute set from the list. In this example we seleted the
-                    <b>Customers</b>.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/CustomSecurityAttributes/Select-app-attribute-set.png">
-                </a>
-            </div>
-
-            <div id="step-11" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger11">
-                <p>
-                    For the <b>Attribute name</b>, select a custom security attribute from the list. In this example
-                    we seleted the <b>PolicyRequirement</b> attribute.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/CustomSecurityAttributes/Select-app-attribute-name.png">
-                </a>
-            </div>
-
-            <div id="step-12" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger12">
-                <p>
-                    Select <b>Add values</b> to open the Attribute values pane and add your values. When finished adding
-                    values. In this exampe we seleted <b>BlockGuestUsers</b>.
-
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/CustomSecurityAttributes/Select-app-attribute-values.png">
-                </a>
-            </div>
-
-            <div id="step-13" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger13">
-                <p>
-                    In the next steps you create a Conditional Access policy to secure the application.
-                    The conditional access policy <a
-                        href="https://learn.microsoft.com/entra/identity/conditional-access/concept-filter-for-applications"
-                        target="_blank" class="link-dark link-offset-2">filters for applications</a> with the custom
-                    security attribut you cretaed.
-                    From the meun, select <b>Protection</b> > <b>Conditional Access</b> and select <b>New policy</b>.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/CustomSecurityAttributes/Create-conditional-access.png">
-                </a>
-            </div>
-
-            <div id="step-14" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger14">
-                <p>
-                    After you give your policy a name and select the users in the Assignments, go to
-                    <b>Target resources</b>. Under the <b>Include</b> choose the <b>Select apps</b> option and select
-                    <b>Edit filter</b>.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/CustomSecurityAttributes/Conditinal-access-filter.png">
-                </a>
-            </div>
-
-            <div id="step-15" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger15">
-                <p>
-                    Set Configure to <b>Yes</b>. Select the <b>Attribute</b> you created earlier called
-                    <b>PolicyRequirement</b>.
-                    Set <b>Operator</b> to <b>Contains</b> and set the <b>Value</b> to <b>BlockGuestUsers</b>. Then
-                    select Done.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border"
-                        src="~/Help/CustomSecurityAttributes/Conditional-access-config-filter.png">
-                </a>
-            </div>
-
-            <div id="step-16" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger16">
-                <p>
-                    Under <b>Access controls</b> > <b>Grant</b>, select <b>Block access</b>. Confirm your settings and
-                    set <b>Enable policy</b> to <b>On</b>.
-                    Select <b>Create</b> to create your policy.
-                </p>
-
-                <div class="alert alert-success" role="alert">
-                    <h4 class="alert-heading">Well done!</h4>
-                    <p> The custom security attributes successfully
-                        created and the conditional access policy with custom security attributes is configured.
-                        To test the user experience, sign-up or sign-in into your application.</p>
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/CustomSecurityAttributes/select-from-menu.png">
+                    </a>
                 </div>
 
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/CustomSecurityAttributes/Block-access.png">
-                </a>
+                <div id="step-2" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger2">
+                    <p>
+                        Click <b>Add attribute set</b> to add a new attribute set. <a
+                            href="https://learn.microsoft.com/entra/fundamentals/custom-security-attributes-add"
+                            target="_blank" class="link-dark link-offset-2">More information</a>.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/CustomSecurityAttributes/Add-attribute-set.png">
+                    </a>
+                </div>
+
+                <div id="step-3" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger3">
+                    <p>
+                        Enter a name, description, and maximum number of attributes. In this example we
+                        added a <b>Customers</b> attribute set.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/CustomSecurityAttributes/New-attribute-set.png">
+                    </a>
+                </div>
+
+                <div id="step-4" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger4">
+                    <p>
+                        The new attribute set appears in the list of attribute sets, select it.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/CustomSecurityAttributes/Select-attribute-set.png">
+                    </a>
+                </div>
+
+                <div id="step-5" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger5">
+                    <p>
+                        Select <b>Add attribute</b> to add a new custom security attribute to the attribute set you
+                        created.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/CustomSecurityAttributes/Add-attribute.png">
+                    </a>
+                </div>
+
+                <div id="step-6" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger6">
+                    <p>
+                        In the <b>Attribute name</b> box, enter a custom security attribute name. In this example we
+                        named
+                        it <b>PolicyRequirement</b>. Enter an optional
+                        <b>Description</b>.
+                        From the <b>Data type</b> list, select the data type for the custom security attribute.
+                        For Allow multiple values to be assigned, select <b>Yes</b>. And for Only allow predefined
+                        values to
+                        be assigned, select <b>Yes</b> or <b>No</b>.
+                        Then, select the <b>Add value</b> link, and enter a value. In this example we added the
+                        <b>BlockGuestUsers</b> value.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/CustomSecurityAttributes/New-attribute.png">
+                    </a>
+                </div>
+
+                <div id="step-7" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger7">
+                    <p>
+                        In the next steps you <a
+                            href="https://learn.microsoft.com/entra/identity/enterprise-apps/custom-security-attributes-apps"
+                            target="_blank" class="link-dark link-offset-2">assign custom security attributes to an
+                            application</a>. From the menu, select <b>App registrations</b> and select your application.
+                        In
+                        this example we
+                        select the <b>Woodgrove admin portal</b> application.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/CustomSecurityAttributes/Select-app.png">
+                    </a>
+                </div>
+
+                <div id="step-8" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger8">
+                    <p>
+                        Now open the service principal of your application. To do so, select the link next to <b>Managed
+                            application in local directory</b>.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border"
+                            src="~/Help/CustomSecurityAttributes/Select-service-principal.png">
+                    </a>
+                </div>
+
+                <div id="step-9" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger9">
+                    <p>
+                        To add assignment to an app, in the <b>Manage</b> section, select <b>Custom security
+                            attributes</b>,
+                        then select <b>Add
+                            assignment</b>.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/CustomSecurityAttributes/Add-assignment.png">
+                    </a>
+                </div>
+
+                <div id="step-10" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger10">
+                    <p>
+                        In <b>Attribute set</b>, select an attribute set from the list. In this example we seleted the
+                        <b>Customers</b>.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border"
+                            src="~/Help/CustomSecurityAttributes/Select-app-attribute-set.png">
+                    </a>
+                </div>
+
+                <div id="step-11" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger11">
+                    <p>
+                        For the <b>Attribute name</b>, select a custom security attribute from the list. In this example
+                        we seleted the <b>PolicyRequirement</b> attribute.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border"
+                            src="~/Help/CustomSecurityAttributes/Select-app-attribute-name.png">
+                    </a>
+                </div>
+
+                <div id="step-12" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger12">
+                    <p>
+                        Select <b>Add values</b> to open the Attribute values pane and add your values. When finished
+                        adding
+                        values. In this exampe we seleted <b>BlockGuestUsers</b>.
+
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border"
+                            src="~/Help/CustomSecurityAttributes/Select-app-attribute-values.png">
+                    </a>
+                </div>
+
+                <div id="step-13" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger13">
+                    <p>
+                        In the next steps you create a Conditional Access policy to secure the application.
+                        The conditional access policy <a
+                            href="https://learn.microsoft.com/entra/identity/conditional-access/concept-filter-for-applications"
+                            target="_blank" class="link-dark link-offset-2">filters for applications</a> with the custom
+                        security attribut you cretaed.
+                        From the meun, select <b>Protection</b> > <b>Conditional Access</b> and select <b>New
+                            policy</b>.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border"
+                            src="~/Help/CustomSecurityAttributes/Create-conditional-access.png">
+                    </a>
+                </div>
+
+                <div id="step-14" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger14">
+                    <p>
+                        After you give your policy a name and select the users in the Assignments, go to
+                        <b>Target resources</b>. Under the <b>Include</b> choose the <b>Select apps</b> option and
+                        select
+                        <b>Edit filter</b>.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border"
+                            src="~/Help/CustomSecurityAttributes/Conditinal-access-filter.png">
+                    </a>
+                </div>
+
+                <div id="step-15" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger15">
+                    <p>
+                        Set Configure to <b>Yes</b>. Select the <b>Attribute</b> you created earlier called
+                        <b>PolicyRequirement</b>.
+                        Set <b>Operator</b> to <b>Contains</b> and set the <b>Value</b> to <b>BlockGuestUsers</b>. Then
+                        select Done.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border"
+                            src="~/Help/CustomSecurityAttributes/Conditional-access-config-filter.png">
+                    </a>
+                </div>
+
+                <div id="step-16" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger16">
+                    <p>
+                        Under <b>Access controls</b> > <b>Grant</b>, select <b>Block access</b>. Confirm your settings
+                        and
+                        set <b>Enable policy</b> to <b>On</b>.
+                        Select <b>Create</b> to create your policy.
+                    </p>
+
+                    <div class="alert alert-success" role="alert">
+                        <h4 class="alert-heading">Well done!</h4>
+                        <p> The custom security attributes successfully
+                            created and the conditional access policy with custom security attributes is configured.
+                            To test the user experience, sign-up or sign-in into your application.</p>
+                    </div>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/CustomSecurityAttributes/Block-access.png">
+                    </a>
+                </div>
             </div>
         </div>
+
     </div>
 
-    <div id="GraphApiContent">
+    <div class="tab-pane" id="microsoftGraph" role="tabpanel" aria-labelledby="microsoftGraph-tab" tabindex="0">
 
-        <h4 class="graph-header">Dependencies</h4>
+        <h4 class="graph-header graph-header-space">Dependencies</h4>
         This script is self-contained.
 
-        <h4 class="graph-header">Create attribute set</h4>
+        <h4 class="graph-header graph-header-space">Create attribute set</h4>
         <p>
             Start by
             <a href="https://learn.microsoft.com/en-us/graph/api/directory-post-attributesets?view=graph-rest-1.0&tabs=http"
@@ -260,12 +282,13 @@
 }
         </pre>
 
-        <h4 class="graph-header">Create a custom security attribute</h4>
+        <h4 class="graph-header graph-header-space">Create a custom security attribute</h4>
         <p>
             Then
             <a href="https://learn.microsoft.com/en-us/graph/api/directory-post-customsecurityattributedefinitions?view=graph-rest-1.0&tabs=http"
                 target="_blank" class="link-dark link-offset-2">add a custom security attribute</a>, to the attribute
-            set you created <b>Customers</b>. The attribute name is <b>SecurityRequirements</b> with two values <b>BlockGuestUsers</b> and <b>RequireMFA</b>.
+            set you created <b>Customers</b>. The attribute name is <b>SecurityRequirements</b> with two values
+            <b>BlockGuestUsers</b> and <b>RequireMFA</b>.
         </p>
 
         <code
@@ -294,7 +317,7 @@
 }
         </pre>
 
-        <h4 class="graph-header">Create conditional access policy</h4>
+        <h4 class="graph-header graph-header-space">Create conditional access policy</h4>
         <p>
             Next <a target="_blank" class="link-dark link-offset-2"
                 href="https://learn.microsoft.com/en-us/graph/api/conditionalaccessroot-post-policies?view=graph-rest-beta&tabs=http">
@@ -361,7 +384,7 @@
 }
         </pre>
 
-        <h4 style="padding-top: 25px;padding-bottom: 5px;">Register a web application</h4>
+        <h4 class="graph-header graph-header-space">Register a web application</h4>
         <p>
             To <a
                 href="https://learn.microsoft.com/en-us/graph/api/application-post-applications?view=graph-rest-1.0&tabs=http"
@@ -410,7 +433,7 @@
 }
         </pre>
 
-        <h4 class="graph-header">Create a service principal for your application</h4>
+        <h4 class="graph-header graph-header-space">Create a service principal for your application</h4>
         <p>
             After you register you registered your application, <a
                 href="https://learn.microsoft.com/en-us/graph/api/serviceprincipal-post-serviceprincipals?view=graph-rest-1.0&tabs=http"
@@ -427,7 +450,7 @@
 }
         </pre>
 
-        <h4 class="graph-header">Consent to the required permissions</h4>
+        <h4 class="graph-header graph-header-space">Consent to the required permissions</h4>
 
         <p>
 
@@ -453,7 +476,7 @@
         </pre>
 
 
-        <h4 class="graph-header">Add the security attributes to the application</h4>
+        <h4 class="graph-header graph-header-space">Add the security attributes to the application</h4>
 
         <p>
 
@@ -463,15 +486,16 @@
 
             Replace the <b>{service-principal-id}</b> with the service-principal ID you created in the previous step. In
             the following exampe:
-            <ul>
-                <li><b>Customers</b> is the attribute set.</li>
-                <li><b>SecurityRequirements</b> is the attribute name.</li>
-                <li><b>BlockGuestUsers</b> is the attribute value.</li>
-            </ul>
+        <ul>
+            <li><b>Customers</b> is the attribute set.</li>
+            <li><b>SecurityRequirements</b> is the attribute name.</li>
+            <li><b>BlockGuestUsers</b> is the attribute value.</li>
+        </ul>
 
         </p>
 
-        <code style="color: black;">POST https://graph.microsoft.com/v1.0/servicePrincipals/<span class="highlight">{service-principal-id}</span>)</code>
+        <code
+            style="color: black;">POST https://graph.microsoft.com/v1.0/servicePrincipals/<span class="highlight">{service-principal-id}</span>)</code>
 
         <pre>
 {
@@ -487,5 +511,10 @@
 }
         </pre>
 
+    </div>
+
+    <div class="tab-pane" id="entraGraphPowerShell" role="tabpanel" aria-labelledby="entraGraphPowerShell-tab"
+        tabindex="0">
+        Loading...
     </div>
 </div>

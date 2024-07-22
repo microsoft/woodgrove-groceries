@@ -7,162 +7,175 @@
 
 <h1 style="margin-top: 25px; margin-bottom: 25px;">Role-based access control</h1>
 
-<div>
-    <p>
-        Role-based access control is a popular mechanism to enforce authorization in
-        applications. It helps you manage who has access to your application and what they can
-        do in the application, and also alter the UI based on the user's role. An application developer defines
-        the roles for the application. Then these roles can be assigned to
-        users. In this demo, users assign themselves to application roles which are automatically approved. For
-        more information, learn how to <a
-            href="https://learn.microsoft.com/entra/external-id/customers/how-to-use-app-roles-customers"
-            target="_blank" class="link-dark link-offset-2">use
-            role-based access control for applications</a>.
-    </p>
-    @await Html.PartialAsync("_StepsButtons.cshtml")
+<p>
+    Role-based access control is a popular mechanism to enforce authorization in
+    applications. It helps you manage who has access to your application and what they can
+    do in the application, and also alter the UI based on the user's role. An application developer defines
+    the roles for the application. Then these roles can be assigned to
+    users. In this demo, users assign themselves to application roles which are automatically approved. For
+    more information, learn how to <a
+        href="https://learn.microsoft.com/entra/external-id/customers/how-to-use-app-roles-customers" target="_blank"
+        class="link-dark link-offset-2">use
+        role-based access control for applications</a>.
+</p>
 
-    <div class="bs-stepper vertical" id="Stepper">
-        @await Html.PartialAsync("_Steps.cshtml", 8)
+@await Html.PartialAsync("_HelpSelector.cshtml", 0)
+<div class="tab-content wg-tab-content">
+    <div class="tab-pane active" id="microsoftEntraAdminCenter" role="tabpanel"
+        aria-labelledby="microsoftEntraAdminCenter-tab" tabindex="0">
 
-        <div class="bs-stepper-content">
-            <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
-                @await Html.PartialAsync("_Prerequisites.cshtml")
+        @await Html.PartialAsync("_StepsButtons.cshtml")
 
-                <p>
-                    Start by declaring roles for your application. The roles define their level of access to the
-                    resources and operations in your application.
-                    Sign in to the <a href="https://entra.microsoft.com/" target="_blank"
-                        class="link-dark link-offset-2">Microsoft Entra admin center</a>
-                    and browse to <b>Identity </b> > <b>Applications </b> > <b>App registrations</b>. Then, select the
-                    application you want to define app roles.
+        <div class="bs-stepper vertical" id="Stepper">
+            @await Html.PartialAsync("_Steps.cshtml", 8)
 
-                </p>
+            <div class="bs-stepper-content">
+                <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
+                    @await Html.PartialAsync("_Prerequisites.cshtml")
 
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/RBAC/Select-app.png">
-                </a>
-            </div>
+                    <p>
+                        Start by declaring roles for your application. The roles define their level of access to the
+                        resources and operations in your application.
+                        Sign in to the <a href="https://entra.microsoft.com/" target="_blank"
+                            class="link-dark link-offset-2">Microsoft Entra admin center</a>
+                        and browse to <b>Identity </b> > <b>Applications </b> > <b>App registrations</b>. Then, select
+                        the
+                        application you want to define app roles.
 
-            <div id="step-2" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger2">
-                <p>
-                    Select <b>App roles</b>, and then select <b>Create app role</b>.
-                </p>
+                    </p>
 
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/RBAC/Create-app-role-1.png">
-                </a>
-            </div>
-            <div id="step-3" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger3">
-                <p>
-                    In the <b>Create app role</b> pane, enter the settings for the role.
-                <ul>
-                    <li><b>Display name</b> for the app role that appears in the app assignment experiences.</li>
-                    <li><b>Allowed member types</b> - specifies whether this app role can be assigned to users,
-                        applications, or both.</li>
-                    <li><b>Value</b> - should match exactly the string referenced in the application's code.</li>
-                    <li><b>Description</b> of the app role displayed during admin app assignment experiences.</li>
-                    <li><b>Do you want to enable this app role?</b> - Yes </li>
-                </ul>
-                </p>
-
-                You can add more roles to your app. Added another role named <b>Orders manager</b> with a value
-                of <b>Orders.Manager</b>.
-                <br>
-
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/RBAC/Create-app-role-2.png">
-                </a>
-            </div>
-
-            <div id="step-4" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger4">
-                <p>
-                    Once you've added app roles in your application, administrator can assign users and groups to the
-                    roles. Assignment of users and groups to roles can be done through the admin center, or
-                    programmatically using <a
-                        href="https://learn.microsoft.com/en-us/graph/api/user-post-approleassignments" target="_blank"
-                        class="link-dark link-offset-2">Microsoft Graph</a>. When the users who assigned to the various
-                    app
-                    roles sign-in to
-                    the application, their tokens have their assigned roles in the <b>roles</b> claim.
-                </p>
-                <p>
-                    To assign users and groups to application roles, from the menu select <b>Overview</b>. Then select
-                    the link next to
-                    <b>Managed application in local directory</b> . Note, you can also browse to <b>Enterprise
-                        applications</b>, then under
-                    Manage, select <b>All applications</b>, and then select your application from the list</b>.
-                </p>
-
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/RBAC/Select-service-principal.png">
-                </a>
-            </div>
-
-            <div id="step-5" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger5">
-                <p>
-                    Under <b>Manage</b>, select <b>Users and groups</b>, then select <b>Add user/group</b>.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/RBAC/Add-users-and-groups.png">
-                </a>
-            </div>
-
-            <div id="step-6" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger6">
-                <p>
-                    In the <b>Add Assignment</b> pane, select <b>Users and groups</b>. A list of users and security
-                    groups appears.
-                    You can select multiple users and groups in the list.
-                    Once you've selected users and groups, choose <b>Select</b>.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/RBAC/Select-users.png">
-                </a>
-            </div>
-
-            <div id="step-7" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger7">
-                <p>
-                    In the <b>Add Assignment</b> pane, choose <b>Select a role</b>. All the roles you defined for the
-                    application
-                    appear. Select a role, and then choose <b>Select</b>. You can select one role at a time.
-                </p>
-
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/RBAC/Select-role.png">
-                </a>
-            </div>
-
-            <div id="step-8" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger8">
-                <p>
-                    Select <b>Assign</b> to finish the assignment of users and groups to the app. To assing more roles
-                    to users,
-                    repeat the last three steps.
-                </p>
-
-                <div class="alert alert-success" role="alert">
-                    <h4 class="alert-heading">Well done!</h4>
-                    <p> Now when users who assiged roles sign-in to
-                        the application, their tokens have their assigned roles in the roles claim.</p>
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/RBAC/Select-app.png">
+                    </a>
                 </div>
 
-                <a href="#" class="pop" onclick="return false;">
-                    <img class="img-fluid border" src="~/Help/RBAC/Assing.png">
-                </a>
+                <div id="step-2" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger2">
+                    <p>
+                        Select <b>App roles</b>, and then select <b>Create app role</b>.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/RBAC/Create-app-role-1.png">
+                    </a>
+                </div>
+                <div id="step-3" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger3">
+                    <p>
+                        In the <b>Create app role</b> pane, enter the settings for the role.
+                    <ul>
+                        <li><b>Display name</b> for the app role that appears in the app assignment experiences.</li>
+                        <li><b>Allowed member types</b> - specifies whether this app role can be assigned to users,
+                            applications, or both.</li>
+                        <li><b>Value</b> - should match exactly the string referenced in the application's code.</li>
+                        <li><b>Description</b> of the app role displayed during admin app assignment experiences.</li>
+                        <li><b>Do you want to enable this app role?</b> - Yes </li>
+                    </ul>
+                    </p>
+
+                    You can add more roles to your app. Added another role named <b>Orders manager</b> with a value
+                    of <b>Orders.Manager</b>.
+                    <br>
+
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/RBAC/Create-app-role-2.png">
+                    </a>
+                </div>
+
+                <div id="step-4" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger4">
+                    <p>
+                        Once you've added app roles in your application, administrator can assign users and groups to
+                        the
+                        roles. Assignment of users and groups to roles can be done through the admin center, or
+                        programmatically using <a
+                            href="https://learn.microsoft.com/en-us/graph/api/user-post-approleassignments"
+                            target="_blank" class="link-dark link-offset-2">Microsoft Graph</a>. When the users who
+                        assigned to the various
+                        app
+                        roles sign-in to
+                        the application, their tokens have their assigned roles in the <b>roles</b> claim.
+                    </p>
+                    <p>
+                        To assign users and groups to application roles, from the menu select <b>Overview</b>. Then
+                        select
+                        the link next to
+                        <b>Managed application in local directory</b> . Note, you can also browse to <b>Enterprise
+                            applications</b>, then under
+                        Manage, select <b>All applications</b>, and then select your application from the list</b>.
+                    </p>
+
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/RBAC/Select-service-principal.png">
+                    </a>
+                </div>
+
+                <div id="step-5" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger5">
+                    <p>
+                        Under <b>Manage</b>, select <b>Users and groups</b>, then select <b>Add user/group</b>.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/RBAC/Add-users-and-groups.png">
+                    </a>
+                </div>
+
+                <div id="step-6" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger6">
+                    <p>
+                        In the <b>Add Assignment</b> pane, select <b>Users and groups</b>. A list of users and security
+                        groups appears.
+                        You can select multiple users and groups in the list.
+                        Once you've selected users and groups, choose <b>Select</b>.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/RBAC/Select-users.png">
+                    </a>
+                </div>
+
+                <div id="step-7" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger7">
+                    <p>
+                        In the <b>Add Assignment</b> pane, choose <b>Select a role</b>. All the roles you defined for
+                        the
+                        application
+                        appear. Select a role, and then choose <b>Select</b>. You can select one role at a time.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/RBAC/Select-role.png">
+                    </a>
+                </div>
+
+                <div id="step-8" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger8">
+                    <p>
+                        Select <b>Assign</b> to finish the assignment of users and groups to the app. To assing more
+                        roles
+                        to users,
+                        repeat the last three steps.
+                    </p>
+
+                    <div class="alert alert-success" role="alert">
+                        <h4 class="alert-heading">Well done!</h4>
+                        <p> Now when users who assiged roles sign-in to
+                            the application, their tokens have their assigned roles in the roles claim.</p>
+                    </div>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/RBAC/Assing.png">
+                    </a>
+                </div>
             </div>
         </div>
+
     </div>
 
-    <div id="GraphApiContent">
-        <h4 class="graph-header">Configure role assignment requirement</h4>
+    <div class="tab-pane" id="microsoftGraph" role="tabpanel" aria-labelledby="microsoftGraph-tab" tabindex="0">
+        <h4 class="graph-header graph-header-space">Configure role assignment requirement</h4>
 
         <p>
 
             To add roles for your application, you need to <a
                 href="https://learn.microsoft.com/en-us/graph/api/application-update?view=graph-rest-1.0&tabs=http"
-                target="_blank" class="link-dark link-offset-2">update the app</a>. 
+                target="_blank" class="link-dark link-offset-2">update the app</a>.
             In the following JSON, make sure the <b>IDs</b> are valid unique GUID (global unique identifier).
             Replace the <b>{App-ID}</b> with your application ID (not object ID).
 
@@ -206,21 +219,24 @@
 }
         </pre>
 
-        <h4 class="graph-header">Assign users and groups to the app roles</h4>
+        <h4 class="graph-header graph-header-space">Assign users and groups to the app roles</h4>
 
         <p>
 
             Once you've added app roles in your application, you can <a
                 href="https://learn.microsoft.com/en-us/graph/api/user-post-approleassignments?view=graph-rest-1.0&tabs=http"
-                target="_blank" class="link-dark link-offset-2">assign users and groups to the roles</a>. 
-                Note, to add a user to more than one role, repeat this step and change the {App-role-ID}. 
-                Also, you can <a
-                href="https://learn.microsoft.com/en-us/graph/api/group-post-approleassignments?view=graph-rest-1.0&tabs=http" target="_blank" class="link-dark link-offset-2">add a security group</a> to application role (using the <b>groups</b> endpoint).
+                target="_blank" class="link-dark link-offset-2">assign users and groups to the roles</a>.
+            Note, to add a user to more than one role, repeat this step and change the {App-role-ID}.
+            Also, you can <a
+                href="https://learn.microsoft.com/en-us/graph/api/group-post-approleassignments?view=graph-rest-1.0&tabs=http"
+                target="_blank" class="link-dark link-offset-2">add a security group</a> to application role (using the
+            <b>groups</b> endpoint).
             In the following Graph, replace:
             <lu>
                 <li><b>{User-ID}</b> with the user object ID.</li>
                 <li><b>{service-principal-id}</b> with the service-principal ID of your web or mobile application.</li>
-                <li><b>{App-role-ID}</b> with the app role ID (you created earlier). For example 50000002-0211-4131-bfab-000000000000.</li>
+                <li><b>{App-role-ID}</b> with the app role ID (you created earlier). For example
+                    50000002-0211-4131-bfab-000000000000.</li>
             </lu>
         </p>
 
@@ -233,5 +249,10 @@
     "resourceId": "<span class="highlight">{service-principal-id}</span>"
 }
         </pre>
+    </div>
+
+    <div class="tab-pane" id="entraGraphPowerShell" role="tabpanel" aria-labelledby="entraGraphPowerShell-tab"
+        tabindex="0">
+        Loading...
     </div>
 </div>
