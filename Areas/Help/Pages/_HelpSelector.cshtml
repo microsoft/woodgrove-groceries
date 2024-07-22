@@ -1,0 +1,33 @@
+﻿<!-- Nav tabs -->
+<ul class="nav nav-underline" id="helpSelector" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="microsoftEntraAdminCenter-tab" data-bs-toggle="tab"
+            data-bs-target="#microsoftEntraAdminCenter" type="button" role="tab"
+            aria-controls="microsoftEntraAdminCenter" aria-selected="true">Microsoft Entra admin center</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="microsoftGraph-tab" data-bs-toggle="tab" data-bs-target="#microsoftGraph"
+            type="button" role="tab" aria-controls="microsoftGraph" aria-selected="false">Microsoft Graph</button>
+    </li>
+    @{
+        int PowerShell = @Model & 2;
+        int EntraPowerShell = @Model & 4;
+    }
+
+    @if (PowerShell == 2)
+    {
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="graphPowerShell-tab" data-bs-toggle="tab" data-bs-target="#graphPowerShell"
+                type="button" role="tab" aria-controls="graphPowerShell" aria-selected="false">PowerShell</button>
+        </li>
+    }
+
+    @if (EntraPowerShell == 4)
+    {
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="graphPowerShell-tab" data-bs-toggle="tab" data-bs-target="#entraGraphPowerShell"
+                type="button" role="tab" aria-controls="entraGraphPowerShell" aria-selected="false">Microsoft Entra PowerShell</button>
+        </li>
+    }
+
+</ul>
