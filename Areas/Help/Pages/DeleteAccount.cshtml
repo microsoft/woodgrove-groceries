@@ -1,0 +1,263 @@
+﻿@page
+@model woodgrovedemo.Help.Pages.DeleteAccountModel
+
+@{
+    ViewData["Title"] = "Delete an account";
+    Layout = "_Layout";
+}
+
+<h1 style="margin-top: 25px; margin-bottom: 25px;">Delete an account</h1>
+<p>
+    You can <a
+        href="https://learn.microsoft.com/entra/external-id/customers/how-to-manage-customer-accounts#delete-a-customer-account"
+        target="_blank" class="link-dark link-offset-2">delete an existing</a> from the directory.
+    You must have at least the User Administrator role assignment to delete non-admin users in your organization.
+    Those with the Privileged Authentication Administrator role can delete any users including other administrators.
+
+</p>
+
+@await Html.PartialAsync("_HelpSelector.cshtml", 2)
+<div class="tab-content wg-tab-content">
+
+    <div class="tab-pane active" id="microsoftEntraAdminCenter" role="tabpanel"
+        aria-labelledby="microsoftEntraAdminCenter-tab" tabindex="0">
+        @await Html.PartialAsync("_StepsButtons.cshtml")
+
+        <div class="bs-stepper vertical" id="Stepper">
+            @await Html.PartialAsync("_Steps.cshtml", 2)
+
+            <div class="bs-stepper-content">
+                <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
+
+                    <p>
+                        Browse to <b>Identity</b> > <b>Users</b> > <b>All user</b>. Search for and select the user you
+                        want to delete, then select <b>Delete user</b>.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/DeleteAccount/Select-User.png">
+                    </a>
+                </div>
+
+                <div id="step-2" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger2">
+                    <p>
+                        At this time the user is deleted and no longer appears on the All users page.
+                        The user can be seen on the <b>Deleted users</b> page for the next 30 days and can be restored
+                        during that time.
+                        To restore or remove a recently deleted user, from the menu select <b>Deleted users</b>. Review
+                        the list of users that are available to restore.
+                        Select the user, and choose <b>Delete permanently</b> or <b>Restore user</b>.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/DeleteAccount/Deleted-Users.png">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-pane" id="microsoftGraph" role="tabpanel" aria-labelledby="microsoftGraph-tab" tabindex="0">
+        <h4 class="graph-header">1. Find a user</h4>
+        <p>
+            You delete a user by its ID or by a user principal name. If you have this information, skip to the next
+            step.
+            There are severl options to <a target="_blank" class="link-dark link-offset-2"
+                href="https://learn.microsoft.com/en-us/graph/api/user-list?view=graph-rest-beta&tabs=http">
+                find a user</a>. The following example shows how to get a user account using a sign-in name.
+        </p>
+
+        <!-- HTTP method-->
+        <div class="function-http">
+            <code><span class="method">GET</span> https://graph.microsoft.com/v1.0/users?$select=displayName,id&$filter=identities/any(c:c/issuerAssignedId eq '<span class="highlight">{sign-in-name}</span>' and c/issuer eq '<span class="highlight">{your-tenant-name}</span>')</code>
+        </div>
+
+        <!-- PowerShell method-->
+        <div class="function-powershell">
+            <code><span class="method">Connect-MgGraph</span> <span class="param">-Scopes</span> "User.ReadWrite.All"</code><br>
+            <code><span class="method">Get-MgBetaUser</span> <span class="param">-Property </span> "displayName,id" <span class="param">-Filter </span> "identities/any(c:c/issuerAssignedId eq '<span class="highlight">{sign-in-name}</span>' and c/issuer eq '<span class="highlight">{your-tenant-name}</span>')" </code><br>
+        </div>
+
+        <!-- Example-->
+        <a class="btn btn-success btn-sm" data-bs-toggle="collapse" href="#collapseFindExample" role="button"
+            aria-expanded="false" aria-controls="collapseFindExample">
+            Show example
+        </a><br>
+        <div class="collapse example" id="collapseFindExample">
+            <br>
+
+            <!-- HTTP method-->
+            <div class="function-http">
+                <code><span class="method">GET</span> https://graph.microsoft.com/v1.0/users?$select=displayName,id&$filter=identities/any(c:c/issuerAssignedId eq '<span class="highlight">someone@contosodemo.com</span>' and c/issuer eq '<span class="highlight">woodgrove.onmicrosoft.com</span>')</code>
+            </div>
+
+            <!-- PowerShell method-->
+            <div class="function-powershell">
+                <code><span class="method">Connect-MgGraph</span> <span class="param">-Scopes</span> "User.ReadWrite.All"</code><br>
+                <code><span class="method">Get-MgBetaUser</span> <span class="param">-Property </span> "displayName,id" <span class="param">-Filter </span> "identities/any(c:c/issuerAssignedId eq '<span class="highlight">someone@contosodemo.com</span>' and c/issuer eq '<span class="highlight">woodgrove.onmicrosoft.com</span>')" </code><br>&nbsp;<br><br>
+            </div>
+
+        </div> <!--End of example-->
+
+
+        <h5 class="graph-header graph-header-space">1.1 Get the user ID</h5>
+        <p>
+            From the response, copy the <b>id</b>. For example,
+        </p>
+
+        <!-- HTTP method-->
+        <div class="function-http">
+            <pre class="example replace">
+{
+    "@@odata.context": "https://graph.microsoft.com/v1.0/$metadata#users(displayName,id)",
+    "value": [
+        {
+            "displayName": "Nicholas",
+            "id": "<span class="highlight">11111111-0000-0000-0000-000000000000</span>"
+        }
+    ]
+}
+
+</pre>
+        </div>
+
+        <!-- PowerShell method-->
+        <div class="function-powershell">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td scope="col">DisplayName</td>
+                        <td scope="col"><span class="highlight">Id</span></td>
+                    </tr>
+                </thead>
+                <tr scope="row">
+                    <td>Nicholas</td>
+                    <td>11111111-0000-0000-0000-000000000000</td>
+                </tr>
+            </table>
+        </div>
+
+
+        <h4 class="graph-header graph-header-space">2. Delete a user</h4>
+        <p>
+            You <a target="_blank" class="link-dark link-offset-2"
+                href="https://learn.microsoft.com/en-us/graph/api/user-delete?view=graph-rest-beta&tabs=http">delete a
+                user</a> by its ID or by a user principal name.
+            In the following request, replace the <b>{user-id}</b> with the user ID.
+        </p>
+
+        <!-- HTTP method-->
+        <div class="function-http">
+            <code><span class="method">DELETE </span> https://graph.microsoft.com/v1.0/users/<span class="highlight">{user-id}</span></code>
+        </div>
+
+        <!-- PowerShell method-->
+        <div class="function-powershell">
+            <code><span class="method">Remove-MgBetaUser</span> <span class="param">-UserId</span> <span class="highlight">{user-id}</span></code>
+        </div>
+
+        <!-- Example-->
+        <a class="btn btn-success btn-sm" data-bs-toggle="collapse" href="#collapseDeleteExample" role="button"
+            aria-expanded="false" aria-controls="collapseDeleteExample">
+            Show example
+        </a><br>
+        <div class="collapse example" id="collapseDeleteExample">
+            <br>
+
+            <!-- HTTP method-->
+            <div class="function-http">
+                <code><span class="method">DELETE </span> https://graph.microsoft.com/v1.0/users/<span class="highlight">11111111-0000-0000-0000-000000000000</span></code>
+            </div>
+
+            <!-- PowerShell method-->
+            <div class="function-powershell">
+                <code><span class="method">Remove-MgBetaUser</span> <span class="param">-UserId</span> <span class="highlight">11111111-0000-0000-0000-000000000000</span></code>
+            </div>
+
+        </div> <!--End of example-->
+
+
+
+        <h4 class="graph-header graph-header-space">3. Restore deleted user</h4>
+        <p>
+            You <a target="_blank" class="link-dark link-offset-2"
+                href="https://learn.microsoft.com/en-us/graph/api/directory-deleteditems-restore?view=graph-rest-1.0&tabs=http">restore
+                a recently deleted user</a> by its ID.
+            In the following request, replace the <b>{user-id}</b> with the user ID.
+        </p>
+
+        <!-- HTTP method-->
+        <div class="function-http">
+            <code><span class="method">POST </span> https://graph.microsoft.com/v1.0/directory/deletedItems/<span class="highlight">{user-id}</span>/restore</code>
+        </div>
+
+        <!-- PowerShell method-->
+        <div class="function-powershell">
+            <code><span class="method">Restore-MgDirectoryDeletedItem</span> <span class="param">-DirectoryObjectId</span> <span class="highlight">{user-id}</span></code>
+        </div>
+
+        <!-- Example-->
+        <a class="btn btn-success btn-sm" data-bs-toggle="collapse" href="#collapseRestoreExample" role="button"
+            aria-expanded="false" aria-controls="collapseRestoreExample">
+            Show example
+        </a><br>
+        <div class="collapse example" id="collapseRestoreExample">
+            <br>
+
+            <!-- HTTP method-->
+            <div class="function-http">
+                <code><span class="method">POST </span> https://graph.microsoft.com/v1.0/directory/deletedItems/<span class="highlight">11111111-0000-0000-0000-000000000000</span>/restore</code>
+            </div>
+
+            <!-- PowerShell method-->
+            <div class="function-powershell">
+                <code><span class="method">Restore-MgDirectoryDeletedItem</span> <span class="param">-DirectoryObjectId</span> <span class="highlight">11111111-0000-0000-0000-000000000000</span></code>
+            </div>
+
+        </div> <!--End of example-->
+
+
+        <h4 class="graph-header graph-header-space">4. Permanently delete</h4>
+        <p>
+            You <a target="_blank" class="link-dark link-offset-2"
+                href="https://learn.microsoft.com/en-us/graph/api/directory-deleteditems-delete?view=graph-rest-1.0&tabs=http">permanently
+                deletea recently deleted user</a> by its ID.
+            In the following request, replace the <b>{user-id}</b> with the user ID.
+            Note, to run the comman, you must have the <b>User Administrator</b> role.
+        </p>
+
+        <!-- HTTP method-->
+        <div class="function-http">
+            <code><span class="method">DELETE </span> https://graph.microsoft.com/v1.0/directory/deletedItems/<span class="highlight">{user-id}</span></code>
+        </div>
+
+        <!-- PowerShell method-->
+        <div class="function-powershell">
+            <code><span class="method">Remove-MgDirectoryDeletedItem</span> <span class="param">-DirectoryObjectId</span> <span class="highlight">{user-id}</span></code>
+        </div>
+
+        <!-- Example-->
+        <a class="btn btn-success btn-sm" data-bs-toggle="collapse" href="#collapsePermanentlyDeleteExample"
+            role="button" aria-expanded="false" aria-controls="collapsePermanentlyDeleteExample">
+            Show example
+        </a><br>
+        <div class="collapse example" id="collapsePermanentlyDeleteExample">
+            <br>
+
+            <!-- HTTP method-->
+            <div class="function-http">
+                <code><span class="method">DELETE </span> https://graph.microsoft.com/v1.0/directory/deletedItems/<span class="highlight">11111111-0000-0000-0000-000000000000</span></code>
+            </div>
+
+            <!-- PowerShell method-->
+            <div class="function-powershell">
+                <code><span class="method">Remove-MgDirectoryDeletedItem</span> <span class="param">-DirectoryObjectId</span> <span class="highlight">11111111-0000-0000-0000-000000000000</span></code>
+            </div>
+
+        </div> <!--End of example-->
+    </div>
+
+    <div class="tab-pane" id="graphPowerShell" role="tabpanel" aria-labelledby="graphPowerShell-tab" tabindex="0">
+        Loading...
+    </div>
+</div>

@@ -164,7 +164,6 @@
             <code><span class="method">POST</span> https://graph.microsoft.com/v1.0/identity/authenticationEventsFlows</code>
         </div>
         <div class="function-powershell">
-            <code><span class="method">Import-Module</span>  Microsoft.Graph.Beta.Identity.SignIns</code><br>
             <code><span class="method">Connect-MgGraph</span> <span class="param">-Scopes</span> "EventListener.ReadWrite.All"</code>
 
             <div class="alert alert-danger" role="alert">
@@ -353,7 +352,7 @@
 
         <!-- PowerShell method-->
         <div class="function-powershell">
-            <code><span class="method">Import-Module</span> Microsoft.Graph.Beta.Identity.SignIns</code>
+            <code><span class="method">Connect-MgGraph</span> <span class="param">-Scopes</span> "EventListener.ReadWrite.All"</code>
         </div>
 
         <a type="button" class="link-opacity-75 copyToClipboard" href="#"><i class="bi bi-copy"></i></a>
