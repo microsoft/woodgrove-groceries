@@ -191,6 +191,11 @@ namespace MyApp.Namespace
             return this.TrackAndAuth("ForceSignIn", "/", true);
         }
 
+        public IActionResult OnGetDisableAccount()
+        {
+            return this.TrackAndAuth("DisableAccount", "/Profile", true);
+        }
+
         public IActionResult OnGetSSO2()
         {
 

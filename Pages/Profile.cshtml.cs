@@ -43,10 +43,13 @@ namespace MyApp.Namespace
         [BindProperty]
         public string SpecialDiet { get; set; } = "";
         [BindProperty]
+        public bool AccountEnabled { get; set; } = true;
+        [BindProperty]
         public string Identities { get; private set; } = "";
         public string Username { get; private set; } = "";
         [BindProperty]
         public string ObjectId { get; private set; } = "";
+
 
 
         [DisplayName("Member of 'Commercial Accounts' group")]
@@ -102,7 +105,7 @@ namespace MyApp.Namespace
 
                 User profile = await graphClient.Users[userObjectId].GetAsync(requestConfiguration =>
                     {
-                        requestConfiguration.QueryParameters.Select = new string[] { "Id", "identities", "displayName", "GivenName", "Surname", "Country", "City", "CreatedDateTime", "lastPasswordChangeDateTime", "signInActivity", $"{ExtensionAttributes}_SpecialDiet" };
+                        requestConfiguration.QueryParameters.Select = new string[] { "Id", "identities", "displayName", "GivenName", "Surname", "Country", "City", "AccountEnabled", "CreatedDateTime", "lastPasswordChangeDateTime", "signInActivity", $"{ExtensionAttributes}_SpecialDiet" };
                         requestConfiguration.QueryParameters.Expand = new string[] { "Extensions" };
                     });
 
@@ -114,6 +117,9 @@ namespace MyApp.Namespace
                 this.GivenName = profile!.GivenName ?? "";
                 this.Country = profile!.Country ?? "";
                 this.City = profile!.City ?? "";
+
+                if (profile!.AccountEnabled != null)
+                    this.AccountEnabled = (bool)profile!.AccountEnabled;
 
                 // Get the special diet from the extension attributes
                 object specialDiet;
@@ -203,7 +209,8 @@ namespace MyApp.Namespace
                         {
                             $"{ExtensionAttributes}_SpecialDiet" , this.SpecialDiet
                         },
-                    }
+                    },
+                    AccountEnabled = this.AccountEnabled
                 };
 
                 var result = await graphClient.Users[userObjectId].PatchAsync(requestBody);
@@ -242,7 +249,7 @@ namespace MyApp.Namespace
 
             return Page();
         }
-        
+
         public async Task<IActionResult> OnPostRolesAsync(bool hasProductsContributorRole,
                                       bool hasOrdersManagerRole,
                                       bool memberOfCommercialAccounts)
@@ -395,7 +402,7 @@ namespace MyApp.Namespace
         private void FormatIdentities(List<ObjectIdentity> identities)
         {
             this.Identities = string.Empty;
-            
+
             foreach (var identity in identities!)
             {
                 if (identity.SignInType == "userPrincipalName")

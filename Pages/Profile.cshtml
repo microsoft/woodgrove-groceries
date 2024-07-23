@@ -93,6 +93,12 @@
                         <input type="text" class="form-control" id="inputSpecialDiet" asp-for="SpecialDiet">
                     </div>
                 </div>
+                <div class="form-group row">
+                    <label for="inputAccountEnabled" class="col-sm-2 col-form-label">Enabled</label>
+                    <div class="col-sm-5">
+                        <input type="checkbox" class="form-check-input" id="inputAccountEnabled" asp-for="AccountEnabled">
+                    </div>
+                </div>
                 <div class="form-group row" style="padding-bottom: 10px; padding-top: 10px;">
                     <div class="col-sm-6">
                         <button type="submit" asp-page-handler="Profile" class="btn header-button"><i
@@ -198,5 +204,52 @@
     </div>
 </div>
 
-
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Disable your account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to disable your account? After you disable it, you will not be able to sign-in
+                anymore.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="enableAccount()">No</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Yes</button>
+            </div>
+        </div>
+    </div>
 </div>
+
+@section Scripts {
+    <script>
+        var staticBackdrop;
+        $(document).ready(function () {
+            
+            staticBackdrop = new bootstrap.Modal(document.getElementById('staticBackdrop'), { keyboard: false });
+
+            // Handle account enable checkbox change
+            $('#inputAccountEnabled').change(function () {
+                var isChecked = $(this).is(':checked');
+                if (!isChecked) {
+
+                    // Show the modal dialog
+                    staticBackdrop.show();
+                }
+            });
+        });
+
+        function enableAccount() {
+
+            $('#inputAccountEnabled').prop('checked', true);
+
+            // Hide the modal dialog
+            staticBackdrop.hide();
+        }
+
+    </script>
+}
