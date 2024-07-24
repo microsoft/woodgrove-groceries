@@ -225,7 +225,7 @@ if ($('#microsoftGraph').length > 0 && $('#graphPowerShell').length > 0) {
     // Convert JSON example to list (HTML table in list format)
     const examplesTable = document.querySelectorAll('#graphPowerShell pre.toTable')
     examplesTable.forEach(triggerEl => {
-
+    
         triggerEl.innerHTML = '<table class="table">' + jsonToTable(JSON.parse(triggerEl.innerHTML.replaceAll('"highlight"', "'highlight'"))) + '</table>';
     });
 }
@@ -260,8 +260,6 @@ function jsonToTable(json) {
         if (key.startsWith('@')) {
             continue;
         }
-
-        console.log(key)
 
         row1 += `<td>${capitalizeFirstLetter(key)}</td>`;
         row2 += `<td>${json[key]}</td>`

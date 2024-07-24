@@ -249,40 +249,14 @@
         </p>
 
         <!-- HTTP method-->
-        <div class="function-http">
-            <pre>
+            <pre class="toTable">
 {
     "@@odata.context": "https://graph.microsoft.com/v1.0/$metadata#servicePrincipals/$entity",
     "id": "12345678-0000-0000-0000-000000000000",
     "appDisplayName": "Woodgrove partners portal",
-    "appDescription": "Woodgrove partners portal demo application (user assignment is required)",
     "appId": "<span class="highlight">11111111-0000-0000-0000-000000000000</span>"
-    ...
 }
         </pre>
-        </div>
-
-        <!-- PowerShell method-->
-        <div class="function-powershell">
-            <!-- PowerShell response-->
-            <div class="function-powershell">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <td scope="col">DisplayName</td>
-                            <td scope="col">Id</td>
-                            <td scope="col"><span class="highlight">AppId</span></td>
-                        </tr>
-                    </thead>
-                    <tr scope="row">
-                        <td>Woodgrove partners portal</td>
-                        <td>12345678-0000-0000-0000-000000000000</td>
-                        <td>11111111-0000-0000-0000-000000000000</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-
 
 
         <h4 class="graph-header graph-header-space">1.2 Create a service principal for your application</h4>
@@ -353,41 +327,13 @@
         </p>
 
         <!-- HTTP method-->
-        <div class="function-http">
-            <pre>
+            <pre class="toTable">
 {
-    @@odata.context": "https://graph.microsoft.com/v1.0/$metadata#servicePrincipals/$entity",
+    "@@odata.context": "https://graph.microsoft.com/v1.0/$metadata#servicePrincipals/$entity",
     "id": "<span class="highlight">22222222-0000-0000-0000-000000000000</span>",
     "appId": "11111111-0000-0000-0000-000000000000"
-    ...
 }
         </pre>
-        </div>
-
-        <!-- PowerShell method-->
-        <div class="function-powershell">
-            <!-- PowerShell response-->
-            <div class="function-powershell">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <td scope="col">DisplayName</td>
-                            <td scope="col"><span class="highlight">Id</span></td>
-                            <td scope="col">AppId</td>
-                        </tr>
-                    </thead>
-                    <tr scope="row">
-                        <td>Woodgrove partners portal</td>
-                        <td>22222222-0000-0000-0000-000000000000</td>
-                        <td>11111111-0000-0000-0000-000000000000</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-
-
-
-
 
         <h5 class="graph-header graph-header-space">1.4 Get the Microsoft Graph's service principal ID</h5>
 
@@ -413,34 +359,13 @@
         <!-- Result-->
 
         <!-- HTTP method-->
-        <div class="function-http">
-            <pre style="margin-top: 10px;">
+            <pre style="margin-top: 10px;" class="toTable">
 {
-    "id": "<span class="highlight">33333333-0000-0000-0000-000000000000</span>"
+    "id": "<span class="highlight">33333333-0000-0000-0000-000000000000</span>",
     "appDisplayName": "Microsoft Graph",
-    "appId": "00000003-0000-0000-c000-000000000000",
+    "appId": "00000003-0000-0000-c000-000000000000"
 }
-        </pre>
-        </div>
-
-
-        <!-- PowerShell response-->
-        <div class="function-powershell">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <td scope="col">DisplayName</td>
-                        <td scope="col"><span class="highlight">Id</span></td>
-                        <td scope="col">AppId</td>
-                    </tr>
-                </thead>
-                <tr scope="row">
-                    <td>Microsoft Graph</td>
-                    <td>33333333-0000-0000-0000-000000000000</td>
-                    <td>00000003-0000-0000-c000-000000000000</td>
-                </tr>
-            </table>
-        </div>
+</pre>
 
 
         <h4 class="graph-header graph-header-space">1.5 Consent to the required permissions</h4>
