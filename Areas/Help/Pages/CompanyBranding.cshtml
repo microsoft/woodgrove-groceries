@@ -25,7 +25,7 @@
     customizing the branding elements for that browser language.
 </p>
 
-@await Html.PartialAsync("_HelpSelector.cshtml", 0)
+@await Html.PartialAsync("_HelpSelector.cshtml", 2)
 <div class="tab-content wg-tab-content">
     <div class="tab-pane active" id="microsoftEntraAdminCenter" role="tabpanel"
         aria-labelledby="microsoftEntraAdminCenter-tab" tabindex="0">
@@ -209,14 +209,27 @@
 
         <h4 class="graph-header graph-header-space">Update the default company branding</h4>
         <p>
-            Update (not create) the properties of the default localization, run the following Microsoft Graph.
+            <a href="https://learn.microsoft.com/en-us/graph/api/organizationalbrandinglocalization-update?view=graph-rest-1.0&tabs=http"
+                target="_blank" class="link-dark link-offset-2">Update</a> (not create) the properties of the default
+            localization, run the following Microsoft Graph.
             Replace the <b>{Tenant-ID}</b> with your tenant ID.
 
         </p>
-        <code
-            style="color: black;">PATHC https://graph.microsoft.com/v1.0/organization/<span class="highlight">{Tenant-ID}</span>/branding/localizations/0</code>
 
-        <pre>
+
+        <!-- HTTP method-->
+        <div class="function-http">
+            <code><span class="method">PATHC</span> https://graph.microsoft.com/v1.0/organization/<span class="highlight">{Tenant-ID}</span>/branding/localizations/0</code>
+        </div>
+
+        <!-- PowerShell method-->
+        <div class="function-powershell">
+            <code><span class="method">Connect-MgGraph</span> <span class="param">-Scopes</span> "OrganizationalBranding.ReadWrite.All"</code>
+        </div>
+
+        <!-- Code-->
+        <a type="button" class="link-opacity-75 copyToClipboard" href="#"><i class="bi bi-copy"></i></a>
+        <pre class="replace" ignoreNull>
 {
     "id": "0",
     "backgroundColor": "#cddfcc",
@@ -227,7 +240,7 @@
     "customPrivacyAndCookiesText": "Privacy & Cookies",
     "customPrivacyAndCookiesUrl": "https://woodgrovedemo.com/Privacy",
     "customResetItNowText": null,
-    "customTermsOfUseText": "Terms of Use",
+    "customTermsOfUseText": "Terms of use",
     "customTermsOfUseUrl": "https://woodgrovedemo.com/TOS",
     "headerBackgroundColor": null,
     "signInPageText": "Welcome to the **Woodgrove groceries** online store. Sign-in with your credentials, or create a new account. You can also sign-in with your *social accounts*, such as Facebook or Google. For help, please [contact us](https://woodgrovedemo.com/help).",
@@ -250,11 +263,14 @@
 }
         </pre>
 
+        <!-- PowerShell method-->
+        <div class="function-powershell" style="margin-top: 15px;;">
+            <code><span class="method">Update-MgOrganizationBrandingLocalization</span> <span class="param">-OrganizationId</span> <b>{Tenant-ID}</b> <span class="param">-OrganizationalBrandingLocalizationId</span> 0 <span class="param">-BodyParameter</span> $params</code>
+        </div>
 
     </div>
 
-    <div class="tab-pane" id="entraGraphPowerShell" role="tabpanel" aria-labelledby="entraGraphPowerShell-tab"
-        tabindex="0">
+    <div class="tab-pane" id="graphPowerShell" role="tabpanel" aria-labelledby="entraGraphPowerShell-tab" tabindex="0">
         Loading...
     </div>
 </div>

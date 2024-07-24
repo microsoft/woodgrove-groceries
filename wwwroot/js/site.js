@@ -210,9 +210,17 @@ if ($('#microsoftGraph').length > 0 && $('#graphPowerShell').length > 0) {
 
     const codes = document.querySelectorAll('#graphPowerShell pre.replace')
     codes.forEach(triggerEl => {
-        //console.log(triggerEl.tagName + " ddd");
+
         triggerEl.innerHTML = syntaxHighlight(triggerEl.innerHTML)
         triggerEl.innerHTML = "$params = " + triggerEl.innerHTML;
+
+        if (triggerEl.getAttribute("ignoreNull") === '') {
+            // Remove null attribures
+            var lines = triggerEl.innerHTML.split('\n');
+            lines = lines.filter(function (str) { return str.includes("$undefinedVariable") === false; });
+            //console.log(array.length)
+            triggerEl.innerHTML = lines.join('\n')
+        }
     })
 
     // Convert JSON example to list (HTML table in list format)
@@ -225,7 +233,7 @@ if ($('#microsoftGraph').length > 0 && $('#graphPowerShell').length > 0) {
     // Convert JSON example to list (HTML table in list format)
     const examplesTable = document.querySelectorAll('#graphPowerShell pre.toTable')
     examplesTable.forEach(triggerEl => {
-    
+
         triggerEl.innerHTML = '<table class="table">' + jsonToTable(JSON.parse(triggerEl.innerHTML.replaceAll('"highlight"', "'highlight'"))) + '</table>';
     });
 }
