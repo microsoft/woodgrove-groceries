@@ -77,7 +77,7 @@ function showUseCase(trigger) {
         usecase = 'Default';
     }
 
-    var useCases = ["Default", "OnlineRetail", "DisableAccount", "CustomDomain", "AssignmentRequired", "StepUp", "CSA", "PolicyAgreement", "EmailAndPassword", "OBO", "SSO", "TokenTTL", "MFA", "CA", "ForceSignIn", "UserInsights", "ModifyAttributeValues", "BlockSignUp", "CompanyBranding", "Language", "PreSelectLanguage", "SSPR", "Social", "LoginHint", "TokenAugmentation", "TokenClaims", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "UserLastActivity", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Finance"];
+    var useCases = ["Default", "OnlineRetail", "DisableAccount", "CustomDomain", "AssignmentRequired", "StepUp", "CSA", "PolicyAgreement", "EmailAndPassword", "OBO", "SSO", "TokenTTL", "MFA", "CA", "ForceSignIn", "UserInsights", "SignInLog", "ModifyAttributeValues", "BlockSignUp", "CompanyBranding", "Language", "PreSelectLanguage", "SSPR", "Social", "LoginHint", "TokenAugmentation", "TokenClaims", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "UserLastActivity", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Finance"];
 
     if (($('#offcanvasRight').length > 0) && usecase && (useCases.indexOf(usecase) > -1)) {
 
@@ -220,7 +220,14 @@ if ($('#microsoftGraph').length > 0 && $('#graphPowerShell').length > 0) {
     examples.forEach(triggerEl => {
 
         triggerEl.innerHTML = '<table class="table">' + jsonToList(JSON.parse(triggerEl.innerHTML), '') + '</table>';
-    })
+    });
+
+    // Convert JSON example to list (HTML table in list format)
+    const examplesTable = document.querySelectorAll('#graphPowerShell pre.toTable')
+    examplesTable.forEach(triggerEl => {
+
+        triggerEl.innerHTML = '<table class="table">' + jsonToTable(JSON.parse(triggerEl.innerHTML.replaceAll('"highlight"', "'highlight'"))) + '</table>';
+    });
 }
 
 function jsonToList(json, parentKey) {
@@ -236,11 +243,38 @@ function jsonToList(json, parentKey) {
             rows += `<tr scope="row"><td>${((parentKey === undefined || parentKey === '') ? '' : parentKey + '.')}${key}</td><td>${json[key]}<td></tr>`
         }
         else {
-            rows += jsonToList(json[key], key)
+            rows += jsonToList(json[key], ((parentKey === undefined || parentKey === '') ? '' : parentKey + '.') + key)
         }
     }
 
     return rows;
+}
+
+
+function jsonToTable(json) {
+    var row1 = '<tr scope="row">';
+    var row2 = '<tr scope="row">';
+
+    for (const key in json) {
+
+        if (key.startsWith('@')) {
+            continue;
+        }
+
+        console.log(key)
+
+        row1 += `<td>${capitalizeFirstLetter(key)}</td>`;
+        row2 += `<td>${json[key]}</td>`
+    }
+
+    row1 += '</tr>';
+    row2 += '</tr>';
+
+    return row1 + row2;
+}
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 function syntaxHighlight(json) {

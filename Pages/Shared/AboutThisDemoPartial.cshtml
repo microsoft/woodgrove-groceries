@@ -142,9 +142,11 @@
             <li>
                 <h6 class="dropdown-header" style="color: var(--color-very-dark);">Reports and auditing</h6>
             </li>
-            <li><a class="dropdown-item" href="#usecase=UserLastActivity"><i class="bi bi-clock-history"></i>&nbsp; User last activity</a></li>
-            <li><a class="dropdown-item" href="#usecase=SignInLog" style="display: none;"><i class="bi bi-flag"></i>&nbsp; Sign-in log</a></li>
-            <li><a class="dropdown-item" href="#usecase=UserInsights"><i class="bi bi-lightbulb"></i>&nbsp; Gain insights into your app users’ activity</a>
+            <li><a class="dropdown-item" href="#usecase=UserLastActivity"><i class="bi bi-clock-history"></i>&nbsp; User
+                    last activity</a></li>
+            <li><a class="dropdown-item" href="#usecase=SignInLog"><i class="bi bi-flag"></i>&nbsp; Sign-in log</a></li>
+            <li><a class="dropdown-item" href="#usecase=UserInsights"><i class="bi bi-lightbulb"></i>&nbsp; Gain
+                    insights into your app users’ activity</a>
             </li>
             <li>
                 <hr class="dropdown-divider">
@@ -1435,8 +1437,30 @@
                     strategic decisions and drive business growth.
                 </p>
                 <a class="btn header-button" role="button" href="dashboard"> Start the use case</a>
-
             </div>
+
+            <div id="useCase_SignInLog" class="useCase">
+                <h4>Sing-in logs</h4>
+                <p>
+                    Microsoft Entra ID emits <a
+                        href="https://learn.microsoft.com/en-us/entra/identity/monitoring-health/concept-sign-ins"
+                        class="link-dark">sign-in logs</a> containing activity information. Each sign-in attempt
+                    contains
+                    details associated with those three main components:<br>
+                    <b>Who</b>: The identity (User) doing the sign-in. <b>How</b>: The client (Application) used for the
+                    access. And <b>What</b>: The target (Resource) accessed by the identity.
+                    <br>&nbsp;<br>
+                    You can use the sign-in logs to answer questions such as: How many users signed into a particular
+                    application this week?
+                    How many failed sign-in attempts occurred in the last 24 hours?
+                    Are users signing in from specific browsers or operating systems?
+                </p>
+
+                <i class="bi bi-play-circle"></i> <a class="" style="margin-top: 100px;" role="button"
+                    href="/help/SignInLog">
+                    Learn how we configured the Woodgrove tenant</a>
+            </div>
+
         </div>
     </div>
 </div>

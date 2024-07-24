@@ -1,0 +1,188 @@
+﻿@page
+@model woodgrovedemo.Help.Pages.SignInLogModel
+
+@{
+    ViewData["Title"] = "Sign-in logs";
+    Layout = "_Layout";
+}
+
+
+
+<h1 style="margin-top: 25px; margin-bottom: 25px;">Sign-in logs</h1>
+
+<p>
+    Microsoft Entra ID emits <a
+        href="https://learn.microsoft.com/en-us/entra/identity/monitoring-health/concept-sign-ins"
+        class="link-dark">sign-in logs</a> containing activity information. Each sign-in attempt
+    contains
+    details associated with those three main components:
+    <b>Who</b>: The identity (User) doing the sign-in. <b>How</b>: The client (Application) used for the
+    access. And <b>What</b>: The target (Resource) accessed by the identity.
+
+    You can use the sign-in logs to answer questions such as: How many users signed into a particular
+    application this week?
+    How many failed sign-in attempts occurred in the last 24 hours?
+    Are users signing in from specific browsers or operating systems?
+</p>
+
+@await Html.PartialAsync("_HelpSelector.cshtml", 2)
+
+<div class="tab-content wg-tab-content">
+    <div class="tab-pane active" id="microsoftEntraAdminCenter" role="tabpanel"
+        aria-labelledby="microsoftEntraAdminCenter-tab" tabindex="0">
+        @await Html.PartialAsync("_StepsButtons.cshtml")
+
+        <div class="bs-stepper vertical" id="Stepper">
+            @await Html.PartialAsync("_Steps.cshtml", 2)
+
+            <div class="bs-stepper-content">
+                <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
+
+                    @await Html.PartialAsync("_Prerequisites.cshtml")
+
+                    <p>
+                        Sign-in to the <a href="https://entra.microsoft.com/"
+                            target="_blank" class="link-dark link-offset-2">Microsoft Entra admin center</a> and browse
+                        to <b>Monitoring & health </b> > <b> Sign-in logs</b>. Then, search and select one of the sign-in log entry.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/SignInLog/Sing-in-logs.png">
+                    </a>
+                </div>
+
+                <div id="step-2" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger2">
+                    <p>
+                        The <b>Activity Details: Sign-ins</b> provides details associated with a sign-in attempt. In the following example, the user couldn't sign-in since the account is disabled.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/SignInLog/Sing-in-log-details.png">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-pane" id="microsoftGraph" role="tabpanel" aria-labelledby="microsoftGraph-tab" tabindex="0">
+        <h4 class="graph-header">Dependencies</h4>
+        This script is self-contained.
+
+        <h4 class="graph-header graph-header-space">1. Sign-in logs</h4>
+        <div>
+            Retrieve the Microsoft Entra user <a
+                href="https://learn.microsoft.com/en-us/graph/api/signin-list?view=graph-rest-1.0&tabs=http"
+                target="_blank" class="link-dark link-offset-2">sign-ins for your tenant</a> with the following command:<br>&nbsp<br>
+        </div>
+
+        <!-- HTTP method-->
+        <div class="function-http">
+            <code><span class="method">GET</span> https://graph.microsoft.com/v1.0/auditLogs/signIns</code>
+        </div>
+
+        <!-- PowerShell method-->
+        <div class="function-powershell">
+            <code><span class="method">Connect-MgGraph</span> <span class="param">-Scopes</span> "AuditLog.Read.All Directory.Read.All"</code><br>
+            <code><span class="method">Get-MgAuditLogSignIn</span></code><br>&nbsp<br>
+        </div>
+
+
+        <h5 class="graph-header graph-header-space">1.1 [Optinal] Filter sign-in logs</h5>
+        <div>
+            You can filter the sign-in logs. For example, list all sign-ins during a <a
+                href="https://learn.microsoft.com/en-us/graph/api/signin-list?view=graph-rest-1.0&tabs=http"
+                target="_blank" class="link-dark link-offset-2">specific time period</a>. For example:<br>&nbsp<br>
+        </div>
+
+        <!-- HTTP method-->
+        <div class="function-http">
+            <code><span class="method">GET</span> https://graph.microsoft.com/v1.0/auditLogs/signIns?$filter=createdDateTime ge 2024-07-01T00:00:00Z and createdDateTime le 2024-07-14T23:59:59Z</code>
+        </div>
+
+        <!-- PowerShell method-->
+        <div class="function-powershell">
+            <code><span class="method">Connect-MgGraph</span> <span class="param">-Scopes</span> "AuditLog.Read.All Directory.Read.All"</code><br>
+            <code><span class="method">Get-MgAuditLogSignIn</span> <span class="param">-Filter</span> "createdDateTime ge 2024-07-01T00:00:00Z and createdDateTime le 2024-07-14T23:59:59Z"</code><br>&nbsp<br>
+        </div>
+
+
+        <h4 class="graph-header graph-header-space">2. Investigate the sign-in log</h4>
+        
+        <div>
+            The response provides a collection of details associated with sign-in attempts. In the following example, the user couldn't sign-in since the account is disabled.
+        </div>
+
+        <!-- HTTP response-->
+        <div>
+            <pre class="toList">
+{
+    "@@odata.context": "https://graph.microsoft.com/v1.0/$metadata#auditLogs/signIns",
+    "@@microsoft.graph.tips": "Use $select to choose only the properties your app needs, as this can lead to performance improvements. For example: GET auditLogs/signIns?$select=appDisplayName,appId",
+    "value": [
+        {
+            "id": "b6c405bf-816b-4c88-b7a4-9af5f79d0200",
+            "createdDateTime": "2024-07-24T06:55:43Z",
+            "userDisplayName": "Yoel Horvitz",
+            "userPrincipalName": "75b523ca-d064-4ddf-80af-87738f504026@wggdemo.onmicrosoft.com",
+            "userId": "75b523ca-d064-4ddf-80af-87738f504026",
+            "appId": "10f90284-3ee4-4e82-a641-55cc4068b633",
+            "appDisplayName": "Woodgrove Groceries",
+            "ipAddress": "**.**.**.***",
+            "clientAppUsed": "Browser",
+            "correlationId": "366f7c67-19a6-404d-ac87-2bfc4919ac1e",
+            "conditionalAccessStatus": "success",
+            "isInteractive": true,
+            "riskDetail": "hidden",
+            "riskLevelAggregated": "hidden",
+            "riskLevelDuringSignIn": "hidden",
+            "riskState": "none",
+            "riskEventTypes": [],
+            "riskEventTypes_v2": [],
+            "resourceDisplayName": "Microsoft Graph",
+            "resourceId": "00000003-0000-0000-c000-000000000000",
+            "status": {
+                "errorCode": 50057,
+                "failureReason": "The user account is disabled.",
+                "additionalDetails": "https://learn.microsoft.com/troubleshoot/azure/entra/entra-id/app-integration/error-code-aadsts50057-user-account-is-disabled"
+            },
+            "deviceDetail": {
+                "deviceId": "",
+                "displayName": "",
+                "operatingSystem": "Windows10",
+                "browser": "Edge 126.0.0",
+                "isCompliant": false,
+                "isManaged": false,
+                "trustType": ""
+            },
+            "location": {
+                "city": "Chicago",
+                "state": "Illinois",
+                "countryOrRegion": "US",
+                "geoCoordinates": {
+                    "altitude": null,
+                    "latitude": 12.3456,
+                    "longitude": 12.3456
+                }
+            },
+            "appliedConditionalAccessPolicies": []
+        },
+        {
+            "id": "7ce4644d-2280-48ba-b1eb-407c8faa8300",
+            "more": "..."        
+        }
+    ]
+}
+        </pre>
+        </div>
+    </div>
+
+    <div class="tab-pane" id="graphPowerShell" role="tabpanel" aria-labelledby="graphPowerShell-tab" tabindex="0">
+        Loading...
+    </div>
+
+
+    <div class="tab-pane" id="entraGraphPowerShell" role="tabpanel" aria-labelledby="entraGraphPowerShell-tab"
+        tabindex="0">
+        Comming soon
+    </div>
+</div>

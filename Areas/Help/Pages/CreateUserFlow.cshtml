@@ -299,34 +299,17 @@
 
         <h5 class="graph-header graph-header-space">1.1 Copy the user flow ID</h5>
         From the response, copy the value of the user flow <b>id</b>. For example:
-        <pre class="function-http">
+        <pre class="toTable">
 {
     "@@odata.context": "https://graph.microsoft.com/v1.0/$metadata#identity/authenticationEventsFlows/$entity",
     "@@odata.type": "#microsoft.graph.externalUsersSelfServiceSignUpEventsFlow",
     "id": "<span class="highlight">11111111-0000-0000-c000-000000000000</span>",
     "displayName": "Default sign-up and sign-in",
     "description": "Woodgrove default sign-up and sign-in flow",
-    ...
+    "more": "..."
 }</pre>
 
-        <div class="function-powershell">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <td scope="col"><span class="highlight">Id</span></td>
-                        <td scope="col">Description</td>
-                        <td scope="col">DisplayName</td>
-                        <td scope="col">Priority</td>
-                    </tr>
-                </thead>
-                <tr scope="row">
-                    <td>11111111-0000-0000-c000-000000000000</td>
-                    <td>Woodgrove default sign-up and sign-in flow</td>
-                    <td>Default sign-up and sign-in</td>
-                    <td>500</td>
-                </tr>
-            </table>
-        </div>
+
 
 
         <h4 class="graph-header graph-header-space">2. Add your application to the user flow</h4>
