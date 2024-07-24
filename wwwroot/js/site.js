@@ -227,7 +227,7 @@ if ($('#microsoftGraph').length > 0 && $('#graphPowerShell').length > 0) {
     const examples = document.querySelectorAll('#graphPowerShell pre.toList')
     examples.forEach(triggerEl => {
 
-        triggerEl.innerHTML = '<table class="table">' + jsonToList(JSON.parse(triggerEl.innerHTML), '') + '</table>';
+        triggerEl.innerHTML = '<table class="table">' + jsonToList(JSON.parse(triggerEl.innerHTML.replaceAll('"highlight"', "'highlight'")), '') + '</table>';
     });
 
     // Convert JSON example to list (HTML table in list format)
@@ -248,7 +248,8 @@ function jsonToList(json, parentKey) {
         }
 
         if (!(typeof json[key] === "object")) {
-            rows += `<tr scope="row"><td>${((parentKey === undefined || parentKey === '') ? '' : parentKey + '.')}${key}</td><td>${json[key]}<td></tr>`
+            var keyName = capitalizeFirstLetter( ((parentKey === undefined || parentKey === '') ? '' : parentKey + '.') + key)
+            rows += `<tr scope="row"><td>${keyName}</td><td>${json[key]}<td></tr>`
         }
         else {
             rows += jsonToList(json[key], ((parentKey === undefined || parentKey === '') ? '' : parentKey + '.') + key)

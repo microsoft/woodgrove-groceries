@@ -19,7 +19,7 @@
     demo shows the use of built-in attribute and custom attribute called <b>special diet</b>.
 </p>
 
-@await Html.PartialAsync("_HelpSelector.cshtml", 0)
+@await Html.PartialAsync("_HelpSelector.cshtml", 2)
 <div class="tab-content wg-tab-content">
     <div class="tab-pane active" id="microsoftEntraAdminCenter" role="tabpanel"
         aria-labelledby="microsoftEntraAdminCenter-tab" tabindex="0">
@@ -147,23 +147,36 @@
             Microsoft Graph.
         </p>
 
-        <code
-            style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/beta/identity/userFlowAttributes</code>
+        <!-- HTTP method-->
+        <div class="function-http">
+            <code><span class="method">POST</span> https://graph.microsoft.com/beta/identity/userFlowAttributes</code>
+        </div>
 
-        <pre>
+        <!-- PowerShell method-->
+        <div class="function-powershell">
+            <code><span class="method">Connect-MgGraph</span> <span class="param">-Scopes</span> "IdentityUserFlow.ReadWrite.All"</code>
+        </div>
+
+        <!-- Code-->
+        <a type="button" class="link-opacity-75 copyToClipboard" href="#"><i class="bi bi-copy"></i></a>
+        <pre class="replace">
 {
     "displayName": "SpecialDiet",
     "description": "Customer's special diet",
     "dataType": "string"
-}
-        </pre>
+}</pre>
+
+        <!-- PowerShell method-->
+        <div class="function-powershell">
+            <code><span class="method">New-MgBetaIdentityUserFlowAttribute</span> <span class="param">-BodyParameter</span> $params</code><br>
+        </div>
 
         <h5 class="graph-header graph-header-space">1.1 Copy the custom attribute</h5>
         From the response, copy the value of the custom attribute <b>id</b>. For example:
-        <pre>
+        <pre class="toList">
 {
     "@@odata.context": "https://graph.microsoft.com/beta/$metadata#identity/userFlowAttributes/$entity",
-    "<span class="highlight">id</span>": "extension_12345678900000000000000012345678_SpecialDiet",
+    "id": "<span class="highlight">extension_11111111000000000000000000000000_SpecialDiet</span>",
     "displayName": "SpecialDiet",
     "description": "Customer's special diet",
     "userFlowAttributeType": "custom",
@@ -187,28 +200,52 @@
                 target="_blank" class="link-dark link-offset-2">attribute ID</a> from the previous step.
         </p>
 
-        <code
-            style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/beta/identity/authenticationEventsFlows/<span class="highlight">{user-flow-ID}</span>/microsoft.graph.externalUsersSelfServiceSignUpEventsFlow/onAttributeCollection/microsoft.graph.onAttributeCollectionExternalUsersSelfServiceSignUp/attributes/$ref</code>
+        <!-- HTTP method-->
+        <div class="function-http">
+            <code><span class="method">POST</span> https://graph.microsoft.com/beta/identity/authenticationEventsFlows/<span class="highlight">{user-flow-ID}</span>/microsoft.graph.externalUsersSelfServiceSignUpEventsFlow/onAttributeCollection/microsoft.graph.onAttributeCollectionExternalUsersSelfServiceSignUp/attributes/$ref</code>
+        </div>
 
-        <pre>
+        <!-- PowerShell method-->
+        <div class="function-powershell">
+            <code><span class="method">Connect-MgGraph</span> <span class="param">-Scopes</span> "EventListener.ReadWrite.All"</code>
+        </div>
+
+        <!-- Code-->
+        <a type="button" class="link-opacity-75 copyToClipboard" href="#"><i class="bi bi-copy"></i></a>
+        <pre class="replace">
 {
     "@@odata.id":"https://graph.microsoft.com/beta/identity/userFlowAttributes/<span class="highlight">{attribute-ID}</span>"
 }
         </pre>
+
+        <!-- PowerShell method-->
+        <div class="function-powershell">
+            <code><span class="method">New-MgBetaIdentityAuthenticationEventFlowAsOnGraphAPretributeCollectionExternalUserSelfServiceSignUpAttributeByRef</span> <span class="param">-AuthenticationEventsFlowId</span> <span class="highlight">{user-flow-ID}</span> <span class="param">-BodyParameter</span> $params</code><br>
+        </div>
+
 
         <a class="btn btn-success btn-sm" data-bs-toggle="collapse" href="#collapseExample1" role="button"
             aria-expanded="false" aria-controls="collapseExample1">
             Show example
         </a>
         <div class="collapse example" id="collapseExample1">
-            <code
-                style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/beta/identity/authenticationEventsFlows/12345678-1234-1234-1234-123456789012/microsoft.graph.externalUsersSelfServiceSignUpEventsFlow/onAttributeCollection/microsoft.graph.onAttributeCollectionExternalUsersSelfServiceSignUp/attributes/$ref</code>
 
+            <!-- HTTP method-->
+            <div class="function-http">
+                <code><span class="method">POST</span> https://graph.microsoft.com/beta/identity/authenticationEventsFlows/22222222-0000-0000-0000-000000000000/microsoft.graph.externalUsersSelfServiceSignUpEventsFlow/onAttributeCollection/microsoft.graph.onAttributeCollectionExternalUsersSelfServiceSignUp/attributes/$ref</code>
+            </div>
+
+            <!-- Code-->
             <pre class="example">
 {
-    "@@odata.id":"https://graph.microsoft.com/beta/identity/userFlowAttributes/extension_98765432200c4c148da909f1d84b7b65_SpecialDiet"
+    "@@odata.id":"https://graph.microsoft.com/beta/identity/userFlowAttributes/extension_11111111000000000000000000000000_SpecialDiet"
 }
             </pre>
+
+            <!-- PowerShell method-->
+            <div class="function-powershell">
+                <code><span class="method">New-MgBetaIdentityAuthenticationEventFlowAsOnGraphAPretributeCollectionExternalUserSelfServiceSignUpAttributeByRef</span> <span class="param">-AuthenticationEventsFlowId</span> <span class="highlight">22222222-0000-0000-0000-000000000000</span> <span class="param">-BodyParameter</span> $params</code><br>
+            </div>
         </div>
 
 
@@ -244,10 +281,21 @@
                 href="https://learn.microsoft.com/en-us/graph/api/identityuserflowattribute-list?view=graph-rest-beta&tabs=http"
                 target="_blank" class="link-dark link-offset-2">attribute ID</a>.
         </p>
-        <code
-            style="color: black;"><span class="method">PATCH</span> https://graph.microsoft.com/beta/identity/authenticationEventsFlows/<span class="highlight">{user-flow-ID}</span></code>
 
-        <pre>
+
+        <!-- HTTP method-->
+        <div class="function-http">
+            <code><span class="method">PATCH</span> https://graph.microsoft.com/beta/identity/authenticationEventsFlows/<span class="highlight">{user-flow-ID}</span></code>
+        </div>
+
+        <!-- PowerShell method-->
+        <div class="function-powershell">
+            <code><span class="method">Connect-MgGraph</span> <span class="param">-Scopes</span> "EventListener.ReadWrite.All"</code>
+        </div>
+
+        <!-- Code-->
+        <a type="button" class="link-opacity-75 copyToClipboard" href="#"><i class="bi bi-copy"></i></a>
+        <pre class="replace">
 {
     "@@odata.type": "#microsoft.graph.externalUsersSelfServiceSignUpEventsFlow",
     "onAttributeCollection": {
@@ -338,10 +386,125 @@
     }
 }
         </pre>
+
+        <!-- PowerShell method-->
+        <div class="function-powershell">
+            <code><span class="method">Update-MgBetaIdentityAuthenticationEventFlow</span> <span class="param">-AuthenticationEventsFlowId</span> <span class="highlight">{user-flow-ID}</span> <span class="param">-BodyParameter</span> $params</code>
+        </div>
+
+
+        <a class="btn btn-success btn-sm" data-bs-toggle="collapse" href="#collapseExample2" role="button"
+            aria-expanded="false" aria-controls="collapseExample2">
+            Show example
+        </a>
+        <div class="collapse example" id="collapseExample2">
+
+            <!-- HTTP method-->
+            <div class="function-http">
+                <code><span class="method">PATCH</span> https://graph.microsoft.com/beta/identity/authenticationEventsFlows/<span class="highlight">22222222-0000-0000-0000-000000000000</span></code>
+            </div>
+
+            <!-- Code-->
+            <pre class="example replace">
+{
+    "@@odata.type": "#microsoft.graph.externalUsersSelfServiceSignUpEventsFlow",
+    "onAttributeCollection": {
+        "@@odata.type": "#microsoft.graph.onAttributeCollectionExternalUsersSelfServiceSignUp",
+        "attributeCollectionPage": {
+            "customStringsFileId": null,
+            "views": [
+                {
+                    "title": null,
+                    "description": null,
+                    "inputs": [
+                        {
+                            "attribute": "email",
+                            "label": "Email Address",
+                            "inputType": "text",
+                            "defaultValue": null,
+                            "hidden": true,
+                            "editable": false,
+                            "writeToDirectory": true,
+                            "required": true,
+                            "validationRegEx": "^[a-zA-Z0-9.!#$%&amp;amp;&amp;#8217;'*+/=?^_`{|}~-]+@@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$",
+                            "options": []
+                        },
+                        {
+                            "attribute": "displayName",
+                            "label": "Display Name",
+                            "inputType": "text",
+                            "defaultValue": null,
+                            "hidden": false,
+                            "editable": true,
+                            "writeToDirectory": true,
+                            "required": true,
+                            "validationRegEx": "^.*",
+                            "options": []
+                        },
+                        {
+                            "attribute": "country",
+                            "label": "Country/Region",
+                            "inputType": "radioSingleSelect",
+                            "defaultValue": null,
+                            "hidden": false,
+                            "editable": true,
+                            "writeToDirectory": true,
+                            "required": false,
+                            "validationRegEx": "^.*",
+                            "options": [
+                                {
+                                    "label": "Australia",
+                                    "value": "au"
+                                },
+                                {
+                                    "label": "Spain",
+                                    "value": "es"
+                                },
+                                {
+                                    "label": "United States",
+                                    "value": "us"
+                                }
+                            ]
+                        },
+                        {
+                            "attribute": "city",
+                            "label": "City",
+                            "inputType": "text",
+                            "defaultValue": null,
+                            "hidden": false,
+                            "editable": true,
+                            "writeToDirectory": true,
+                            "required": true,
+                            "validationRegEx": "^.*",
+                            "options": []
+                        },                        {
+                            "attribute": "<span class="highlight">extension_11111111000000000000000000000000_SpecialDiet</span>",
+                            "label": "Special diet",
+                            "inputType": "text",
+                            "defaultValue": null,
+                            "hidden": false,
+                            "editable": true,
+                            "writeToDirectory": true,
+                            "required": false,
+                            "validationRegEx": "^.*",
+                            "options": []
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
+            </pre>
+
+            <!-- PowerShell method-->
+            <div class="function-powershell">
+                <code><span class="method">Update-MgBetaIdentityAuthenticationEventFlow</span> <span class="param">-AuthenticationEventsFlowId</span> <span class="highlight">22222222-0000-0000-0000-000000000000</span> <span class="param">-BodyParameter</span> $params</code>
+            </div>
+        </div>
     </div>
 
-    <div class="tab-pane" id="entraGraphPowerShell" role="tabpanel" aria-labelledby="entraGraphPowerShell-tab"
-        tabindex="0">
+    <div class="tab-pane" id="graphPowerShell" role="tabpanel" aria-labelledby="entraGraphPowerShell-tab" tabindex="0">
         Loading...
     </div>
 </div>

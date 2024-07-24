@@ -1,0 +1,148 @@
+﻿@page
+@model woodgrovedemo.Help.Pages.TokenClaimsModel
+
+@{
+    ViewData["Title"] = "Group-based access control";
+    Layout = "_Layout";
+}
+
+<h1 style="margin-top: 25px; margin-bottom: 25px;">Group-based access control</h1>
+
+<div>
+
+    <p>
+
+    </p>
+    @await Html.PartialAsync("_StepsButtons.cshtml")
+
+    <div class="bs-stepper vertical" id="Stepper">
+        @await Html.PartialAsync("_Steps.cshtml", 15)
+
+        <div class="bs-stepper-content">
+            <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
+                @await Html.PartialAsync("_Prerequisites.cshtml")
+
+                <p>
+                    sign in to the <a href="https://entra.microsoft.com/" target="_blank"
+                        class="link-dark link-offset-2">Microsoft Entra admin center</a>
+                    and browse to <b>External Identities </b> > <b> Overview</b>. Then, select <b>Custom user
+                        attributes</b>.
+                </p>
+
+                <img class="img-fluid border" src="~/Help/TokenAugmentation/Select-custom-authentication-extension.png">
+            </div>
+
+            <div id="step-2" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger2">
+                <p>
+
+                </p>
+
+                <img class="img-fluid border" src="~/Help/TokenAugmentation/Select-custom-authentication-extension.png">
+            </div>
+            <div id="step-3" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger3">
+                <p>
+
+                </p>
+
+                <img class="img-fluid border" src="~/Help/TokenAugmentation/Select-custom-authentication-extension.png">
+            </div>
+
+            <div id="step-4" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger4">
+                <p>
+
+                </p>
+
+                <img class="img-fluid border" src="~/Help/TokenAugmentation/Select-custom-authentication-extension.png">
+            </div>
+
+            <div id="step-5" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger5">
+                <p>
+
+                </p>
+
+                <img class="img-fluid border" src="~/Help/TokenAugmentation/Select-custom-authentication-extension.png">
+            </div>
+
+            <div id="step-6" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger6">
+                <p>
+
+                </p>
+
+                <img class="img-fluid border" src="~/Help/TokenAugmentation/Select-custom-authentication-extension.png">
+            </div>
+
+            <div id="step-7" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger7">
+                <p>
+
+                </p>
+
+                <img class="img-fluid border" src="~/Help/TokenAugmentation/Select-custom-authentication-extension.png">
+            </div>
+
+            <div id="step-8" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger8">
+                <p>
+
+                </p>
+                <img class="img-fluid border" src="~/Help/TokenAugmentation/Select-custom-authentication-extension.png">
+            </div>
+
+            <div id="step-9" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger9">
+                <p>
+
+                </p>
+
+                <img class="img-fluid border" src="~/Help/TokenAugmentation/Select-custom-authentication-extension.png">
+            </div>
+
+            <div id="step-10" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger10">
+                <p>
+
+                </p>
+
+                <img class="img-fluid border" src="~/Help/TokenAugmentation/Select-custom-authentication-extension.png">
+            </div>
+
+            <div id="step-11" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger11">
+                <p>
+
+                </p>
+
+                <img class="img-fluid border" src="~/Help/TokenAugmentation/Select-custom-authentication-extension.png">
+            </div>
+
+
+            <div id="step-12" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger12">
+                <p>
+
+                </p>
+
+                <img class="img-fluid border" src="~/Help/TokenAugmentation/Select-custom-authentication-extension.png">
+            </div>
+
+
+            <div id="step-13" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger13">
+                <p>
+
+                </p>
+
+                <img class="img-fluid border" src="~/Help/TokenAugmentation/Select-custom-authentication-extension.png">
+            </div>
+
+            <div id="step-14" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger14">
+                <p>
+
+                </p>
+
+                <img class="img-fluid border" src="~/Help/TokenAugmentation/Select-custom-authentication-extension.png">
+            </div>
+
+            <div id="step-15" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger15">
+                <p>
+
+                </p>
+
+                <img class="img-fluid border" src="~/Help/TokenAugmentation/Select-custom-authentication-extension.png">
+            </div>
+        </div>
+    </div>
+</div>
