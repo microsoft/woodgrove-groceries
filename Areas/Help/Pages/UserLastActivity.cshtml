@@ -1,0 +1,152 @@
+﻿@page
+@model woodgrovedemo.Help.Pages.UserLastActivityModel
+
+@{
+    ViewData["Title"] = "User last activity";
+    Layout = "_Layout";
+}
+
+
+
+<h1 style="margin-top: 25px; margin-bottom: 25px;">User last activity</h1>
+
+<p>
+    Find information about the user last activity, including: when the account was created, last time user signs-in (sign-in activity) and
+    last time they reset their password.
+</p>
+
+@await Html.PartialAsync("_HelpSelector.cshtml", 2)
+
+<div class="tab-content wg-tab-content">
+    <div class="tab-pane active" id="microsoftEntraAdminCenter" role="tabpanel"
+        aria-labelledby="microsoftEntraAdminCenter-tab" tabindex="0">
+        @await Html.PartialAsync("_StepsButtons.cshtml")
+
+        <div class="bs-stepper vertical" id="Stepper">
+            @await Html.PartialAsync("_Steps.cshtml", 2)
+
+            <div class="bs-stepper-content">
+                <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
+
+                    <h4>Prerequisites</h4>
+                    Before you start make sure you have configured the following:
+                    <ol>
+                        <li><a href="CreateTenant">Create a tenant</a></li>
+
+                    </ol>
+
+                    <p>
+                        To get the user's properties, sign-in to the <a href="https://entra.microsoft.com/"
+                            target="_blank" class="link-dark link-offset-2">Microsoft Entra admin center</a> and browse
+                        to <b>Identity </b>
+                        >
+                        <b> Users </b> > <b>All users</b>. Then, search and select the user you want to get the
+                        properties.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/Activity/Select-user.png">
+                    </a>
+                </div>
+
+                <div id="step-2" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger2">
+                    <p>
+                        On the <b>User</b> page, select the <b>Properties</b> tab and check the relevant properties,
+                        like <b>Created date time</b> and <b>Last password change date time</b>.
+                         Note, user <a href="https://learn.microsoft.com/en-us/graph/api/resources/signinactivity?view=graph-rest-beta" target="_blank" class="link-dark link-offset-2">sign-in activity</a> currently available only via Microsoft Graph or PowerShell. You can
+                        also check the sign-in log.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/Activity/User-properties.png">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-pane" id="microsoftGraph" role="tabpanel" aria-labelledby="microsoftGraph-tab" tabindex="0">
+        <h4 class="graph-header">Dependencies</h4>
+        This script is self-contained.
+
+        <h4 class="graph-header graph-header-space">1. Get user last activity</h4>
+        <div>
+            To get a user's last activity <a
+                href="https://learn.microsoft.com/en-us/graph/api/user-get?view=graph-rest-1.0&tabs=http"
+                target="_blank" class="link-dark link-offset-2">get a user</a> using the following Microsoft
+            Graph. Replace the <b>{user-id}</b> with the user ID.<br>&nbsp;<br>
+        </div>
+
+        <!-- HTTP method-->
+        <div class="function-http">
+            <code><span class="method">GET</span> https://graph.microsoft.com/v1.0/users/<span class="highlight">{user-id}</span>?$select=displayName,createdDateTime,lastPasswordChangeDateTime,signInActivity</code>
+        </div>
+
+        <!-- PowerShell method-->
+        <div class="function-powershell">
+            <code><span class="method">Connect-MgGraph</span> <span class="param">-Scopes</span> "User.Read.All AuditLog.Read.All"</code><br>
+            <code><span class="method">Get-MgUser</span> <span class="param">-UserId</span> <span class="highlight">{user-id}</span> <span class="param">-Property</span> "displayName,CreatedDateTime,lastPasswordChangeDateTime,signInActivity"</code><br>
+        </div>
+
+        <!-- Create user example-->
+        <a class="btn btn-success btn-sm" data-bs-toggle="collapse" href="#collapseCreateExample" role="button"
+            aria-expanded="false" aria-controls="collapseCreateExample">
+            Show example
+        </a><br>
+        <div class="collapse example" id="collapseCreateExample">
+            <br>
+            <div class="function-http">
+                <code><span class="method">GET</span> https://graph.microsoft.com/v1.0/users/<span class="highlight">11111111-0000-0000-0000-000000000000</span>?$select=displayName,createdDateTime,lastPasswordChangeDateTime,signInActivity</code>
+            </div>
+
+            <!-- PowerShell method-->
+            <div class="function-powershell">
+                <code><span class="method">Get-MgUser</span> <span class="param">-UserId</span> <span class="highlight">11111111-0000-0000-0000-000000000000</span> <span class="param">-Property</span> "displayName,CreatedDateTime,lastPasswordChangeDateTime,signInActivity"</code><br>
+            </div>
+
+        </div> <!--End of example-->
+
+
+        <h4 class="graph-header graph-header-space">2. Investigate user last activity</h4>
+        From the response, check the:
+        <ul>
+            <li><b>createdDateTime</b> - The date and time the user was created. The value cannot be modified and is
+                automatically populated when the user is created.</li>
+            <li><b>lastPasswordChangeDateTime</b> - The time when the user last changed their password.</li>
+            <li><b><a href="https://learn.microsoft.com/en-us/graph/api/resources/signinactivity?view=graph-rest-beta" target="_blank" class="link-dark link-offset-2">signInActivity</a></b> - Provides the last
+                interactive or non-interactive sign-in attempt time for a specific user.</li>
+        </ul>
+
+
+        <!-- HTTP response-->
+        <div>
+            <pre class="toList">
+{
+    "@@odata.context": "https://graph.microsoft.com/v1.0/$metadata#users(displayName,createdDateTime,lastPasswordChangeDateTime,signInActivity)/$entity",
+    "displayName": "Nicholas",
+    "createdDateTime": "2024-07-22T17:59:47Z",
+    "lastPasswordChangeDateTime": "2024-07-22T17:59:47Z",
+    "id": "11111111-0000-0000-0000-000000000000",
+    "signInActivity": {
+        "lastSignInDateTime": "2024-07-22T17:59:53Z",
+        "lastSignInRequestId": "9c8146c5-8cbc-419c-b34b-47a3579c0000",
+        "lastNonInteractiveSignInDateTime": null,
+        "lastNonInteractiveSignInRequestId": null,
+        "lastSuccessfulSignInDateTime": "2024-07-22T17:59:53Z",
+        "lastSuccessfulSignInRequestId": "9c8146c5-8cbc-419c-b34b-47a3579c0000"
+    }
+}     
+        </pre>
+        </div>
+    </div>
+
+    <div class="tab-pane" id="graphPowerShell" role="tabpanel" aria-labelledby="graphPowerShell-tab" tabindex="0">
+        Loading...
+    </div>
+
+
+    <div class="tab-pane" id="entraGraphPowerShell" role="tabpanel" aria-labelledby="entraGraphPowerShell-tab"
+        tabindex="0">
+        Comming soon
+    </div>
+</div>

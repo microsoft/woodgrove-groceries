@@ -67,9 +67,8 @@
                     account</a></li>
             <li><a class="dropdown-item" href="#usecase=DeleteAccount"><i class="bi bi-person-x"></i>&nbsp; Delete your
                     account</a></li>
-            <li><a class="dropdown-item" href="#usecase=DisableAccount"><i class="bi bi-ban"></i>&nbsp; Disable an account</a></li>
-            <li><a class="dropdown-item" href="#usecase=Activity"><i class="bi bi-clock-history"></i>&nbsp; Your
-                    activity information</a></li>
+            <li><a class="dropdown-item" href="#usecase=DisableAccount"><i class="bi bi-ban"></i>&nbsp; Disable an
+                    account</a></li>
             <li>
                 <hr class="dropdown-divider">
             </li>
@@ -117,8 +116,6 @@
             <li><a class="dropdown-item" href="#usecase=PreSelectLanguage"><i class="bi bi-translate"></i>&nbsp;
                     Preselect a
                     language</a></li>
-            <li><a class="dropdown-item" href="#usecase=UserInsights"><i class="bi bi-lightbulb"></i>&nbsp; Insights
-                    into your app's user activity</a></li>
             <li>
                 <hr class="dropdown-divider">
             </li>
@@ -139,6 +136,16 @@
                     sign-in</a></li>
             <li><a class="dropdown-item" href="#usecase=OBO"><i class="bi bi-arrow-90deg-up"></i>&nbsp; OAuth 2.0
                     On-Behalf-Of flow</a></li>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li>
+                <h6 class="dropdown-header" style="color: var(--color-very-dark);">Reports and auditing</h6>
+            </li>
+            <li><a class="dropdown-item" href="#usecase=UserLastActivity"><i class="bi bi-clock-history"></i>&nbsp; User last activity</a></li>
+            <li><a class="dropdown-item" href="#usecase=SignInLog" style="display: none;"><i class="bi bi-flag"></i>&nbsp; Sign-in log</a></li>
+            <li><a class="dropdown-item" href="#usecase=UserInsights"><i class="bi bi-lightbulb"></i>&nbsp; Gain insights into your app users’ activity</a>
+            </li>
             <li>
                 <hr class="dropdown-divider">
             </li>
@@ -655,37 +662,37 @@
                 <ol>
                     @if (User.Identity?.IsAuthenticated == false)
                     {
-                                <li>Select the <b>start the use case</b> button at the bottom of this page. Sign-in with
-                                    your account. Note, if you create a new account, you fulfill the MFA requirement since the email
-                                    is already verified. Therefore, make sure you sign-in with an existing account.</li>
-                                <li> After you singed-in, select this use-case again.</li>
+                        <li>Select the <b>start the use case</b> button at the bottom of this page. Sign-in with
+                            your account. Note, if you create a new account, you fulfill the MFA requirement since the email
+                            is already verified. Therefore, make sure you sign-in with an existing account.</li>
+                        <li> After you singed-in, select this use-case again.</li>
                     }
                     else if (User.Identity?.IsAuthenticated == true && User.Claims.Any(c => c.Type == "acrs" && c.Value
                     == "c1"))
                     {
-                                <li>You fulfilled the MFA requirement. No further action required.</li>
-                                <li>To start the demo again, select the <b>Start over</b> button.</li>
+                        <li>You fulfilled the MFA requirement. No further action required.</li>
+                        <li>To start the demo again, select the <b>Start over</b> button.</li>
                     }
                     else
                     {
-                                <li> Looks like you already signed-in. Good! Now let's demonstrate a step-up with MFA.</li>
-                                <li> In the home page, add some items to the shopping cart, until the <b>total</b> is more that 50$.
-                                </li>
-                                <li> Then, select the <b>checkout</b> button. If you have not signed-in with MFA, you will be asked
-                                    to do so.</li>
+                        <li> Looks like you already signed-in. Good! Now let's demonstrate a step-up with MFA.</li>
+                        <li> In the home page, add some items to the shopping cart, until the <b>total</b> is more that 50$.
+                        </li>
+                        <li> Then, select the <b>checkout</b> button. If you have not signed-in with MFA, you will be asked
+                            to do so.</li>
                     }
                 </ol>
 
 
                 @if (User.Identity?.IsAuthenticated == false)
                 {
-                            <a class="btn header-button" role="button" href="/SignIn?handler=StepUpIntro"><i
-                                    class="bi bi-play-circle"></i> Start the use case</a>
+                    <a class="btn header-button" role="button" href="/SignIn?handler=StepUpIntro"><i
+                            class="bi bi-play-circle"></i> Start the use case</a>
                 }
                 else
                 {
-                            <a class="btn header-button" role="button" href="/SignIn?handler=StepUpIntro"><i
-                                    class="bi bi-play-circle"></i> Start Over</a>
+                    <a class="btn header-button" role="button" href="/SignIn?handler=StepUpIntro"><i
+                            class="bi bi-play-circle"></i> Start Over</a>
                 }
 
                 <br>&nbsp;<br>
@@ -1182,31 +1189,31 @@
 
                 @if (User.Identity?.IsAuthenticated == true)
                 {
-                            <ol>
-                                <li>You already signed-in to the Woodgrove application, so no need to sign-in again.</li>
-                                <li>Instead, select the <b>start the use case</b> button at the bottom of this page which will take
-                                    you to the Woodgrove Bank web application.</li>
-                                <li>In the Woodgrove bank application, select the sign-in button.</li>
-                                <li>Notice that you don't need to enter your credentials, and you will be authenticated without
-                                    prompting to sign in again.</li>
-                            </ol>
+                    <ol>
+                        <li>You already signed-in to the Woodgrove application, so no need to sign-in again.</li>
+                        <li>Instead, select the <b>start the use case</b> button at the bottom of this page which will take
+                            you to the Woodgrove Bank web application.</li>
+                        <li>In the Woodgrove bank application, select the sign-in button.</li>
+                        <li>Notice that you don't need to enter your credentials, and you will be authenticated without
+                            prompting to sign in again.</li>
+                    </ol>
 
-                            <a class="btn header-button" role="button" href="/SignIn?handler=sso2"><i class="bi bi-play-circle"></i>
-                                Start the use case</a>
+                    <a class="btn header-button" role="button" href="/SignIn?handler=sso2"><i class="bi bi-play-circle"></i>
+                        Start the use case</a>
                 }
                 else
                 {
-                            <div>Follow these steps to check out the SSO feature:</div>
-                            <ol>
-                                <li>Start by signing-in to this application. You may need use the <a
-                                        href="https://support.microsoft.com/microsoft-edge/browse-inprivate-in-microsoft-edge-cd2c9a48-0bc4-b98e-5e46-ac40c84e27e2">InPrivate
-                                        mode in Microsoft Edge</a>.</li>
-                                <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
-                                <li>After you sign-in, come back to this dialog page and follow the instructions.</li>
-                            </ol>
+                    <div>Follow these steps to check out the SSO feature:</div>
+                    <ol>
+                        <li>Start by signing-in to this application. You may need use the <a
+                                href="https://support.microsoft.com/microsoft-edge/browse-inprivate-in-microsoft-edge-cd2c9a48-0bc4-b98e-5e46-ac40c84e27e2">InPrivate
+                                mode in Microsoft Edge</a>.</li>
+                        <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                        <li>After you sign-in, come back to this dialog page and follow the instructions.</li>
+                    </ol>
 
-                            <a class="btn header-button" role="button" href="/SignIn?handler=sso1"><i class="bi bi-play-circle"></i>
-                                Start the use case</a>
+                    <a class="btn header-button" role="button" href="/SignIn?handler=sso1"><i class="bi bi-play-circle"></i>
+                        Start the use case</a>
                 }
             </div>
 
@@ -1341,8 +1348,8 @@
                     @if (User.Identity?.IsAuthenticated == true)
                     {
                         <li>You already signed-in to the Woodgrove application, so no need to sign-in again.</li>
-                        <li>Go to the <a class="link-dark link-offset-1 link-underline"
-                            href="/Profile">Profile page</a>.</li>
+                        <li>Go to the <a class="link-dark link-offset-1 link-underline" href="/Profile">Profile page</a>.
+                        </li>
                     }
                     else
                     {
@@ -1355,8 +1362,8 @@
                 </ol>
 
                 <a class="btn header-button" role="button" href="/SignIn?handler=DisableAccount"><i
-                            class="bi bi-play-circle"></i>
-                        Start the use case</a>
+                        class="bi bi-play-circle"></i>
+                    Start the use case</a>
 
                 <br>&nbsp;<br>
                 <i class="bi bi-play-circle"></i> <a class="" style="margin-top: 100px;" role="button"
@@ -1364,10 +1371,10 @@
                     Learn how we configured the Woodgrove tenant</a>
             </div>
 
-            <div id="useCase_Activity" class="useCase">
-                <h4>Your activity</h4>
+            <div id="useCase_UserLastActivity" class="useCase">
+                <h4>Your last activity</h4>
                 <p>
-                    Find information about your activities, including: when your acccout was created, last time you
+                    Find information about your last activity, including: when your account was created, last time you
                     sign-in and last time you reset your password.
 
                 </p>
@@ -1375,12 +1382,12 @@
                 <ol>
                     @if (User.Identity?.IsAuthenticated == false)
                     {
-                                <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
-                                <li>Sign-up or sign-in with your email, or a social account.</li>
+                        <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                        <li>Sign-up or sign-in with your email, or a social account.</li>
                     }
                     else
                     {
-                                <li>Looks like you already signed-in. Good!</li>
+                        <li>Looks like you already signed-in. Good!</li>
                     }
 
                     <li>From the Woodgrove header select the profile icon, or select the <b>Check your activity</b>
@@ -1391,15 +1398,20 @@
 
                 @if (User.Identity?.IsAuthenticated == false)
                 {
-                            <a class="btn header-button" role="button" href="/SignIn?handler=activity"><i
-                                    class="bi bi-play-circle"></i>
-                                Start the use case</a>
+                    <a class="btn header-button" role="button" href="/SignIn?handler=UserLastActivity"><i
+                            class="bi bi-play-circle"></i>
+                        Start the use case</a>
                 }
                 else
                 {
-                            <a class="btn header-button" role="button" href="Profile">Check your activity</a>
+                    <a class="btn header-button" role="button" href="Profile">Check your activity</a>
                 }
 
+
+                <br>&nbsp;<br>
+                <i class="bi bi-play-circle"></i> <a class="" style="margin-top: 100px;" role="button"
+                    href="/help/UserLastActivity">
+                    Learn how we configured the Woodgrove tenant</a>
             </div>
 
             <div id="useCase_UserInsights" class="useCase">
@@ -1423,6 +1435,7 @@
                     strategic decisions and drive business growth.
                 </p>
                 <a class="btn header-button" role="button" href="dashboard"> Start the use case</a>
+
             </div>
         </div>
     </div>

@@ -77,7 +77,7 @@ function showUseCase(trigger) {
         usecase = 'Default';
     }
 
-    var useCases = ["Default", "OnlineRetail", "DisableAccount", "CustomDomain", "AssignmentRequired", "StepUp", "CSA", "PolicyAgreement", "EmailAndPassword", "OBO", "SSO", "TokenTTL", "MFA", "CA", "ForceSignIn", "UserInsights", "ModifyAttributeValues", "BlockSignUp", "CompanyBranding", "Language", "PreSelectLanguage", "SSPR", "Social", "LoginHint", "TokenAugmentation", "TokenClaims", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "Activity", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Finance"];
+    var useCases = ["Default", "OnlineRetail", "DisableAccount", "CustomDomain", "AssignmentRequired", "StepUp", "CSA", "PolicyAgreement", "EmailAndPassword", "OBO", "SSO", "TokenTTL", "MFA", "CA", "ForceSignIn", "UserInsights", "ModifyAttributeValues", "BlockSignUp", "CompanyBranding", "Language", "PreSelectLanguage", "SSPR", "Social", "LoginHint", "TokenAugmentation", "TokenClaims", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "UserLastActivity", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Finance"];
 
     if (($('#offcanvasRight').length > 0) && usecase && (useCases.indexOf(usecase) > -1)) {
 
@@ -214,8 +214,34 @@ if ($('#microsoftGraph').length > 0 && $('#graphPowerShell').length > 0) {
         triggerEl.innerHTML = syntaxHighlight(triggerEl.innerHTML)
         triggerEl.innerHTML = "$params = " + triggerEl.innerHTML;
     })
+
+    // Convert JSON example to list (HTML table in list format)
+    const examples = document.querySelectorAll('#graphPowerShell pre.toList')
+    examples.forEach(triggerEl => {
+
+        triggerEl.innerHTML = '<table class="table">' + jsonToList(JSON.parse(triggerEl.innerHTML), '') + '</table>';
+    })
 }
 
+function jsonToList(json, parentKey) {
+    var rows = '';
+
+    for (const key in json) {
+
+        if (key.startsWith('@')) {
+            continue;
+        }
+
+        if (!(typeof json[key] === "object")) {
+            rows += `<tr scope="row"><td>${((parentKey === undefined || parentKey === '') ? '' : parentKey + '.')}${key}</td><td>${json[key]}<td></tr>`
+        }
+        else {
+            rows += jsonToList(json[key], key)
+        }
+    }
+
+    return rows;
+}
 
 function syntaxHighlight(json) {
 
@@ -271,7 +297,7 @@ function syntaxHighlight(json) {
 }
 /********* End of PowerShell *********/
 
-$('.copyToClipboard').click(function() {
+$('.copyToClipboard').click(function () {
     navigator.clipboard.writeText($(this).next('pre').text());
 
     return false;

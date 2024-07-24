@@ -115,9 +115,9 @@ namespace MyApp.Namespace
             return this.TrackAndAuth("MFA", "/", true);
         }
 
-        public IActionResult OnGetActivity()
+        public IActionResult OnGetUserLastActivity()
         {
-            return this.TrackAndAuth("Activity", "/profile", true);
+            return this.TrackAndAuth("UserLastActivity", "/profile", true);
         }
 
         public IActionResult OnGetCa()
