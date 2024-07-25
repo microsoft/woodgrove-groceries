@@ -13,7 +13,7 @@
     This page shows how we configured the Woodgrove Groceries application.
 </p>
 
-@await Html.PartialAsync("_HelpSelector.cshtml", 0)
+@await Html.PartialAsync("_HelpSelector.cshtml", 2)
 <div class="tab-content wg-tab-content">
     <div class="tab-pane active" id="microsoftEntraAdminCenter" role="tabpanel"
         aria-labelledby="microsoftEntraAdminCenter-tab" tabindex="0">
@@ -177,25 +177,35 @@
         This script is self-contained.
 
         <h4 class="graph-header graph-header-space">1. Register a web application</h4>
-        <p>
+        <div>
             To <a
                 href="https://learn.microsoft.com/en-us/graph/api/application-post-applications?view=graph-rest-1.0&tabs=http"
                 target="_blank" class="link-dark link-offset-2">register a web application</a>, use the following
             Microsoft
-            Graph and replace.
-        <ul>
-            <li>Value of <b>displayName</b> with your app displayed name. For example, <i>Woodgrove Groceries</i></li>
-            <li>Values of the <b>redirectUris</b> with the redirect URI of your application. For example,
-                <i>https://woodgrovedemo.com/signin-oidc</i>
-            </li>
-        </ul>
-        </p>
-        <code
-            style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/v1.0/applications</code>
+            Graph and replace:
+            <ul style="margin-top: 10px;">
+                <li><b>{DisplayName}</b> with your app displayed name. For example, <i>Woodgrove Groceries</i></li>
+                <li><b>{RedirectUris}</b> with the redirect URI of your application. For example,
+                    <i>https://woodgrovedemo.com/signin-oidc</i>
+                </li>
+            </ul>
+        </div>
 
-        <pre>
+        <!-- HTTP method-->
+        <div class="function-http">
+            <code><span class="method">POST</span> https://graph.microsoft.com/v1.0/applications</code>
+        </div>
+
+        <!-- PowerShell method-->
+        <div class="function-powershell">
+            <code><span class="method">Connect-MgGraph</span> <span class="param">-Scopes</span> "Application.ReadWrite.All"</code>
+        </div>
+
+        <!-- Code-->
+        <a type="button" class="link-opacity-75 copyToClipboard" href="#"><i class="bi bi-copy"></i></a>
+        <pre class="replace" style="margin-top: 10px;">
 {
-    "<span class="highlight">displayName</span>": "Woodgrove Groceries",
+    "displayName": "<span class="highlight">{DisplayName}</span>",,
     "description": "Woodgrove Groceries live demo application",
     "signInAudience": "AzureADMyOrg",
     "api": {
@@ -218,8 +228,8 @@
         }
     ],
     "web": {
-        "<span class="highlight">redirectUris</span>": [
-            "https://woodgrovedemo.com/signin-oidc"
+        "redirectUris": [
+            "<span class="highlight">{RedirectUris}</span>"
         ],
         "implicitGrantSettings": {
             "enableAccessTokenIssuance": false,
@@ -229,88 +239,228 @@
 }
         </pre>
 
-        <h5 class="graph-header graph-header-space">1.1 Copy the application ID</h5>
-        From the response, copy the value of the <b>appId</b>. For example:
-        <pre>
+
+        <!-- PowerShell method-->
+        <div class="function-powershell">
+            <code><span class="method">New-MgApplication</span> <span class="param">-BodyParameter</span> $params</code><br>&nbsp;<br>
+        </div>
+
+        <!-- Example-->
+        <a class="btn btn-success btn-sm" data-bs-toggle="collapse" href="#collapseRegisterAppExample" role="button"
+            aria-expanded="false" aria-controls="collapseRegisterAppExample">
+            Show example
+        </a><br>
+        <div class="collapse example" id="collapseRegisterAppExample">
+            <br>
+            <div class="function-http">
+                <code><span class="method">POST</span> https://graph.microsoft.com/v1.0/applications</code>
+            </div>
+
+            <a type="button" class="link-opacity-75 copyToClipboard" href="#"><i class="bi bi-copy"></i></a>
+            <pre class="example replace">
 {
-    "@@odata.context": "https://graph.microsoft.com/v1.0/$metadata#applications/$entity",
-    "id": "12345678-0000-0000-0000-000000000000",
-    "<span class="highlight">appId</span>": "22222222-0000-0000-0000-000000000000",
     "displayName": "Woodgrove Groceries",
     "description": "Woodgrove Groceries live demo application",
-    ...
-}        
+    "signInAudience": "AzureADMyOrg",
+    "api": {
+        "acceptMappedClaims": true,
+        "requestedAccessTokenVersion": 2
+    },
+    "requiredResourceAccess": [
+        {
+            "resourceAppId": "00000003-0000-0000-c000-000000000000",
+            "resourceAccess": [
+                {
+                    "id": "37f7f235-527c-4136-accd-4a02d197296e",
+                    "type": "Scope"
+                },
+                {
+                    "id": "7427e0e9-2fba-42fe-b0c0-848c9e6a8182",
+                    "type": "Scope"
+                }
+            ]
+        }
+    ],
+    "web": {
+        "redirectUris": [
+            "https://woodgrovedemo.com/signin-oidc"
+        ],
+        "implicitGrantSettings": {
+            "enableAccessTokenIssuance": false,
+            "enableIdTokenIssuance": false
+        }
+    }
+}
+
+</pre>
+
+            <!-- PowerShell method-->
+            <div class="function-powershell">
+                <code><span class="method">New-MgApplication</span> <span class="param">-BodyParameter</span> $params</code><br>&nbsp;<br><br>
+            </div>
+
+        </div> <!--End of example-->
+
+
+
+        <h5 class="graph-header graph-header-space">1.1 Copy your applicaion ID</h5>
+        <p>
+            From the response, copy the <b>appId</b>. To create app secret, copy also the <b>id</b>. For example:
+        </p>
+
+        <!-- HTTP method-->
+        <pre class="toTable">
+{
+    "@@odata.context": "https://graph.microsoft.com/v1.0/$metadata#servicePrincipals/$entity",
+    "id": "12345678-0000-0000-0000-000000000000",
+    "appDisplayName": "Woodgrove partners portal",
+    "appId": "<span class="highlight">11111111-0000-0000-0000-000000000000</span>"
+}
         </pre>
 
-        <h4 class="graph-header graph-header-space">2. Create a service principal for your application</h4>
+
+        <h5 class="graph-header graph-header-space">1.2 Create a service principal for your application</h5>
         <p>
             After you register you registered your application, <a
                 href="https://learn.microsoft.com/en-us/graph/api/serviceprincipal-post-serviceprincipals?view=graph-rest-1.0&tabs=http"
                 target="_blank" class="link-dark link-offset-2">create a service principal</a>. The following Microsoft
-            Graph creates a service principal. Replace the <b>{appId}</b> with the app <b>appId</b> from the previous
-            call
+            Graph creates a service principal. Replace the <b>{app-ID}</b> with the app ID from the previous call
             (not the
             object ID).
         </p>
-        <code
-            style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/v1.0/servicePrincipals</code>
 
-        <pre>
+        <!-- HTTP method-->
+        <div class="function-http">
+            <code><span class="method">POST</span> https://graph.microsoft.com/v1.0/servicePrincipals</code>
+        </div>
+
+        <!-- PowerShell method-->
+        <div class="function-powershell">
+            <code><span class="method">Connect-MgGraph</span> <span class="param">-Scopes</span> "Application.ReadWrite.All"</code>
+        </div>
+
+        <!-- Code-->
+        <a type="button" class="link-opacity-75 copyToClipboard" href="#"><i class="bi bi-copy"></i></a>
+        <pre class="replace" style="margin-top: 10px;">
 {
-    "appId": "<span class="highlight">{appId}</span>"
+    "appId": "<span class="highlight">{app-ID}</span>"
 }
         </pre>
 
-        <h5 class="graph-header graph-header-space">2.1 Copy the service principal ID</h5>
-        From the response, copy the value of the <b>id</b>. For example:
-        <pre>
+        <!-- PowerShell method-->
+        <div class="function-powershell">
+            <code><span class="method">New-MgServicePrincipal</span> <span class="param">-BodyParameter</span> $params</code><br>&nbsp;
+        </div>
+
+
+
+        <!-- Example-->
+        <a class="btn btn-success btn-sm" data-bs-toggle="collapse" href="#collapseCreateSpExample" role="button"
+            aria-expanded="false" aria-controls="collapseCreateSpExample">
+            Show example
+        </a><br>
+        <div class="collapse example" id="collapseCreateSpExample">
+            <br>
+            <div class="function-http">
+                <code><span class="method">POST</span> https://graph.microsoft.com/v1.0/servicePrincipals</code>
+            </div>
+            <pre class="example replace">
+{
+    "appId": "11111111-0000-0000-0000-000000000000"
+}
+
+</pre>
+
+            <!-- PowerShell method-->
+            <div class="function-powershell">
+                <code><span class="method">New-MgServicePrincipal</span> <span class="param">-BodyParameter</span> $params</code><br>
+            </div>
+
+        </div> <!--End of example-->
+
+
+        <h5 class="graph-header graph-header-space">1.3 Copy your service principal ID</h5>
+        <p>
+            From the response, copy the <b>id</b>. For example:
+        </p>
+
+        <!-- HTTP method-->
+        <pre class="toTable">
 {
     "@@odata.context": "https://graph.microsoft.com/v1.0/$metadata#servicePrincipals/$entity",
-    "<span class="highlight">id</span>": "44444444-0000-0000-0000-000000000000",
-    "displayName": "Woodgrove Groceries",
-    "description": "Woodgrove Groceries live demo application",
-    ...
-}        
-        </pre>
-        <h4 class="graph-header graph-header-space">3. Consent to the required permissions</h4>
-
-        <p>
-
-            Since the tenant is a customer's tenant, the consumer users themselves can't consent to these permissions.
-            You as the admin must <a
-                href="https://learn.microsoft.com/en-us/graph/api/oauth2permissiongrant-post?view=graph-rest-1.0&tabs=http"
-                target="_blank" class="link-dark link-offset-2">consent to these permissions</a> on behalf of all the
-            users in the tenant:
-        </p>
-
-        <h5 class="graph-header graph-header-space">3.1 Get the Microsoft Graph's service principal ID</h5>
-
-        <p>Run the following GET request and cope the <b>id</b> from the response:</p>
-
-        <code
-            style="color: black;"><span class="method">GET</span> https://graph.microsoft.com/v1.0/servicePrincipals(appId='00000003-0000-0000-c000-000000000000')</code>
-
-        <pre>
-{
-    "<span class="highlight">id</span>": "66666666-0000-0000-0000-000000000000"
-    "appDisplayName": "Microsoft Graph",
-    "appId": "00000003-0000-0000-c000-000000000000",
+    "id": "<span class="highlight">22222222-0000-0000-0000-000000000000</span>",
+    "appId": "11111111-0000-0000-0000-000000000000"
 }
         </pre>
-
-        <h5 class="graph-header graph-header-space">3.2 Grant the required permissions</h5>
+        <h4 class="graph-header graph-header-space">2. Consent to the required permissions</h4>
         <p>
-            Replace the <b>{service-principal-id}</b> with the service-principal <b>id</b> you copied in the previous
-            step.
-            Replace the <b>{graph-service-principal-id}</b> with the service-principal <b>id</b> you copied in the last
-            step.
+            For user authentication in your application via Microsoft Entra external ID, it is necessary to grant admin
+            consent for your application.
+            This step ensures that users can seamlessly sign-in without individual authorization requirements.
         </p>
 
+        <h5 class="graph-header">2.1 Get the Microsoft Graph's service principal ID</h5>
 
-        <code
-            style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/v1.0/oauth2PermissionGrants</code>
+        <p>Run the following command to get the Microsoft Graph service principal ID:</p>
 
-        <pre>
+
+        <!-- HTTP method-->
+        <div class="function-http">
+            <code
+                style="color: black;"><span class="method">GET</span> https://graph.microsoft.com/v1.0/servicePrincipals(appId='00000003-0000-0000-c000-000000000000')</code>
+        </div>
+
+        <!-- PowerShell method-->
+        <div class="function-powershell">
+            <code><span class="method">Get-MgServicePrincipal</span> <span class="param">-ServicePrincipalId</span> appId='00000003-0000-0000-c000-000000000000' </code><br>
+        </div>
+
+        <h5 class="graph-header graph-header-space">2.2 Copy Microsoft Graph service principal ID</h5>
+        <p>
+            Copy the <b>id</b> from the response:
+
+        </p>
+        <!-- Result-->
+
+        <!-- HTTP method-->
+        <pre style="margin-top: 10px;" class="toTable">
+{
+    "id": "<span class="highlight">33333333-0000-0000-0000-000000000000</span>",
+    "appDisplayName": "Microsoft Graph",
+    "appId": "00000003-0000-0000-c000-000000000000"
+}
+</pre>
+
+
+        <h5 class="graph-header graph-header-space">2.3 Grant admin consent</h5>
+
+        <div>
+
+            <a href="https://learn.microsoft.com/en-us/graph/api/oauth2permissiongrant-post?view=graph-rest-1.0&tabs=http"
+                target="_blank" class="link-dark link-offset-2">Create OAuth2 permission grant</a> for your applicaion.
+            Replace:
+
+            <ul style="margin-top: 10px;">
+                <li><b>{service-principal-id}</b> with the service-principal <b>id</b> you copied in the previous step.
+                </li>
+                <li><b>{graph-service-principal-id}</b> with the Microsot Graph service-principal ID you created in the
+                    previous step.</li>
+            </ul>
+        </div>
+
+        <!-- HTTP method-->
+        <div class="function-http">
+            <code><span class="method">POST</span> https://graph.microsoft.com/v1.0/oauth2PermissionGrants</code>
+        </div>
+
+        <!-- PowerShell method-->
+        <div class="function-powershell">
+            <code><span class="method">Connect-MgGraph</span> <span class="param">-Scopes</span> "DelegatedPermissionGrant.ReadWrite.All"</code>
+        </div>
+
+        <!-- Code-->
+        <a type="button" class="link-opacity-75 copyToClipboard" href="#"><i class="bi bi-copy"></i></a>
+        <pre class="replace" style="margin-top: 10px;">
 {
     "clientId": "<span class="highlight">{service-principal-id}</span>",
     "consentType": "AllPrincipals",
@@ -319,10 +469,42 @@
 }
         </pre>
 
+        <!-- PowerShell method-->
+        <div class="function-powershell">
+            <code><span class="method">New-MgOauth2PermissionGrant</span> <span class="param">-BodyParameter</span> $params</code><br>&nbsp;
+        </div>
+
+        <!-- Example-->
+        <a class="btn btn-success btn-sm" data-bs-toggle="collapse" href="#collapseConsentExample" role="button"
+            aria-expanded="false" aria-controls="collapseConsentExample">
+            Show example
+        </a><br>
+        <div class="collapse example" id="collapseConsentExample">
+            <br>
+            <div class="function-http">
+                <code><span class="method">POST</span> https://graph.microsoft.com/v1.0/oauth2PermissionGrants</code>
+            </div>
+
+            <pre class="example">
+{
+    "clientId": "22222222-0000-0000-0000-000000000000",
+    "consentType": "AllPrincipals",
+    "resourceId": "33333333-0000-0000-0000-000000000000",
+    "scope": "openid offline_access"
+}
+</pre>
 
 
-        <h5 class="graph-header graph-header-space">4 [Optionally] Add a client secret</h5>
-        <p>
+            <!-- PowerShell method-->
+            <div class="function-powershell">
+                <code><span class="method">New-MgOauth2PermissionGrant</span> <span class="param">-BodyParameter</span> $params</code><br>&nbsp;
+            </div>
+
+        </div> <!--End of example-->
+
+
+        <h4 class="graph-header graph-header-space">3. [Optionally] Add a client secret</h4>
+        <div>
             Credentials enable confidential applications to identify themselves to the authentication service when
             receiving tokens.
             For a higher level of assurance, we recommend using a <a
@@ -332,14 +514,23 @@
             To a <a
                 href="https://learn.microsoft.com/en-us/graph/api/application-addpassword?view=graph-rest-1.0&tabs=http"
                 target="_blank" class="link-dark link-offset-2">client secret</a>, run the following request.
-            Replace the <b>{graph-service-principal-id}</b> with the <b>appId</b> with the appId from the first step.
-        </p>
+            Replace the <b>{app-object-ID}</b> with the app object <b>Id</b> from the first step (not the value of the appId property).
+        </div>
 
 
-        <code
-            style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/v1.0/applications(appId='<span class="highlight">appId</span>')/addPassword</code>
+        <!-- HTTP method-->
+        <div class="function-http">
+            <code><span class="method">POST</span> https://graph.microsoft.com/v1.0/applications(appId='<span class="highlight">{app-object-ID}</span>')/addPassword</code>
+        </div>
 
-        <pre>
+        <!-- PowerShell method-->
+        <div class="function-powershell">
+            <code><span class="method">Connect-MgGraph</span> <span class="param">-Scopes</span> "Application.ReadWrite.All"</code>
+        </div>
+
+        <!-- Code-->
+        <a type="button" class="link-opacity-75 copyToClipboard" href="#"><i class="bi bi-copy"></i></a>
+        <pre class="replace">
 {
     "passwordCredential": {
         "displayName": "My app client secret"
@@ -347,21 +538,152 @@
 }
         </pre>
 
+
+        <!-- PowerShell method-->
+        <div class="function-powershell">
+            <code><span class="method">Add-MgApplicationPassword</span> <span class="param">-ApplicationId</span> <span class="highlight">{app-object-ID}</span>
+            <span class="param">-BodyParameter</span> $params</code><br>&nbsp;
+        </div>
+
+
+        <!-- Example-->
+        <a class="btn btn-success btn-sm" data-bs-toggle="collapse" href="#collapseAddPasswordExample" role="button"
+            aria-expanded="false" aria-controls="collapseAddPasswordExample">
+            Show example
+        </a><br>
+        <div class="collapse example" id="collapseAddPasswordExample">
+            <br>
+            <div class="function-http">
+                <code><span class="method">POST</span> https://graph.microsoft.com/v1.0/applications(appId='<span class="highlight">12345678-0000-0000-0000-000000000000</span>')/addPassword</code>
+            </div>
+
+            <pre class="example replace">
+{
+    "passwordCredential": {
+        "displayName": "My app client secret"
+    }
+}
+</pre>
+
+            <!-- PowerShell method-->
+            <div class="function-powershell">
+                <code><span class="method">Add-MgApplicationPassword</span> <span class="param">-ApplicationId</span> <span class="highlight">12345678-0000-0000-0000-000000000000</span></code>
+                <span class="param">-BodyParameter</span> $params</code><br>&nbsp;
+            </div>
+
+        </div> <!--End of example-->
+
+
+        <h5 class="graph-header graph-header-space">3.1 Get the app secret</h5>
         <p>
             From the response, copy the value of the <b>secretText</b>:
         </p>
 
-        <pre>
+        <pre class="toList">
 {
     "@@odata.context": "https://graph.microsoft.com/v1.0/$metadata#microsoft.graph.passwordCredential",
     "displayName": "My app client secret",
-    "endDateTime": "2026-05-23T15:16:42.,
+    "endDateTime": "2026-07-23T15:16:42",
     "hint": "iqi",
     "keyId": "98765432-0000-0000-0000-000000000000",
     "secretText": "<span class="highlight">Copy this value</span>",
-    "startDateTime": "2024-05-23T15:16:42"
+    "startDateTime": "2024-07-23T15:16:42"
 }
         </pre>
+
+        <!-- PowerShell method-->
+        <div class="function-powershell">
+            <h2 class="graph-header graph-header-space">PowerShell script</h2>
+            <div>
+                The following PowerShell script consolidates the steps previously detailed into a unified script that
+                you
+                can execute.
+            </div>
+
+            <!-- Code-->
+            <a type="button" class="link-opacity-75 copyToClipboard" href="#"><i class="bi bi-copy"></i></a>
+            <pre>
+
+<span class="method">function Add-WebApplication</span> {
+
+    <span class="comment"># Create app registration</span>
+    $params =  @@{
+        displayName = "Woodgrove Groceries"
+        description = "Woodgrove Groceries live demo application"
+        signInAudience = "AzureADMyOrg"
+        api =  @@{
+            acceptMappedClaims = $true
+            requestedAccessTokenVersion = 2
+        }
+        requiredResourceAccess =  @@(
+            @@{
+                resourceAppId = "00000003-0000-0000-c000-000000000000"
+                resourceAccess =  @@(
+                    @@{
+                        id = "37f7f235-527c-4136-accd-4a02d197296e"
+                        type = "Scope"
+                    }
+                    @@{
+                        id = "7427e0e9-2fba-42fe-b0c0-848c9e6a8182"
+                        type = "Scope"
+                    }
+                )
+            }
+        )
+        web =  @@{
+            redirectUris =  @@(
+                "https://woodgrovedemo.com/signin-oidc"
+            )
+            implicitGrantSettings =  @@{
+                enableAccessTokenIssuance = $false
+                enableIdTokenIssuance = $false
+            }
+        }
+    }
+    $appRegistration = <span class="method">New-MgApplication</span> <span class="param">-BodyParameter</span> $params</code>
+    <span class="method">Write-Host</span> <span class="value">"App registration created with app ID"</span>  $appRegistration.AppId</code>
+
+    <span class="comment"># Create corresponding service principal</span>
+    $params =  @@{
+        appId = $appRegistration.AppId
+    }    
+    $servicePrincipal = <span class="method">New-MgServicePrincipal</span> <span class="param">-BodyParameter</span> $params</code>
+    <span class="method">Write-Host</span> <span class="value">"Service principal created with app ID"</span>  $servicePrincipal.Id</code>
+
+    <span class="comment"># Get Microsoft Graph service principal</span>
+    $graphServicePrincipal = <span class="method">Get-MgServicePrincipal</span> <span class="param">-ServicePrincipalId</span> appId='00000003-0000-0000-c000-000000000000'
+
+    <span class="comment"># Grant admin consent</span>
+    $params =  @@{
+        clientId = $servicePrincipal.Id
+        consentType = "AllPrincipals"
+        resourceId = $graphServicePrincipal.Id
+        scope = "openid offline_access"
+    }     
+    <span class="method">New-MgOauth2PermissionGrant</span> <span class="param">-BodyParameter</span> $params | Out-Null 
+
+    <span class="comment"># [Optionally] Add a client secret to the app</span>
+    $params =  @@{
+        passwordCredential =  @@{
+            displayName = "My app client secret"
+        }
+    }
+    <span class="method">Add-MgApplicationPassword</span> <span class="param">-ApplicationId</span> $appRegistration.Id <span class="param">-BodyParameter</span> $params | <span class="method">Format-List</span>
+}
+
+<span class="comment"># Connect to Microsoft Entra tenant with all the required scopes</span>
+<span class="method">Connect-MgGraph</span> <span class="param">-Scopes</span> <span class="value">"Application.ReadWrite.All DelegatedPermissionGrant.ReadWrite.All"</span>
+
+<span class="comment"># Run the script</span>
+<span class="method">Add-WebApplication</span>
+
+
+        </pre>
+        </div>
+    </div>
+
+    <div class="tab-pane" id="graphPowerShell" role="tabpanel" aria-labelledby="graphPowerShell-tab" tabindex="0">
+        Loading...
     </div>
 
     <div class="tab-pane" id="entraGraphPowerShell" role="tabpanel" aria-labelledby="entraGraphPowerShell-tab"

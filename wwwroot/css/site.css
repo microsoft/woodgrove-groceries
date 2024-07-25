@@ -544,6 +544,19 @@ pre {
   color: #084884;
 }
 
+.function-powershell .method {
+  font-weight: bold;
+  color: #0101fd;
+}
+
+.function-powershell .value {
+  color: #a31515;
+}
+
+.function-powershell .comment {
+  color: green;
+}
+
 .param {
   font-weight: bold;
   color: #006881;
