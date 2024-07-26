@@ -514,7 +514,8 @@
             To a <a
                 href="https://learn.microsoft.com/en-us/graph/api/application-addpassword?view=graph-rest-1.0&tabs=http"
                 target="_blank" class="link-dark link-offset-2">client secret</a>, run the following request.
-            Replace the <b>{app-object-ID}</b> with the app object <b>Id</b> from the first step (not the value of the appId property).
+            Replace the <b>{app-object-ID}</b> with the app object <b>Id</b> from the first step (not the value of the
+            appId property).
         </div>
 
 
@@ -640,15 +641,15 @@
             }
         }
     }
-    $appRegistration = <span class="method">New-MgApplication</span> <span class="param">-BodyParameter</span> $params</code>
-    <span class="method">Write-Host</span> <span class="value">"App registration created with app ID"</span>  $appRegistration.AppId</code>
+    $appRegistration = <span class="method">New-MgApplication</span> <span class="param">-BodyParameter</span> $params
+    <span class="method">Write-Host</span> <span class="value">"App registration created with app ID"</span>  $appRegistration.AppId
 
     <span class="comment"># Create corresponding service principal</span>
     $params =  @@{
         appId = $appRegistration.AppId
     }    
-    $servicePrincipal = <span class="method">New-MgServicePrincipal</span> <span class="param">-BodyParameter</span> $params</code>
-    <span class="method">Write-Host</span> <span class="value">"Service principal created with app ID"</span>  $servicePrincipal.Id</code>
+    $servicePrincipal = <span class="method">New-MgServicePrincipal</span> <span class="param">-BodyParameter</span> $params
+    <span class="method">Write-Host</span> <span class="value">"Service principal created with app ID"</span>  $servicePrincipal.Id
 
     <span class="comment"># Get Microsoft Graph service principal</span>
     $graphServicePrincipal = <span class="method">Get-MgServicePrincipal</span> <span class="param">-ServicePrincipalId</span> appId='00000003-0000-0000-c000-000000000000'

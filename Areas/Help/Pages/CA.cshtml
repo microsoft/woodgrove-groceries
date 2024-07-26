@@ -139,7 +139,7 @@
                 href="https://learn.microsoft.com/en-us/graph/api/conditionalaccessroot-post-policies?view=graph-rest-beta&tabs=http">
                 creates a conditional access policy</a>. This policy targets risk sign-ins for all users (excludes
             tenant global
-            administrator). In the JSON below, replace the <b>{web-or-mobile-app-ID}</b> with your web or mobile
+            administrator). In the JSON below, replace the <b>{App-ID}</b> with your web or mobile
             application (App ID, not object ID). Note, you can add more applications.
         </p>
 
@@ -148,7 +148,7 @@
         </div>
 
         <div class="function-powershell">
-            <code><span class="method">Connect-MgGraph</span> <span class="param">-Scopes</span> "Policy.Read.All, Policy.ReadWrite.ConditionalAccess Application.Read.All"</code>
+            <code><span class="method">Connect-MgGraph</span> <span class="param">-Scopes</span> "Policy.ReadWrite.ConditionalAccess"</code>
         </div>
 
         <a type="button" class="link-opacity-75 copyToClipboard" href="#"><i class="bi bi-copy"></i></a>
@@ -175,7 +175,7 @@
         "clientApplications": null,
         "applications": {
             "includeApplications": [
-                "<span class="highlight">{web-or-mobile-app-ID}</span>"
+                "<span class="highlight">{App-ID}</span>"
             ],
             "excludeApplications": [],
             "includeUserActions": [],
@@ -207,6 +207,114 @@
 }</pre>
         <div class="function-powershell">
             <code><span class="method">New-MgBetaIdentityConditionalAccessPolicy</span> <span class="param">-BodyParameter</span> $params</code>
+        </div>
+
+
+
+
+        <!-- PowerShell method-->
+        <div class="function-powershell">
+            <h2 class="graph-header graph-header-space">PowerShell script</h2>
+            <div>
+                The following PowerShell script create or update an existing conditional access policy. Replace: the <b>{App-ID}</b> with a web or mobile application <b>App ID</b> (not object ID) that the policy will apply to.
+            </div>
+
+            <!-- Code-->
+            <a type="button" class="link-opacity-75 copyToClipboard" href="#"><i class="bi bi-copy"></i></a>
+            <pre>
+
+<span class="method">function Add-ConditionalAccessPolicy</span> {
+
+    <span class="method">param</span> (
+        $PolicyName,
+        $AppId
+    )
+
+    <span class="comment"># Define the conditional access policy</span>
+    $params =  @@{
+        templateId =  $undefinedVariable
+        displayName = $PolicyName
+        state = "enabled"
+        sessionControls =  $undefinedVariable
+        conditions =  @@{
+            userRiskLevels =  @@()
+            signInRiskLevels =  @@(
+                "high"
+                "medium"
+            )
+            clientAppTypes =  @@(
+                "all"
+            )
+            platforms =  $undefinedVariable
+            locations =  $undefinedVariable
+            times =  $undefinedVariable
+            deviceStates =  $undefinedVariable
+            devices =  $undefinedVariable
+            clientApplications =  $undefinedVariable
+            applications =  @@{
+                includeApplications =  @@(
+                    $AppId
+                )
+                excludeApplications =  @@()
+                includeUserActions =  @@()
+                includeAuthenticationContextClassReferences =  @@()
+                applicationFilter =  $undefinedVariable
+            }
+            users =  @@{
+                includeUsers =  @@(
+                    "All"
+                )
+                excludeUsers =  @@()
+                includeGroups =  @@()
+                excludeGroups =  @@()
+                includeRoles =  @@()
+                excludeRoles =  @@()
+                includeGuestsOrExternalUsers =  $undefinedVariable
+                excludeGuestsOrExternalUsers =  $undefinedVariable
+            }
+        }
+        grantControls =  @@{
+            operator = "OR"
+            builtInControls =  @@(
+                "mfa"
+            )
+            customAuthenticationFactors =  @@()
+            termsOfUse =  @@()
+            authenticationStrength =  $undefinedVariable
+        }
+    }
+
+    <span class="comment"># Try to find the policy by name</span>
+    $ca = <span class="method">Get-MgBetaIdentityConditionalAccessPolicy</span> <span class="param">-Filter</span> "displayName eq '$PolicyName'"
+
+    <span class="comment"># Create or update the conditional access policy</span>
+    <span class="method">if</span> ($null -ne $ca ) {
+
+        <span class="comment"># Check the existence of multiple policies with the same name.</span>
+        <span class="method">if</span> ($ca.Count -gt 1 ) {
+            $policyCount = $ca.Count
+            <span class="method">Write-Error</span> <span class="param">-Message</span> <span class="value"> "The operation could not be completed because $policyCount</span> '$PolicyName' <span class="value">policies found in the directory."</span>
+            <span class="method">return</span>    
+        }
+
+        <span class="method">Write-Host</span> <span class="value">"Updating policy "</span> $ca.Id
+        <span class="method">Update-MgBetaIdentityConditionalAccessPolicy</span> <span class="param">-ConditionalAccessPolicyId </span> $ca.Id <span class="param">-BodyParameter</span> $params
+        <span class="method">Write-Host</span> <span class="value">"The conditional access policy has been successfully update"</span>
+    } <span class="method">else</span> {
+        <span class="method">Write-Host</span> <span class="value">"Creating new policy"</span>
+        <span class="method">New-MgBetaIdentityConditionalAccessPolicy</span> <span class="param">-BodyParameter</span> $params | <span class="method">Format-List</span>
+        <span class="method">Write-Host</span> <span class="value">"The conditional access policy has been successfully created"</span>
+    }
+}
+
+<span class="comment"># Connect to Microsoft Entra tenant with the required scope</span>
+<span class="method">Connect-MgGraph</span> <span class="param">-Scopes</span> <span class="value">"Policy.ReadWrite.ConditionalAccess"</span>
+
+<span class="comment"># Run the script</span>
+<span class="method">Add-ConditionalAccessPolicy</span> <span class="param">-PolicyName</span> <span class="value">"Woodgrove demo - sign in risk"</span> <span class="param">-AppId</span> <b>{App-ID}</b>
+
+
+        </pre>
         </div>
     </div>
 
