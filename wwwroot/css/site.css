@@ -500,7 +500,8 @@ hr.vertical {
 }
 
 /***************** Help ****************/
-.nav-underline .nav-link.active, .nav-underline{
+.nav-underline .nav-link.active,
+.nav-underline {
   color: var(--color-dark);
   border-bottom-color: #ffc107;
   border-bottom-width: 3px;
@@ -510,7 +511,7 @@ hr.vertical {
   color: var(--color-light);
 }
 
-.wg-tab-content{
+.wg-tab-content {
   margin-top: 25px;
 }
 
@@ -521,8 +522,20 @@ hr.vertical {
 
 pre {
   color: rgb(60, 60, 60);
-  margin-bottom: 0!important
+  margin-bottom: 0 !important
 }
+
+pre.code {
+
+  background-color: rgb(248, 248, 248);
+  border-color: rgb(230, 230, 230);
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 15px;;
+  padding-top: 15px;
+  padding-left: 20px;
+}
+
 
 .graph-header {
   padding-bottom: 5px;
@@ -562,32 +575,33 @@ pre {
   color: #006881;
 }
 
-.function-http code{
+.function-http code {
   color: black;
 }
 
-.function-powershell code{
+.function-powershell code {
   color: black;
 }
 
-#microsoftGraph .function-powershell{
+#microsoftGraph .function-powershell {
   display: none;
 }
 
-#graphPowerShell .function-http{
+#graphPowerShell .function-http {
   display: none;
 }
 
-.copyToClipboard{
-  margin-top: 10px;;
+.copyToClipboard {
+  margin-top: 10px;
+  ;
 }
 
-.collapse.example{
+.collapse.example {
   background-color: #0080000a;
   padding-left: 15px;
   padding-bottom: 15px;
-  -webkit-transition: none!important;
-  transition: none!important;
+  -webkit-transition: none !important;
+  transition: none !important;
 }
 
 .collapsing {

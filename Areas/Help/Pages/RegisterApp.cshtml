@@ -303,7 +303,7 @@
 
 
 
-        <h5 class="graph-header graph-header-space">1.1 Copy your applicaion ID</h5>
+        <h5 class="graph-header graph-header-space">1.1 Copy your application ID</h5>
         <p>
             From the response, copy the <b>appId</b>. To create app secret, copy also the <b>id</b>. For example:
         </p>
@@ -437,7 +437,7 @@
         <div>
 
             <a href="https://learn.microsoft.com/en-us/graph/api/oauth2permissiongrant-post?view=graph-rest-1.0&tabs=http"
-                target="_blank" class="link-dark link-offset-2">Create OAuth2 permission grant</a> for your applicaion.
+                target="_blank" class="link-dark link-offset-2">Create OAuth2 permission grant</a> for your application.
             Replace:
 
             <ul style="margin-top: 10px;">
@@ -603,7 +603,7 @@
 
             <!-- Code-->
             <a type="button" class="link-opacity-75 copyToClipboard" href="#"><i class="bi bi-copy"></i></a>
-            <pre>
+            <pre class="code">
 
 <span class="method">function Add-WebApplication</span> {
 
@@ -649,7 +649,7 @@
         appId = $appRegistration.AppId
     }    
     $servicePrincipal = <span class="method">New-MgServicePrincipal</span> <span class="param">-BodyParameter</span> $params
-    <span class="method">Write-Host</span> <span class="value">"Service principal created with app ID"</span>  $servicePrincipal.Id
+    <span class="method">Write-Host</span> <span class="value">"Service principal created with ID"</span>  $servicePrincipal.Id
 
     <span class="comment"># Get Microsoft Graph service principal</span>
     $graphServicePrincipal = <span class="method">Get-MgServicePrincipal</span> <span class="param">-ServicePrincipalId</span> appId='00000003-0000-0000-c000-000000000000'
@@ -677,8 +677,6 @@
 
 <span class="comment"># Run the script</span>
 <span class="method">Add-WebApplication</span>
-
-
         </pre>
         </div>
     </div>

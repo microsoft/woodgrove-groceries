@@ -1,0 +1,370 @@
+﻿@page
+@model woodgrovedemo.Help.Pages.GithubWorkflowsModel
+@{
+    ViewData["Title"] = "GitHub Workflows";
+    Layout = "_Layout";
+}
+
+<h1 style="margin-top: 25px; margin-bottom: 25px;">Automation with GitHub Workflows</h1>
+
+<div>
+    <a href="https://learn.microsoft.com/en-us/powershell/microsoftgraph/overview?view=graph-powershell-1.0"
+        target="_blank" class="link-dark link-offset-2">Microsoft Graph PowerShell</a> is a robust solution for
+    automating tasks, executing batch
+    operations, maintaining and ensuring consistency across different stages such as test, preproduction, and production
+    environments. <a href="https://docs.github.com/en/actions/using-workflows/about-workflows" target="_blank"
+        class="link-dark link-offset-2">GitHub workflow</a> is a configurable automated process that will run one or
+    more jobs <a href="https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-powershell"
+        target="_blank" class="link-dark link-offset-2">including PowerShell</a>.
+    Workflows are defined by a YAML file checked in to your repository and will run when triggered by an event in your
+    repository, or they can be triggered manually, or at a defined schedule.
+    Their benefits in accelerating and stabilizing the deployment process to
+    Microsoft Entra's external ID. It leads to a significant reduction in integration
+    issues, faster release cycles, enhance change management, and consistency that are crucial for maintaining data
+    integrity and smooth and seamless deployment during updates and modifications.
+</div>
+
+<h3 class="graph-header graph-header-space">1. Prepare your tenant</h3>
+To allow GitHub workflow accessing your Microsoft Entra ID tenant, you first need to:
+
+<ol>
+    <li>Register an application</li>
+    <li>Consent to the required permission. Each operations may require different permission. For more information check
+        the Graph API documentation. You can also find the permissions and their IDs in the <a
+            href="https://learn.microsoft.com/en-us/graph/permissions-reference" target="_blank"
+            class="link-dark link-offset-2">Microsoft Graph permissions reference</a>.</li>
+    <li>Create application secret</li>
+</ol>
+
+<div class="function-powershell">
+    <h4 class="graph-header graph-header-space">1.1 Register GitHub application</h4>
+    <div>
+        The following PowerShell script registers an application, grants admin consent to the required permissions,
+        creates application secret and renders the tenant ID.
+    </div>
+
+    <!-- Code-->
+    <a type="button" class="link-opacity-75 copyToClipboard" href="#"><i class="bi bi-copy"></i></a>
+    <pre class="code">
+
+<span class="method">function Add-GitHubWorkflowApp</span> {
+
+    <span class="comment"># Create app registration</span>
+    $params =  @@{
+        displayName = "GitHub workflow"
+        description = "This application use to authentication the GitHub workflow"
+        signInAudience = "AzureADMyOrg"
+        requiredResourceAccess =  @@(
+            @@{
+                resourceAppId = "00000003-0000-0000-c000-000000000000"
+                resourceAccess =  @@(
+                    @@{
+                        id = "1bfefb4e-e0b5-418b-a88f-73c46d2cc8e9"
+                        type = "Role"
+                    }
+                    @@{
+                        id = "246dd0d5-5bd0-4def-940b-0421030a5b68"
+                        type = "Role"
+                    }
+                    @@{
+                        id = "01c0a623-fc9b-48e9-b794-0756f8e8f067"
+                        type = "Role"
+                    }
+                )
+            }
+        )
+    }
+    $appRegistration = <span class="method">New-MgApplication</span> <span class="param">-BodyParameter</span> $params
+    <span class="method">Write-Host</span> <span class="value">"App registration created with app ID"</span>  $appRegistration.AppId
+
+    <span class="comment"># Create corresponding service principal</span>
+    $params =  @@{
+        appId = $appRegistration.AppId
+    }    
+    $servicePrincipal = <span class="method">New-MgServicePrincipal</span> <span class="param">-BodyParameter</span> $params
+    <span class="method">Write-Host</span> <span class="value">"Service principal created with ID"</span>  $servicePrincipal.Id
+
+    <span class="comment"># Get Microsoft Graph service principal</span>
+    $graphServicePrincipal = <span class="method">Get-MgServicePrincipal</span> <span class="param">-ServicePrincipalId</span> appId='00000003-0000-0000-c000-000000000000'
+
+    <span class="comment"># Grant admin consent</span>
+    $roles = @@('1bfefb4e-e0b5-418b-a88f-73c46d2cc8e9', '246dd0d5-5bd0-4def-940b-0421030a5b68', '01c0a623-fc9b-48e9-b794-0756f8e8f067')
+    <span class="method">foreach</span> ($role <span class="method">in</span> $roles)
+    {
+        $params = @@{
+            "PrincipalId" =$servicePrincipal.Id
+            "ResourceId" = $graphServicePrincipal.Id
+            "AppRoleId" = $role
+        }
+
+        <span class="method">New-MgServicePrincipalAppRoleAssignment</span> <span class="param">-ServicePrincipalId</span> $graphServicePrincipal.Id <span class="param">-BodyParameter</span> $params  | Out-Null 
+    }
+
+    <span class="comment"># Create an application secret</span>
+    $params =  @@{
+        passwordCredential =  @@{
+            displayName = "GitHub workflow app client secret"
+        }
+    }
+    <span class="method">Add-MgApplicationPassword</span> <span class="param">-ApplicationId</span> $appRegistration.Id <span class="param">-BodyParameter</span> $params | <span class="method">Format-List</span>
+}
+
+<span class="comment"># Connect to Microsoft Entra tenant with all the required scopes</span>
+<span class="method">Connect-MgGraph</span> <span class="param">-Scopes</span> <span class="value">"Application.ReadWrite.All AppRoleAssignment.ReadWrite.All"</span>
+
+<span class="comment"># Run the script</span>
+<span class="method">Add-GitHubWorkflowApp</span>
+
+<span class="comment"># Get your tenant ID</span>
+<span class="method">Get-MgContext</span> | <span class="method">Format-List</span> <span class="param">-Property</span> TenantID
+
+        </pre>
+
+
+    <h4 class="graph-header graph-header-space">1.2 Copy the application details</h4>
+    <div>
+        Copy the tenant ID, application ID (client ID), and the client secret. You will use this information in your
+        GitHub repository.
+    </div>
+
+    <h3 class="graph-header graph-header-space">2. Prepare your GitHub repo</h3>
+    <div>
+
+        <h4 class="graph-header">2.1 Create secrets</h4>
+
+        <a href="https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions" target="_blank"
+            class="link-dark link-offset-2">GitHub secrets</a> allow you to store sensitive information in your
+        organization, repository, or repository environments.
+
+        <ol style="margin-top: 10px;">
+            <li>On GitHub.com, navigate to the main page of the repository.</li>
+            <li>Under your repository name, click <b>Settings</b>. If you cannot see the "Settings" tab, select the
+                dropdown menu, then click <b>Settings</b>.</li>
+            <li>In the "Security" section of the sidebar, select <b>Secrets and variables</b>, then click
+                <b>Actions</b>.
+            </li>
+            <li>Select the <b>Secrets</b> tab.</li>
+            <li>Click <b>New repository secret</b>.</li>
+            <li>In the <b>Name</b> field, enter <b>TenantId</b>.</li>
+            <li>In the <b>Secret</b> field, enter your tenant ID.</li>
+            <li>Select <b>Add secret</b>.</li>
+            <li>Repeat the last 4 steps and add <b>ClientId</b> with the client ID your registered. And
+                <b>ClientSecret</b> with the application secret your created earlier.
+            </li>
+        </ol><br>
+
+        <h4 class="graph-header">2.2 [Optionally] Create variables</h4>
+
+        <a href="https://docs.github.com/en/actions/learn-github-actions/variables" target="_blank"
+            class="link-dark link-offset-2">GitHub variables</a> provide a way to store and reuse non-sensitive
+        configuration information. You can store any configuration data such as compiler flags, usernames, or server
+        names as variables. Variables are interpolated on the runner machine that runs your workflow.
+        The example presented later in this page, use a variable name <b>WebAppId</b> which is passed into the PowerShell
+        script that creates or update a conditional access policy.
+
+        <ol style="margin-top: 10px;">
+            <li>On GitHub.com, navigate to the main page of the repository.</li>
+            <li>Under your repository name, click <b>Settings</b>. If you cannot see the "Settings" tab, select the
+                dropdown menu, then click <b>Settings</b>.</li>
+            <li>In the "Security" section of the sidebar, select <b>Secrets and variables</b>, then click
+                <b>Actions</b>.
+            </li>
+            <li>Select the <b>Variables</b> tab.</li>
+            <li>Click <b>New repository variable</b>.</li>
+            <li>In the <b>Name</b> field, , enter a name for your variable.</li>
+            <li>In the <b>Secret</b> field, enter the value for your variable.</li>
+            <li>Select <b>Add variable</b>.</li>
+        </ol><br>
+
+        <h4 class="graph-header">2.3 Add your PowerShell script</h4>
+        Add your PowerShell script to the root directory of the repository. The following example shows an example
+        <b>ConditionalAccessPolicy.ps1</b> script that creates or update a conditional  access policy.
+
+        <!-- Code-->
+        <a type="button" class="link-opacity-75 copyToClipboard" href="#"><i class="bi bi-copy"></i></a>
+        <pre class="code">
+
+<span class="method">function Add-ConditionalAccessPolicy</span> {
+
+    <span class="method">param</span> (
+        $PolicyName,
+        $AppId
+    )
+
+    <span class="comment"># Define the conditional access policy</span>
+    $params =  @@{
+        templateId =  $undefinedVariable
+        displayName = $PolicyName
+        state = "enabled"
+        sessionControls =  $undefinedVariable
+        conditions =  @@{
+            userRiskLevels =  @@()
+            signInRiskLevels =  @@(
+                "high"
+                "medium"
+            )
+            clientAppTypes =  @@(
+                "all"
+            )
+            platforms =  $undefinedVariable
+            locations =  $undefinedVariable
+            times =  $undefinedVariable
+            deviceStates =  $undefinedVariable
+            devices =  $undefinedVariable
+            clientApplications =  $undefinedVariable
+            applications =  @@{
+                includeApplications =  @@(
+                    $AppId
+                )
+                excludeApplications =  @@()
+                includeUserActions =  @@()
+                includeAuthenticationContextClassReferences =  @@()
+                applicationFilter =  $undefinedVariable
+            }
+            users =  @@{
+                includeUsers =  @@(
+                    "All"
+                )
+                excludeUsers =  @@()
+                includeGroups =  @@()
+                excludeGroups =  @@()
+                includeRoles =  @@()
+                excludeRoles =  @@()
+                includeGuestsOrExternalUsers =  $undefinedVariable
+                excludeGuestsOrExternalUsers =  $undefinedVariable
+            }
+        }
+        grantControls =  @@{
+            operator = "OR"
+            builtInControls =  @@(
+                "mfa"
+            )
+            customAuthenticationFactors =  @@()
+            termsOfUse =  @@()
+            authenticationStrength =  $undefinedVariable
+        }
+    }
+
+    <span class="comment"># Try to find the policy by name</span>
+    $ca = <span class="method">Get-MgBetaIdentityConditionalAccessPolicy</span> <span class="param">-Filter</span> "displayName eq '$PolicyName'"
+
+    <span class="comment"># Create or update the conditional access policy</span>
+    <span class="method">if</span> ($null -ne $ca ) {
+
+        <span class="comment"># Check the existence of multiple policies with the same name.</span>
+        <span class="method">if</span> ($ca.Count -gt 1 ) {
+            $policyCount = $ca.Count
+            <span class="method">Write-Error</span> <span class="param">-Message</span> <span class="value"> "The operation could not be completed because $policyCount</span> '$PolicyName' <span class="value">policies found in the directory."</span>
+            <span class="method">return</span>    
+        }
+
+        <span class="method">Write-Host</span> <span class="value">"Updating policy "</span> $ca.Id
+        <span class="method">Update-MgBetaIdentityConditionalAccessPolicy</span> <span class="param">-ConditionalAccessPolicyId </span> $ca.Id <span class="param">-BodyParameter</span> $params
+        <span class="method">Write-Host</span> <span class="value">"The conditional access policy has been successfully update"</span>
+    } <span class="method">else</span> {
+        <span class="method">Write-Host</span> <span class="value">"Creating new policy"</span>
+        <span class="method">New-MgBetaIdentityConditionalAccessPolicy</span> <span class="param">-BodyParameter</span> $params | <span class="method">Format-List</span>
+        <span class="method">Write-Host</span> <span class="value">"The conditional access policy has been successfully created"</span>
+    }
+}
+
+<span class="comment"># Connect to Microsoft Entra tenant with the required scope</span>
+<span class="method">Connect-MgGraph</span> <span class="param">-Scopes</span> <span class="value">"Policy.ReadWrite.ConditionalAccess"</span>
+
+<span class="comment"># Run the script</span>
+<span class="method">Add-ConditionalAccessPolicy</span> <span class="param">-PolicyName</span> <span class="value">"Woodgrove demo - sign in risk"</span> <span class="param">-AppId</span> <b>{App-ID}</b>
+        </pre>
+
+        <h4 class="graph-header graph-header-space">1.3 Add a GitHub workflow</h4>
+
+        <div>
+            <a href="https://docs.github.com/en/actions/using-workflows/about-workflows" target="_blank"
+                class="link-dark link-offset-2">GitHub workflow</a> is a configurable automated process that will run
+            one or more jobs. Workflows are defined by a
+            YAML file checked in to your repository and will run when triggered by an event in your repository, or they
+            can be triggered manually, or at a defined schedule. Each workflow is stored as a separate YAML file in your
+            code repository, in a directory named <b>github/workflows</b>.
+            <ol>
+                <li>In your repository, create the .github/workflows/ directory to store your workflow files.</li>
+                <li>In the .github/workflows/ directory, create a new file called ConfigWorkflow.yml.</li>
+                <li>
+                    <!-- Code-->
+                    Add the
+                    following code <a type="button" class="link-opacity-75 copyToClipboard" href="#"><i class="bi bi-copy"></i></a>
+                    <pre class="code"> 
+<span class="comment"># This is a basic workflow to help you get started with Actions</span>
+
+name: Test Graph PowerShell
+
+<span class="comment"># Controls when the workflow will run</span>
+on:
+<span class="comment"># Triggers the workflow on push request events but only for the "main" branch</span>
+push:
+    branches: [ "main" ]  
+
+<span class="comment"># Allows you to run this workflow manually from the Actions tab</span>
+workflow_dispatch:
+
+<span class="comment"># A workflow run is made up of one or more jobs that can run sequentially or in parallel</span>
+jobs:
+<span class="comment"># This workflow contains a single job called "build"</span>
+build:
+    <span class="comment"># The type of runner that the job will run on</span>
+    runs-on: ubuntu-latest
+
+    <span class="comment"># Steps represent a sequence of tasks that will be executed as part of the job</span>
+    steps:
+    <span class="comment"># Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it</span>
+    - uses: actions/checkout@v4
+
+    <span class="comment"># Run a command to check PowerShell version</span>
+    - name: Check PowerShell version
+        shell: pwsh
+        run: Write-Host $PSVersionTable.PSVersion
+
+    <span class="comment"># Setup cache for Microsoft Graph PowerShell</span>
+    - name: Setup PowerShell module cache
+        id: cacher
+        uses: actions/cache@v3
+        with:
+        path: "~/.local/share/powershell/Modules"
+        key: ${{ runner.os }}-MicrosoftGraphBeta
+
+    <span class="comment"># Install Microsoft Graph PowerShell modules</span>
+    - name: Install required PowerShell modules
+        if: steps.cacher.outputs.cache-hit != 'true'
+        shell: pwsh
+        run: |
+        Set-PSRepository PSGallery -InstallationPolicy Trusted
+        Install-Module Microsoft.Graph.Beta -ErrorAction Stop
+
+    <span class="comment"># Connect to Entra ID, run the PowerShell script and disconnect</span>
+    - name: Connect, run the script and disconnect
+        shell: pwsh
+        env:
+        TenantId: ${{ secrets.TenantId }}
+        ClientId: ${{ secrets.ClientId }}
+        ClientSecret: ${{ secrets.ClientSecret }}
+        WebAppId: ${{ vars.WebAppId }}
+        run: |
+        Write-Host "Connect to Microsoft Entra ID with app ID and app secret"
+        $SecuredPassword = ConvertTo-SecureString -String "$env:ClientSecret" -AsPlainText -Force
+        $ClientSecretCredential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList "$env:ClientId", $SecuredPassword
+
+        Connect-MgGraph -TenantId "$env:TenantId" -ClientSecretCredential $ClientSecretCredential -NoWelcome
+
+        Write-Host "Loading the PowerShell script .\ConditionalAccessPolicy.ps1"
+        . .\ConditionalAccessPolicy.ps1
+
+        Write-Host "Running the PowerShell script"
+        Add-ConditionalAccessPolicy -PolicyName "Woodgrove demo - sign in risk" -AppId ${{ env.WebAppId }}
+
+        Write-Host "Disconnect from Microsoft Entra ID"
+        Disconnect-MgGraph  | Out-Null
+                    </pre>
+
+                </li>
+            </ol>
+        </div>
+    </div>
+</div>
