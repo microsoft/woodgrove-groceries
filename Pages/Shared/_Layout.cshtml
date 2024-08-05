@@ -22,34 +22,29 @@
 <body>
     <header class="header">
         <div class="container" style="padding-top: 30px; padding-bottom: 30px;">
-            <nav class="navbar navbar-expand-xl">
+            <nav class="navbar navbar-expand-lg bg-body-tertiary">
                 <div class="container-fluid">
                     <a asp-page="/Index">
                         <img src="/images/logo.png" height="24" alt="Woodgrove logo" style="padding-left: 10px;" />
                     </a> <a class="navbar-brand" asp-area="" asp-page="/Index" style="padding-left: 15px;">Woodgrove
                         Groceries</a>
-                    <button id="navbarToggler" class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false"
                         aria-label="Toggle navigation">
-                        <span id="navbarClose" class="my-1 mx-2">X</span>
-                        <span id="navbarOpen" class="navbar-toggler-icon"></span>
+                        <span class="navbar-toggler-icon"></span>
                     </button>
 
-                    <div class="collapse navbar-collapse">
-                        <ul class="navbar-nav flex-grow-1">
-                            @* <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                            </li>
-                            <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                            </li> *@
-                        </ul>
-                        <partial name="_LoginPartial" />
+                    <div class="collapse navbar-collapse" id="navbarContent">
+                        <div class="navbar-nav me-auto mb-2">
+
+                        </div>
+                        <lu class="navbar-nav">
+                            <partial name="_LoginPartial" />
+                        </lu>
                     </div>
                 </div>
-        </div>
-        </nav>
-        @RenderSection("Jumbotron", required: false)
+            </nav>
+            @RenderSection("Jumbotron", required: false)
     </header>
 
     @RenderSection("FullScreen", required: false)
