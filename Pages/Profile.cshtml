@@ -167,16 +167,26 @@
                 <b>Last sign-in request ID</b>: @Model.LastSignInRequestId
             </p>
         </div>
-        <h2 class="profile-header">Password change date and time
-        </h2>
+        <h2 class="profile-header">Password change date and time</h2>
         <div class="profile-content">
             <p>
                 The time when you last changed your password or when your account created,
                 whichever date the latest action was performed. The
                 timestamp represents date and time information is in UTC time.
+            </p>
             <p>
                 <b>Last time</b>: @Model.LastPasswordChangeDateTime <br>
             </p>
+        </div>
+
+        <h2 class="profile-header">Multi factor authentication</h2>
+        <div class="profile-content">
+            <p>
+                Your multi-factor authentication methods:
+            </p>
+            <p>
+                <b>Phone</b>: @Model.PhoneNumber <br>
+                <b>Email</b>: @Model.EmailMfa <br>
             </p>
         </div>
     }
@@ -229,7 +239,7 @@
     <script>
         var staticBackdrop;
         $(document).ready(function () {
-            
+
             staticBackdrop = new bootstrap.Modal(document.getElementById('staticBackdrop'), { keyboard: false });
 
             // Handle account enable checkbox change

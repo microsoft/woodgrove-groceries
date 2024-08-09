@@ -70,6 +70,14 @@ namespace MyApp.Namespace
         [BindProperty]
         public string LastPasswordChangeDateTime { get; set; } = "";
 
+        // Check if user went through the MFA
+        public bool StepUpFulfilled { get; private set; } = false;
+        [BindProperty]
+        public string PhoneNumber { get; set; } = "";
+        [BindProperty]
+        public string EmailMfa { get; set; } = "";
+
+
         public ProfileModel(IConfiguration configuration, TelemetryClient telemetry, IAuthorizationHeaderProvider authorizationHeaderProvider)
         {
             Configuration = configuration;
@@ -99,6 +107,9 @@ namespace MyApp.Namespace
 
         private async Task ReadProfile(string userObjectId)
         {
+
+            this.StepUpFulfilled = User.Claims.Any(c => c.Type == "acrs" && c.Value == "c1");
+
             try
             {
                 var graphClient = MsalAccessTokenHandler.GetGraphClient(this.Configuration);
@@ -108,7 +119,6 @@ namespace MyApp.Namespace
                         requestConfiguration.QueryParameters.Select = new string[] { "Id", "identities", "displayName", "GivenName", "Surname", "Country", "City", "AccountEnabled", "CreatedDateTime", "lastPasswordChangeDateTime", "signInActivity", $"{ExtensionAttributes}_SpecialDiet" };
                         requestConfiguration.QueryParameters.Expand = new string[] { "Extensions" };
                     });
-
 
                 // Populate the user's attributes
                 this.ObjectId = profile!.Id!;
@@ -161,6 +171,9 @@ namespace MyApp.Namespace
 
                 // Get user's roles and security groups
                 await GetRolesAndGroupsAsync(graphClient, userObjectId);
+
+                // Get user's authentication methods
+                await GetAuthenticationMethodsAsync(graphClient, userObjectId);
 
             }
             catch (ODataError odataError)
@@ -350,7 +363,41 @@ namespace MyApp.Namespace
 
             return Page();
         }
+        private async Task GetAuthenticationMethodsAsync(GraphServiceClient graphClient, string userObjectId)
+        {
+            try
+            {
+                var result = await graphClient.Users[userObjectId].Authentication.Methods.GetAsync();
 
+                foreach (var method in result.Value)
+                {
+                    if (method.OdataType == "#microsoft.graph.phoneAuthenticationMethod")
+                    {
+                        PhoneNumber = ((PhoneAuthenticationMethod)method).PhoneNumber;
+                    }
+                    else if (method.OdataType == "#microsoft.graph.emailAuthenticationMethod")
+                    {
+                        EmailMfa = ((EmailAuthenticationMethod)method).EmailAddress;
+                    }
+                }
+
+                if (string.IsNullOrEmpty(PhoneNumber))
+                    PhoneNumber = "Not found";
+
+                if (string.IsNullOrEmpty(EmailMfa))
+                    EmailMfa = "Not found";
+            }
+            catch (ODataError odataError)
+            {
+                ErrorMessage = $"Can't read the authentication methods due to the following error: {odataError.Error!.Message} Error code: {odataError.Error.Code}";
+                TrackException(odataError, "GetAuthenticationMethodsAsync");
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Can't read the authentication methods due to the following error: {ex.Message}";
+                TrackException(ex, "GetAuthenticationMethodsAsync");
+            }
+        }
 
         private async Task GetRolesAndGroupsAsync(GraphServiceClient graphClient, string userObjectId)
         {
