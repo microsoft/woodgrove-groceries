@@ -91,7 +91,8 @@ public class UserRolesController : ControllerBase
         }
         catch (Exception ex)
         {
-            userRoles.ErrorMessage = $"Can't read the profile due to the following error: {ex.Message}";
+            string error = ex.InnerException == null ? ex.Message : ex.InnerException.Message;
+            userRoles.ErrorMessage = $"Can't read the profile due to the following error: {error}";
             //TrackException(ex, "GetRolesAndGroupsAsync");
         }
 
@@ -184,7 +185,8 @@ public class UserRolesController : ControllerBase
         }
         catch (Exception ex)
         {
-            userRoles.ErrorMessage = $"Can't read the profile due to the following error: {ex.Message}";
+            string error = ex.InnerException == null ? ex.Message : ex.InnerException.Message;
+            userRoles.ErrorMessage = $"Can't read the profile due to the following error: {error}";
             //TrackException(ex, "OnPostRolesAsync");
         }
 

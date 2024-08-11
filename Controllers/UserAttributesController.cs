@@ -98,7 +98,8 @@ public class UserAttributesController : ControllerBase
         }
         catch (Exception ex)
         {
-            att.ErrorMessage = $"Can't read the profile due to the following error: {ex.Message}";
+            string error = ex.InnerException == null ? ex.Message : ex.InnerException.Message;
+            att.ErrorMessage = $"Can't read the profile due to the following error: {error}";
             //TrackException(ex, "ReadProfile");
         }
 
@@ -149,7 +150,8 @@ public class UserAttributesController : ControllerBase
         }
         catch (Exception ex)
         {
-            att.ErrorMessage = $"The account cannot be updated due to the following error: {ex.Message}";
+            string error = ex.InnerException == null ? ex.Message : ex.InnerException.Message;
+            att.ErrorMessage = $"The account cannot be updated due to the following error: {error}";
             //TrackException(ex, "OnPostProfileAsync");
         }
 

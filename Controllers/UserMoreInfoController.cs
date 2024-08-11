@@ -89,7 +89,8 @@ public class UserMoreInfoController : ControllerBase
         }
         catch (Exception ex)
         {
-            userMoreInfo.ErrorMessage = $"Can't read the profile due to the following error: {ex.Message}";
+            string error = ex.InnerException == null ? ex.Message : ex.InnerException.Message;
+            userMoreInfo.ErrorMessage = $"Can't read the profile due to the following error: {error}";
             //TrackException(ex, "GetRolesAndGroupsAsync");
         }
 
@@ -123,7 +124,8 @@ public class UserMoreInfoController : ControllerBase
         }
         catch (Exception ex)
         {
-            userMoreInfo.ErrorMessage = $"Can't read the authentication methods due to the following error: {ex.Message}";
+            string error = ex.InnerException == null ? ex.Message : ex.InnerException.Message;
+            userMoreInfo.ErrorMessage = $"Can't read the authentication methods due to the following error: {error}";
             //TrackException(ex, "GetAuthenticationMethodsAsync");
         }
 
