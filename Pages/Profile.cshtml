@@ -13,20 +13,11 @@
 </style>
 
 <div class="container">
-    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-    {
-        <div class="alert alert-danger" role="alert" style="padding-bottom: 25px; padding-top: 25px;">
-            @Model.ErrorMessage
-        </div>
-    }
 
-    @if (Model.UserNeedsToSignInAgain)
-    {
-        <div class="alert alert-success" role="alert" style="padding-bottom: 25px; padding-top: 25px;">
-            Your account has been successfully updated. To reflect the changes, <a class=""
-                href="/SignIn?handler=ProfileSignin&id=@Model.Username">sign-in</a> again.
-        </div>
-    }
+    <div class="alert alert-danger" id="errorMessage" role="alert"
+        style="padding-bottom: 25px; padding-top: 25px; display: none;">
+
+    </div>
 
     @if (User.Identity?.IsAuthenticated == true)
     {
@@ -55,64 +46,81 @@
 
         <h2 class="profile-header">Edit your profile</h2>
 
-        <div class="text-left profile-content">
-            <form method="post">
-                <div class="form-group row">
-                    <label for="inputDisplayName" class="col-sm-2 col-form-label">Display name</label>
-                    <div class="col-sm-5">
-                        <input type="text" class="form-control" id="inputDisplayName" asp-for="DisplayName" required>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="inputGivenName" class="col-sm-2 col-form-label">Given name</label>
-                    <div class="col-sm-5">
-                        <input type="text" class="form-control" id="inputGivenName" asp-for="GivenName">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="inputSurname" class="col-sm-2 col-form-label">Surname</label>
-                    <div class="col-sm-5">
-                        <input type="text" class="form-control" id="inputSurname" asp-for="Surname">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="inputCountry" class="col-sm-2 col-form-label">Country</label>
-                    <div class="col-sm-5">
-                        <input type="text" class="form-control" id="inputCountry" asp-for="Country">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="inputCity" class="col-sm-2 col-form-label">City</label>
-                    <div class="col-sm-5">
-                        <input type="text" class="form-control" id="inputCity" asp-for="City">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="inputSpecialDiet" class="col-sm-2 col-form-label">Special diet</label>
-                    <div class="col-sm-5">
-                        <input type="text" class="form-control" id="inputSpecialDiet" asp-for="SpecialDiet">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="inputAccountEnabled" class="col-sm-2 col-form-label">Enabled</label>
-                    <div class="col-sm-5">
-                        <input type="checkbox" class="form-check-input" id="inputAccountEnabled" asp-for="AccountEnabled">
-                    </div>
-                </div>
-                <div class="form-group row" style="padding-bottom: 10px; padding-top: 10px;">
-                    <div class="col-sm-6">
-                        <button type="submit" asp-page-handler="Profile" class="btn header-button"><i
-                                class="bi bi-save2"></i> Save</button>&nbsp;&nbsp;
-                        <a asp-area="" asp-page="/DeleteMyAccount" role="button" class="btn header-button"><i
-                                class="bi bi-trash"></i> Delete your account</a>
-                    </div>
-                </div>
-            </form>
+        <div id="editProfileSpinner" class="text-left profile-content">
+
+            <br>Loading... <br>
+            <div class="spinner-border m-5 text-warning" style="width: 3rem; height: 3rem;" role="status">
+
+            </div>
         </div>
 
-        <h2 style="color: green; padding-bottom: 15px; padding-top: 55px;">Your Woodgrove app roles and security groups
-        </h2>
-        <div class="profile-content">
+        <div class="text-left profile-content" id="editProfileSection" style="display: none;">
+            <div class="form-group row">
+                <label for="inputDisplayName" class="col-sm-2 col-form-label">Display name</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" id="inputDisplayName" required>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputGivenName" class="col-sm-2 col-form-label">Given name</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" id="inputGivenName">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputSurname" class="col-sm-2 col-form-label">Surname</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" id="inputSurname">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputCountry" class="col-sm-2 col-form-label">Country</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" id="inputCountry">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputCity" class="col-sm-2 col-form-label">City</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" id="inputCity">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputSpecialDiet" class="col-sm-2 col-form-label">Special diet</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" id="inputSpecialDiet">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputAccountEnabled" class="col-sm-2 col-form-label">Enabled</label>
+                <div class="col-sm-5">
+                    <input type="checkbox" class="form-check-input" id="inputAccountEnabled">
+                </div>
+            </div>
+            <div class="form-group row" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="col-sm-6">
+                    <button type="button" onclick="updateUserAttributes()" class="btn header-button" id="editProfileButton">
+                        <span class="spinner-border spinner-border-sm" aria-hidden="true" id="editProfileButtonSpinner"
+                            style="margin-right: 10px; display: none;"></span>
+                        <i class="bi bi-save2"></i>
+                        Save</button>&nbsp;&nbsp;
+                    <a asp-area="" asp-page="/DeleteMyAccount" role="button" class="btn header-button"><i
+                            class="bi bi-trash"></i> Delete your account</a>
+                </div>
+            </div>
+        </div>
+
+        <h2 style="color: green; padding-bottom: 15px; padding-top: 55px;">Your Woodgrove app roles and security groups</h2>
+
+        <div id="rolesSpinner" class="text-left profile-content">
+
+            <br>Loading... <br>
+            <div class="spinner-border m-5 text-warning" style="width: 3rem; height: 3rem;" role="status">
+
+            </div>
+        </div>
+
+        <div class="profile-content" id="rolesSection" style="display: none;">
             You are eligible for activating the following application roles and security groups. You can request to activate
             the roles and add yourself to the security groups when you need its privileges. For this online demo, your
             request will be automatically approved.
@@ -121,7 +129,7 @@
                     <h4 style="color: green; padding-bottom: 5px;">Security groups</h4>
                     <div class="form-check">
                         <input type="checkbox" value="true" class="form-check-input" name="MemberOfCommercialAccounts"
-                            checked="@(Model.MemberOfCommercialAccounts)">
+                            id="inputMemberOfCommercialAccounts" checked="">
                         <label for="MemberOfCommercialAccounts"><b style="color: darkslategray;">Commercial Accounts</b>
                             group. Members of this group get a special discount.</label>
                     </div>
@@ -130,19 +138,24 @@
                     <h4 style="color: green; padding-bottom: 5px; padding-top: 10px;">Application roles</h4>
                     <div class="form-check">
                         <input type="checkbox" value="true" class="form-check-input" name="HasProductsContributorRole"
-                            checked="@(Model.HasProductsContributorRole)">
+                            checked="" id="inputHasProductsContributorRole">
                         <label for="HasProductsContributorRole"><b style="color: darkslategray;">Products Contributor</b>
                             application role. Grant you access to track and manage the inventory in the warehouse.</label>
                     </div>
                     <div class="form-check">
                         <input type="checkbox" value="true" class="form-check-input" name="HasOrdersManagerRole"
-                            checked="@(Model.HasOrdersManagerRole)">
+                            id="inputHasOrdersManagerRole" checked="">
                         <label for="HasOrdersManagerRole"><b style="color: darkslategray;">Orders Manager</b> application
                             role. Grant you access to manage online orders.</label>
                     </div>
                 </div>
                 <div class="form-group" style="padding-top: 15px;">
-                    <button type="submit" class="btn header-button" asp-page-handler="Roles"><i class="bi bi-save2"></i>
+                    <button type="submit"  id="rolesButton" class="btn header-button" asp-page-handler="Roles" onclick="updateUserRoles()">
+                        
+                        <span class="spinner-border spinner-border-sm" aria-hidden="true" id="rolesButtonSpinner"
+                            style="margin-right: 10px; display: none;"></span>
+
+                        <i class="bi bi-save2"></i>
                         Update app roles and security groups</button>
                 </div>
             </form>
@@ -162,9 +175,9 @@
             </p>
 
             <p>
-                <b>Created</b>: @Model.CreatedDateTime <br>
-                <b>Last sign-in</b>: @Model.LastSignInDateTime <br>
-                <b>Last sign-in request ID</b>: @Model.LastSignInRequestId
+                <b>Created</b>: <span id="inputCreatedDateTime"></span> <br>
+                <b>Last sign-in</b>: <span id="inputLastSignInDateTime"></span><br>
+                <b>Last sign-in request ID</b>:<span id="inputLastSignInRequestId"></span>
             </p>
         </div>
         <h2 class="profile-header">Password change date and time</h2>
@@ -175,18 +188,26 @@
                 timestamp represents date and time information is in UTC time.
             </p>
             <p>
-                <b>Last time</b>: @Model.LastPasswordChangeDateTime <br>
+                <b>Last time</b>: <span id="inputLastPasswordChangeDateTime"></span><br>
             </p>
         </div>
 
         <h2 class="profile-header">Multi factor authentication</h2>
-        <div class="profile-content">
+
+        <div id="mfaSpinner" class="text-left profile-content">
+            <br>Loading... <br>
+            <div class="spinner-border m-5 text-warning" style="width: 3rem; height: 3rem;" role="status">
+
+            </div>
+        </div>
+
+        <div class="text-left profile-content" id="mfaSection" style="display: none;">
             <p>
                 Your multi-factor authentication methods:
             </p>
             <p>
-                <b>Phone</b>: @Model.PhoneNumber <br>
-                <b>Email</b>: @Model.EmailMfa <br>
+                <b>Phone</b>: <span id="inputEmailMfa"></span><br>
+                <b>Email</b>: <span id="inputPhoneNumber"></span><br>
             </p>
         </div>
     }
@@ -204,13 +225,13 @@
         <p>
             The identities attribute represents a set of identities you can sign in to your account:
         </p>
-        <ul>
-            @Html.Raw(Model.Identities)
+        <ul id="inputIdentities">
+
         </ul>
 
 
         <h4 style="color: green; padding-bottom: 5px; padding-top: 10px;">User object ID</h4>
-        The globally <b>unique identifier</b> of your account: @Model.ObjectId
+        The globally <b>unique identifier</b> of your account: <span id="inputObjectID"></span>
     </div>
 </div>
 
@@ -235,12 +256,36 @@
     </div>
 </div>
 
+
+<!-- Modal -->
+<div class="modal fade" id="signInAlert" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="signInAlertLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="signInAlertLabel">Profile update</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Your account has been successfully updated. To reflect the changes, <a class=""
+            href="/SignIn?handler=ProfileSignin">sign-in</a> again.
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="window.location.href='SignIn?handler=ProfileSignin'" class="btn btn-success">Sign-in</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Dismiss</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <script>
-        var staticBackdrop;
+        var staticBackdrop, signInAlert;
+
         $(document).ready(function () {
 
             staticBackdrop = new bootstrap.Modal(document.getElementById('staticBackdrop'), { keyboard: false });
+            signInAlert = new bootstrap.Modal(document.getElementById('signInAlert'), { keyboard: false });
 
             // Handle account enable checkbox change
             $('#inputAccountEnabled').change(function () {
@@ -251,6 +296,11 @@
                     staticBackdrop.show();
                 }
             });
+
+            // Get user profile
+            getUserAttributes();
+            getUserRoles();
+            getUserMoreInfo();
         });
 
         function enableAccount() {
@@ -261,5 +311,152 @@
             staticBackdrop.hide();
         }
 
+        function getUserAttributes() {
+            $.ajax({
+                url: "/userattributes",
+                success: function (result) {
+                    console.log("/UserAttributes")
+                    console.log(result);
+
+                    if (!result.errorMessage) {
+                        $("#inputCity").val(result.city);
+                        $("#inputCountry").val(result.country);
+                        $("#inputDisplayName").val(result.displayName);
+                        $("#inputGivenName").val(result.givenName);
+                        $("#inputSpecialDiet").val(result.specialDiet);
+                        $("#inputSurname").val(result.surname);
+                        $('#inputAccountEnabled').prop('checked', result.accountEnabled);
+
+                        // Read only attributes
+                        $("#inputObjectID").text(result.objectId);
+                        $("#inputLastPasswordChangeDateTime").text(result.lastPasswordChangeDateTime);
+                        $("#inputCreatedDateTime").text(result.createdDateTime);
+
+                        // Show the editProfileSection
+                        $("#editProfileSection").show();
+                        $("#editProfileSpinner").hide();
+
+                    }
+                    else {
+                        $("#errorMessage").text(result.errorMessage);
+                        $("#errorMessage").show();
+                    }
+
+                },
+                // The function to execute when the request fails
+                error: function (xhr, status, error) {
+                    console.log("/UserAttributes")
+                    console.log("Error: " + error);
+                }
+            });
+        }
+
+        function updateUserAttributes() {
+
+            $("#editProfileButtonSpinner").show();
+            $("#editProfileButton").prop("disabled", true);
+
+            var payload = {
+                city: $("#inputCity").val(),
+                country: $("#inputCountry").val(),
+                displayName: $("#inputDisplayName").val(),
+                givenName: $("#inputGivenName").val(),
+                specialDiet: $("#inputSpecialDiet").val(),
+                surname: $("#inputSurname").val(),
+                accountEnabled: $('#inputAccountEnabled').prop('checked')
+            }
+
+            $.post("/userattributes", payload, function (result) {
+
+                $("#editProfileButtonSpinner").hide();
+                $("#editProfileButton").prop("disabled", false);
+
+                signInAlert.show()
+            });
+        }
+
+        function getUserRoles() {
+            $.ajax({
+                url: "/userroles",
+                success: function (result) {
+                    console.log("/UserRoles")
+                    console.log(result);
+
+                    if (!result.errorMessage) {
+
+                        $('#inputMemberOfCommercialAccounts').prop('checked', result.memberOfCommercialAccounts);
+                        $('#inputHasProductsContributorRole').prop('checked', result.hasProductsContributorRole);
+                        $('#inputHasOrdersManagerRole').prop('checked', result.hasOrdersManagerRole);
+
+                        // Show the editProfileSection
+                        $("#rolesSection").show();
+                        $("#rolesSpinner").hide();
+                    }
+                    else {
+                        $("#errorMessage").text(result.errorMessage);
+                        $("#errorMessage").show();
+                    }
+
+                },
+                // The function to execute when the request fails
+                error: function (xhr, status, error) {
+                    console.log("/UserRoles")
+                    console.log("Error: " + error);
+                }
+            });
+        }
+
+        function updateUserRoles() {
+
+            $("#rolesButtonSpinner").show();
+            $("#rolesButton").prop("disabled", true);
+
+            var payload = {
+                memberOfCommercialAccounts: $('#inputMemberOfCommercialAccounts').prop('checked'),
+                hasProductsContributorRole: $('#inputHasProductsContributorRole').prop('checked'),
+                hasOrdersManagerRole: $('#inputHasOrdersManagerRole').prop('checked')
+            }
+
+            $.post("/userroles", payload, function (result) {
+
+                $("#rolesButtonSpinner").hide();
+                $("#rolesButton").prop("disabled", false);
+
+                signInAlert.show()
+            });
+        }
+
+        function getUserMoreInfo() {
+            $.ajax({
+                url: "/usermoreinfo",
+                success: function (result) {
+                    console.log("/UserMoreInfo")
+                    console.log(result);
+
+                    if (!result.errorMessage) {
+
+                        $("#inputIdentities").html(result.identities);
+                        $("#inputEmailMfa").text(result.emailMfa);
+                        $("#inputPhoneNumber").text(result.phoneNumber);
+                        $("#inputLastSignInDateTime").text(result.lastSignInDateTime);
+                        $("#inputLastSignInRequestId").text(result.lastSignInRequestId);
+
+                        // Show the editProfileSection
+                        $("#mfaSection").show();
+                        $("#mfaSpinner").hide();
+                    }
+                    else {
+                        $("#errorMessage").text(result.errorMessage);
+                        $("#errorMessage").show();
+                    }
+
+                },
+                // The function to execute when the request fails
+                error: function (xhr, status, error) {
+                    console.log("/UserMoreInfo")
+                    console.log("Error: " + error);
+                }
+            });
+        } 
     </script>
 }
