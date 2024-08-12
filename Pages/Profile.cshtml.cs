@@ -19,18 +19,20 @@ namespace MyApp.Namespace
     public class ProfileModel : PageModel
     {
         // Dependency injection
-        private readonly IConfiguration Configuration;
         private TelemetryClient _telemetry;
 
-        public ProfileModel(IConfiguration configuration, TelemetryClient telemetry, IAuthorizationHeaderProvider authorizationHeaderProvider)
+        // Local members
+        public bool StepUpFulfilled { get; set; } = false;
+        
+        public ProfileModel(TelemetryClient telemetry)
         {
-            Configuration = configuration;
             _telemetry = telemetry;
         }
 
-        public async Task<IActionResult> OnGetAsync()
+        public IActionResult OnGet()
         {
             _telemetry.TrackPageView("Profile:Read");
+            StepUpFulfilled = User.Claims.Any(c => c.Type == "acrs" && c.Value == "c1");
 
             return Page();
         }

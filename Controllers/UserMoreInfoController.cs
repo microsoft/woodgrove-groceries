@@ -94,40 +94,41 @@ public class UserMoreInfoController : ControllerBase
             //TrackException(ex, "GetRolesAndGroupsAsync");
         }
 
-
-        try
-        {
-            var result = await graphClient.Users[userObjectId].Authentication.Methods.GetAsync();
-
-            foreach (var method in result.Value)
+        bool StepUpFulfilled = User.Claims.Any(c => c.Type == "acrs" && c.Value == "c1");
+        if (StepUpFulfilled)
+            try
             {
-                if (method.OdataType == "#microsoft.graph.phoneAuthenticationMethod")
+                var result = await graphClient.Users[userObjectId].Authentication.Methods.GetAsync();
+
+                foreach (var method in result.Value)
                 {
-                    userMoreInfo.PhoneNumber = ((PhoneAuthenticationMethod)method).PhoneNumber;
+                    if (method.OdataType == "#microsoft.graph.phoneAuthenticationMethod")
+                    {
+                        userMoreInfo.PhoneNumber = ((PhoneAuthenticationMethod)method).PhoneNumber;
+                    }
+                    else if (method.OdataType == "#microsoft.graph.emailAuthenticationMethod")
+                    {
+                        userMoreInfo.EmailMfa = ((EmailAuthenticationMethod)method).EmailAddress;
+                    }
                 }
-                else if (method.OdataType == "#microsoft.graph.emailAuthenticationMethod")
-                {
-                    userMoreInfo.EmailMfa = ((EmailAuthenticationMethod)method).EmailAddress;
-                }
+
+                if (string.IsNullOrEmpty(userMoreInfo.PhoneNumber))
+                    userMoreInfo.PhoneNumber = "Not found";
+
+                if (string.IsNullOrEmpty(userMoreInfo.EmailMfa))
+                    userMoreInfo.EmailMfa = "Not found";
             }
-
-            if (string.IsNullOrEmpty(userMoreInfo.PhoneNumber))
-                userMoreInfo.PhoneNumber = "Not found";
-
-            if (string.IsNullOrEmpty(userMoreInfo.EmailMfa))
-                userMoreInfo.EmailMfa = "Not found";
-        }
-        catch (ODataError odataError)
-        {
-            userMoreInfo.ErrorMessage = $"Can't read the authentication methods due to the following error: {odataError.Error!.Message} Error code: {odataError.Error.Code}";
-            //TrackException(odataError, "GetAuthenticationMethodsAsync");
-        }
-        catch (Exception ex)
-        {
-            string error = ex.InnerException == null ? ex.Message : ex.InnerException.Message;
-            userMoreInfo.ErrorMessage = $"Can't read the authentication methods due to the following error: {error}";
-            //TrackException(ex, "GetAuthenticationMethodsAsync");
-        }
+            catch (ODataError odataError)
+            {
+                userMoreInfo.ErrorMessage = $"Can't read the authentication methods due to the following error: {odataError.Error!.Message} Error code: {odataError.Error.Code}";
+                //TrackException(odataError, "GetAuthenticationMethodsAsync");
+            }
+            catch (Exception ex)
+            {
+                string error = ex.InnerException == null ? ex.Message : ex.InnerException.Message;
+                userMoreInfo.ErrorMessage = $"Can't read the authentication methods due to the following error: {error}";
+                //TrackException(ex, "GetAuthenticationMethodsAsync");
+            }
 
         return Ok(userMoreInfo);
     }

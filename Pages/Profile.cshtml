@@ -150,8 +150,9 @@
                     </div>
                 </div>
                 <div class="form-group" style="padding-top: 15px;">
-                    <button type="submit"  id="rolesButton" class="btn header-button" asp-page-handler="Roles" onclick="updateUserRoles()">
-                        
+                    <button type="button" id="rolesButton" class="btn header-button" asp-page-handler="Roles"
+                        onclick="updateUserRoles()">
+
                         <span class="spinner-border spinner-border-sm" aria-hidden="true" id="rolesButtonSpinner"
                             style="margin-right: 10px; display: none;"></span>
 
@@ -192,24 +193,29 @@
             </p>
         </div>
 
-        <h2 class="profile-header">Multi factor authentication</h2>
+        @if (Model.StepUpFulfilled)
+        {
+            <div>
+                <h2 class="profile-header">Multi factor authentication</h2>
 
-        <div id="mfaSpinner" class="text-left profile-content">
-            <br>Loading... <br>
-            <div class="spinner-border m-5 text-warning" style="width: 3rem; height: 3rem;" role="status">
+                <div id="mfaSpinner" class="text-left profile-content">
+                    <br>Loading... <br>
+                    <div class="spinner-border m-5 text-warning" style="width: 3rem; height: 3rem;" role="status">
 
+                    </div>
+                </div>
+
+                <div class="text-left profile-content" id="mfaSection" style="display: none;">
+                    <p>
+                        Your multi-factor authentication methods:
+                    </p>
+                    <p>
+                        <b>Phone</b>: <span id="inputEmailMfa"></span><br>
+                        <b>Email</b>: <span id="inputPhoneNumber"></span><br>
+                    </p>
+                </div>
             </div>
-        </div>
-
-        <div class="text-left profile-content" id="mfaSection" style="display: none;">
-            <p>
-                Your multi-factor authentication methods:
-            </p>
-            <p>
-                <b>Phone</b>: <span id="inputEmailMfa"></span><br>
-                <b>Email</b>: <span id="inputPhoneNumber"></span><br>
-            </p>
-        </div>
+        }
     }
     else
     {
@@ -228,8 +234,6 @@
         <ul id="inputIdentities">
 
         </ul>
-
-
         <h4 style="color: green; padding-bottom: 5px; padding-top: 10px;">User object ID</h4>
         The globally <b>unique identifier</b> of your account: <span id="inputObjectID"></span>
     </div>
@@ -267,11 +271,12 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Your account has been successfully updated. To reflect the changes, <a class=""
-            href="/SignIn?handler=ProfileSignin">sign-in</a> again.
+                Your account has been successfully updated. To reflect the changes, wait a few seconds and <a class=""
+                    href="/SignIn?handler=ProfileSignin">sign-in</a> again.
             </div>
             <div class="modal-footer">
-                <button type="button" onclick="window.location.href='SignIn?handler=ProfileSignin'" class="btn btn-success">Sign-in</button>
+                <button type="button" onclick="window.location.href='SignIn?handler=ProfileSignin'"
+                    class="btn btn-success">Sign-in</button>
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Dismiss</button>
             </div>
         </div>
@@ -436,14 +441,21 @@
                     if (!result.errorMessage) {
 
                         $("#inputIdentities").html(result.identities);
-                        $("#inputEmailMfa").text(result.emailMfa);
-                        $("#inputPhoneNumber").text(result.phoneNumber);
+
+                        if ($("#inputEmailMfa").length)
+                            $("#inputEmailMfa").text(result.emailMfa);
+
+                        if ($("#inputPhoneNumber").length)
+                            $("#inputPhoneNumber").text(result.phoneNumber);
+
                         $("#inputLastSignInDateTime").text(result.lastSignInDateTime);
                         $("#inputLastSignInRequestId").text(result.lastSignInRequestId);
 
-                        // Show the editProfileSection
-                        $("#mfaSection").show();
-                        $("#mfaSpinner").hide();
+                        // Show the MFA section
+                        if ($("#mfaSection").length) {
+                            $("#mfaSection").show();
+                            $("#mfaSpinner").hide();
+                        }
                     }
                     else {
                         $("#errorMessage").text(result.errorMessage);
