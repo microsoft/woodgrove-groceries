@@ -24,6 +24,7 @@ JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApp(AzureAd, OpenIdConnectDefaults.AuthenticationScheme)
     .EnableTokenAcquisitionToCallDownstreamApi()
+    .AddDownstreamApi("GraphApiMiddleware", WoodgroveGroceriesApi)
     .AddDownstreamApi("WoodgroveGroceriesApi", WoodgroveGroceriesApi)
     .AddMicrosoftGraph(builder.Configuration.GetSection("GraphApi"))
     .AddInMemoryTokenCaches();

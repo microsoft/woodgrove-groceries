@@ -1,6 +1,7 @@
 ﻿using System.Dynamic;
 using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Text.Json;
 using Azure.Identity;
 using Microsoft.ApplicationInsights;
@@ -28,16 +29,18 @@ public class UserAttributesController : ControllerBase
     private readonly IConfiguration _configuration;
     private TelemetryClient _telemetry;
     private readonly GraphServiceClient _graphServiceClient;
+    readonly IAuthorizationHeaderProvider _authorizationHeaderProvider;
     private string ExtensionAttributes { get; set; } = "";
 
-    public UserAttributesController(IConfiguration configuration, TelemetryClient telemetry, GraphServiceClient graphServiceClient)
+    public UserAttributesController(IConfiguration configuration, TelemetryClient telemetry, GraphServiceClient graphServiceClient, IAuthorizationHeaderProvider authorizationHeaderProvider)
     {
         _configuration = configuration;
         _telemetry = telemetry;
 
         // Get the app settings
         ExtensionAttributes = _configuration.GetSection("MicrosoftGraph:ExtensionAttributes").Value!;
-        _graphServiceClient = graphServiceClient; ;
+        _graphServiceClient = graphServiceClient;
+        _authorizationHeaderProvider = authorizationHeaderProvider;
     }
 
     [HttpGet]
@@ -112,41 +115,62 @@ public class UserAttributesController : ControllerBase
 
         _telemetry.TrackPageView("Profile:Update");
 
-        // Get the user unique identifier
-        string? userObjectId = User.GetObjectId();
+        // Read app settings
+        string baseUrl = _configuration.GetSection("GraphApiMiddleware:BaseUrl").Value!;
+        string[] scopes = _configuration.GetSection("GraphApiMiddleware:Scopes").Get<string[]>();
+        string endpoint = _configuration.GetSection("GraphApiMiddleware:Endpoint").Value!;
 
-        if (userObjectId == null)
+        // Check the scopes application settings
+        if (scopes == null)
         {
-            att.ErrorMessage = "The account cannot be updated since your access token doesn't contain the required 'objectidentifier' claim.";
+            att.ErrorMessage = "The GraphApiMiddleware:Scopes application setting is misconfigured or missing. Use the array format: [\"Account.Payment\", \"Account.Purchases\"]";
+            return Ok();
+        }
+
+        // Check the base URL application settings
+        if (string.IsNullOrEmpty(baseUrl))
+        {
+            att.ErrorMessage = "The GraphApiMiddleware:BaseUrl application setting is misconfigured or missing. Check out your applications' scope base URL in Microsoft Entra admin center. For example: api://12345678-0000-0000-0000-000000000000";
+            return Ok();
+        }
+
+        // Check the endpoint application settings
+        if (string.IsNullOrEmpty(endpoint))
+        {
+            att.ErrorMessage = "The GraphApiMiddleware:Endpoint application setting is misconfigured or missing.";
+            return Ok();
+        }
+
+        // Set the scope full URL (temporary workaround should be fix)
+        for (int i = 0; i < scopes.Length; i++)
+        {
+            scopes[i] = $"{baseUrl}/{scopes[i]}";
         }
 
         try
         {
-            // Update user by object ID
-            var requestBody = new User
-            {
-                DisplayName = att.DisplayName,
-                GivenName = att.GivenName,
-                Surname = att.Surname,
-                Country = att.Country,
-                City = att.City,
-                AdditionalData = new Dictionary<string, object>
-                    {
-                        {
-                            $"{ExtensionAttributes}_SpecialDiet" , att.SpecialDiet
-                        },
-                    },
-                AccountEnabled = att.AccountEnabled
-            };
+            // Get an access token to call the "Account" API (the first API in line)
+            string accessToken = await _authorizationHeaderProvider.CreateAuthorizationHeaderForUserAsync(scopes);
 
-            var graphClient = MsalAccessTokenHandler.GetGraphClient(_configuration);
-            var result = await graphClient.Users[userObjectId].PatchAsync(requestBody);
-            //var result = await _graphServiceClient.Me.PatchAsync(requestBody);
-        }
-        catch (ODataError odataError)
-        {
-            att.ErrorMessage = $"The account cannot be updated due to the following error: {odataError.Error!.Message} Error code: {odataError.Error.Code}";
-            //TrackException(odataError, "OnPostProfileAsync");
+            // Use the access token to call the Account API.
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Add("Authorization", accessToken);
+            var formContent = new FormUrlEncodedContent(new[]
+                {
+                    new KeyValuePair<string, string>("ObjectId", att.ObjectId),
+                    new KeyValuePair<string, string>("City", att.City),
+                    new KeyValuePair<string, string>("Country", att.Country),
+                    new KeyValuePair<string, string>("DisplayName", att.DisplayName),
+                    new KeyValuePair<string, string>("GivenName", att.GivenName),
+                    new KeyValuePair<string, string>("SpecialDiet", att.SpecialDiet),
+                    new KeyValuePair<string, string>("Surname", att.Surname)
+                });
+
+
+            var httpResponseMessage = await client.PostAsync(endpoint, formContent);
+            var responseContent = await httpResponseMessage.Content.ReadAsStringAsync(); // here you can read
+
+            return Ok(responseContent);
         }
         catch (Exception ex)
         {
