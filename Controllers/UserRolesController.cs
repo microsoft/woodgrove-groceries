@@ -87,13 +87,13 @@ public class UserRolesController : ControllerBase
         catch (ODataError odataError)
         {
             userRoles.ErrorMessage = $"Can't read the profile due to the following error: {odataError.Error!.Message} Error code: {odataError.Error.Code}";
-            //TrackException(odataError, "GetRolesAndGroupsAsync");
+            AppInsights.TrackException(_telemetry, odataError, "GetRolesAndGroupsAsync");
         }
         catch (Exception ex)
         {
             string error = ex.InnerException == null ? ex.Message : ex.InnerException.Message;
             userRoles.ErrorMessage = $"Can't read the profile due to the following error: {error}";
-            //TrackException(ex, "GetRolesAndGroupsAsync");
+            AppInsights.TrackException(_telemetry, ex, "GetRolesAndGroupsAsync");
         }
 
         return Ok(userRoles);
@@ -181,13 +181,13 @@ public class UserRolesController : ControllerBase
         catch (ODataError odataError)
         {
             userRoles.ErrorMessage = $"Can't read the profile due to the following error: {odataError.Error!.Message} Error code: {odataError.Error.Code}";
-            //TrackException(odataError, "OnPostRolesAsync");
+            AppInsights.TrackException(_telemetry, odataError, "OnPostRolesAsync");
         }
         catch (Exception ex)
         {
             string error = ex.InnerException == null ? ex.Message : ex.InnerException.Message;
             userRoles.ErrorMessage = $"Can't read the profile due to the following error: {error}";
-            //TrackException(ex, "OnPostRolesAsync");
+            AppInsights.TrackException(_telemetry, ex, "OnPostRolesAsync");
         }
 
         return Ok(userRoles);

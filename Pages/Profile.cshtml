@@ -22,214 +22,215 @@
     @if (User.Identity?.IsAuthenticated == true)
     {
 
-            <div style="padding-left: 30px; margin-top: 45px; margin-bottom: 0!important; max-width: 30rem; ">
-                <div>
-                    Woodgrove Loyalty Card offers exclusive benefits, early access to new products, and personalized
-                    experiences.
-                </div><a href="/Loyalty" style="text-decoration: none; display: block; max-width: 20rem">
-                    <div class="card text-white profile-card mb-3"
-                        style="max-width: 20rem; margin-top: 10px !important;  margin-bottom: 0!important;">
-                        <div class="card-header profile-card-header h5" style="border-bottom: none;"><img
-                                src="~/woodgrove-favicon.ico" alt="Woodgrove logo">&nbsp;&nbsp;Woodgrove Loyalty Card</div>
-                        <div class="card-body">
-                            <p class="card-text profile-card-text" style="padding-left: 7px;">
-                                Name: @User.Claims.FirstOrDefault(c => c.Type.ToLower() == "name")?.Value <br>
-                                ID: @User.Claims.FirstOrDefault(c => c.Type.ToLower() == "loyaltynumber")?.Value <br>
-                                Tier: @User.Claims.FirstOrDefault(c => c.Type.ToLower() == "loyaltytier")?.Value <br>
-                                Since: @User.Claims.FirstOrDefault(c => c.Type.ToLower() == "loyaltysince")?.Value
-                            </p>
-                        </div>
+        <div style="padding-left: 30px; margin-top: 45px; margin-bottom: 0!important; max-width: 30rem; ">
+            <div>
+                Woodgrove Loyalty Card offers exclusive benefits, early access to new products, and personalized
+                experiences.
+            </div><a href="/Loyalty" style="text-decoration: none; display: block; max-width: 20rem">
+                <div class="card text-white profile-card mb-3"
+                    style="max-width: 20rem; margin-top: 10px !important;  margin-bottom: 0!important;">
+                    <div class="card-header profile-card-header h5" style="border-bottom: none;"><img
+                            src="~/woodgrove-favicon.ico" alt="Woodgrove logo">&nbsp;&nbsp;Woodgrove Loyalty Card</div>
+                    <div class="card-body">
+                        <p class="card-text profile-card-text" style="padding-left: 7px;">
+                            Name: @User.Claims.FirstOrDefault(c => c.Type.ToLower() == "name")?.Value <br>
+                            ID: @User.Claims.FirstOrDefault(c => c.Type.ToLower() == "loyaltynumber")?.Value <br>
+                            Tier: @User.Claims.FirstOrDefault(c => c.Type.ToLower() == "loyaltytier")?.Value <br>
+                            Since: @User.Claims.FirstOrDefault(c => c.Type.ToLower() == "loyaltysince")?.Value
+                        </p>
                     </div>
-                </a>
+                </div>
+            </a>
+        </div>
+
+
+        <h2 class="profile-header">Edit your profile</h2>
+
+        <div id="editProfileSpinner" class="text-left profile-content">
+
+            <br>Loading... <br>
+            <div class="spinner-border m-5 text-warning" style="width: 3rem; height: 3rem;" role="status">
+
             </div>
+        </div>
 
-
-            <h2 class="profile-header">Edit your profile</h2>
-
-            <div id="editProfileSpinner" class="text-left profile-content">
-
-                <br>Loading... <br>
-                <div class="spinner-border m-5 text-warning" style="width: 3rem; height: 3rem;" role="status">
-
-                </div>
-            </div>
-
-            <div class="text-left profile-content" id="editProfileSection" style="display: none;">
-                <div class="form-group row">
-                    <label for="inputDisplayName" class="col-sm-2 col-form-label">Display name</label>
-                    <div class="col-sm-5">
-                        <input type="text" class="form-control" id="inputDisplayName" required>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="inputGivenName" class="col-sm-2 col-form-label">Given name</label>
-                    <div class="col-sm-5">
-                        <input type="text" class="form-control" id="inputGivenName">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="inputSurname" class="col-sm-2 col-form-label">Surname</label>
-                    <div class="col-sm-5">
-                        <input type="text" class="form-control" id="inputSurname">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="inputCountry" class="col-sm-2 col-form-label">Country</label>
-                    <div class="col-sm-5">
-                        <input type="text" class="form-control" id="inputCountry">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="inputCity" class="col-sm-2 col-form-label">City</label>
-                    <div class="col-sm-5">
-                        <input type="text" class="form-control" id="inputCity">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="inputSpecialDiet" class="col-sm-2 col-form-label">Special diet</label>
-                    <div class="col-sm-5">
-                        <input type="text" class="form-control" id="inputSpecialDiet">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="inputAccountEnabled" class="col-sm-2 col-form-label">Enabled</label>
-                    <div class="col-sm-5">
-                        <input type="checkbox" class="form-check-input" id="inputAccountEnabled">
-                    </div>
-                </div>
-                <div class="form-group row" style="padding-bottom: 10px; padding-top: 10px;">
-                    <div class="col-sm-6">
-                        <button type="button" onclick="updateUserAttributes()" class="btn header-button" style="margin-right: 20px;" id="editProfileButton">
-                            <span class="spinner-border spinner-border-sm" aria-hidden="true" id="editProfileButtonSpinner"
-                                style="margin-right: 10px; display: none;"></span>
-                            <i class="bi bi-save2"></i>
-                            Save</button>&nbsp;&nbsp;
-
-
-                        <button type="button" class="btn header-button" id="editProfileMfaButton" style="margin-right: 20px;" data-bs-toggle="modal"
-                            data-bs-target="#mfaAlert">
-                            <i class="bi bi-pencil"></i> Edit your profile
-                        </button>
-
-                        <a asp-area="" asp-page="/DeleteMyAccount" role="button" class="btn header-button"><i
-                                class="bi bi-trash"></i> Delete your account</a>
-                    </div>
+        <div class="text-left profile-content" id="editProfileSection" style="display: none;">
+            <div class="form-group row">
+                <label for="inputDisplayName" class="col-sm-2 col-form-label">Display name</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" id="inputDisplayName" required>
                 </div>
             </div>
-
-            <h2 style="color: green; padding-bottom: 15px; padding-top: 55px;">Your Woodgrove app roles and security groups</h2>
-
-            <div id="rolesSpinner" class="text-left profile-content">
-
-                <br>Loading... <br>
-                <div class="spinner-border m-5 text-warning" style="width: 3rem; height: 3rem;" role="status">
-
+            <div class="form-group row">
+                <label for="inputGivenName" class="col-sm-2 col-form-label">Given name</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" id="inputGivenName">
                 </div>
             </div>
-
-            <div class="profile-content" id="rolesSection" style="display: none;">
-                You are eligible for activating the following application roles and security groups. You can request to activate
-                the roles and add yourself to the security groups when you need its privileges. For this online demo, your
-                request will be automatically approved.
-                <form method="post">
-                    <div class="form-group">
-                        <h4 style="color: green; padding-bottom: 5px;">Security groups</h4>
-                        <div class="form-check">
-                            <input type="checkbox" value="true" class="form-check-input" name="MemberOfCommercialAccounts"
-                                id="inputMemberOfCommercialAccounts" checked="">
-                            <label for="MemberOfCommercialAccounts"><b style="color: darkslategray;">Commercial Accounts</b>
-                                group. Members of this group get a special discount.</label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <h4 style="color: green; padding-bottom: 5px; padding-top: 10px;">Application roles</h4>
-                        <div class="form-check">
-                            <input type="checkbox" value="true" class="form-check-input" name="HasProductsContributorRole"
-                                checked="" id="inputHasProductsContributorRole">
-                            <label for="HasProductsContributorRole"><b style="color: darkslategray;">Products Contributor</b>
-                                application role. Grant you access to track and manage the inventory in the warehouse.</label>
-                        </div>
-                        <div class="form-check">
-                            <input type="checkbox" value="true" class="form-check-input" name="HasOrdersManagerRole"
-                                id="inputHasOrdersManagerRole" checked="">
-                            <label for="HasOrdersManagerRole"><b style="color: darkslategray;">Orders Manager</b> application
-                                role. Grant you access to manage online orders.</label>
-                        </div>
-                    </div>
-                    <div class="form-group" style="padding-top: 15px;">
-                        <button type="button" id="rolesButton" class="btn header-button" asp-page-handler="Roles"
-                            onclick="updateUserRoles()">
-
-                            <span class="spinner-border spinner-border-sm" aria-hidden="true" id="rolesButtonSpinner"
-                                style="margin-right: 10px; display: none;"></span>
-
-                            <i class="bi bi-save2"></i>
-                            Update app roles and security groups</button>
-                    </div>
-                </form>
+            <div class="form-group row">
+                <label for="inputSurname" class="col-sm-2 col-form-label">Surname</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" id="inputSurname">
+                </div>
             </div>
-            <h2 class="profile-header">Sign-in activity
-            </h2>
-            <div class="profile-content">
-                <p>
-                    Your last sign-in date and time. Woodgrove can use <a
-                        href="https://learn.microsoft.com/graph/api/resources/signinactivity?view=graph-rest-1.0"
-                        target="_blank" class="link link-secondary">this information</a> to calculate the last
-                    time you attempted (either successfully or unsuccessfully) to sign-in to the Microsoft Entra ID directory
-                    (any application in the Woodgrove tenant).
-                    This field can be used to build reports, such as inactive users. So, we can delete inactive users.<br>
-                    The created field shows the date and time when your account was created. The
-                    timestamp represents date and time information is in UTC time.
-                </p>
+            <div class="form-group row">
+                <label for="inputCountry" class="col-sm-2 col-form-label">Country</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" id="inputCountry">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputCity" class="col-sm-2 col-form-label">City</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" id="inputCity">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputSpecialDiet" class="col-sm-2 col-form-label">Special diet</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" id="inputSpecialDiet">
+                </div>
+            </div>
+            <div class="form-group row" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="col-sm-12">
+                    <button type="button" onclick="updateUserAttributes()" class="btn header-button"
+                        style="margin-right: 20px;" id="editProfileButton">
+                        <span class="spinner-border spinner-border-sm" aria-hidden="true" id="editProfileButtonSpinner"
+                            style="margin-right: 10px; display: none;"></span>
+                        <i class="bi bi-save2"></i>
+                        Save</button>&nbsp;&nbsp;
 
-                <p>
-                    <b>Created</b>: <span id="inputCreatedDateTime"></span> <br>
-                    <b>Last sign-in</b>: <span id="inputLastSignInDateTime"></span><br>
-                    <b>Last sign-in request ID</b>:<span id="inputLastSignInRequestId"></span>
-                </p>
+
+                    <button type="button" class="btn header-button" id="editProfileMfaButton" style="margin-right: 20px;"
+                        data-bs-toggle="modal" data-bs-target="#mfaAlert">
+                        <i class="bi bi-pencil"></i> Edit your profile
+                    </button>
+
+                    <a asp-area="" asp-page="/DeleteMyAccount" role="button" style="margin-right: 20px;"
+                        class="btn header-button"><i class="bi bi-trash"></i> Delete your account</a>
+
+                    <a role="button" class="btn header-button" data-bs-toggle="modal" data-bs-target="#disableAlert">
+                        <span class="spinner-border spinner-border-sm" aria-hidden="true" id="disableAccountButtonSpinner"
+                            style="margin-right: 10px; display: none;"></span>
+                        <i
+                            class="bi bi-slash-circle"></i> Disable your account</a>
+                </div>
             </div>
-            <h2 class="profile-header">Password change date and time</h2>
-            <div class="profile-content">
-                <p>
-                    The time when you last changed your password or when your account created,
-                    whichever date the latest action was performed. The
-                    timestamp represents date and time information is in UTC time.
-                </p>
-                <p>
-                    <b>Last time</b>: <span id="inputLastPasswordChangeDateTime"></span><br>
-                </p>
+        </div>
+
+        <h2 style="color: green; padding-bottom: 15px; padding-top: 55px;">Your Woodgrove app roles and security groups</h2>
+
+        <div id="rolesSpinner" class="text-left profile-content">
+
+            <br>Loading... <br>
+            <div class="spinner-border m-5 text-warning" style="width: 3rem; height: 3rem;" role="status">
+
             </div>
+        </div>
+
+        <div class="profile-content" id="rolesSection" style="display: none;">
+            You are eligible for activating the following application roles and security groups. You can request to activate
+            the roles and add yourself to the security groups when you need its privileges. For this online demo, your
+            request will be automatically approved.
+            <form method="post">
+                <div class="form-group">
+                    <h4 style="color: green; padding-bottom: 5px;">Security groups</h4>
+                    <div class="form-check">
+                        <input type="checkbox" value="true" class="form-check-input" name="MemberOfCommercialAccounts"
+                            id="inputMemberOfCommercialAccounts" checked="">
+                        <label for="MemberOfCommercialAccounts"><b style="color: darkslategray;">Commercial Accounts</b>
+                            group. Members of this group get a special discount.</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <h4 style="color: green; padding-bottom: 5px; padding-top: 10px;">Application roles</h4>
+                    <div class="form-check">
+                        <input type="checkbox" value="true" class="form-check-input" name="HasProductsContributorRole"
+                            checked="" id="inputHasProductsContributorRole">
+                        <label for="HasProductsContributorRole"><b style="color: darkslategray;">Products Contributor</b>
+                            application role. Grant you access to track and manage the inventory in the warehouse.</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" value="true" class="form-check-input" name="HasOrdersManagerRole"
+                            id="inputHasOrdersManagerRole" checked="">
+                        <label for="HasOrdersManagerRole"><b style="color: darkslategray;">Orders Manager</b> application
+                            role. Grant you access to manage online orders.</label>
+                    </div>
+                </div>
+                <div class="form-group" style="padding-top: 15px;">
+                    <button type="button" id="rolesButton" class="btn header-button" asp-page-handler="Roles"
+                        onclick="updateUserRoles()">
+
+                        <span class="spinner-border spinner-border-sm" aria-hidden="true" id="rolesButtonSpinner"
+                            style="margin-right: 10px; display: none;"></span>
+
+                        <i class="bi bi-save2"></i>
+                        Update app roles and security groups</button>
+                </div>
+            </form>
+        </div>
+        <h2 class="profile-header">Sign-in activity
+        </h2>
+        <div class="profile-content">
+            <p>
+                Your last sign-in date and time. Woodgrove can use <a
+                    href="https://learn.microsoft.com/graph/api/resources/signinactivity?view=graph-rest-1.0"
+                    target="_blank" class="link link-secondary">this information</a> to calculate the last
+                time you attempted (either successfully or unsuccessfully) to sign-in to the Microsoft Entra ID directory
+                (any application in the Woodgrove tenant).
+                This field can be used to build reports, such as inactive users. So, we can delete inactive users.<br>
+                The created field shows the date and time when your account was created. The
+                timestamp represents date and time information is in UTC time.
+            </p>
+
+            <p>
+                <b>Created</b>: <span id="inputCreatedDateTime"></span> <br>
+                <b>Last sign-in</b>: <span id="inputLastSignInDateTime"></span><br>
+                <b>Last sign-in request ID</b>:<span id="inputLastSignInRequestId"></span>
+            </p>
+        </div>
+        <h2 class="profile-header">Password change date and time</h2>
+        <div class="profile-content">
+            <p>
+                The time when you last changed your password or when your account created,
+                whichever date the latest action was performed. The
+                timestamp represents date and time information is in UTC time.
+            </p>
+            <p>
+                <b>Last time</b>: <span id="inputLastPasswordChangeDateTime"></span><br>
+            </p>
+        </div>
 
         @if (Model.StepUpFulfilled)
         {
-                    <div id="MfaFulfilled" style="display: none;"></div>
-                    <div>
-                        <h2 class="profile-header">Multi factor authentication</h2>
+            <div id="MfaFulfilled" style="display: none;"></div>
+            <div>
+                <h2 class="profile-header">Multi factor authentication</h2>
 
-                        <div id="mfaSpinner" class="text-left profile-content">
-                            <br>Loading... <br>
-                            <div class="spinner-border m-5 text-warning" style="width: 3rem; height: 3rem;" role="status">
+                <div id="mfaSpinner" class="text-left profile-content">
+                    <br>Loading... <br>
+                    <div class="spinner-border m-5 text-warning" style="width: 3rem; height: 3rem;" role="status">
 
-                            </div>
-                        </div>
-
-                        <div class="text-left profile-content" id="mfaSection" style="display: none;">
-                            <p>
-                                Your multi-factor authentication methods:
-                            </p>
-                            <p>
-                                <b>Phone</b>: <span id="inputEmailMfa"></span><br>
-                                <b>Email</b>: <span id="inputPhoneNumber"></span><br>
-                            </p>
-                        </div>
                     </div>
+                </div>
+
+                <div class="text-left profile-content" id="mfaSection" style="display: none;">
+                    <p>
+                        Your multi-factor authentication methods:
+                    </p>
+                    <p>
+                        <b>Phone</b>: <span id="inputEmailMfa"></span><br>
+                        <b>Email</b>: <span id="inputPhoneNumber"></span><br>
+                    </p>
+                </div>
+            </div>
         }
     }
     else
     {
-            <div class="alert alert-secondary" role="alert" style="padding-bottom: 25px; padding-top: 25px;">
-                <i class="bi bi-info-circle"></i>&nbsp; To edit your profile, please sign-in!
-            </div>
+        <div class="alert alert-secondary" role="alert" style="padding-bottom: 25px; padding-top: 25px;">
+            <i class="bi bi-info-circle"></i>&nbsp; To edit your profile, please sign-in!
+        </div>
     }
 
     <h2 class="profile-header">Your account
@@ -247,13 +248,13 @@
     </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<!-- disableAlert Modal -->
+<div class="modal fade" id="disableAlert" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="disableAlertLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Disable your account</h5>
+                <h5 class="modal-title" id="disableAlertLabel">Disable your account</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -261,15 +262,15 @@
                 anymore.
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onclick="enableAccount()">No</button>
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Yes</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                <button type="button" class="btn btn-danger" onclick="disableAccount()">Yes</button>
             </div>
         </div>
     </div>
 </div>
 
 
-<!-- Modal -->
+<!-- signInAlert Modal -->
 <div class="modal fade" id="signInAlert" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="signInAlertLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -291,7 +292,7 @@
     </div>
 </div>
 
-<!-- Modal -->
+<!-- mfaAlert Modal -->
 <div class="modal fade" id="mfaAlert" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="mfaAlertLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -314,215 +315,226 @@
 </div>
 
 @section Scripts {
-        <script>
-            var staticBackdrop, signInAlert, mfaFulfilled;
+    <script>
+        var disableAlert, signInAlert, mfaFulfilled;
 
-            $(document).ready(function () {
+        $(document).ready(function () {
 
-                staticBackdrop = new bootstrap.Modal(document.getElementById('staticBackdrop'), { keyboard: false });
-                signInAlert = new bootstrap.Modal(document.getElementById('signInAlert'), { keyboard: false });
-                mfaAlert = new bootstrap.Modal(document.getElementById('mfaAlert'), { keyboard: false });
+            disableAlert = new bootstrap.Modal(document.getElementById('disableAlert'), { keyboard: false });
+            signInAlert = new bootstrap.Modal(document.getElementById('signInAlert'), { keyboard: false });
+            mfaAlert = new bootstrap.Modal(document.getElementById('mfaAlert'), { keyboard: false });
 
-                // Handle account enable checkbox change
-                $('#inputAccountEnabled').change(function () {
-                    var isChecked = $(this).is(':checked');
-                    if (!isChecked) {
+            // Get user profile
+            getUserAttributes();
+            getUserRoles();
+            getUserMoreInfo();
 
-                        // Show the modal dialog
-                        staticBackdrop.show();
-                    }
-                });
+            // Check if MFA requirement has been fullfilled
+            mfaFulfilled = ($("#MfaFulfilled").length == 1)
+            console.log(mfaFulfilled)
 
-                // Get user profile
-                getUserAttributes();
-                getUserRoles();
-                getUserMoreInfo();
+            // Enable or disable the profile attributes
+            $("#inputCity").prop("disabled", !mfaFulfilled)
+            $("#inputCountry").prop("disabled", !mfaFulfilled)
+            $("#inputDisplayName").prop("disabled", !mfaFulfilled)
+            $("#inputGivenName").prop("disabled", !mfaFulfilled)
+            $("#inputSpecialDiet").prop("disabled", true)
+            $("#inputSurname").prop("disabled", !mfaFulfilled)
 
-                // Check if MFA requirement has been fullfilled
-                mfaFulfilled = ($("#MfaFulfilled").length == 1)
-                console.log(mfaFulfilled)
-
-                // Enable or disable the profile attributes
-                $("#inputCity").prop("disabled", !mfaFulfilled)
-                $("#inputCountry").prop("disabled", !mfaFulfilled)
-                $("#inputDisplayName").prop("disabled", !mfaFulfilled)
-                $("#inputGivenName").prop("disabled", !mfaFulfilled)
-                $("#inputSpecialDiet").prop("disabled", true)
-                $("#inputSurname").prop("disabled", !mfaFulfilled)
-
-                // Show or hide the edit profile buttonss
-                if (mfaFulfilled) {
-                    $("#editProfileButton").show();
-                    $("#editProfileMfaButton").hide();
-                }
-                else {
-                    $("#editProfileButton").hide();
-                    $("#editProfileMfaButton").show();
-                }
-
-            });
-
-            function enableAccount() {
-
-                $('#inputAccountEnabled').prop('checked', true);
-
-                // Hide the modal dialog
-                staticBackdrop.hide();
+            // Show or hide the edit profile buttonss
+            if (mfaFulfilled) {
+                $("#editProfileButton").show();
+                $("#editProfileMfaButton").hide();
+            }
+            else {
+                $("#editProfileButton").hide();
+                $("#editProfileMfaButton").show();
             }
 
-            function getUserAttributes() {
-                $.ajax({
-                    url: "/userattributes",
-                    success: function (result) {
+        });
 
-                        if (!result.errorMessage) {
-                            $("#inputCity").val(result.city);
-                            $("#inputCountry").val(result.country);
-                            $("#inputDisplayName").val(result.displayName);
-                            $("#inputGivenName").val(result.givenName);
-                            $("#inputSpecialDiet").val(result.specialDiet);
-                            $("#inputSurname").val(result.surname);
-                            $('#inputAccountEnabled').prop('checked', result.accountEnabled);
+        function disableAccount() {
 
-                            // Read only attributes
-                            $("#inputObjectID").text(result.objectId);
-                            $("#inputLastPasswordChangeDateTime").text(result.lastPasswordChangeDateTime);
-                            $("#inputCreatedDateTime").text(result.createdDateTime);
+            $("#disableAccountButtonSpinner").show();
+            $.ajax({
+                url: "/DisableAccount",
+                success: function (result) {
 
-                            // Show the editProfileSection
-                            $("#editProfileSection").show();
-                            $("#editProfileSpinner").hide();
-
-                        }
-                        else {
-                            $("#errorMessage").text(result.errorMessage);
-                            $("#errorMessage").show();
-                        }
-
-                    },
-                    // The function to execute when the request fails
-                    error: function (xhr, status, error) {
-                        console.log("/UserAttributes")
-                        console.log("Error: " + error);
+                    if (!result.errorMessage) {
+                        signInAlert.show();
                     }
-                });
-            }
-
-            function updateUserAttributes() {
-
-                $("#editProfileButtonSpinner").show();
-                $("#errorMessage").hide();
-                $("#editProfileButton").prop("disabled", true);
-
-                var payload = {
-                    city: $("#inputCity").val(),
-                    country: $("#inputCountry").val(),
-                    displayName: $("#inputDisplayName").val(),
-                    givenName: $("#inputGivenName").val(),
-                    specialDiet: $("#inputSpecialDiet").val(),
-                    surname: $("#inputSurname").val(),
-                    accountEnabled: $('#inputAccountEnabled').prop('checked')
-                }
-
-                $.post("/userattributes", payload, function (result) {
-
-                    $("#editProfileButtonSpinner").hide();
-                    $("#editProfileButton").prop("disabled", false);
-
-                    if (result.errorMessage) {
+                    else {
                         $("#errorMessage").text(result.errorMessage);
                         $("#errorMessage").show();
                     }
+                    $("#disableAccountButtonSpinner").hide();
+                },
+                // The function to execute when the request fails
+                error: function (xhr, status, error) {
+                    console.log("/DisableAccount")
+                    console.log("Error: " + error);
+                    $("#disableAccountButtonSpinner").hide();
+                }
+            });
+
+            // Hide the modal dialog
+            disableAlert.hide();
+            
+        }
+
+        function getUserAttributes() {
+            $.ajax({
+                url: "/userattributes",
+                success: function (result) {
+
+                    if (!result.errorMessage) {
+                        $("#inputCity").val(result.city);
+                        $("#inputCountry").val(result.country);
+                        $("#inputDisplayName").val(result.displayName);
+                        $("#inputGivenName").val(result.givenName);
+                        $("#inputSpecialDiet").val(result.specialDiet);
+                        $("#inputSurname").val(result.surname);
+                        $('#inputAccountEnabled').prop('checked', result.accountEnabled);
+
+                        // Read only attributes
+                        $("#inputObjectID").text(result.objectId);
+                        $("#inputLastPasswordChangeDateTime").text(result.lastPasswordChangeDateTime);
+                        $("#inputCreatedDateTime").text(result.createdDateTime);
+
+                        // Show the editProfileSection
+                        $("#editProfileSection").show();
+                        $("#editProfileSpinner").hide();
+
+                    }
                     else {
-                        signInAlert.show();
+                        $("#errorMessage").text(result.errorMessage);
+                        $("#errorMessage").show();
                     }
 
-                });
+                },
+                // The function to execute when the request fails
+                error: function (xhr, status, error) {
+                    console.log("/UserAttributes")
+                    console.log("Error: " + error);
+                }
+            });
+        }
+
+        function updateUserAttributes() {
+
+            $("#editProfileButtonSpinner").show();
+            $("#errorMessage").hide();
+            $("#editProfileButton").prop("disabled", true);
+
+            var payload = {
+                city: $("#inputCity").val(),
+                country: $("#inputCountry").val(),
+                displayName: $("#inputDisplayName").val(),
+                givenName: $("#inputGivenName").val(),
+                specialDiet: $("#inputSpecialDiet").val(),
+                surname: $("#inputSurname").val(),
+                accountEnabled: $('#inputAccountEnabled').prop('checked')
             }
 
-            function getUserRoles() {
-                $.ajax({
-                    url: "/userroles",
-                    success: function (result) {
+            $.post("/userattributes", payload, function (result) {
 
-                        if (!result.errorMessage) {
-                            $('#inputMemberOfCommercialAccounts').prop('checked', result.memberOfCommercialAccounts);
-                            $('#inputHasProductsContributorRole').prop('checked', result.hasProductsContributorRole);
-                            $('#inputHasOrdersManagerRole').prop('checked', result.hasOrdersManagerRole);
+                $("#editProfileButtonSpinner").hide();
+                $("#editProfileButton").prop("disabled", false);
 
-                            // Show the editProfileSection
-                            $("#rolesSection").show();
-                            $("#rolesSpinner").hide();
-                        }
-                        else {
-                            $("#errorMessage").text(result.errorMessage);
-                            $("#errorMessage").show();
-                        }
-
-                    },
-                    // The function to execute when the request fails
-                    error: function (xhr, status, error) {
-                        console.log("/UserRoles")
-                        console.log("Error: " + error);
-                    }
-                });
-            }
-
-            function updateUserRoles() {
-
-                $("#rolesButtonSpinner").show();
-                $("#rolesButton").prop("disabled", true);
-
-                var payload = {
-                    memberOfCommercialAccounts: $('#inputMemberOfCommercialAccounts').prop('checked'),
-                    hasProductsContributorRole: $('#inputHasProductsContributorRole').prop('checked'),
-                    hasOrdersManagerRole: $('#inputHasOrdersManagerRole').prop('checked')
+                if (result.errorMessage) {
+                    $("#errorMessage").text(result.errorMessage);
+                    $("#errorMessage").show();
+                }
+                else {
+                    signInAlert.show();
                 }
 
-                $.post("/userroles", payload, function (result) {
+            });
+        }
 
-                    $("#rolesButtonSpinner").hide();
-                    $("#rolesButton").prop("disabled", false);
+        function getUserRoles() {
+            $.ajax({
+                url: "/userroles",
+                success: function (result) {
 
-                    signInAlert.show()
-                });
+                    if (!result.errorMessage) {
+                        $('#inputMemberOfCommercialAccounts').prop('checked', result.memberOfCommercialAccounts);
+                        $('#inputHasProductsContributorRole').prop('checked', result.hasProductsContributorRole);
+                        $('#inputHasOrdersManagerRole').prop('checked', result.hasOrdersManagerRole);
+
+                        // Show the editProfileSection
+                        $("#rolesSection").show();
+                        $("#rolesSpinner").hide();
+                    }
+                    else {
+                        $("#errorMessage").text(result.errorMessage);
+                        $("#errorMessage").show();
+                    }
+
+                },
+                // The function to execute when the request fails
+                error: function (xhr, status, error) {
+                    console.log("/UserRoles")
+                    console.log("Error: " + error);
+                }
+            });
+        }
+
+        function updateUserRoles() {
+
+            $("#rolesButtonSpinner").show();
+            $("#rolesButton").prop("disabled", true);
+
+            var payload = {
+                memberOfCommercialAccounts: $('#inputMemberOfCommercialAccounts').prop('checked'),
+                hasProductsContributorRole: $('#inputHasProductsContributorRole').prop('checked'),
+                hasOrdersManagerRole: $('#inputHasOrdersManagerRole').prop('checked')
             }
 
-            function getUserMoreInfo() {
-                $.ajax({
-                    url: "/usermoreinfo",
-                    success: function (result) {
+            $.post("/userroles", payload, function (result) {
 
-                        if (!result.errorMessage) {
-                            $("#inputIdentities").html(result.identities);
+                $("#rolesButtonSpinner").hide();
+                $("#rolesButton").prop("disabled", false);
 
-                            if ($("#inputEmailMfa").length)
-                                $("#inputEmailMfa").text(result.emailMfa);
+                signInAlert.show()
+            });
+        }
 
-                            if ($("#inputPhoneNumber").length)
-                                $("#inputPhoneNumber").text(result.phoneNumber);
+        function getUserMoreInfo() {
+            $.ajax({
+                url: "/usermoreinfo",
+                success: function (result) {
 
-                            $("#inputLastSignInDateTime").text(result.lastSignInDateTime);
-                            $("#inputLastSignInRequestId").text(result.lastSignInRequestId);
+                    if (!result.errorMessage) {
+                        $("#inputIdentities").html(result.identities);
 
-                            // Show the MFA section
-                            if ($("#mfaSection").length) {
-                                $("#mfaSection").show();
-                                $("#mfaSpinner").hide();
-                            }
+                        if ($("#inputEmailMfa").length)
+                            $("#inputEmailMfa").text(result.emailMfa);
+
+                        if ($("#inputPhoneNumber").length)
+                            $("#inputPhoneNumber").text(result.phoneNumber);
+
+                        $("#inputLastSignInDateTime").text(result.lastSignInDateTime);
+                        $("#inputLastSignInRequestId").text(result.lastSignInRequestId);
+
+                        // Show the MFA section
+                        if ($("#mfaSection").length) {
+                            $("#mfaSection").show();
+                            $("#mfaSpinner").hide();
                         }
-                        else {
-                            $("#errorMessage").text(result.errorMessage);
-                            $("#errorMessage").show();
-                        }
-
-                    },
-                    // The function to execute when the request fails
-                    error: function (xhr, status, error) {
-                        console.log("/UserMoreInfo")
-                        console.log("Error: " + error);
                     }
-                });
-            } 
-        </script>
+                    else {
+                        $("#errorMessage").text(result.errorMessage);
+                        $("#errorMessage").show();
+                    }
+
+                },
+                // The function to execute when the request fails
+                error: function (xhr, status, error) {
+                    console.log("/UserMoreInfo")
+                    console.log("Error: " + error);
+                }
+            });
+        } 
+    </script>
 }

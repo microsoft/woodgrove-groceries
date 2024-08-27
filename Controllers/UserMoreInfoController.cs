@@ -85,13 +85,13 @@ public class UserMoreInfoController : ControllerBase
         catch (ODataError odataError)
         {
             userMoreInfo.ErrorMessage = $"Can't read the profile due to the following error: {odataError.Error!.Message} Error code: {odataError.Error.Code}";
-            //TrackException(odataError, "GetRolesAndGroupsAsync");
+            AppInsights.TrackException(_telemetry, odataError, "GetRolesAndGroupsAsync");
         }
         catch (Exception ex)
         {
             string error = ex.InnerException == null ? ex.Message : ex.InnerException.Message;
             userMoreInfo.ErrorMessage = $"Can't read the profile due to the following error: {error}";
-            //TrackException(ex, "GetRolesAndGroupsAsync");
+            AppInsights.TrackException(_telemetry, ex, "GetRolesAndGroupsAsync");
         }
 
         bool StepUpFulfilled = User.Claims.Any(c => c.Type == "acrs" && c.Value == "c1");
@@ -121,13 +121,13 @@ public class UserMoreInfoController : ControllerBase
             catch (ODataError odataError)
             {
                 userMoreInfo.ErrorMessage = $"Can't read the authentication methods due to the following error: {odataError.Error!.Message} Error code: {odataError.Error.Code}";
-                //TrackException(odataError, "GetAuthenticationMethodsAsync");
+                AppInsights.TrackException(_telemetry, odataError, "GetAuthenticationMethodsAsync");
             }
             catch (Exception ex)
             {
                 string error = ex.InnerException == null ? ex.Message : ex.InnerException.Message;
                 userMoreInfo.ErrorMessage = $"Can't read the authentication methods due to the following error: {error}";
-                //TrackException(ex, "GetAuthenticationMethodsAsync");
+                AppInsights.TrackException(_telemetry, ex, "GetAuthenticationMethodsAsync");
             }
 
         return Ok(userMoreInfo);

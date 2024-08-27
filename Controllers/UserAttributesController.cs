@@ -97,13 +97,13 @@ public class UserAttributesController : ControllerBase
         catch (ODataError odataError)
         {
             att.ErrorMessage = $"Can't read the profile due to the following error: {odataError.Error!.Message} Error code: {odataError.Error.Code}";
-            //TrackException(odataError, "ReadProfile");
+            AppInsights.TrackException(_telemetry, odataError, "ReadProfile");
         }
         catch (Exception ex)
         {
             string error = ex.InnerException == null ? ex.Message : ex.InnerException.Message;
             att.ErrorMessage = $"Can't read the profile due to the following error: {error}";
-            //TrackException(ex, "ReadProfile");
+            AppInsights.TrackException(_telemetry, ex, "ReadProfile");
         }
 
         return Ok(att);
@@ -176,7 +176,7 @@ public class UserAttributesController : ControllerBase
         {
             string error = ex.InnerException == null ? ex.Message : ex.InnerException.Message;
             att.ErrorMessage = $"The account cannot be updated due to the following error: {error}";
-            //TrackException(ex, "OnPostProfileAsync");
+           AppInsights.TrackException(_telemetry, ex, "OnPostProfileAsync");
         }
 
         return Ok(att);
