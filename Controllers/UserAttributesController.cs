@@ -149,10 +149,10 @@ public class UserAttributesController : ControllerBase
 
         try
         {
-            // Get an access token to call the "Account" API (the first API in line)
+            // Get an access token to call the Graph middleware API
             string accessToken = await _authorizationHeaderProvider.CreateAuthorizationHeaderForUserAsync(scopes);
 
-            // Use the access token to call the Account API.
+            // Use the access token to call the Graph middleware API.
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Add("Authorization", accessToken);
             var formContent = new FormUrlEncodedContent(new[]
@@ -166,9 +166,8 @@ public class UserAttributesController : ControllerBase
                     new KeyValuePair<string, string>("Surname", att.Surname)
                 });
 
-
             var httpResponseMessage = await client.PostAsync(endpoint, formContent);
-            var responseContent = await httpResponseMessage.Content.ReadAsStringAsync(); // here you can read
+            var responseContent = await httpResponseMessage.Content.ReadAsStringAsync();
 
             return Ok(responseContent);
         }
@@ -176,7 +175,7 @@ public class UserAttributesController : ControllerBase
         {
             string error = ex.InnerException == null ? ex.Message : ex.InnerException.Message;
             att.ErrorMessage = $"The account cannot be updated due to the following error: {error}";
-           AppInsights.TrackException(_telemetry, ex, "OnPostProfileAsync");
+            AppInsights.TrackException(_telemetry, ex, "OnPostProfileAsync");
         }
 
         return Ok(att);
