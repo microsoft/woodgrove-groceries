@@ -8,6 +8,11 @@ To try out the demo environment, go to [Woodgrove Groceries](https://woodgrovede
 
 For more information about this demo application, read the [overview of the Woodgrove Groceries demo](https://learn.microsoft.com/entra/external-id/customers/overview-solutions-customers) article.
 
+## Related GitHub repossitories
+
+- [Woodgrove custom authentication extension web API](https://github.com/microsoft/woodgrove-auth-api)
+- [Woodgrove Groceries web API](https://github.com/microsoft/woodgrove-groceries-api)
+- [Woodgrove Groceries middleware for Graph](https://github.com/microsoft/woodgrove-groceries-graph-middleware)
 
 ## Support
 
