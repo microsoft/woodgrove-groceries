@@ -407,7 +407,7 @@ body {
 /***** Homepage numbers *****/
 .homepage-numbers {
   box-shadow: inset 0 0 1px 1px hsla(0, 0%, 100%, .9), 0 20px 27px 0 rgba(0, 0, 0, .05) !important;
-  margin-top: -11rem !important;
+  margin-top: -12.5rem !important;
   z-index: 5 !important;
   position: relative;
   backdrop-filter: saturate(200%) blur(30px);

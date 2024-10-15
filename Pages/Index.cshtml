@@ -11,14 +11,15 @@
         <div class="jumbotron" style="margin-top: 20px;">
             <div class="container">
                 <div class="row align-items-center">
-                    <h1 style="margin-bottom: 5px; text-shadow: 1px 1px 10px rgb(3, 80, 2); w">Welcome to Woodgrove
+                    <h1 class="h2" style="margin-bottom: 5px; margin-top: -10px; text-shadow: 1px 1px 10px rgb(3, 80, 2); w">Welcome to
+                        Woodgrove
                         Groceries demo</h1>
                 </div>
-                <div class="row align-items-center">
+                <div class="row align-items-center" style="padding-top: 20px;">
 
                     <div class="col col-lg-2 avatar-container">
-                        <div id="carouselExampleAutoplaying" class="carousel slide carousel-fade" data-bs-ride="carousel">
-                            <div class="carousel-inner" style="width: 180px; padding-left: 20px">
+                        <div id="carouselExampleAutoplaying" class="carousel slide carousel-fade" data-bs-ride="carousel" style="margin-top: -30px;">
+                            <div class="carousel-inner" style="width: 150px; padding-left: 20px">
 
                                 @for (var avatar = 0; avatar < Model.listOfAvatars.Count; avatar++)
                                 {
@@ -34,43 +35,29 @@
                     </div>
 
                     <div class="col lead" style="text-align: left;">
-                        <span style="letter-spacing: 0.6px;">
+                        <span style="letter-spacing: 0.1px;">
                             <a href="https://aka.ms/ciam/docs" class="link-without-underline">Microsoft Entra External
-                                ID</a> for your customers offers solutions that let you quickly add
-                            intuitive,
-                            user-friendly sign-up and sign-up experiences for your customer apps. The <b>Woodgrove
-                                Groceries</b>
-                            demo
-                            application illustrates the sign-up and sign-in authentication experiences for common retail
-                            scenarios.</span> <span style="font-weight: 600;">Wherever you are, shop online with us!</span>
+                                ID</a> offers solutions that let you quickly add
+                            intuitive, user-friendly sign-up and sign-up experiences for your external apps.
+                            <b>Woodgrove
+                                Groceries</b> live demo illustrates several authentication experiences for common retail
+                            scenarios.</span>
+                        <div style="text-align: left; padding-top: 15px;">
+                            <i class="bi bi-youtube fs-3" style="vertical-align: -.23em"></i> <a style="color: white;"
+                                class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                                href="https://learn.microsoft.com/en-us/entra/external-id/customers/reference-training-videos#visit-our-video-library">Visit
+                                our video library</a>
+                        </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
     <!-- Welcome message end-->
-
-    <!--Waves Container-->
-    <div>
-        <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-            viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
-            <defs>
-                <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
-            </defs>
-            <g class="parallax">
-                <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7" />
-                <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
-                <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
-                <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
-            </g>
-        </svg>
-    </div>
-    <!--Waves end-->
 }
 
 <!-- Numbers -->
-<div class="col-lg-9 z-index-2 border-radius-xl mt-n10 mx-auto py-1 blur shadow-blur homepage-numbers"
+<div id="numbers" class="col-lg-9 z-index-2 border-radius-xl mt-n10 mx-auto py-1 blur shadow-blur homepage-numbers"
     style="width: 100%;">
     <div class="row">
         <div class="col-md-4 position-relative">
@@ -107,10 +94,11 @@
 
 
 @if (!string.IsNullOrEmpty(Model.Alert))
-{ 
-    <!-- System alert -->  
+{
+    <!-- System alert -->
     <div class="alert alert-danger alert-dismissible fade show py-3 fs-6" style="margin-top: 25px;" role="alert">
-        <h4 class="alert-heading  fs-5"><i class="bi bi-exclamation-diamond-fill" style="padding-right: 10px;"></i>System message</h4>
+        <h4 class="alert-heading  fs-5"><i class="bi bi-exclamation-diamond-fill" style="padding-right: 10px;"></i>System
+            message</h4>
         <p>@Model.Alert</p>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
@@ -141,7 +129,9 @@
                 <img class="card-img-top" src="~/images/Products/grapes.jpg" alt="Grapes">
                 @if (Model.IsCommercialAccount)
                 {
-                    <a style="text-decoration: none" href="/Commercial"><div class="card-discount">20%</div></a>
+                    <a style="text-decoration: none" href="/Commercial">
+                        <div class="card-discount">20%</div>
+                    </a>
                 }
 
                 <h5 class="card-title">Dark purple seedless grapes 1.5 kg</h5>
@@ -195,7 +185,9 @@
                 <img class="card-img-top" src="~/images/Products/bread.jpg" alt="Breads">
                 @if (Model.IsCommercialAccount)
                 {
-                    <a style="text-decoration: none" href="/Commercial"><div class="card-discount">15%</div></a>
+                    <a style="text-decoration: none" href="/Commercial">
+                        <div class="card-discount">15%</div>
+                    </a>
                 }
 
                 <h5 class="card-title">French soft cream bread 12pcs 400 g</h5>
@@ -227,7 +219,9 @@
                 <img class="card-img-top" src="~/images/Products/eggs.jpg" alt="Eggs">
                 @if (Model.IsCommercialAccount)
                 {
-                    <a style="text-decoration: none" href="/Commercial"><div class="card-discount">25%</div></a>
+                    <a style="text-decoration: none" href="/Commercial">
+                        <div class="card-discount">25%</div>
+                    </a>
                 }
 
                 @if (Model.HasEggsAllergy)
@@ -347,6 +341,25 @@
     </div>
 </div>
 
+@section Waves {
+    <!--Waves Container-->
+    <div id="waves">
+        <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+            viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+            <defs>
+                <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+            </defs>
+            <g class="parallax">
+                <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7" />
+                <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
+                <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
+                <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
+            </g>
+        </svg>
+    </div>
+    <!--Waves end-->
+}
+
 @section Scripts {
 
     <script>
@@ -397,49 +410,46 @@
             thanksModal.hide();
         }
 
+
+        // Calculate how long each ‘frame’ should last if we want to update the animation 60 times per second
+        const frameDuration = 15;
+        // Use that to calculate how many frames we need to complete the animation
+        const totalFrames = 120;
+        // An ease-out function that slows the count as it progresses
+        const easeOutQuad = t => t * (2 - t);
+
+        // The animation function, which takes an Element
+        const animateCountUp = el => {
+            let frame = 0;
+            const countTo = parseInt(el.innerHTML, 10);
+            // Start the animation running 60 times per second
+            const counter = setInterval(() => {
+                frame++;
+                // Calculate our progress as a value between 0 and 1
+                // Pass that value to our easing function to get our
+                // progress on a curve
+                const progress = easeOutQuad(frame / totalFrames);
+                // Use the progress value to calculate the current count
+                const currentCount = Math.round(countTo * progress);
+
+                // If the current count has changed, update the element
+                if (parseInt(el.innerHTML, 10) !== currentCount) {
+                    el.innerHTML = currentCount;
+                }
+
+                // If we’ve reached our last frame, stop the animation
+                if (frame === totalFrames) {
+                    clearInterval(counter);
+                }
+            }, frameDuration);
+        };
+
+        // Run the animation on all elements with a class of ‘countup’
+        const runAnimations = () => {
+            const countupEls = document.querySelectorAll('.countup');
+            countupEls.forEach(animateCountUp);
+        };
+
+        runAnimations();
     </script>
 }
-
-<script>
-
-    // Calculate how long each ‘frame’ should last if we want to update the animation 60 times per second
-    const frameDuration = 15;
-    // Use that to calculate how many frames we need to complete the animation
-    const totalFrames = 120;
-    // An ease-out function that slows the count as it progresses
-    const easeOutQuad = t => t * (2 - t);
-
-    // The animation function, which takes an Element
-    const animateCountUp = el => {
-        let frame = 0;
-        const countTo = parseInt(el.innerHTML, 10);
-        // Start the animation running 60 times per second
-        const counter = setInterval(() => {
-            frame++;
-            // Calculate our progress as a value between 0 and 1
-            // Pass that value to our easing function to get our
-            // progress on a curve
-            const progress = easeOutQuad(frame / totalFrames);
-            // Use the progress value to calculate the current count
-            const currentCount = Math.round(countTo * progress);
-
-            // If the current count has changed, update the element
-            if (parseInt(el.innerHTML, 10) !== currentCount) {
-                el.innerHTML = currentCount;
-            }
-
-            // If we’ve reached our last frame, stop the animation
-            if (frame === totalFrames) {
-                clearInterval(counter);
-            }
-        }, frameDuration);
-    };
-
-    // Run the animation on all elements with a class of ‘countup’
-    const runAnimations = () => {
-        const countupEls = document.querySelectorAll('.countup');
-        countupEls.forEach(animateCountUp);
-    };
-
-    runAnimations();
-</script>
