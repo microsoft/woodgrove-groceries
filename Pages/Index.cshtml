@@ -11,14 +11,16 @@
         <div class="jumbotron" style="margin-top: 20px;">
             <div class="container">
                 <div class="row align-items-center">
-                    <h1 class="h2" style="margin-bottom: 5px; margin-top: -10px; text-shadow: 1px 1px 10px rgb(3, 80, 2); w">Welcome to
+                    <h1 class="h2"
+                        style="margin-bottom: 5px; margin-top: -10px; text-shadow: 1px 1px 10px rgb(3, 80, 2); w">Welcome to
                         Woodgrove
                         Groceries demo</h1>
                 </div>
                 <div class="row align-items-center" style="padding-top: 20px;">
 
                     <div class="col col-lg-2 avatar-container">
-                        <div id="carouselExampleAutoplaying" class="carousel slide carousel-fade" data-bs-ride="carousel" style="margin-top: -30px;">
+                        <div id="carouselExampleAutoplaying" class="carousel slide carousel-fade" data-bs-ride="carousel"
+                            style="margin-top: -30px;">
                             <div class="carousel-inner" style="width: 150px; padding-left: 20px">
 
                                 @for (var avatar = 0; avatar < Model.listOfAvatars.Count; avatar++)
@@ -118,7 +120,8 @@
                     onclick="return checkout();">Checkout</a></div>
         </div>
     </div>
-    <hr class="mb-5">
+    @* <hr class="mb-5"> *@
+    <div style="margin-bottom: 7px;">&nbsp;</div>
 </div>
 
 <!--First line of products-->
@@ -134,51 +137,42 @@
                     </a>
                 }
 
-                <h5 class="card-title">Dark purple seedless grapes 1.5 kg</h5>
-                <p class="card-text">
-                <p class="card-price">$11.25</p>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-half"></i>
-                <i class="bi bi-star"></i>
-                <i class="bi bi-star"></i>
-                </p>
+                <div class="card-title">Dark purple grapes 1.5 kg</div>
 
-                @if (User.Identity?.IsAuthenticated == true)
-                {
-                    <div class="reveal-details">
-                        <a href="#" class="btn card-button" onclick="return addItem(11.25)"><i class="bi bi-cart-plus"></i>
-                            Add to cart</a>
+                <div class="row card-buttons">
+                    <div class="col card-price">
+                        $11.25
                     </div>
-                }
-
+                    <div class="col text-end">
+                        <a href="#"
+                            class='btn btn-sm card-button @(User.Identity?.IsAuthenticated == true ? "" : "disabled")'
+                            onclick="return addItem(11.25)"><i class="bi bi-cart-plus"></i> Add</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
     <div class="col-sm">
         <div class="card hp_card">
             <div class="card-body">
                 <img class="card-img-top" src="~/images/Products/tomatoes.jpg" alt="Tomatoes">
-                <h5 class="card-title">Organic sweet king tomato 1 kg</h5>
-                <p class="card-text">
-                <p class="card-price">$2.75</p>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star"></i>
-                </p>
+                <div class="card-title">Organic sweet tomato 1 kg</div>
 
-                @if (User.Identity?.IsAuthenticated == true)
-                {
-                    <div class="reveal-details">
-                        <a href="#" class="btn card-button" onclick="return addItem(2.75)"><i class="bi bi-cart-plus"></i>
-                            Add to cart</a>
+                <div class="row card-buttons">
+                    <div class="col card-price">
+                        $2.75
                     </div>
-                }
+                    <div class="col text-end">
+                        <a href="#"
+                            class='btn btn-sm card-button @(User.Identity?.IsAuthenticated == true ? "" : "disabled")'
+                            onclick="return addItem(2.75)"><i class="bi bi-cart-plus"></i> Add</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
     <div class="col-sm">
         <div class="card hp_card">
             <div class="card-body">
@@ -190,24 +184,18 @@
                     </a>
                 }
 
-                <h5 class="card-title">French soft cream bread 12pcs 400 g</h5>
+                <div class="card-title">French bread 400 g</div>
 
-                <p class="card-text">
-                <p class="card-price">$13.0</p>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-half"></i>
-                </p>
-
-                @if (User.Identity?.IsAuthenticated == true)
-                {
-                    <div class="reveal-details">
-                        <a href="#" class="btn card-button" onclick="return addItem(13.0)"><i class="bi bi-cart-plus"></i>
-                            Add to cart</a>
+                <div class="row card-buttons">
+                    <div class="col card-price">
+                        $13.0
                     </div>
-                }
+                    <div class="col text-end">
+                        <a href="#"
+                            class='btn btn-sm card-button @(User.Identity?.IsAuthenticated == true ? "" : "disabled")'
+                            onclick="return addItem(13.0)"><i class="bi bi-cart-plus"></i> Add</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -231,79 +219,104 @@
                         <i class="bi bi-exclamation-triangle-fill"></i>
                     </div>
                 }
+                
+                <div class="card-title">Organic eggs 12 count</div>
 
-                <h5 class="card-title">Organic large brown eggs 12 count</h5>
-
-                <p class="card-text">
-                <p class="card-price">$34</p>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-half"></i>
-                <i class="bi bi-star"></i>
-                <i class="bi bi-star"></i>
-                <i class="bi bi-star"></i>
-                </p>
-
-                @if (User.Identity?.IsAuthenticated == true)
-                {
-                    <div class="reveal-details">
-                        <a href="#" class="btn card-button" onclick="return addItem(34)"><i class="bi bi-cart-plus"></i> Add
-                            to cart</a>
+                <div class="row card-buttons">
+                    <div class="col card-price">
+                        $34.0
                     </div>
-                }
-
+                    <div class="col text-end">
+                        <a href="#"
+                            class='btn btn-sm card-button @(User.Identity?.IsAuthenticated == true ? "" : "disabled")'
+                            onclick="return addItem(34.0)"><i class="bi bi-cart-plus"></i> Add</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
     <div class="col-sm">
         <div class="card hp_card">
             <div class="card-body">
                 <img class="card-img-top" src="~/images/Products/corn.jpg" alt="Corns">
-                <h5 class="card-title">Sweet corn 1 count</h5>
+                <div class="card-title">Sweet corn 1 count</div>
 
-                <p class="card-text">
-                <p class="card-price">$5.25</p>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star"></i>
-                <i class="bi bi-star"></i>
-                <i class="bi bi-star"></i>
-                </p>
-
-                @if (User.Identity?.IsAuthenticated == true)
-                {
-                    <div class="reveal-details">
-                        <a href="#" class="btn card-button" onclick="return addItem(5.25)"><i class="bi bi-cart-plus"></i>
-                            Add to cart</a>
+                <div class="row card-buttons">
+                    <div class="col card-price">
+                        $5.25
                     </div>
-                }
+                    <div class="col text-end">
+                        <a href="#"
+                            class='btn btn-sm card-button @(User.Identity?.IsAuthenticated == true ? "" : "disabled")'
+                            onclick="return addItem(5.25)"><i class="bi bi-cart-plus"></i> Add</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
     <div class="col-sm">
         <div class="card hp_card">
             <div class="card-body">
                 <img class="card-img-top" src="~/images/Products/watermelon.jpg" alt="Watermelons">
-                <h5 class="card-title">Black beauty watermelon 1 count</h5>
+                <div class="card-title">Watermelon 1 count</div>
 
-                <p class="card-text">
-                <p class="card-price">$12.5</p>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                </p>
-
-                @if (User.Identity?.IsAuthenticated == true)
-                {
-                    <div class="reveal-details">
-                        <a href="#" class="btn card-button" onclick="return addItem(12.5)"><i class="bi bi-cart-plus"></i>
-                            Add to cart</a>
+                <div class="row card-buttons">
+                    <div class="col card-price">
+                        $12.5
                     </div>
-                }
+                    <div class="col text-end">
+                        <a href="#"
+                            class='btn btn-sm card-button @(User.Identity?.IsAuthenticated == true ? "" : "disabled")'
+                            onclick="return addItem(12.5)"><i class="bi bi-cart-plus"></i> Add</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
+    <div class="col-sm">
+        <div class="card hp_card">
+            <div class="card-body">
+                <img class="card-img-top" src="~/images/Products/sugar.png" alt="sugar">
+                <div class="card-title">Organic sugar 2 pack</div>
+
+                <div class="row card-buttons">
+                    <div class="col card-price">
+                        $7.0
+                    </div>
+                    <div class="col text-end">
+                        <a href="#"
+                            class='btn btn-sm card-button @(User.Identity?.IsAuthenticated == true ? "" : "disabled")'
+                            onclick="return addItem(7.0)"><i class="bi bi-cart-plus"></i> Add</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-sm">
+        <div class="card hp_card">
+            <div class="card-body">
+                <img class="card-img-top" src="~/images/Products/oranges.png" alt="oranges">
+                <div class="card-title">Oranges 1 kg</div>
+
+                <div class="row card-buttons">
+                    <div class="col card-price">
+                        $4.0
+                    </div>
+                    <div class="col text-end">
+                        <a href="#"
+                            class='btn btn-sm card-button @(User.Identity?.IsAuthenticated == true ? "" : "disabled")'
+                            onclick="return addItem(4.0)"><i class="bi bi-cart-plus"></i> Add</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 

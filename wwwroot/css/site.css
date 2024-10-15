@@ -67,38 +67,35 @@ body {
 }
 
 .card-button {
-  margin-top: 10px;
-  /* background-image: linear-gradient(60deg, var(--color-dark) 0%, var(--color-light) 100%); */
-  background-color: var(--color-light) !important;
-  letter-spacing: -.025rem;
-  /* box-shadow: 0 4px 7px -1px rgba(0,0,0,.11), 0 2px 4px -1px rgba(0,0,0,.07); */
-  border-radius: 40px;
-  color: white !important;
-  padding-left: 25px !important;
-  padding-right: 25px !important;
+  border-style: none!important;
 }
 
-.card-button .bi {
+/* .card-button .bi {
   font-size: x-large;
   margin-top: -5px;
   line-height: 0;
   padding-right: 5px;
-}
+} */
 
 .card {
   border-radius: 0.55rem;
-  background-color: rgb(244, 251, 244);
+  /* background-color: rgb(244, 251, 244); */
   border-style: none !important;
-  margin-top: 45px !important;
+  margin-top: 25px !important;
   /* box-shadow: 0 0 10px 3px rgb(0 0 0 / 16%) */
 }
 
 .hp_card {
-  margin-left: 15px;
-  margin-right: 15px;
-  min-width: 330px;
-  max-width: 480px;
+  margin-left: 10px;
+  margin-right: 10px;
+  min-width: 280px;
+  max-width: 280px;
 }
+
+/* .card-img-top
+{
+  border-radius: 0.55rem;
+} */
 
 .hp_card:hover {
   transform: scale(1.01);
@@ -190,6 +187,11 @@ body {
 .card-price {
   margin: 0 !important;
   font-size: medium;
+  
+}
+
+.card-buttons{
+  margin-top: 7px;
 }
 
 .card-discount {
@@ -199,9 +201,9 @@ body {
   /* text-align: center; */
   background-color: #ffc107;
   color: black;
-  width: 60px;
-  height: 40px;
-  padding: 8px 0;
+  width: 40px;
+  height: 30px;
+  padding: 4px 0;
   vertical-align: middle;
   /* float: left; */
   position: absolute;
@@ -209,19 +211,20 @@ body {
   left: 25px;
   margin-top: 10px;
   text-align: center;
+  font-size: small;
 }
 
 .card-allergy {
   color: red;
   background-color: #F4FBF4;
-  width: 45px;
-  height: 45px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  font-size: 25pt;
+  font-size: 20pt;
   position: absolute;
   text-align: center;
   line-height: 36px;
-  right: 35px;
+  right: 25px;
   top: 25px;
 }
 
