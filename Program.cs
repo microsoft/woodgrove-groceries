@@ -133,6 +133,12 @@ async Task OnRedirectToIdentityProviderFunc(RedirectContext context)
         context.ProtocolMessage.IssuerAddress = builder.Uri.ToString();
     }
 
+    // Read the 'prompt' custom parameter
+    var prompt = context.Properties.Items.FirstOrDefault(x => x.Key == "prompt").Value;
+    if (prompt != null)
+    {
+        context.ProtocolMessage.Prompt = prompt;
+    }
 
     // Read the 'ui_locales' custom parameter
     var ui_locales = context.Properties.Items.FirstOrDefault(x => x.Key == "ui_locales").Value;

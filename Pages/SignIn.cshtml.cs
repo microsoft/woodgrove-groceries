@@ -57,6 +57,12 @@ namespace MyApp.Namespace
                 challengeResult.Properties.Items.Add("ui_locales", ui_locales);
             }
 
+            // Propmt create
+            if (ID == "SignUpLink")
+            {
+                challengeResult.Properties.Items.Add("prompt", "create");
+            }
+            
             // login_hint
             if (!string.IsNullOrEmpty(login_hint))
             {
@@ -161,6 +167,12 @@ namespace MyApp.Namespace
         {
             return this.TrackAndAuth("LoginHint", "/", true, null, null, null, id);
         }
+        
+        public IActionResult OnGetSignUpLink(string id)
+        {
+            return this.TrackAndAuth("SignUpLink", "/", true, null, null, null, id);
+        }
+
         public IActionResult OnGetTokenSignin()
         {
             return this.TrackAndAuth("TokenSignin", "/token");
