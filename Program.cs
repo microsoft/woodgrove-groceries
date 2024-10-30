@@ -22,7 +22,7 @@ ConfigurationSection WoodgroveGroceriesApi = (ConfigurationSection)builder.Confi
 JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
 
 // All schemes
-string[] allSchemes = { OpenIdConnectDefaults.AuthenticationScheme /*, "Invite"*/ };
+string[] allSchemes = { OpenIdConnectDefaults.AuthenticationScheme, "Invite" };
 
 // Default sign-in flow
 ConfigurationSection AzureAd = (ConfigurationSection)builder.Configuration.GetSection("AzureAd");
@@ -35,31 +35,31 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddInMemoryTokenCaches();
 
 // Invite sign-in flow
-// ConfigurationSection Invite = (ConfigurationSection)builder.Configuration.GetSection("Invite");
-// builder.Services.AddAuthentication("Invite")
-//     .AddMicrosoftIdentityWebApp(Invite, "Invite", "cookiesInvite")
-//     .EnableTokenAcquisitionToCallDownstreamApi()
-//     .AddDownstreamApi("WoodgroveGroceriesApiInvite", WoodgroveGroceriesApi)
-//     .AddMicrosoftGraph(builder.Configuration.GetSection("GraphApi"))
-//     .AddInMemoryTokenCaches();
+ConfigurationSection Invite = (ConfigurationSection)builder.Configuration.GetSection("Invite");
+builder.Services.AddAuthentication("Invite")
+    .AddMicrosoftIdentityWebApp(Invite, "Invite", "cookiesInvite");
+// .EnableTokenAcquisitionToCallDownstreamApi()
+// .AddDownstreamApi("WoodgroveGroceriesApiInvite", WoodgroveGroceriesApi)
+// .AddMicrosoftGraph(builder.Configuration.GetSection("GraphApi"))
+// .AddInMemoryTokenCaches();
 
 
 // Set authentication options for all schemes
-foreach (var scheme in allSchemes)
-{
-    builder.Services.Configure<OpenIdConnectOptions>(scheme,
-              options =>
-              {
-                  options.TokenValidationParameters.RoleClaimType = "roles";
-                  options.TokenValidationParameters.NameClaimType = "name";
-                  options.Events.OnRedirectToIdentityProvider += OnRedirectToIdentityProviderFunc;
-                  options.Events.OnMessageReceived += OnMessageReceivedFunc;
-                  options.Events.OnAuthenticationFailed += OnAuthenticationFailedFunc;
-                  options.Events.OnRemoteFailure += OnRemoteFailureFunc;
-                  options.RemoteAuthenticationTimeout = TimeSpan.FromMinutes(30);
-                  options.SaveTokens = true;
-              });
-}
+// foreach (var scheme in allSchemes)
+// {
+builder.Services.Configure<OpenIdConnectOptions>(OpenIdConnectDefaults.AuthenticationScheme,
+          options =>
+          {
+              options.TokenValidationParameters.RoleClaimType = "roles";
+              options.TokenValidationParameters.NameClaimType = "name";
+              options.Events.OnRedirectToIdentityProvider += OnRedirectToIdentityProviderFunc;
+              options.Events.OnMessageReceived += OnMessageReceivedFunc;
+              options.Events.OnAuthenticationFailed += OnAuthenticationFailedFunc;
+              options.Events.OnRemoteFailure += OnRemoteFailureFunc;
+              options.RemoteAuthenticationTimeout = TimeSpan.FromMinutes(30);
+              options.SaveTokens = true;
+          });
+//}
 
 
 builder.Services.AddAuthorization(options =>
