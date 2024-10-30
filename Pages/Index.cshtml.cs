@@ -1,10 +1,12 @@
 ﻿using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.DataContracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace woodgrovedemo.Pages;
 
+[AllowAnonymous]
 public class IndexModel : PageModel
 {
     public bool IsCommercialAccount { get; set; } = false;

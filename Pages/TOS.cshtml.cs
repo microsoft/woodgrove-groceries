@@ -1,9 +1,11 @@
 using Microsoft.ApplicationInsights;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace MyApp.Namespace
 {
+    [AllowAnonymous]
     public class TOSModel : PageModel
     {
 

@@ -31,8 +31,15 @@ namespace MyApp.Namespace
         {
             _telemetry.TrackPageView($"Sign-in:{ID}");
 
+            // Set the authentication schema
+            string authenticationScheme  = OpenIdConnectDefaults.AuthenticationScheme;
+            if (ID == "Invite")
+            {
+                authenticationScheme = "Invite";
+            }
+
             ChallengeResult challengeResult = new ChallengeResult(
-                OpenIdConnectDefaults.AuthenticationScheme,
+                authenticationScheme,
                 new AuthenticationProperties
                 {
                     RedirectUri = redirectUri
@@ -62,7 +69,7 @@ namespace MyApp.Namespace
             {
                 challengeResult.Properties.Items.Add("prompt", "create");
             }
-            
+
             // login_hint
             if (!string.IsNullOrEmpty(login_hint))
             {
@@ -82,6 +89,11 @@ namespace MyApp.Namespace
         public IActionResult OnGetDefault()
         {
             return this.TrackAndAuth("Default");
+        }
+
+        public IActionResult OnGetInvite()
+        {
+            return this.TrackAndAuth("Invite");
         }
 
         public IActionResult OnGetModifyAttributeValues()
@@ -167,7 +179,7 @@ namespace MyApp.Namespace
         {
             return this.TrackAndAuth("LoginHint", "/", true, null, null, null, id);
         }
-        
+
         public IActionResult OnGetSignUpLink(string id)
         {
             return this.TrackAndAuth("SignUpLink", "/", true, null, null, null, id);

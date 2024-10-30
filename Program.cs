@@ -2,9 +2,11 @@ using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,25 +31,23 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftGraph(builder.Configuration.GetSection("GraphApi"))
     .AddInMemoryTokenCaches();
 
-builder.Services.Configure<OpenIdConnectOptions>(OpenIdConnectDefaults.AuthenticationScheme,
-                                                 options =>
-                                                 {
-                                                     options.TokenValidationParameters.RoleClaimType = "roles";
-                                                     options.TokenValidationParameters.NameClaimType = "name";
-                                                     options.Events.OnRedirectToIdentityProvider += OnRedirectToIdentityProviderFunc;
-                                                     options.Events.OnMessageReceived += OnMessageReceivedFunc;
-                                                     options.Events.OnAuthenticationFailed += OnAuthenticationFailedFunc;
-                                                     options.Events.OnRemoteFailure += OnRemoteFailureFunc;
-                                                     options.RemoteAuthenticationTimeout = TimeSpan.FromMinutes(30);
-                                                     options.SaveTokens = true;
-                                                 });
+// Invite sign-in flow
+ConfigurationSection Invite = (ConfigurationSection)builder.Configuration.GetSection("Invite");
 
+builder.Services.AddAuthentication("Invite")
+    .AddMicrosoftIdentityWebApp(Invite, "Invite", "cookiesInvite")
+    .EnableTokenAcquisitionToCallDownstreamApi()
+    .AddDownstreamApi("GraphApiMiddlewareInvite", WoodgroveGroceriesApi)
+    .AddDownstreamApi("WoodgroveGroceriesApiInvite", WoodgroveGroceriesApi)
+    .AddMicrosoftGraph(builder.Configuration.GetSection("GraphApi"))
+    .AddInMemoryTokenCaches();
 
-builder.Services.AddAuthentication();
+// Set authentication options for all schemes
+ConfigeAuthOptions(OpenIdConnectDefaults.AuthenticationScheme);
+ConfigeAuthOptions("Invite");
 
 builder.Services.AddAuthorization(options =>
 {
-
     // Get the commercial accounts security group ID
     string commercialAccountsSecurityGroup = ((ConfigurationSection)builder.Configuration.GetSection("AppRoles:CommercialAccountsSecurityGroup")).Value!;
 
@@ -56,18 +56,28 @@ builder.Services.AddAuthorization(options =>
 
     // Loyalty authorization policy
     options.AddPolicy("LoyaltyAccess", policy =>
+
         policy.RequireAssertion(context =>
-            
             // Verify whether the loyalty number or loyalty tier claims are included within the security token.
             context.User.HasClaim(c => (c.Type == "loyaltyTier" || c.Type == "loyaltyNumber"))
             &&
             // Verify whether the user has been enrolled in the loyalty program for at least one month.
-            context.User.Claims.Any(c => c.Type == "loyaltySince" && DateTime.UtcNow.AddMonths(-1) >= DateTime.Parse(c.Value) )
+            context.User.Claims.Any(c => c.Type == "loyaltySince" && DateTime.UtcNow.AddMonths(-1) >= DateTime.Parse(c.Value))
         ));
 
+    // Set the policy used for [Authorize] attributes without a policy specified.
+    var allPolicy = new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .AddAuthenticationSchemes(OpenIdConnectDefaults.AuthenticationScheme, "Invite")
+                .Build();
+
+    options.DefaultPolicy = allPolicy;
+
+    // The FallbackPolicy is implemented for pages with out [Authorize] attribute.
+    // By default, the FallbackPolicy does not enforce any authorization criteria.
+    options.FallbackPolicy = allPolicy;
+
 });
-
-
 
 builder.Services.AddRazorPages()
     .AddMicrosoftIdentityUI();
@@ -101,6 +111,36 @@ app.MapControllerRoute(
     pattern: "{controller}/{action=Index}/{id?}");
 
 app.Run();
+
+void ConfigeAuthOptions(string scheme)
+{
+    builder.Services.Configure<OpenIdConnectOptions>(scheme,
+                                                     options =>
+                                                     {
+                                                         options.TokenValidationParameters.RoleClaimType = "roles";
+                                                         options.TokenValidationParameters.NameClaimType = "name";
+                                                         options.Events.OnRedirectToIdentityProvider += OnRedirectToIdentityProviderFunc;
+                                                         options.Events.OnMessageReceived += OnMessageReceivedFunc;
+                                                         options.Events.OnAuthenticationFailed += OnAuthenticationFailedFunc;
+                                                         options.Events.OnRemoteFailure += OnRemoteFailureFunc;
+                                                         options.RemoteAuthenticationTimeout = TimeSpan.FromMinutes(30);
+                                                         options.Events.OnTokenValidated = OnTokenValidatedFunc;
+                                                         options.SaveTokens = true;
+                                                     });
+}
+
+async Task OnTokenValidatedFunc(TokenValidatedContext context)
+{
+    if (context.Scheme.Name != "OpenIdConnect")
+    {
+        // Add the scheme name claim for non standard scenario
+        var claim = new Claim("scheme", context.Scheme.Name);
+        var identity = new ClaimsIdentity(new[] { claim });
+        context.Principal.AddIdentity(identity);
+    }
+
+    await Task.CompletedTask;
+}
 
 async Task OnRedirectToIdentityProviderFunc(RedirectContext context)
 {
