@@ -47,7 +47,7 @@ builder.Services.AddAuthentication("Invite")
 // Set authentication options for all schemes
 foreach (var scheme in allSchemes)
 {
-    builder.Services.Configure<OpenIdConnectOptions>(OpenIdConnectDefaults.AuthenticationScheme,
+    builder.Services.Configure<OpenIdConnectOptions>(scheme,
               options =>
               {
                   options.TokenValidationParameters.RoleClaimType = "roles";
