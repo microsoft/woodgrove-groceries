@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text.Json;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -70,13 +71,13 @@ namespace woodgrovedemo.Pages
 
             try
             {
-                this.IdToken = await HttpContext.GetTokenAsync("id_token");
+                this.IdToken = await HttpContext.GetTokenAsync(OpenIdConnectDefaults.AuthenticationScheme, "id_token");
 
                 var handler = new JwtSecurityTokenHandler();
 
                 var jsonToken = handler.ReadToken(this.IdToken);
                 var diff = (DateTime.UtcNow - jsonToken.ValidTo);
-                this.IdTokenExpiresIn  = $"The ID token expires in {diff:hh\\:mm\\:ss}";
+                this.IdTokenExpiresIn = $"The ID token expires in {diff:hh\\:mm\\:ss}";
             }
             catch (System.Exception ex)
             {
@@ -87,7 +88,6 @@ namespace woodgrovedemo.Pages
             {
                 // Get an access token to call the "Account" API (the first API in line)
                 AccessToken = await _authorizationHeaderProvider.CreateAuthorizationHeaderForUserAsync(scopes);
-                string at = await HttpContext.GetTokenAsync("access_token");
             }
             catch (MicrosoftIdentityWebChallengeUserException ex)
             {

@@ -16,13 +16,16 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddApplicationInsightsTelemetry();
 var _telemetry = builder.Services.BuildServiceProvider().GetService<TelemetryClient>();
 
-ConfigurationSection AzureAd = (ConfigurationSection)builder.Configuration.GetSection("AzureAd");
 ConfigurationSection WoodgroveGroceriesApi = (ConfigurationSection)builder.Configuration.GetSection("WoodgroveGroceriesApi");
 
 // Avoid mapping of claims from short name to long (SAML like) claims.
 JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
 
+// All schemes
+string[] allSchemes = { OpenIdConnectDefaults.AuthenticationScheme /*, "Invite"*/ };
+
 // Default sign-in flow
+ConfigurationSection AzureAd = (ConfigurationSection)builder.Configuration.GetSection("AzureAd");
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApp(AzureAd, OpenIdConnectDefaults.AuthenticationScheme)
     .EnableTokenAcquisitionToCallDownstreamApi()
@@ -32,19 +35,32 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddInMemoryTokenCaches();
 
 // Invite sign-in flow
-ConfigurationSection Invite = (ConfigurationSection)builder.Configuration.GetSection("Invite");
+// ConfigurationSection Invite = (ConfigurationSection)builder.Configuration.GetSection("Invite");
+// builder.Services.AddAuthentication("Invite")
+//     .AddMicrosoftIdentityWebApp(Invite, "Invite", "cookiesInvite")
+//     .EnableTokenAcquisitionToCallDownstreamApi()
+//     .AddDownstreamApi("WoodgroveGroceriesApiInvite", WoodgroveGroceriesApi)
+//     .AddMicrosoftGraph(builder.Configuration.GetSection("GraphApi"))
+//     .AddInMemoryTokenCaches();
 
-builder.Services.AddAuthentication("Invite")
-    .AddMicrosoftIdentityWebApp(Invite, "Invite", "cookiesInvite")
-    .EnableTokenAcquisitionToCallDownstreamApi()
-    .AddDownstreamApi("GraphApiMiddlewareInvite", WoodgroveGroceriesApi)
-    .AddDownstreamApi("WoodgroveGroceriesApiInvite", WoodgroveGroceriesApi)
-    .AddMicrosoftGraph(builder.Configuration.GetSection("GraphApi"))
-    .AddInMemoryTokenCaches();
 
 // Set authentication options for all schemes
-ConfigeAuthOptions(OpenIdConnectDefaults.AuthenticationScheme);
-ConfigeAuthOptions("Invite");
+foreach (var scheme in allSchemes)
+{
+    builder.Services.Configure<OpenIdConnectOptions>(scheme,
+              options =>
+              {
+                  options.TokenValidationParameters.RoleClaimType = "roles";
+                  options.TokenValidationParameters.NameClaimType = "name";
+                  options.Events.OnRedirectToIdentityProvider += OnRedirectToIdentityProviderFunc;
+                  options.Events.OnMessageReceived += OnMessageReceivedFunc;
+                  options.Events.OnAuthenticationFailed += OnAuthenticationFailedFunc;
+                  options.Events.OnRemoteFailure += OnRemoteFailureFunc;
+                  options.RemoteAuthenticationTimeout = TimeSpan.FromMinutes(30);
+                  options.SaveTokens = true;
+              });
+}
+
 
 builder.Services.AddAuthorization(options =>
 {
@@ -68,7 +84,7 @@ builder.Services.AddAuthorization(options =>
     // Set the policy used for [Authorize] attributes without a policy specified.
     var allPolicy = new AuthorizationPolicyBuilder()
                 .RequireAuthenticatedUser()
-                .AddAuthenticationSchemes(OpenIdConnectDefaults.AuthenticationScheme, "Invite")
+                .AddAuthenticationSchemes(allSchemes)
                 .Build();
 
     options.DefaultPolicy = allPolicy;
@@ -112,22 +128,6 @@ app.MapControllerRoute(
 
 app.Run();
 
-void ConfigeAuthOptions(string scheme)
-{
-    builder.Services.Configure<OpenIdConnectOptions>(scheme,
-                                                     options =>
-                                                     {
-                                                         options.TokenValidationParameters.RoleClaimType = "roles";
-                                                         options.TokenValidationParameters.NameClaimType = "name";
-                                                         options.Events.OnRedirectToIdentityProvider += OnRedirectToIdentityProviderFunc;
-                                                         options.Events.OnMessageReceived += OnMessageReceivedFunc;
-                                                         options.Events.OnAuthenticationFailed += OnAuthenticationFailedFunc;
-                                                         options.Events.OnRemoteFailure += OnRemoteFailureFunc;
-                                                         options.RemoteAuthenticationTimeout = TimeSpan.FromMinutes(30);
-                                                         options.Events.OnTokenValidated = OnTokenValidatedFunc;
-                                                         options.SaveTokens = true;
-                                                     });
-}
 
 async Task OnTokenValidatedFunc(TokenValidatedContext context)
 {
