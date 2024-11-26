@@ -62,7 +62,7 @@ namespace MyApp.Namespace
             {
                 challengeResult.Properties.Items.Add("prompt", "create");
             }
-            
+
             // login_hint
             if (!string.IsNullOrEmpty(login_hint))
             {
@@ -167,10 +167,10 @@ namespace MyApp.Namespace
         {
             return this.TrackAndAuth("LoginHint", "/", true, null, null, null, id);
         }
-        
+
         public IActionResult OnGetSignUpLink(string id)
         {
-            return this.TrackAndAuth("SignUpLink", "/", true, null, null, null, id);
+            return this.TrackAndAuth("SignUpLink", "/", false, null, null, null, id);
         }
 
         public IActionResult OnGetTokenSignin()
