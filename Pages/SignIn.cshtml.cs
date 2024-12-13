@@ -218,7 +218,7 @@ namespace MyApp.Namespace
 
             _telemetry.TrackPageView($"Sign-in:SSO-Continue");
 
-            return Redirect("https://bank.woodgrovedemo.com/Auth/Login");
+            return Redirect(this.Configuration.GetSection("Demos:WoodgroveBankURL").Value + "/Auth/Login");
         }
 
         public IActionResult OnGetAssignmentRequired()
