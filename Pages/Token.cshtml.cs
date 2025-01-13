@@ -39,7 +39,7 @@ namespace woodgrovedemo.Pages
             // Read app settings
             string baseUrl = _configuration.GetSection("WoodgroveGroceriesApi:BaseUrl").Value!;
             string[] scopes = _configuration.GetSection("WoodgroveGroceriesApi:Scopes").Get<string[]>();
-            string endpoint = _configuration.GetSection("WoodgroveGroceriesApi:Endpoint").Value!;
+            string endpoint = _configuration.GetSection("WoodgroveGroceriesApi:Endpoint").Value! + "account";
 
             // Check the scopes application settings
             if (scopes == null)
