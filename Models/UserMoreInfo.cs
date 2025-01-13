@@ -10,4 +10,5 @@ public class UserMoreInfo
     public string LastSignInRequestId { get; set; } = "";
     public string PhoneNumber { get; set; } = "";
     public string EmailMfa { get; set; } = "";
+    public string SingInEmail { get; set; } = "";
 }

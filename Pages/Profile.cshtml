@@ -46,6 +46,11 @@
 
         <h2 class="profile-header">Edit your profile</h2>
 
+        @if (Model.StepUpFulfilled)
+        {
+            <div id="MfaFulfilled" style="display: none;"></div>
+        }
+
         <div id="editProfileSpinner" class="text-left profile-content">
 
             <br>Loading... <br>
@@ -101,7 +106,7 @@
                         Save</button>&nbsp;&nbsp;
 
 
-                    <button type="button" class="btn header-button" id="editProfileMfaButton" style="margin-right: 20px;"
+                    <button type="button" class="btn header-button editProfileMfaButton" style="margin-right: 20px;"
                         data-bs-toggle="modal" data-bs-target="#mfaAlert">
                         <i class="bi bi-pencil"></i> Edit your profile
                     </button>
@@ -112,8 +117,7 @@
                     <a role="button" class="btn header-button" data-bs-toggle="modal" data-bs-target="#disableAlert">
                         <span class="spinner-border spinner-border-sm" aria-hidden="true" id="disableAccountButtonSpinner"
                             style="margin-right: 10px; display: none;"></span>
-                        <i
-                            class="bi bi-slash-circle"></i> Disable your account</a>
+                        <i class="bi bi-slash-circle"></i> Disable your account</a>
                 </div>
             </div>
         </div>
@@ -169,6 +173,82 @@
                 </div>
             </form>
         </div>
+
+
+
+        <div id="singInContainer">
+            <h2 class="profile-header">Sign-in name</h2>
+
+            <div id="singInSpinner" class="text-left profile-content">
+                <br>Loading... <br>
+                <div class="spinner-border m-5 text-warning" style="width: 3rem; height: 3rem;" role="status">
+
+                </div>
+            </div>
+
+            <div class="text-left profile-content" id="singInSection" style="display: none;">
+
+                <div class="form-group row">
+                    <label for="inputSignInEmail" class="col-sm-2 col-form-label">Email</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="inputSignInEmail">
+                    </div>
+                </div>
+
+
+                <div class="form-group row" style="padding-bottom: 10px; padding-top: 10px;">
+                    <div class="col-sm-12">
+                        <button type="button" class="btn header-button editProfileMfaButton" style="margin-right: 20px;"
+                            data-bs-toggle="modal" data-bs-target="#mfaAlert">
+                            <i class="bi bi-pencil"></i> Edit
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <h2 class="profile-header">Multi factor authentication</h2>
+
+            <div id="mfaSpinner" class="text-left profile-content">
+                <br>Loading... <br>
+                <div class="spinner-border m-5 text-warning" style="width: 3rem; height: 3rem;" role="status">
+
+                </div>
+            </div>
+
+            <div class="text-left profile-content" id="mfaSection" style="display: none;">
+                <p>
+                    Your multi-factor authentication methods:
+                </p>
+
+                <div class="form-group row">
+                    <label for="inputEmailMfa" class="col-sm-2 col-form-label">Email</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="inputEmailMfa">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="inputPhoneNumber" class="col-sm-2 col-form-label">Phone</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="inputPhoneNumber">
+                    </div>
+                </div>
+
+
+                <div class="form-group row" style="padding-bottom: 10px; padding-top: 10px;">
+                    <div class="col-sm-12">
+                        <button type="button" class="btn header-button editProfileMfaButton" style="margin-right: 20px;"
+                            data-bs-toggle="modal" data-bs-target="#mfaAlert">
+                            <i class="bi bi-pencil"></i> Edit
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <h2 class="profile-header">Sign-in activity
         </h2>
         <div class="profile-content">
@@ -200,31 +280,6 @@
                 <b>Last time</b>: <span id="inputLastPasswordChangeDateTime"></span><br>
             </p>
         </div>
-
-        @if (Model.StepUpFulfilled)
-        {
-            <div id="MfaFulfilled" style="display: none;"></div>
-            <div>
-                <h2 class="profile-header">Multi factor authentication</h2>
-
-                <div id="mfaSpinner" class="text-left profile-content">
-                    <br>Loading... <br>
-                    <div class="spinner-border m-5 text-warning" style="width: 3rem; height: 3rem;" role="status">
-
-                    </div>
-                </div>
-
-                <div class="text-left profile-content" id="mfaSection" style="display: none;">
-                    <p>
-                        Your multi-factor authentication methods:
-                    </p>
-                    <p>
-                        <b>Email</b>: <span id="inputEmailMfa"></span><br>
-                        <b>Phone</b>: <span id="inputPhoneNumber"></span><br>
-                    </p>
-                </div>
-            </div>
-        }
     }
     else
     {
@@ -340,15 +395,18 @@
             $("#inputGivenName").prop("disabled", !mfaFulfilled)
             $("#inputSpecialDiet").prop("disabled", true)
             $("#inputSurname").prop("disabled", !mfaFulfilled)
+            $("#inputEmailMfa").prop("disabled", !mfaFulfilled)
+            $("#inputPhoneNumber").prop("disabled", !mfaFulfilled)
+            $("#inputSignInEmail").prop("disabled", !mfaFulfilled)
 
             // Show or hide the edit profile buttonss
             if (mfaFulfilled) {
                 $("#editProfileButton").show();
-                $("#editProfileMfaButton").hide();
+                $(".editProfileMfaButton").hide();
             }
             else {
                 $("#editProfileButton").hide();
-                $("#editProfileMfaButton").show();
+                $(".editProfileMfaButton").show();
             }
 
         });
@@ -379,7 +437,7 @@
 
             // Hide the modal dialog
             disableAlert.hide();
-            
+
         }
 
         function getUserAttributes() {
@@ -508,20 +566,31 @@
                     if (!result.errorMessage) {
                         $("#inputIdentities").html(result.identities);
 
-                        if ($("#inputEmailMfa").length)
-                            $("#inputEmailMfa").text(result.emailMfa);
+                        // Sign-in name
+                        $("#inputSignInEmail").val(result.singInEmail);
 
-                        if ($("#inputPhoneNumber").length)
-                            $("#inputPhoneNumber").text(result.phoneNumber);
+                        // MFA authentication methods
+                        $("#inputEmailMfa").val(result.emailMfa);
+                        $("#inputPhoneNumber").val(result.phoneNumber);
 
+                        // Activity
                         $("#inputLastSignInDateTime").text(result.lastSignInDateTime);
                         $("#inputLastSignInRequestId").text(result.lastSignInRequestId);
 
-                        // Show the MFA section
-                        if ($("#mfaSection").length) {
-                            $("#mfaSection").show();
-                            $("#mfaSpinner").hide();
+                        // Show the sign-in name section
+                        if (result.singInEmail && result.singInEmail != '') {
+                            $("#singInSection").show();
+                            $("#singInSpinner").hide();
                         }
+                        else
+                        {
+                            // Hide for social accounts
+                            $("#singInContainer").hide();
+                        }
+
+                        // Show the MFA section
+                        $("#mfaSection").show();
+                        $("#mfaSpinner").hide();
                     }
                     else {
                         $("#errorMessage").text(result.errorMessage);

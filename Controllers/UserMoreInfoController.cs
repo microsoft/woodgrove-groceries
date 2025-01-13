@@ -72,6 +72,12 @@ public class UserMoreInfoController : ControllerBase
                 }
                 else
                 {
+                    if (identity.SignInType == "emailAddress")
+                    { 
+                        // Get the sign-in email address
+                        userMoreInfo.SingInEmail = identity.IssuerAssignedId!;
+                    }
+
                     userMoreInfo.Identities += $"<li><b>Sign-in type:</b> {identity.SignInType} <b>Issuer</b>: {identity.Issuer} <b>ID</b>: {identity.IssuerAssignedId} <ui/>";
                 }
 
@@ -95,40 +101,39 @@ public class UserMoreInfoController : ControllerBase
         }
 
         bool StepUpFulfilled = User.Claims.Any(c => c.Type == "acrs" && c.Value == "c1");
-        if (StepUpFulfilled)
-            try
-            {
-                var result = await graphClient.Users[userObjectId].Authentication.Methods.GetAsync();
+        try
+        {
+            var result = await graphClient.Users[userObjectId].Authentication.Methods.GetAsync();
 
-                foreach (var method in result.Value)
+            foreach (var method in result.Value)
+            {
+                if (method.OdataType == "#microsoft.graph.phoneAuthenticationMethod")
                 {
-                    if (method.OdataType == "#microsoft.graph.phoneAuthenticationMethod")
-                    {
-                        userMoreInfo.PhoneNumber = ((PhoneAuthenticationMethod)method).PhoneNumber;
-                    }
-                    else if (method.OdataType == "#microsoft.graph.emailAuthenticationMethod")
-                    {
-                        userMoreInfo.EmailMfa = ((EmailAuthenticationMethod)method).EmailAddress;
-                    }
+                    userMoreInfo.PhoneNumber = ((PhoneAuthenticationMethod)method).PhoneNumber;
                 }
+                else if (method.OdataType == "#microsoft.graph.emailAuthenticationMethod")
+                {
+                    userMoreInfo.EmailMfa = ((EmailAuthenticationMethod)method).EmailAddress;
+                }
+            }
 
-                if (string.IsNullOrEmpty(userMoreInfo.PhoneNumber))
-                    userMoreInfo.PhoneNumber = "Not found";
+            if (string.IsNullOrEmpty(userMoreInfo.PhoneNumber))
+                userMoreInfo.PhoneNumber = "";
 
-                if (string.IsNullOrEmpty(userMoreInfo.EmailMfa))
-                    userMoreInfo.EmailMfa = "Not found";
-            }
-            catch (ODataError odataError)
-            {
-                userMoreInfo.ErrorMessage = $"Can't read the authentication methods due to the following error: {odataError.Error!.Message} Error code: {odataError.Error.Code}";
-                AppInsights.TrackException(_telemetry, odataError, "GetAuthenticationMethodsAsync");
-            }
-            catch (Exception ex)
-            {
-                string error = ex.InnerException == null ? ex.Message : ex.InnerException.Message;
-                userMoreInfo.ErrorMessage = $"Can't read the authentication methods due to the following error: {error}";
-                AppInsights.TrackException(_telemetry, ex, "GetAuthenticationMethodsAsync");
-            }
+            if (string.IsNullOrEmpty(userMoreInfo.EmailMfa))
+                userMoreInfo.EmailMfa = "";
+        }
+        catch (ODataError odataError)
+        {
+            userMoreInfo.ErrorMessage = $"Can't read the authentication methods due to the following error: {odataError.Error!.Message} Error code: {odataError.Error.Code}";
+            AppInsights.TrackException(_telemetry, odataError, "GetAuthenticationMethodsAsync");
+        }
+        catch (Exception ex)
+        {
+            string error = ex.InnerException == null ? ex.Message : ex.InnerException.Message;
+            userMoreInfo.ErrorMessage = $"Can't read the authentication methods due to the following error: {error}";
+            AppInsights.TrackException(_telemetry, ex, "GetAuthenticationMethodsAsync");
+        }
 
         return Ok(userMoreInfo);
     }
