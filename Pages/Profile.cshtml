@@ -98,15 +98,15 @@
             </div>
             <div class="form-group row" style="padding-bottom: 10px; padding-top: 10px;">
                 <div class="col-sm-12">
-                    <button type="button" onclick="updateUserAttributes()" class="btn header-button"
+                    <button type="button" onclick="updateUserAttributes()" class="btn header-button mfaFulfilled"
                         style="margin-right: 20px;" id="editProfileButton">
                         <span class="spinner-border spinner-border-sm" aria-hidden="true" id="editProfileButtonSpinner"
                             style="margin-right: 10px; display: none;"></span>
-                        <i class="bi bi-save2"></i>
+                        <i class="bi bi-save"></i>&nbsp;
                         Save</button>&nbsp;&nbsp;
 
 
-                    <button type="button" class="btn header-button editProfileMfaButton" style="margin-right: 20px;"
+                    <button type="button" class="btn header-button mfaRequiredButton" style="margin-right: 20px;"
                         data-bs-toggle="modal" data-bs-target="#mfaAlert">
                         <i class="bi bi-pencil"></i> Edit your profile
                     </button>
@@ -193,17 +193,29 @@
                     <div class="col-sm-5">
                         <input type="text" class="form-control" id="inputSignInEmail">
                     </div>
+
+                    <div class="col-sm-5">
+                        <button type="button" onclick="" class="btn header-button mfaFulfilled" id="signInEmailSaveButton"
+                            data-bs-toggle="modal" data-bs-target="#verificationAlert"
+                            style="margin-right: 20px; width: 100px; display: none;">
+                            Update</button>
+                    </div>
                 </div>
 
 
                 <div class="form-group row" style="padding-bottom: 10px; padding-top: 10px;">
                     <div class="col-sm-12">
-                        <button type="button" class="btn header-button editProfileMfaButton" style="margin-right: 20px;"
+                        <button type="button" class="btn header-button mfaRequiredButton" style="margin-right: 20px;"
                             data-bs-toggle="modal" data-bs-target="#mfaAlert">
                             <i class="bi bi-pencil"></i> Edit
                         </button>
                     </div>
                 </div>
+
+                <div class="form-group row">
+
+                </div>
+
             </div>
         </div>
 
@@ -227,6 +239,13 @@
                     <div class="col-sm-5">
                         <input type="text" class="form-control" id="inputEmailMfa">
                     </div>
+
+                    <div class="col-sm-5">
+                        <button type="button" onclick="" class="btn header-button mfaFulfilled" id="signInEmailSaveButton"
+                            data-bs-toggle="modal" data-bs-target="#verificationAlert"
+                            style="margin-right: 20px; width: 100px; display: none;">
+                            Update</button>
+                    </div>
                 </div>
 
                 <div class="form-group row">
@@ -234,12 +253,19 @@
                     <div class="col-sm-5">
                         <input type="text" class="form-control" id="inputPhoneNumber">
                     </div>
+
+                    <div class="col-sm-5">
+                        <button type="button" onclick="" class="btn header-button mfaFulfilled" id="phoneNumberSaveButton"
+                            data-bs-toggle="modal" data-bs-target="#verificationAlert"
+                            style="margin-right: 20px; width: 100px; display: none;">
+                            Update</button>
+                    </div>
                 </div>
 
 
                 <div class="form-group row" style="padding-bottom: 10px; padding-top: 10px;">
                     <div class="col-sm-12">
-                        <button type="button" class="btn header-button editProfileMfaButton" style="margin-right: 20px;"
+                        <button type="button" class="btn header-button mfaRequiredButton" style="margin-right: 20px;"
                             data-bs-toggle="modal" data-bs-target="#mfaAlert">
                             <i class="bi bi-pencil"></i> Edit
                         </button>
@@ -300,6 +326,26 @@
         </ul>
         <h4 style="color: green; padding-bottom: 5px; padding-top: 10px;">User object ID</h4>
         The globally <b>unique identifier</b> of your account: <span id="inputObjectID"></span>
+    </div>
+</div>
+
+<!-- Email and phone phone verification Modal -->
+<div class="modal fade" id="verificationAlert" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="verificationAlertLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="verificationAlertLabel">Update your authentication</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Comming soon!
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Exit</button>
+                @* <button type="button" class="btn btn-danger" onclick="disableAccount()">Yes</button> *@
+            </div>
+        </div>
     </div>
 </div>
 
@@ -371,13 +417,14 @@
 
 @section Scripts {
     <script>
-        var disableAlert, signInAlert, mfaFulfilled;
+        var disableAlert, signInAlert, mfaFulfilled, verificationAlert;
 
         $(document).ready(function () {
 
             disableAlert = new bootstrap.Modal(document.getElementById('disableAlert'), { keyboard: false });
             signInAlert = new bootstrap.Modal(document.getElementById('signInAlert'), { keyboard: false });
             mfaAlert = new bootstrap.Modal(document.getElementById('mfaAlert'), { keyboard: false });
+            verificationAlert = new bootstrap.Modal(document.getElementById('verificationAlert'), { keyboard: false });
 
             // Get user profile
             getUserAttributes();
@@ -401,14 +448,13 @@
 
             // Show or hide the edit profile buttonss
             if (mfaFulfilled) {
-                $("#editProfileButton").show();
-                $(".editProfileMfaButton").hide();
+                $(".mfaFulfilled").show();
+                $(".mfaRequiredButton").hide();
             }
             else {
-                $("#editProfileButton").hide();
-                $(".editProfileMfaButton").show();
+                $(".mfaFulfilled").hide();
+                $(".mfaRequiredButton").show();
             }
-
         });
 
         function disableAccount() {
@@ -582,8 +628,7 @@
                             $("#singInSection").show();
                             $("#singInSpinner").hide();
                         }
-                        else
-                        {
+                        else {
                             // Hide for social accounts
                             $("#singInContainer").hide();
                         }
