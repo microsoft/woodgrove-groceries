@@ -24,7 +24,7 @@ This project welcomes contributions and suggestions. [Learn how to contribue to 
 
 ## Privacy policy and terms of service
 
-Your privacy is important to us. Our [privacy statement](https://woodgrovedemo.com/Privacy) explains the personal data Woodgrove groceries demo application processes, how we processes it, and for what purposes. We aslo recommand you to check out our [terms of service](https://woodgrovedemo.com/TOS).
+Your privacy is important to us. Our [privacy statement](https://woodgrovedemo.com/Privacy) explains the personal data processed by the Woodgrove Groceries demo application, how we process it, and for what purposes. We also recommend that you check out our [terms of service](https://woodgrovedemo.com/TOS).
 
 
 
