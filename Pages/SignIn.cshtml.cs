@@ -302,6 +302,12 @@ namespace MyApp.Namespace
 
         private async Task StartActAsAsync(string id)
         {
+            // Input validation 
+            if (id.Length > 20)
+            {
+                id = id.Substring(0, 20);
+            }
+
             // Read app settings
             string baseUrl = _configuration.GetSection("WoodgroveGroceriesAuthApi:BaseUrl").Value!;
             string[] scopes = _configuration.GetSection("WoodgroveGroceriesAuthApi:Scopes").Get<string[]>();

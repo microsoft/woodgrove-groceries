@@ -535,7 +535,7 @@
 
                     @if (User.Identity?.IsAuthenticated == true)
                     {
-                    <li>Enter a name: <input type="text" id="ActAs" placeholder="Dave"
+                    <li>Enter a name: <input type="text" id="ActAs" placeholder="Dave" maxlength="20"
                             oninput="document.getElementById('ActAsStart').href='/SignIn?handler=ActAs&id=' + document.getElementById('ActAs').value"><br/>
                         Make sure you enter an account that exists in the directory.</li>
                     <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
