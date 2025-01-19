@@ -514,19 +514,22 @@
             </div>
 
             <div id="useCase_ActAs" class="useCase">
-                <h4>Act as</h4>
+                <h4>Act as (delegation)</h4>
                 <p>
-                    In an "act as" or "delegation" scenario, a signed-in user (delegate) acts on behalf of another user
-                    (principal) within the organization. For instance, in a corporate context, an executive assistant
-                    (the agent) may need to approve expenses on behalf of the Chief Financial Officer (the principal).
+                    In an "act as" or "delegation" scenario, a signed-in user (the <b>delegate</b>) acts on behalf of another user
+                    (the <b>principal</b>). For instance, in a corporate context, an executive assistant
+                    (the agent) may need to approve expenses on behalf of the chief financial officer (the principal).
                     Another example is helpdesk personnel (the agent) performing actions on behalf of a customer (the
                     principal).
                 </p>
                 <p>
                     In these cases, the <b>agent</b> is provided with a security token that permits them to act as the
                     <b>principal</b>. To obtain this token, the principal must first approve it. Upon receiving approval, the
-                    agent may request a new security token that includes a "claim" (act_as) with the value specifying
-                    the name or ID of the principal (the name of the Chief Financial Officer or customer).
+                    agent may request a new security token that includes the <b>act_as</b> claim with the value specifying
+                    the name or ID of the principal (the chief financial officer or customer).
+                </p>
+                <p>
+                    The application uses the <b>act_as</b> claim to operate on behalf of the principal. To start the demo:
                 </p>
                 <ol>
 
@@ -543,7 +546,7 @@
                     {
                         <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
                         <li>Sign-up or sign-in with your email, or a social account.</li>
-                        <li>After you sign-in, run this use case.</li>
+                        <li>After you sign-in, run this use case again.</li>
                     }
                 </ol>
 
@@ -555,7 +558,7 @@
                 else
                 {
                      <a class="btn header-button" role="button" href="/SignIn?handler=ActAs&id=Dave" id="ActAsStart"><i
-                        class="bi bi-play-circle"></i>Start the use case</a>
+                        class="bi bi-play-circle"></i> Start the use case</a>
                 }
 
                
