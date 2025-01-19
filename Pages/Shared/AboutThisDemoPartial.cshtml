@@ -32,11 +32,8 @@
                     with a social
                     account</a></li>
             <li><a class="dropdown-item" href="#usecase=LoginHint"><i class="bi bi-person-check"></i> </i>&nbsp;
-                    Prepopulate the sign in name</a></li>
-            <li>
-            <li><a class="dropdown-item" href="#usecase=ActAs" style="display: none;"><i class="bi bi-person-check"></i>
-                    </i>&nbsp;
-                    Act as</a></li>
+                    Prepopulate the sign in name</a>
+            </li>
             <li>
                 <hr class="dropdown-divider">
             </li>
@@ -46,7 +43,7 @@
             <li><a class="dropdown-item" href="#usecase=CustomAttributes"><i class="bi bi-pencil-square"></i>&nbsp;
                     Collect
                     user attributes during sign-up</a></li>
-                @* <li><a class="dropdown-item" href="#usecase=SignUpLink"><i class="bi bi-link"></i>&nbsp;
+            @* <li><a class="dropdown-item" href="#usecase=SignUpLink"><i class="bi bi-link"></i>&nbsp;
                     Sign-up link</a></li> *@
             <li><a class="dropdown-item" href="#usecase=PolicyAgreement"><i class="bi bi-file-earmark-text"></i>&nbsp;
                     Links to terms of use and privacy
@@ -107,6 +104,9 @@
             <li><a class="dropdown-item" href="#usecase=AssignmentRequired"><i class="bi bi-slash-circle"></i>&nbsp;
                     Restrict app to a set of users</a>
             </li>
+            <li><a class="dropdown-item" href="#usecase=ActAs"><i class="bi bi-person-workspace"></i>
+                    </i>&nbsp; Act as (delegation)</a>
+            </li>
             <li>
                 <hr class="dropdown-divider">
             </li>
@@ -117,6 +117,8 @@
                     the look and feel</a></li>
             <li><a class="dropdown-item" href="#usecase=CustomDomain"><i class="bi bi-globe2"></i>&nbsp; Custom URL
                     domain</a></li>
+            <li><a class="dropdown-item" href="#usecase=CustomEmail"><i class="bi bi-envelope-at"></i>&nbsp; Custom
+                    email</a></li>
             <li><a class="dropdown-item" href="#usecase=Language"><i class="bi bi-translate"></i>&nbsp; Customize the
                     language</a></li>
             <li><a class="dropdown-item" href="#usecase=PreSelectLanguage"><i class="bi bi-translate"></i>&nbsp;
@@ -328,6 +330,26 @@
                         class="bi bi-play-circle"></i> Start the use case</a>
             </div>
 
+            <div id="useCase_CustomEmail" class="useCase">
+                <h4>Custom email for one time passcode</h4>
+                <p>
+                    The <a class="link-dark"
+                        href="https://learn.microsoft.com/en-us/entra/identity-platform/custom-extension-email-otp-get-started?toc=%2Fentra%2Fexternal-id%2Ftoc.json&bc=%2Fentra%2Fexternal-id%2Fbreadcrumb%2Ftoc.json&tabs=azure-communication-services%2Cazure-portal">custom
+                        email</a> allows you to send customized emails to users who sign up, reset their password,
+                    sign-in with email and one-time passcode, or email multifactor authentication (MFA).
+                    <br>
+                </p>
+                <ol>
+                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                    <li>From the sign-in page select <b>No account? Create one.</b></li>
+                    <li>Enter your email address, which will be verified and becomes your login ID.</li>
+                    <li>Check your mailbox and review the email. Pay attention to the sender, the subject line, and the
+                        content of the email, they are all customized to align with Woodgrove's branding.</li>
+                </ol>
+
+                <a class="btn header-button" role="button" href="/SignIn?handler=CustomEmail"><i
+                        class="bi bi-play-circle"></i> Start the use case</a>
+            </div>
             <div id="useCase_Language" class="useCase">
                 <h4>Language customization</h4>
                 <p>
@@ -516,7 +538,8 @@
             <div id="useCase_ActAs" class="useCase">
                 <h4>Act as (delegation)</h4>
                 <p>
-                    In an "act as" or "delegation" scenario, a signed-in user (the <b>delegate</b>) acts on behalf of another user
+                    In an "act as" or "delegation" scenario, a signed-in user (the <b>delegate</b>) acts on behalf of
+                    another user
                     (the <b>principal</b>). For instance, in a corporate context, an executive assistant
                     (the agent) may need to approve expenses on behalf of the chief financial officer (the principal).
                     Another example is helpdesk personnel (the agent) performing actions on behalf of a customer (the
@@ -524,23 +547,26 @@
                 </p>
                 <p>
                     In these cases, the <b>agent</b> is provided with a security token that permits them to act as the
-                    <b>principal</b>. To obtain this token, the principal must first approve it. Upon receiving approval, the
-                    agent may request a new security token that includes the <b>act_as</b> claim with the value specifying
+                    <b>principal</b>. To obtain this token, the principal must first approve it. Upon receiving
+                    approval, the
+                    agent may request a new security token that includes the <b>act_as</b> claim with the value
+                    specifying
                     the name or ID of the principal (the chief financial officer or customer).
                 </p>
                 <p>
-                    The application uses the <b>act_as</b> claim to operate on behalf of the principal. To start the demo:
+                    The application uses the <b>act_as</b> claim to operate on behalf of the principal. To start the
+                    demo:
                 </p>
                 <ol>
 
                     @if (User.Identity?.IsAuthenticated == true)
                     {
-                    <li>Enter a name: <input type="text" id="ActAs" placeholder="Dave" maxlength="20"
-                            oninput="document.getElementById('ActAsStart').href='/SignIn?handler=ActAs&id=' + document.getElementById('ActAs').value"><br/>
-                        Make sure you enter an account that exists in the directory.</li>
-                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
-                    <li>After you sign-in, you will be taken to the <b>token</b> page.</li>
-                    <li>In the token page, check the 'delegation' alert.</li>
+                        <li>Enter a name: <input type="text" id="ActAs" placeholder="Dave" maxlength="20"
+                                oninput="document.getElementById('ActAsStart').href='/SignIn?handler=ActAs&id=' + document.getElementById('ActAs').value"><br />
+                            Make sure you enter an account that exists in the directory.</li>
+                        <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                        <li>After you sign-in, you will be taken to the <b>token</b> page.</li>
+                        <li>In the token page, check the 'delegation' alert.</li>
                     }
                     else
                     {
@@ -557,11 +583,11 @@
                 }
                 else
                 {
-                     <a class="btn header-button" role="button" href="/SignIn?handler=ActAs&id=Dave" id="ActAsStart"><i
-                        class="bi bi-play-circle"></i> Start the use case</a>
+                    <a class="btn header-button" role="button" href="/SignIn?handler=ActAs&id=Dave" id="ActAsStart"><i
+                            class="bi bi-play-circle"></i> Start the use case</a>
                 }
 
-               
+
             </div>
 
             <div id="useCase_EmailOTP" class="useCase">

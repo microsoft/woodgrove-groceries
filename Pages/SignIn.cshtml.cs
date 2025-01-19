@@ -276,10 +276,16 @@ namespace MyApp.Namespace
             return this.TrackAndAuth("CustomDomain", "/", true, "domain", this._configuration.GetSection("Demos:CustomDomain").Value);
         }
 
+        public IActionResult OnGetCustomEmail()
+        {
+            return this.TrackAndAuth("CustomEmail", "/", true);
+        }
+
         public IActionResult OnGetSSPR()
         {
             return this.TrackAndAuth("SSPR", "/", true);
         }
+        
         public IActionResult OnGetCustomAttributes()
         {
             return this.TrackAndAuth("CustomAttributes", "/", true);
