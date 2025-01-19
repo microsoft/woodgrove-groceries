@@ -77,7 +77,7 @@ function showUseCase(trigger) {
         usecase = 'Default';
     }
 
-    var useCases = ["Default", "SignUpLink", "OnlineRetail", "DisableAccount", "CustomDomain", "AssignmentRequired", "StepUp", "CSA", "PolicyAgreement", "EmailAndPassword", "OBO", "SSO", "GithubWorkflows", "TokenTTL", "MFA", "CA", "ForceSignIn", "UserInsights", "SignInLog", "ModifyAttributeValues", "BlockSignUp", "CompanyBranding", "Language", "PreSelectLanguage", "SSPR", "Social", "LoginHint", "TokenAugmentation", "TokenClaims", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "UserLastActivity", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Finance"];
+    var useCases = ["Default", "SignUpLink", "OnlineRetail", "DisableAccount", "CustomDomain", "AssignmentRequired", "StepUp", "CSA", "PolicyAgreement", "EmailAndPassword", "OBO", "SSO", "GithubWorkflows", "TokenTTL", "MFA", "CA", "ForceSignIn", "UserInsights", "SignInLog", "ModifyAttributeValues", "BlockSignUp", "CompanyBranding", "Language", "PreSelectLanguage", "SSPR", "Social", "ActAs", "LoginHint", "TokenAugmentation", "TokenClaims", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "UserLastActivity", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Finance"];
 
     if (($('#offcanvasRight').length > 0) && usecase && (useCases.indexOf(usecase) > -1)) {
 
@@ -248,7 +248,7 @@ function jsonToList(json, parentKey) {
         }
 
         if (!(typeof json[key] === "object")) {
-            var keyName = capitalizeFirstLetter( ((parentKey === undefined || parentKey === '') ? '' : parentKey + '.') + key)
+            var keyName = capitalizeFirstLetter(((parentKey === undefined || parentKey === '') ? '' : parentKey + '.') + key)
             rows += `<tr scope="row"><td>${keyName}</td><td>${json[key]}<td></tr>`
         }
         else {

@@ -1,10 +1,14 @@
 using System.Security.AccessControl;
+using System.Text;
+using System.Threading.Tasks;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Identity.Abstractions;
+using Microsoft.Identity.Web;
 
 namespace MyApp.Namespace
 {
@@ -12,13 +16,15 @@ namespace MyApp.Namespace
     [AllowAnonymous]
     public class SignInModel : PageModel
     {
-        private readonly IConfiguration Configuration;
+        private readonly IConfiguration _configuration;
         private TelemetryClient _telemetry;
+        readonly IAuthorizationHeaderProvider _authorizationHeaderProvider;
 
-        public SignInModel(IConfiguration configuration, TelemetryClient telemetry)
+        public SignInModel(IConfiguration configuration, TelemetryClient telemetry, IAuthorizationHeaderProvider authorizationHeaderProvider)
         {
-            Configuration = configuration;
+            _configuration = configuration;
             _telemetry = telemetry;
+            _authorizationHeaderProvider = authorizationHeaderProvider;
         }
 
         private IActionResult TrackAndAuth(string ID,
@@ -98,7 +104,7 @@ namespace MyApp.Namespace
 
             _telemetry.TrackPageView($"Sign-in:CSA");
 
-            return Redirect(this.Configuration.GetSection("Demos:CustomSecurityAttributesURL").Value);
+            return Redirect(this._configuration.GetSection("Demos:CustomSecurityAttributesURL").Value);
         }
 
         public IActionResult OnGetStepUp()
@@ -163,9 +169,16 @@ namespace MyApp.Namespace
         {
             return this.TrackAndAuth("ProfileSignin", "/", false, null, null, null, id);
         }
+
         public IActionResult OnGetLoginHint(string id)
         {
             return this.TrackAndAuth("LoginHint", "/", true, null, null, null, id);
+        }
+
+        public async Task<IActionResult> OnGetActAs(string id)
+        {
+            await StartActAsAsync(id);
+            return this.TrackAndAuth("ActAs", "/Token", false);
         }
 
         public IActionResult OnGetSignUpLink(string id)
@@ -218,14 +231,14 @@ namespace MyApp.Namespace
 
             _telemetry.TrackPageView($"Sign-in:SSO-Continue");
 
-            return Redirect(this.Configuration.GetSection("Demos:WoodgroveBankURL").Value + "/Auth/Login");
+            return Redirect(this._configuration.GetSection("Demos:WoodgroveBankURL").Value + "/Auth/Login");
         }
 
         public IActionResult OnGetAssignmentRequired()
         {
             _telemetry.TrackPageView($"Sign-in:AssignmentRequired");
 
-            return Redirect(this.Configuration.GetSection("Demos:AssignmentRequiredURL").Value);
+            return Redirect(this._configuration.GetSection("Demos:AssignmentRequiredURL").Value);
         }
 
         public IActionResult OnGetTokenAugmentation()
@@ -260,7 +273,7 @@ namespace MyApp.Namespace
 
         public IActionResult OnGetCustomDomain()
         {
-            return this.TrackAndAuth("CustomDomain", "/", true, "domain", this.Configuration.GetSection("Demos:CustomDomain").Value);
+            return this.TrackAndAuth("CustomDomain", "/", true, "domain", this._configuration.GetSection("Demos:CustomDomain").Value);
         }
 
         public IActionResult OnGetSSPR()
@@ -284,6 +297,62 @@ namespace MyApp.Namespace
             _telemetry.TrackPageView($"Sign-in:Kiosk");
 
             return Redirect("https://woodgrovebanking.com/");
+        }
+
+
+        private async Task StartActAsAsync(string id)
+        {
+            // Read app settings
+            string baseUrl = _configuration.GetSection("WoodgroveGroceriesAuthApi:BaseUrl").Value!;
+            string[] scopes = _configuration.GetSection("WoodgroveGroceriesAuthApi:Scopes").Get<string[]>();
+            string endpoint = _configuration.GetSection("WoodgroveGroceriesAuthApi:Endpoint").Value! + "ActAsDemo";
+
+            // Set the scope full URL (temporary workaround should be fix)
+            for (int i = 0; i < scopes.Length; i++)
+            {
+                scopes[i] = $"{baseUrl}/{scopes[i]}";
+            }
+
+            string accessToken = string.Empty;
+
+            try
+            {
+                // Get an access token to call the "Account" API (the first API in line)
+                accessToken = await _authorizationHeaderProvider.CreateAuthorizationHeaderForUserAsync(scopes);
+            }
+            catch (MicrosoftIdentityWebChallengeUserException ex)
+            {
+                // TBD
+            }
+            catch (System.Exception ex)
+            {
+                // TBD
+            }
+
+
+            try
+            {
+                ActAsRequest actAsRequest = new ActAsRequest();
+                actAsRequest.ActAs = id;
+
+                // Use the access token to call the Account API.
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Add("Authorization", accessToken);
+
+                    // Sent HTTP request to the web API endpoint
+                    var content = new StringContent(actAsRequest.ToString(), Encoding.UTF8, "application/json");
+                    HttpResponseMessage responseMessage = await client.PostAsync(endpoint, content);
+
+                    // Ensure success and get the response
+                    responseMessage.EnsureSuccessStatusCode();
+                    //string responseString = await responseMessage.Content.ReadAsStringAsync();
+                }
+            }
+            catch (System.Exception ex)
+            {
+                // TBD
+            }
         }
     }
 }

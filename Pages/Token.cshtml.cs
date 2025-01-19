@@ -24,6 +24,7 @@ namespace woodgrovedemo.Pages
         public string AccessTokenError { get; set; }
         public string DownstreamAccessToken { get; set; }
         public string DownstreamAccessTokenError { get; set; }
+        public string? ActAs { get; set; } = "";
 
         public TokenModel(IConfiguration configuration, TelemetryClient telemetry, IAuthorizationHeaderProvider authorizationHeaderProvider)
         {
@@ -35,6 +36,9 @@ namespace woodgrovedemo.Pages
         public async Task<IActionResult> OnGetAsync()
         {
             _telemetry.TrackPageView("Token");
+
+            // Get the act as information
+            ActAs = User.Claims.FirstOrDefault(c => c.Type.ToLower() == "act_as")?.Value;
 
             // Read app settings
             string baseUrl = _configuration.GetSection("WoodgroveGroceriesApi:BaseUrl").Value!;

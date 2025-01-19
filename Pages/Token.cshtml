@@ -5,6 +5,16 @@
 <h1 style="color: green; padding-bottom: 15px; padding-top: 15px;">Your claims and access token</h1>
 
 <div class="container">
+
+    @if (!string.IsNullOrEmpty(@Model.ActAs))
+    {
+        <div class="alert alert-warning" style="margin-top: 20px;" role="alert">
+            <h4 class="alert-heading">Delegation</h4>
+            <i class="bi bi-exclamation-diamond-fill"></i> Please be aware that you are granted the
+            authority to act on behalf '@Model.ActAs'. Check the value of the 'act_as' claim.
+        </div>
+    }
+
     <table class="table table-striped">
         <thead>
             <tr>

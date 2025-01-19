@@ -34,6 +34,10 @@
             <li><a class="dropdown-item" href="#usecase=LoginHint"><i class="bi bi-person-check"></i> </i>&nbsp;
                     Prepopulate the sign in name</a></li>
             <li>
+            <li><a class="dropdown-item" href="#usecase=ActAs" style="display: none;"><i class="bi bi-person-check"></i>
+                    </i>&nbsp;
+                    Act as</a></li>
+            <li>
                 <hr class="dropdown-divider">
             </li>
             <li>
@@ -42,7 +46,7 @@
             <li><a class="dropdown-item" href="#usecase=CustomAttributes"><i class="bi bi-pencil-square"></i>&nbsp;
                     Collect
                     user attributes during sign-up</a></li>
-            @* <li><a class="dropdown-item" href="#usecase=SignUpLink"><i class="bi bi-link"></i>&nbsp;
+                @* <li><a class="dropdown-item" href="#usecase=SignUpLink"><i class="bi bi-link"></i>&nbsp;
                     Sign-up link</a></li> *@
             <li><a class="dropdown-item" href="#usecase=PolicyAgreement"><i class="bi bi-file-earmark-text"></i>&nbsp;
                     Links to terms of use and privacy
@@ -509,6 +513,53 @@
                     Start the use case</a>
             </div>
 
+            <div id="useCase_ActAs" class="useCase">
+                <h4>Act as</h4>
+                <p>
+                    In an "act as" or "delegation" scenario, a signed-in user (delegate) acts on behalf of another user
+                    (principal) within the organization. For instance, in a corporate context, an executive assistant
+                    (the agent) may need to approve expenses on behalf of the Chief Financial Officer (the principal).
+                    Another example is helpdesk personnel (the agent) performing actions on behalf of a customer (the
+                    principal).
+                </p>
+                <p>
+                    In these cases, the <b>agent</b> is provided with a security token that permits them to act as the
+                    <b>principal</b>. To obtain this token, the principal must first approve it. Upon receiving approval, the
+                    agent may request a new security token that includes a "claim" (act_as) with the value specifying
+                    the name or ID of the principal (the name of the Chief Financial Officer or customer).
+                </p>
+                <ol>
+
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                    <li>Enter a name: <input type="text" id="ActAs" placeholder="Dave"
+                            oninput="document.getElementById('ActAsStart').href='/SignIn?handler=ActAs&id=' + document.getElementById('ActAs').value"><br/>
+                        Make sure you enter an account that exists in the directory.</li>
+                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                    <li>After you sign-in, you will be taken to the <b>token</b> page.</li>
+                    <li>In the token page, check the 'delegation' alert.</li>
+                    }
+                    else
+                    {
+                        <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                        <li>Sign-up or sign-in with your email, or a social account.</li>
+                        <li>After you sign-in, run this use case.</li>
+                    }
+                </ol>
+
+                @if (User.Identity?.IsAuthenticated == false)
+                {
+                    <a class="btn header-button" role="button" href="/SignIn?handler=default"><i
+                            class="bi bi-play-circle"></i> Start the use case</a>
+                }
+                else
+                {
+                     <a class="btn header-button" role="button" href="/SignIn?handler=ActAs&id=Dave" id="ActAsStart"><i
+                        class="bi bi-play-circle"></i>Start the use case</a>
+                }
+
+               
+            </div>
 
             <div id="useCase_EmailOTP" class="useCase">
                 <h4>Sign-up with email one-time passcode</h4>
@@ -1132,17 +1183,20 @@
             </div>
 
             <div id="useCase_SignUpLink" class="useCase">
-            <h4>Direct link to the sign-up flow</h4>
+                <h4>Direct link to the sign-up flow</h4>
                 <p>
-                    Microsoft Entra external ID allows applications to start the authorization request with sign-up flow (using the 'prompt=create' query parameter).
+                    Microsoft Entra external ID allows applications to start the authorization request with sign-up flow
+                    (using the 'prompt=create' query parameter).
                     You can also provide an email address (using the
                     'login_hint' query parameter). If provided, Microsoft Entra external ID automatically
                     populates the
-                    sign-up email address, while the user only needs to validate their email address and enter their profile attributes. Make sure there is no such account in the directory.
+                    sign-up email address, while the user only needs to validate their email address and enter their
+                    profile attributes. Make sure there is no such account in the directory.
                 </p>
                 <ol>
                     <li>[Optimally] Enter an email: <input type="email" id="signUpLoginHint"
-                            oninput="document.getElementById('signUpLoginHintStart').href='/SignIn?handler=LoginHint&id=' + document.getElementById('signUpLoginHint').value">.</li>
+                            oninput="document.getElementById('signUpLoginHintStart').href='/SignIn?handler=LoginHint&id=' + document.getElementById('signUpLoginHint').value">.
+                    </li>
                     <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
                     <li>Notice that the title of the page is "Create account"</li>
                     <li>If email has been provided, notice that the email address already entered.</li>
@@ -1343,7 +1397,7 @@
                 <h4>Edit your account</h4>
                 <p>
                     Profile editing lets you manage you profile attributes, like display name, surname, given
-                    name, city, and others. 
+                    name, city, and others.
                 </p>
 
                 <ol>
@@ -1506,11 +1560,11 @@
                     automating tasks, executing batch
                     operations, maintaining and ensuring consistency across different stages such as test,
                     preproduction, and production
-                    environments. 
+                    environments.
                     <br>&nbsp;<br>
-                    
-                    With <a href="https://docs.github.com/en/actions/using-workflows/about-workflows"
-                        target="_blank" class="link-dark link-offset-2">GitHub workflow</a> you can automate
+
+                    With <a href="https://docs.github.com/en/actions/using-workflows/about-workflows" target="_blank"
+                        class="link-dark link-offset-2">GitHub workflow</a> you can automate
                     process that will run one or
                     more jobs.
                     Their benefits in accelerating and stabilizing the deployment process to
