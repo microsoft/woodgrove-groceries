@@ -191,6 +191,11 @@ namespace MyApp.Namespace
             return this.TrackAndAuth("TokenSignin", "/token");
         }
 
+        public IActionResult OnGetProfileReauth()
+        {
+            return this.TrackAndAuth("ProfileReauth", "/profile");
+        }
+        
         public IActionResult OnGetEmailAndPassword()
         {
             return this.TrackAndAuth("EmailAndPassword", "/", true);
