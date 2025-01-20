@@ -30,6 +30,14 @@ public class SendCodeController : ControllerBase
     {
         _telemetry.TrackPageView("Profile:SendCode");
 
+        // Verify if MFA has been fulfilled
+        bool StepUpFulfilled = User.Claims.Any(c => c.Type == "acrs" && c.Value == "c1");
+
+        if (!StepUpFulfilled)
+        {
+            return Ok(new SendCodeResponse("Multi-factor authentication is required for this operation"));
+        }
+
         // Read app settings
         string baseUrl = _configuration.GetSection("WoodgroveGroceriesApi:BaseUrl").Value!;
         string[] scopes = _configuration.GetSection("WoodgroveGroceriesApi:Scopes").Get<string[]>();
