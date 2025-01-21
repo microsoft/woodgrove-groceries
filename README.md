@@ -13,6 +13,7 @@ For more information about this demo application, read the [overview of the Wood
 - [Woodgrove custom authentication extension web API](https://github.com/microsoft/woodgrove-auth-api)
 - [Woodgrove Groceries web API](https://github.com/microsoft/woodgrove-groceries-api)
 - [Woodgrove Groceries middleware for Graph](https://github.com/microsoft/woodgrove-groceries-graph-middleware)
+- [Woodgrove Groceries clean up function](https://github.com/microsoft/woodgrove-groceries-clean-up/)
 
 ## Support
 
