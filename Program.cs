@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +21,7 @@ ConfigurationSection WoodgroveGroceriesApi = (ConfigurationSection)builder.Confi
 // Avoid mapping of claims from short name to long (SAML like) claims.
 JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
 
-// Default sign-in flow
+// Default scheme sign-in flow
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApp(AzureAd, OpenIdConnectDefaults.AuthenticationScheme)
     .EnableTokenAcquisitionToCallDownstreamApi()
@@ -29,21 +30,109 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftGraph(builder.Configuration.GetSection("GraphApi"))
     .AddInMemoryTokenCaches();
 
-builder.Services.Configure<OpenIdConnectOptions>(OpenIdConnectDefaults.AuthenticationScheme,
-                                                 options =>
-                                                 {
-                                                     options.TokenValidationParameters.RoleClaimType = "roles";
-                                                     options.TokenValidationParameters.NameClaimType = "name";
-                                                     options.Events.OnRedirectToIdentityProvider += OnRedirectToIdentityProviderFunc;
-                                                     options.Events.OnMessageReceived += OnMessageReceivedFunc;
-                                                     options.Events.OnAuthenticationFailed += OnAuthenticationFailedFunc;
-                                                     options.Events.OnRemoteFailure += OnRemoteFailureFunc;
-                                                     options.RemoteAuthenticationTimeout = TimeSpan.FromMinutes(30);
-                                                     options.SaveTokens = true;
-                                                 });
+// ArkoseFraudProtection scheme sign-in flow
+ConfigurationSection ArkoseFraudProtection = (ConfigurationSection)builder.Configuration.GetSection(AuthScheme.ArkoseFraudProtection);
+builder.Services.AddAuthentication()
+    .AddMicrosoftIdentityWebApp(ArkoseFraudProtection, AuthScheme.ArkoseFraudProtection, AuthScheme.ArkoseFraudProtection + "Cookies")
+    .EnableTokenAcquisitionToCallDownstreamApi()
+    .AddDownstreamApi("WoodgroveGroceriesApiInvite", WoodgroveGroceriesApi)
+    .AddMicrosoftGraph(builder.Configuration.GetSection("GraphApi"))
+    .AddInMemoryTokenCaches();
+
+// EmailOtp scheme sign-in flow
+ConfigurationSection EmailOtp = (ConfigurationSection)builder.Configuration.GetSection(AuthScheme.EmailOtp);
+builder.Services.AddAuthentication()
+    .AddMicrosoftIdentityWebApp(EmailOtp, AuthScheme.EmailOtp, AuthScheme.EmailOtp + "Cookies")
+    .EnableTokenAcquisitionToCallDownstreamApi()
+    .AddDownstreamApi("WoodgroveGroceriesApiInvite", WoodgroveGroceriesApi)
+    .AddMicrosoftGraph(builder.Configuration.GetSection("GraphApi"))
+    .AddInMemoryTokenCaches();
+
+// Set authentication options for all schemes
+foreach (var scheme in AuthScheme.All)
+{
+    builder.Services.Configure<OpenIdConnectOptions>(scheme,
+              options =>
+              {
+                  options.TokenValidationParameters.RoleClaimType = "roles";
+                  options.TokenValidationParameters.NameClaimType = "name";
+                  options.Events.OnRedirectToIdentityProvider += OnRedirectToIdentityProviderFunc;
+                  options.Events.OnMessageReceived += OnMessageReceivedFunc;
+                  options.Events.OnAuthenticationFailed += OnAuthenticationFailedFunc;
+                  options.Events.OnRemoteFailure += OnRemoteFailureFunc;
+                  options.Events.OnTokenValidated += OnTokenValidatedFunc;
+                  options.RemoteAuthenticationTimeout = TimeSpan.FromMinutes(30);
+                  options.SaveTokens = true;
+
+                  options.ForwardDefaultSelector = context =>
+                    {
+                        string scheme = OpenIdConnectDefaults.AuthenticationScheme;
+
+                        // Check the scheme from the cookies (if exists)
+                        // This check is required for the sign-in postback and sign-out flows
+                        foreach (var item in context.Request.Cookies)
+                        {
+                            if (item.Key == ".AspNetCore.ArkoseFraudProtectionCookies")
+                            {
+                                scheme = AuthScheme.ArkoseFraudProtection;
+                                break;
+                            }
+                            else if (item.Key == ".AspNetCore.EmailOtpCookies")
+                            {
+                                scheme = AuthScheme.EmailOtp;
+                                break;
+                            }
+                        }
+
+                        string? handler = context.Request.Query["handler"];
+
+                        // Force change the scheme of explicitly requested by the sign-in
+                        if (handler != null && (handler == AuthScheme.ArkoseFraudProtection ||
+                            handler == AuthScheme.EmailOtp))
+                        {
+                            scheme = handler;
+                        }
+
+                        return scheme;
+                    };
+              });
+}
 
 
 builder.Services.AddAuthentication();
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = OpenIdConnectDefaults.AuthenticationScheme; //"DynamicAuth";
+});
+// .AddPolicyScheme("DynamicAuth", "Automatically Select Scheme", options =>
+// {
+//     options.ForwardDefaultSelector = context =>
+//     {
+//         string scheme = OpenIdConnectDefaults.AuthenticationScheme;
+
+//         // Check the scheme from the cookies (if exists)
+//         // This check is required for the sign-in postback and sign-out flows
+//         foreach (var item in context.Request.Cookies)
+//         {
+//             if (item.Key == ".AspNetCore.ArkoseFraudProtectioncookies")
+//             {
+//                 scheme = AuthScheme.ArkoseFraudProtection;
+//                 break;
+//             }
+//         }
+
+//         string? handler = context.Request.Query["handler"];
+
+//         // Force change the scheme of explicitly requested by the sign-in
+//         if (handler != null && handler == AuthScheme.ArkoseFraudProtection)
+//         {
+//             scheme = handler;
+//         }
+
+//         return scheme;
+//     };
+// });
 
 builder.Services.AddAuthorization(options =>
 {
@@ -57,12 +146,12 @@ builder.Services.AddAuthorization(options =>
     // Loyalty authorization policy
     options.AddPolicy("LoyaltyAccess", policy =>
         policy.RequireAssertion(context =>
-            
+
             // Verify whether the loyalty number or loyalty tier claims are included within the security token.
             context.User.HasClaim(c => (c.Type == "loyaltyTier" || c.Type == "loyaltyNumber"))
             &&
             // Verify whether the user has been enrolled in the loyalty program for at least one month.
-            context.User.Claims.Any(c => c.Type == "loyaltySince" && DateTime.UtcNow.AddMonths(-1) >= DateTime.Parse(c.Value) )
+            context.User.Claims.Any(c => c.Type == "loyaltySince" && DateTime.UtcNow.AddMonths(-1) >= DateTime.Parse(c.Value))
         ));
 
 });
@@ -101,6 +190,18 @@ app.MapControllerRoute(
     pattern: "{controller}/{action=Index}/{id?}");
 
 app.Run();
+
+
+async Task OnTokenValidatedFunc(TokenValidatedContext context)
+{
+
+    // Add the scheme name claim for non standard scenario
+    var claim = new Claim("AuthScheme", context.Scheme.Name);
+    var identity = new ClaimsIdentity(new[] { claim });
+    context.Principal.AddIdentity(identity);
+
+    await Task.CompletedTask;
+}
 
 async Task OnRedirectToIdentityProviderFunc(RedirectContext context)
 {

@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text.Json;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -25,6 +26,7 @@ namespace woodgrovedemo.Pages
         public string DownstreamAccessToken { get; set; }
         public string DownstreamAccessTokenError { get; set; }
         public string? ActAs { get; set; } = "";
+        public string? AuthScheme { get; set; } = "";
 
         public TokenModel(IConfiguration configuration, TelemetryClient telemetry, IAuthorizationHeaderProvider authorizationHeaderProvider)
         {
@@ -39,6 +41,9 @@ namespace woodgrovedemo.Pages
 
             // Get the act as information
             ActAs = User.Claims.FirstOrDefault(c => c.Type.ToLower() == "act_as")?.Value;
+
+            // Get the act as information
+            AuthScheme = User.Claims.FirstOrDefault(c => c.Type == "AuthScheme")?.Value;
 
             // Read app settings
             string baseUrl = _configuration.GetSection("WoodgroveGroceriesApi:BaseUrl").Value!;
@@ -80,7 +85,7 @@ namespace woodgrovedemo.Pages
 
                 var jsonToken = handler.ReadToken(this.IdToken);
                 var diff = (DateTime.UtcNow - jsonToken.ValidTo);
-                this.IdTokenExpiresIn  = $"The ID token expires in {diff:hh\\:mm\\:ss}";
+                this.IdTokenExpiresIn = $"The ID token expires in {diff:hh\\:mm\\:ss}";
             }
             catch (System.Exception ex)
             {
@@ -90,8 +95,15 @@ namespace woodgrovedemo.Pages
             try
             {
                 // Get an access token to call the "Account" API (the first API in line)
-                AccessToken = await _authorizationHeaderProvider.CreateAuthorizationHeaderForUserAsync(scopes);
-                string at = await HttpContext.GetTokenAsync("access_token");
+                if (AuthScheme == OpenIdConnectDefaults.AuthenticationScheme)
+                {
+                    AccessToken = await _authorizationHeaderProvider.CreateAuthorizationHeaderForUserAsync(scopes);
+                    string at = await HttpContext.GetTokenAsync("access_token");
+                }
+                else
+                {
+                    AccessToken = "";
+                }
             }
             catch (MicrosoftIdentityWebChallengeUserException ex)
             {
@@ -117,25 +129,28 @@ namespace woodgrovedemo.Pages
 
             try
             {
-                // Use the access token to call the Account API.
-                HttpClient client = new HttpClient();
-                client.DefaultRequestHeaders.Add("Authorization", AccessToken);
-                string jsonString = await client.GetStringAsync(endpoint);
-
-                // The Account API invokes the downstream "Payment" API. To call the Payment API, the Account API uses
-                // the OAuth2 on-behalf-of flow to exchange the access token to a new one that fits 
-                // the Payment API's audience and scopes (permissions). 
-                // The Account API returns the access token so you can compare the two access tokens.
-                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-                AccountData accountData = JsonSerializer.Deserialize<AccountData>(jsonString, options)!;
-
-                if (string.IsNullOrEmpty(accountData.Error))
+                if (AuthScheme == OpenIdConnectDefaults.AuthenticationScheme)
                 {
-                    DownstreamAccessToken = accountData.Payment.AccessTokenToCallThePaymentAPI;
-                }
-                else
-                {
-                    DownstreamAccessTokenError = "Woodgrove Groceries account API returned error: " + accountData.Error;
+                    // Use the access token to call the Account API.
+                    HttpClient client = new HttpClient();
+                    client.DefaultRequestHeaders.Add("Authorization", AccessToken);
+                    string jsonString = await client.GetStringAsync(endpoint);
+
+                    // The Account API invokes the downstream "Payment" API. To call the Payment API, the Account API uses
+                    // the OAuth2 on-behalf-of flow to exchange the access token to a new one that fits 
+                    // the Payment API's audience and scopes (permissions). 
+                    // The Account API returns the access token so you can compare the two access tokens.
+                    var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                    AccountData accountData = JsonSerializer.Deserialize<AccountData>(jsonString, options)!;
+
+                    if (string.IsNullOrEmpty(accountData.Error))
+                    {
+                        DownstreamAccessToken = accountData.Payment.AccessTokenToCallThePaymentAPI;
+                    }
+                    else
+                    {
+                        DownstreamAccessTokenError = "Woodgrove Groceries account API returned error: " + accountData.Error;
+                    }
                 }
             }
             catch (System.Exception ex)

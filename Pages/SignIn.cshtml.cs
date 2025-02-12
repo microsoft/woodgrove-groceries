@@ -37,8 +37,15 @@ namespace MyApp.Namespace
         {
             _telemetry.TrackPageView($"Sign-in:{ID}");
 
+            // Set the authentication scheme
+            string authenticationScheme = OpenIdConnectDefaults.AuthenticationScheme;
+            // if (ID == AuthScheme.ArkoseFraudProtection)
+            // {
+            //     authenticationScheme = AuthScheme.ArkoseFraudProtection;
+            // }
+
             ChallengeResult challengeResult = new ChallengeResult(
-                OpenIdConnectDefaults.AuthenticationScheme,
+                authenticationScheme,
                 new AuthenticationProperties
                 {
                     RedirectUri = redirectUri
@@ -88,6 +95,16 @@ namespace MyApp.Namespace
         public IActionResult OnGetDefault()
         {
             return this.TrackAndAuth("Default");
+        }
+
+        public IActionResult OnGetArkoseFraudProtection()
+        {
+            return this.TrackAndAuth("ArkoseFraudProtection");
+        }
+        
+        public IActionResult OnGetEmailOtp()
+        {
+            return this.TrackAndAuth("EmailOtp");
         }
 
         public IActionResult OnGetModifyAttributeValues()
@@ -195,7 +212,7 @@ namespace MyApp.Namespace
         {
             return this.TrackAndAuth("ProfileReauth", "/profile");
         }
-        
+
         public IActionResult OnGetEmailAndPassword()
         {
             return this.TrackAndAuth("EmailAndPassword", "/", true);
@@ -290,7 +307,7 @@ namespace MyApp.Namespace
         {
             return this.TrackAndAuth("SSPR", "/", true);
         }
-        
+
         public IActionResult OnGetCustomAttributes()
         {
             return this.TrackAndAuth("CustomAttributes", "/", true);

@@ -21,6 +21,17 @@ namespace MyApp.Namespace
 
             _telemetry.TrackPageView("SignOut");
 
+            foreach (var cookie in Request.Cookies.Keys)
+            {
+                foreach (var scheme in AuthScheme.All)
+                {
+                    if (cookie.Contains(scheme))
+                    {
+                        Response.Cookies.Delete(cookie);
+                    }
+                }
+            }
+
             return Redirect("/MicrosoftIdentity/Account/SignOut");
         }
     }
