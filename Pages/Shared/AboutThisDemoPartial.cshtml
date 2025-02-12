@@ -23,9 +23,12 @@
                 <h6 class="dropdown-header" style="color: var(--color-very-dark);">Sign-in</h6>
             </li>
 
-            <li><a class="dropdown-item" href="#usecase=EmailAndPassword"><i class="bi bi-at"></i>&nbsp;
+            <li><a class="dropdown-item" href="#usecase=EmailAndPassword"><i class="bi-chat-right-dots"></i>&nbsp;
                     Sign-up or sign-in with email
                     and password</a></li>
+            <li><a class="dropdown-item" href="#usecase=EmailOtp"><i class="bi bi-at"></i>&nbsp;
+                    Sign-up or sign-in with email
+                    and one-time passcode</a></li>
             <li><a class="dropdown-item" href="#usecase=SSPR"><i class="bi bi-key"></i>&nbsp; Self-service
                     password reset</a></li>
             <li><a class="dropdown-item" href="#usecase=Social"><i class="bi bi-facebook"></i>&nbsp; Sign-up or sign-in
@@ -268,6 +271,34 @@
                 <i class="bi bi-play-circle"></i> <a class="" style="margin-top: 100px;" role="button"
                     href="/help/EmailAndPassword">
                     Learn how we configured the Woodgrove tenant</a>
+            </div>
+
+            <div id="useCase_EmailOtp" class="useCase">
+                <h4>Sign-up or sign-in with email and one-time passcode</h4>
+
+                <h5>Create a new Woodgrove account</h5>
+                <ol>
+                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                    <li>From the sign-in page select <b>No account? Create one.</b></li>
+                    <li>Enter your email address, which will be verified and becomes your login ID.</li>
+                    <li>Open your mailbox and copy the verification code sent to you. Then, on the sign-in
+                        page enter the verification code and select <b>next</b>.</li>
+                    <li>After the email was verified, 
+                        and enter your account details. Notice, that passsword is not required.</li>
+                    <li>Select <b>next</b> to complete the registration.</li>
+                </ol>
+
+                <h5>Sign-in with your Woodgrove account</h5>
+                <ol>
+                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                    <li>On the sign-in page, enter your email, and select <b>next</b>.</li>
+                    <li>Open your mailbox and copy the verification code sent to you. Then, on the sign-in
+                        page enter the verification code and select <b>next</b>.</li>
+                </ol>
+
+                <a class="btn header-button" role="button" href="/SignIn?handler=EmailOtp"><i
+                        class="bi bi-play-circle"></i> Start the use
+                    case</a>
             </div>
 
             <div id="useCase_CompanyBranding" class="useCase">

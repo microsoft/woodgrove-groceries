@@ -1,4 +1,5 @@
 ﻿@page
+@using Microsoft.AspNetCore.Authentication.OpenIdConnect
 @model woodgrovedemo.Pages.TokenModel
 @{
 }
@@ -27,10 +28,13 @@
 
             @foreach (var claim in User.Claims)
             {
-                <tr>
-                    <td scope="row" style="color: #1b1b1b;">@claim.Type</td>
-                    <td class="text-break">@claim.Value</td>
-                </tr>
+                if (claim.Type != "AuthScheme")
+                {
+                    <tr>
+                        <td scope="row" style="color: #1b1b1b;">@claim.Type</td>
+                        <td class="text-break">@claim.Value</td>
+                    </tr>
+                }
             }
         </tbody>
     </table>
@@ -42,50 +46,54 @@
                 <li>The <a href='https://jwt.ms/#access_token=@Model.IdToken.Replace("Bearer ", "")'
                         target="_blank">https://jwt.ms</a> shows the ID token.</li>
                 <li>@Model.IdTokenExpiresIn</li>
+                <li>Auth scheme: @Model.AuthScheme</li>
             </ul>
         }
     </div>
 
-    <h2 style="color: green;">Access token to call web API</h2>
-    <div>
+    @if (Model.AuthScheme == OpenIdConnectDefaults.AuthenticationScheme)
+    {
+        <h2 style="color: green;">Access token to call web API</h2>
+        <div>
 
-        @if (!string.IsNullOrEmpty(@Model.AccessToken))
-        {
-            <span>The <a href='https://jwt.ms/#access_token=@Model.AccessToken.Replace("Bearer ", "")'
-                    target="_blank">https://jwt.ms</a> shows the access token used to call a web API (Account API).</span>
-        }
+            @if (!string.IsNullOrEmpty(@Model.AccessToken))
+            {
+                <span>The <a href='https://jwt.ms/#access_token=@Model.AccessToken.Replace("Bearer ", "")'
+                        target="_blank">https://jwt.ms</a> shows the access token used to call a web API (Account API).</span>
+            }
 
-        @if (!string.IsNullOrEmpty(@Model.AccessTokenError))
-        {
-            <div class="alert alert-danger" role="alert">
-                @Model.AccessTokenError
-            </div>
-        }
+            @if (!string.IsNullOrEmpty(@Model.AccessTokenError))
+            {
+                <div class="alert alert-danger" role="alert">
+                    @Model.AccessTokenError
+                </div>
+            }
 
-        <br>&nbsp;<br>
+            <br>&nbsp;<br>
 
 
-        @if (!string.IsNullOrEmpty(@Model.DownstreamAccessToken))
-        {
-            <span>
-                For the <b>Account </b>API to make authenticated requests to the downstream <b>Payment</b> API, it needs an
-                access token for different audience and another set of scopes (permissions). To get that access token, the
-                <b>Account</b> API utilizes the OAuth 2.0 On-Behalf-Of flow.
+            @if (!string.IsNullOrEmpty(@Model.DownstreamAccessToken))
+            {
+                <span>
+                    For the <b>Account </b>API to make authenticated requests to the downstream <b>Payment</b> API, it needs an
+                    access token for different audience and another set of scopes (permissions). To get that access token, the
+                    <b>Account</b> API utilizes the OAuth 2.0 On-Behalf-Of flow.
 
-            </span>
-            <span>The <a href='https://jwt.ms/#access_token=@Model.DownstreamAccessToken.Replace("Bearer ", "")'
-                    target="_blank">https://jwt.ms</a> shows the access token acquired by the <b>Account</b> API to call the
-                downstream <b>Payment</b> API.</span>
-        }
+                </span>
+                <span>The <a href='https://jwt.ms/#access_token=@Model.DownstreamAccessToken.Replace("Bearer ", "")'
+                        target="_blank">https://jwt.ms</a> shows the access token acquired by the <b>Account</b> API to call the
+                    downstream <b>Payment</b> API.</span>
+            }
 
-        @if (!string.IsNullOrEmpty(@Model.DownstreamAccessTokenError))
-        {
-            <div class="alert alert-danger" role="alert">
-                @Model.DownstreamAccessTokenError
-            </div>
-        }
+            @if (!string.IsNullOrEmpty(@Model.DownstreamAccessTokenError))
+            {
+                <div class="alert alert-danger" role="alert">
+                    @Model.DownstreamAccessTokenError
+                </div>
+            }
 
-    </div>
+        </div>
+    }
 
     <a class="btn header-button" role="button" href="/SignIn?handler=TokenSignin"><i class="bi bi-person"></i>
         Sign-in with SSO</a>
