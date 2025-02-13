@@ -1,24 +1,18 @@
-# TODO: The maintainer of this repo has not yet edited this file
-
-**REPO OWNER**: Do you want Customer Service & Support (CSS) support for this product/project?
-
-- **No CSS support:** Fill out this template with information about how to file issues and get help.
-- **Yes CSS support:** Fill out an intake form at [aka.ms/onboardsupport](https://aka.ms/onboardsupport). CSS will work with/help you to determine next steps.
-- **Not sure?** Fill out an intake as though the answer were "Yes". CSS will help you decide.
-
-*Then remove this first heading from this SUPPORT.MD file before publishing your repo.*
-
 # Support
+
+The [Woodgrove live demo](https://woodgrovedemo.com), along with its source code created by Microsoft, serves to demonstrate several user flows of the Microsoft Entra External ID. Please note that this application and its source code are not supported under any Microsoft support program or service. If you encounter a bug, have questions, or wish to provide product feedback, kindly use the [Issues](https://github.com/microsoft/woodgrove-groceries/issues) tab at the top of the page. Additionally, you may @mention collaborators who have access to this repository in an issue to bring your comment to their attention.
 
 ## How to file issues and get help  
 
-This project uses GitHub Issues to track bugs and feature requests. Please search the existing 
-issues before filing new issues to avoid duplicates.  For new issues, file your bug or 
-feature request as a new Issue.
+This project uses [GitHub Issues](https://github.com/microsoft/woodgrove-groceries/issues) to track bugs and feature requests. Please search the existing 
+issues before filing new issues to avoid duplicates.  For new issues or questions about using this project, please file your bug or 
+feature request as a [new Issue](https://github.com/microsoft/woodgrove-groceries/issues/new?template=Blank+issue).
 
-For help and questions about using this project, please **REPO MAINTAINER: INSERT INSTRUCTIONS HERE 
-FOR HOW TO ENGAGE REPO OWNERS OR COMMUNITY FOR HELP. COULD BE A STACK OVERFLOW TAG OR OTHER
-CHANNEL. WHERE WILL YOU HELP PEOPLE?**.
+## Using the source code
+
+The objective of this project is to demonstrate various authentication user experiences. While it is possible to download and run the app locally, it's not recommended because the app is designed to support multiple flows within a single application, whereas a typical app utilizes a single sign-in flow. 
+
+Examples of Microsoft Entra External ID are available at <https://aka.ms/eeid/samples>. For these examples, we provide instructions on how to download and use the samples or create your own application based on common authentication and authorization scenarios, development languages, and platforms.
 
 ## Microsoft Support Policy  
 
