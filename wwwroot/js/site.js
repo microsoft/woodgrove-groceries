@@ -61,6 +61,42 @@ function checkForHashParam(eventType) {
     }
 }
 
+
+// Filter the use cases
+function filterUseCases() {
+    var input, filter, ul, li, a, i;
+    input = document.getElementById("serachUseCase");
+    filter = input.value.toUpperCase();
+    div = document.getElementById("demosDropdown");
+    a = div.getElementsByTagName("li");
+
+    for (i = 0; i < a.length; i++) {
+        txtValue = a[i].textContent || a[i].innerText;
+        if ((txtValue.toUpperCase().indexOf(filter) > -1)) {
+            a[i].style.display = "";
+        } else {
+            if (a[i].getAttribute("class") != "UseCaseSearch")
+                a[i].style.display = "none";
+        }
+    }
+
+    // Hide the use cases' header
+    if (filter === "") {
+        $(".UseCaseHeader").show();
+    }
+    else {
+        $(".UseCaseHeader").hide();
+    }
+
+}
+
+// Clear the filter
+function clearFilterUseCases()
+{
+    document.getElementById("serachUseCase").value = '';
+    filterUseCases();
+}
+
 // Show the demo
 function showUseCase(trigger) {
     var myUrl = new URL(window.location.href.replace(/#/g, "?"));

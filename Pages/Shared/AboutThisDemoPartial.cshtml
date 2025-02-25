@@ -6,20 +6,26 @@
     Select a use-case or a feature, read the instructions and start the demo:
     <div class="dropdown" style="margin-top: 15px">
         <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
+            onclick="clearFilterUseCases()"
             aria-expanded="false" style="width: 100%; text-align: left; border-color: gray;">
             Select a use case
         </a>
 
         <ul class="dropdown-menu" id="demosDropdown" aria-labelledby="dropdownMenuLink">
+            <li class="UseCaseSearch">
+                <div class="dropdown-item">
+                    <i class="bi bi-search"></i><input type="text" class="form-control " style="margin-left: 5px; width: 80%; display: inline; border-style: none;" placeholder="Search..." id="serachUseCase" onkeyup="filterUseCases()">
+                </div>
+            </li>
+            
             <li> <a class="dropdown-item" href="#usecase=Default"><i class="bi bi-house-door"></i>&nbsp; Home</a>
             </li>
             <li><a class="dropdown-item" href="#usecase=OnlineRetail" style="color: rgb(0, 84, 0);"><i
-                        class="bi bi-shop"></i>&nbsp;
-                    Online retail demo</a></li>
+                        class="bi bi-shop"></i>&nbsp; Online retail demo</a></li>
             <li>
                 <hr class="dropdown-divider">
             </li>
-            <li>
+            <li class="UseCaseHeader">
                 <h6 class="dropdown-header" style="color: var(--color-very-dark);">Sign-in</h6>
             </li>
 
@@ -37,10 +43,11 @@
             <li><a class="dropdown-item" href="#usecase=LoginHint"><i class="bi bi-person-check"></i> </i>&nbsp;
                     Prepopulate the sign in name</a>
             </li>
+            
             <li>
                 <hr class="dropdown-divider">
             </li>
-            <li>
+            <li class="UseCaseHeader">
                 <h6 class="dropdown-header" style="color: var(--color-very-dark);">Sign-up</h6>
             </li>
             <li><a class="dropdown-item" href="#usecase=CustomAttributes"><i class="bi bi-pencil-square"></i>&nbsp;
@@ -55,9 +62,7 @@
                     Prepopulate
                     sign-up attributes (extension)</a></li>
             <li><a class="dropdown-item" href="#usecase=PostAttributeCollection"><i
-                        class="bi bi-hand-thumbs-up"></i>&nbsp;
-                    Validate
-                    sign-up attributes (extension)</a></li>
+                        class="bi bi-hand-thumbs-up"></i>&nbsp; Validate sign-up attributes (extension)</a></li>
             <li>
             <li><a class="dropdown-item" href="#usecase=ModifyAttributeValues"><i class="bi bi-alphabet"></i>&nbsp;
                     Modify attribute values (extension)</a></li>
@@ -65,8 +70,9 @@
                     the sign-up process (extension)</a></li>
             <li>
             <li><a class="dropdown-item" style="display: none1;" href="#usecase=ArkoseFraudProtection"><i class="bi bi-hand-index"></i>&nbsp; Arkose fraud protection (private preview)</a></li>
+            
             <li> <hr class="dropdown-divider"> </li>
-            <li>
+            <li class="UseCaseHeader">
                 <h6 class="dropdown-header" style="color: var(--color-very-dark);">User profile</h6>
             </li>
             <li><a class="dropdown-item" href="#usecase=ProfileEdit"><i class="bi bi-pencil"></i>&nbsp; Edit your
@@ -75,10 +81,11 @@
                     account</a></li>
             <li><a class="dropdown-item" href="#usecase=DisableAccount"><i class="bi bi-ban"></i>&nbsp; Disable an
                     account</a></li>
+            
             <li>
                 <hr class="dropdown-divider">
             </li>
-            <li>
+            <li class="UseCaseHeader">
                 <h6 class="dropdown-header" style="color: var(--color-very-dark);">Security</h6>
             </li>
             <li><a class="dropdown-item" href="#usecase=MFA"><i class="bi bi-envelope-at"></i>&nbsp; Multifactor
@@ -95,7 +102,7 @@
             <li>
                 <hr class="dropdown-divider">
             </li>
-            <li>
+            <li class="UseCaseHeader">
                 <h6 class="dropdown-header" style="color: var(--color-very-dark);">Access management</h6>
             </li>
             <li><a class="dropdown-item" href="#usecase=RBAC"><i class="bi bi-person-badge-fill"></i>&nbsp; Role-based
@@ -110,10 +117,11 @@
             <li><a class="dropdown-item" href="#usecase=ActAs"><i class="bi bi-person-workspace"></i>
                     </i>&nbsp; Act as (delegation)</a>
             </li>
+            
             <li>
                 <hr class="dropdown-divider">
             </li>
-            <li>
+            <li class="UseCaseHeader">
                 <h6 class="dropdown-header" style="color: var(--color-very-dark);">User experience</h6>
             </li>
             <li><a class="dropdown-item" href="#usecase=CompanyBranding"><i class="bi bi-palette"></i>&nbsp; Customize
@@ -127,10 +135,11 @@
             <li><a class="dropdown-item" href="#usecase=PreSelectLanguage"><i class="bi bi-translate"></i>&nbsp;
                     Preselect a
                     language</a></li>
+            
             <li>
                 <hr class="dropdown-divider">
             </li>
-            <li>
+            <li class="UseCaseHeader">
                 <h6 class="dropdown-header" style="color: var(--color-very-dark);">Token and session</h6>
             </li>
             <li><a class="dropdown-item" href="#usecase=TokenClaims"><i class="bi bi-file-text"></i>&nbsp; Add directory
@@ -147,10 +156,11 @@
                     sign-in</a></li>
             <li><a class="dropdown-item" href="#usecase=OBO"><i class="bi bi-arrow-90deg-up"></i>&nbsp; OAuth 2.0
                     On-Behalf-Of flow</a></li>
+            
             <li>
                 <hr class="dropdown-divider">
             </li>
-            <li>
+            <li class="UseCaseHeader">
                 <h6 class="dropdown-header" style="color: var(--color-very-dark);">Reports and auditing</h6>
             </li>
             <li><a class="dropdown-item" href="#usecase=UserLastActivity"><i class="bi bi-clock-history"></i>&nbsp; User
@@ -159,10 +169,11 @@
             <li><a class="dropdown-item" href="#usecase=UserInsights"><i class="bi bi-lightbulb"></i>&nbsp; Gain
                     insights into your app users’ activity</a>
             </li>
+
             <li>
                 <hr class="dropdown-divider">
             </li>
-            <li>
+            <li class="UseCaseHeader">
                 <h6 class="dropdown-header" style="color: var(--color-very-dark);">Advanced scenarios</h6>
             </li>
             <li><a class="dropdown-item" href="#usecase=GithubWorkflows"><i class="bi bi-github"></i>&nbsp; Automation
