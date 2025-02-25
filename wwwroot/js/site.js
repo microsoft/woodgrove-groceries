@@ -91,8 +91,7 @@ function filterUseCases() {
 }
 
 // Clear the filter
-function clearFilterUseCases()
-{
+function clearFilterUseCases() {
     document.getElementById("serachUseCase").value = '';
     filterUseCases();
 }
@@ -113,7 +112,7 @@ function showUseCase(trigger) {
         usecase = 'Default';
     }
 
-    var useCases = ["Default", "SignUpLink", "ArkoseFraudProtection", "EmailOtp", "OnlineRetail", "DisableAccount", "CustomDomain", "CustomEmail", "AssignmentRequired", "StepUp", "CSA", "PolicyAgreement", "EmailAndPassword", "OBO", "SSO", "GithubWorkflows", "TokenTTL", "MFA", "CA", "ForceSignIn", "UserInsights", "SignInLog", "ModifyAttributeValues", "BlockSignUp", "CompanyBranding", "Language", "PreSelectLanguage", "SSPR", "Social", "ActAs", "LoginHint", "TokenAugmentation", "TokenClaims", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "UserLastActivity", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Finance"];
+    var useCases = ["Default", "SignUpLink", "ArkoseFraudProtection", "NativeAuth", "EmailOtp", "OnlineRetail", "DisableAccount", "CustomDomain", "CustomEmail", "AssignmentRequired", "StepUp", "CSA", "PolicyAgreement", "EmailAndPassword", "OBO", "SSO", "GithubWorkflows", "TokenTTL", "MFA", "CA", "ForceSignIn", "UserInsights", "SignInLog", "ModifyAttributeValues", "BlockSignUp", "CompanyBranding", "Language", "PreSelectLanguage", "SSPR", "Social", "ActAs", "LoginHint", "TokenAugmentation", "TokenClaims", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "UserLastActivity", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Saml"];
 
     if (($('#offcanvasRight').length > 0) && usecase && (useCases.indexOf(usecase) > -1)) {
 

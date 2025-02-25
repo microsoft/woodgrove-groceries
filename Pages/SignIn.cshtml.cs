@@ -320,13 +320,19 @@ namespace MyApp.Namespace
             return Redirect("https://woodgroverestaurants.com");
         }
 
-        public IActionResult OnGetFinance()
+        public IActionResult OnGetSaml()
         {
-            _telemetry.TrackPageView($"Sign-in:Kiosk");
+            _telemetry.TrackPageView($"Sign-in:Saml");
 
             return Redirect("https://woodgrovebanking.com/");
         }
 
+        public IActionResult OnGetNativeAuth()
+        {
+            _telemetry.TrackPageView($"Sign-in:NativeAuth");
+
+            return Redirect("https://woodgroveairline.com/");
+        }
 
         private async Task StartActAsAsync(string id)
         {

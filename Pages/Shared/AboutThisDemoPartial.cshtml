@@ -174,15 +174,23 @@
                 <hr class="dropdown-divider">
             </li>
             <li class="UseCaseHeader">
+                <h6 class="dropdown-header" style="color: var(--color-very-dark);">Other applications</h6>
+            </li>
+
+            <li><a class="dropdown-item" href="#usecase=NativeAuth"><i class="bi bi-browser-edge"></i>&nbsp; Native authentication (SPA app)</a>
+            </li>
+            <li><a class="dropdown-item" href="#usecase=Saml"><i class="bi bi-globe"></i>&nbsp; SAML web app</a></li>
+
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li class="UseCaseHeader">
                 <h6 class="dropdown-header" style="color: var(--color-very-dark);">Advanced scenarios</h6>
             </li>
             <li><a class="dropdown-item" href="#usecase=GithubWorkflows"><i class="bi bi-github"></i>&nbsp; Automation
                     with GitHub Workflows</a></li>
             <li><a class="dropdown-item" href="#usecase=Kiosk"><i class="bi bi-display"></i>&nbsp; Input constrained
                     devices (Kiosk)</a></li>
-            <li><a class="dropdown-item" href="#usecase=Finance"><i class="bi bi-bank"></i>&nbsp; Finance solutions</a>
-            </li>
-            <li><a class="dropdown-item" href="#usecase=Finance"><i class="bi bi-globe"></i>&nbsp; SAML web app</a></li>
         </ul>
     </div>
     <div id="useCases">
@@ -1478,15 +1486,30 @@
                     Start the use case</a>
             </div>
 
-            <div id="useCase_Finance" class="useCase">
-                <h4>Finance</h4>
+            <div id="useCase_Saml" class="useCase">
+                <h4>SAML web application</h4>
 
                 <p>
                     The Woodgrove Bank demo
                     application illustrates the sign-up and sign-in authentication experiences for financial scenarios.
                     It also demonstrates the SAML protocol federation with Microsoft Entra External ID.
                 </p>
-                <a class="btn header-button" role="button" href="/SignIn?handler=finance"><i
+                <a class="btn header-button" role="button" href="/SignIn?handler=Saml"><i
+                        class="bi bi-play-circle"></i>
+                    Start the use case</a>
+            </div>
+
+            <div id="useCase_NativeAuth" class="useCase">
+                <h4>Native authentication for single page application (SPA)</h4>
+
+                <p>
+                    Microsoft Entra’s <a class="link-dark" href="https://learn.microsoft.com/en-us/entra/external-id/customers/concept-native-authentication">native authentication</a> allows you to have full control over the design of your 
+                    mobile, desktop application and <a class="link-dark" href="https://learn.microsoft.com/en-us/entra/external-id/customers/how-to-native-authentication-cors-solution-production-environment">single page application (SPA)</a> sign-in experiences. 
+                </p>
+                <p>
+                    It enables you to create visually appealing, pixel-perfect authentication screens that seamlessly blend into your app’s interface. With this approach, you can fully customize the user interface, including design elements, logo placement, and layout, ensuring a consistent and branded look
+                </p>
+                <a class="btn header-button" role="button" href="/SignIn?handler=NativeAuth"><i
                         class="bi bi-play-circle"></i>
                     Start the use case</a>
             </div>
