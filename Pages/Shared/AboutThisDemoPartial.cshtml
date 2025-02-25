@@ -64,8 +64,8 @@
             <li><a class="dropdown-item" href="#usecase=BlockSignUp"><i class="bi bi-sign-stop"></i>&nbsp; Stop
                     the sign-up process (extension)</a></li>
             <li>
-                <hr class="dropdown-divider">
-            </li>
+            <li><a class="dropdown-item" style="display: none1;" href="#usecase=ArkoseFraudProtection"><i class="bi bi-hand-index"></i>&nbsp; Arkose fraud protection (private preview)</a></li>
+            <li> <hr class="dropdown-divider"> </li>
             <li>
                 <h6 class="dropdown-header" style="color: var(--color-very-dark);">User profile</h6>
             </li>
@@ -1110,7 +1110,34 @@
                     href="/help/PostAttributeCollection">
                     Learn how we configured the Woodgrove tenant</a>
             </div>
+            <div id="useCase_ArkoseFraudProtection" class="useCase">
+                <h4>Arkose fraud protection</h4>
+                <p>
+                    Arkose Labs' <a class="link-dark"
+                        href="https://www.arkoselabs.com/solutions/new-account-fraud/">New Account Fraud Solution</a> is designed to combat the creation of fraudulent accounts to ensure the security of your application while maintaining a seamless onboarding experience for legitimate users.
+                </p>
+                <p>
+                    After a user has entered their profile data and the account is ready to be created, an additional page will appear presenting an interactive CAPTCHA-style puzzle. These puzzles are designed to be easily solvable by humans yet challenging for “bots” or scripts. 
+                </p>
+                <p>
+                    The Arkose solution is integrated within Microsoft Entra external ID (private preview) and offers organizations seamless deployment, and tools to combat fake account creation effectively. 
+                </p>
+                <ol>
+                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                    <li>Sign-up with your email. If you already have an account,
+                        <a class="link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+                            href="#usecase=DeleteAccount">delete it</a>.
+                    </li>
+                    <li>After you validate your email, complete the
+                        registration by providing your details.</li>
+                    <li>Select <b>next</b> to try to create a Woodgrove online identity.</li>
+                    <li>complete the Arkose puzzle to create the accout.</li>
+                </ol>
 
+                <a class="btn header-button" role="button" href="/SignIn?handler=ArkoseFraudProtection"><i
+                        class="bi bi-play-circle"></i> Start
+                    the use case</a>
+            </div>
 
             <div id="useCase_RBAC" class="useCase">
                 <h4>Role-based access control</h4>
