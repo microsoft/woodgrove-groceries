@@ -5,13 +5,21 @@
             data-bs-target="#microsoftEntraAdminCenter" type="button" role="tab"
             aria-controls="microsoftEntraAdminCenter" aria-selected="true">Microsoft Entra admin center</button>
     </li>
-    <li class="nav-item" role="presentation">
-        <button class="nav-link" id="microsoftGraph-tab" data-bs-toggle="tab" data-bs-target="#microsoftGraph"
-            type="button" role="tab" aria-controls="microsoftGraph" aria-selected="false">Microsoft Graph</button>
-    </li>
+
+
+
     @{
+        int Graph = @Model & 1;
         int PowerShell = @Model & 2;
         int EntraPowerShell = @Model & 4;
+    }
+
+    @if (Graph == 1)
+    {
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="microsoftGraph-tab" data-bs-toggle="tab" data-bs-target="#microsoftGraph"
+                type="button" role="tab" aria-controls="microsoftGraph" aria-selected="false">Microsoft Graph</button>
+        </li>
     }
 
     @if (PowerShell == 2)
@@ -26,7 +34,8 @@
     {
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="graphPowerShell-tab" data-bs-toggle="tab" data-bs-target="#entraGraphPowerShell"
-                type="button" role="tab" aria-controls="entraGraphPowerShell" aria-selected="false">Microsoft Entra PowerShell</button>
+                type="button" role="tab" aria-controls="entraGraphPowerShell" aria-selected="false">Microsoft Entra
+                PowerShell</button>
         </li>
     }
 

@@ -1,0 +1,208 @@
+﻿@page
+@model woodgrovedemo.Help.Pages.MsaModel
+
+@{
+    ViewData["Title"] = "Microsoft personal account";
+    Layout = "_Layout";
+}
+
+<h1 style="margin-top: 25px; margin-bottom: 25px;">Sign-in with Microsoft personal account (live.com)
+</h1>
+
+
+<p>
+
+    This visual guide demonstrates how to add Microsoft personal accounts (live.com) as a sign-in option for Microsoft
+    Entra
+    external ID. To achieve this, we adhered to the guidelines outlined in the article on <a
+        href="https://learn.microsoft.com/en-us/entra/external-id/customers/how-to-custom-oidc-federation-customers"
+        target="_blank" class="link-dark link-offset-2">custom OpenID Connect identity provider</a>.
+</p>
+
+@await Html.PartialAsync("_HelpSelector.cshtml", 0)
+<div class="tab-content wg-tab-content">
+    <div class="tab-pane active" id="microsoftEntraAdminCenter" role="tabpanel"
+        aria-labelledby="microsoftEntraAdminCenter-tab" tabindex="0">
+
+        @await Html.PartialAsync("_StepsButtons.cshtml")
+
+        <div class="bs-stepper vertical" id="Stepper">
+            @await Html.PartialAsync("_Steps.cshtml", 10)
+
+            <div class="bs-stepper-content">
+                <div id="step-1" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger1">
+                    @await Html.PartialAsync("_Prerequisites.cshtml")
+
+                    <p>
+                        To add <b>live.com</b> as an identity provider, you first need to register an
+                        application in microsoft Entra ID.
+                        It can be any Microsoft Entra ID tenant, like your external ID tenant, or a workforce tenant.
+                        Visit <a href="https://entra.microsoft.com" target="_blank"
+                            class="link-dark link-offset-2">https://entra.microsoft.com</a> and sign in with your admin
+                        account.
+                        Then, browse to <b>Identity</b> > <b>App registrations</b> and select <b>New
+                            registration</b>.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/MSA/MSA-app-reg-1.png">
+                    </a>
+                </div>
+
+                <div id="step-2" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger2">
+                    <p>
+                        Enter a meaningful application <b>Name</b> that is displayed to users of the app, like
+                        Woodgrove.
+                        Under <b>Supported account types</b>, select <b>Personal Microsoft accounts only</b>.
+                        Under <b>Redirect URI</b>, select <b>Web</b> and then, in the URL box, enter the first redirect
+                        URL. Refer to the <a
+                            href="https://learn.microsoft.com/en-us/entra/external-id/customers/how-to-custom-oidc-federation-customers"
+                            target="_blank" class="link-dark link-offset-2">documentation</a> for redirect URLs details.
+                        To register the application, select <b>Register</b>.
+
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/MSA/MSA-app-reg-2.png">
+                    </a>
+                </div>
+                <div id="step-3" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger3">
+                    <p>
+                        The application's <b>Overview</b> pane is displayed when registration is complete.
+                        Please document the <b>Application (client) ID</b> as it will be required for configuring a
+                        custom OpenID Connect identity provider.
+                    </p>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/MSA/MSA-app-reg-3.png">
+                    </a>
+                </div>
+
+                <div id="step-4" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger4">
+                    <p>
+                        From the menu, choose <b>Authentication</b> and proceed to add the remaining <b>Redirect
+                            URLs</b> as
+                        detailed in the
+                        <a href="https://learn.microsoft.com/en-us/entra/external-id/customers/how-to-custom-oidc-federation-customers"
+                            target="_blank" class="link-dark link-offset-2">Custom OpenID Connect</a> documentation.
+                        Once completed, select the <b>Save</b> button.
+                    </p>
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/MSA/MSA-app-reg-4.png">
+                    </a>
+                </div>
+
+                <div id="step-5" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger5">
+                    <p>
+                        Credentials are used by your custom OpenID Connect identity provider to authenticate itself
+                        to the <b>live.com</b> identity provider.
+
+                        Select <b>Certificates & secrets</b>, then <b>Client secrets</b> and <b>New client secret</b>.
+                    </p>
+                    <p>
+                        Add a <b>description</b> for your client secret.
+                        Select an <b>expiration</b> for the secret or specify a custom lifetime. Client secret lifetime
+                        is limited to two years (24 months) or less.
+                        You can't specify a custom lifetime longer than 24 months. Microsoft recommends that you set an
+                        expiration value of less than 12 months.
+                        Finally, select <b>Add</b>.
+                    </p>
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/MSA/MSA-app-reg-5.png">
+                    </a>
+                </div>
+
+                <div id="step-6" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger6">
+                    <p>
+                        Record the <b>secret's</b> <b>value</b> for use in your custom OpenID Connect identity provider
+                        settings.
+                        This secret value is never displayed again after you leave this page.
+                    </p>
+                    <p>
+                        Well done, you successfully registered a live.com application. The next step is to add the
+                        live.com as an identity provider into your Microsoft Entra External ID tenant.
+                    </p>
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/MSA/MSA-app-reg-6.png">
+                    </a>
+                </div>
+
+                <div id="step-7" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger7">
+                    <p>
+                        To add live.com as a custom OpenID Connect identity provider, browse to <b>External
+                            Identities</b> and then <b>All identity providers</b>.
+                        Select the <b>Custom</b> tab, and then select <b>Add new</b> and choose the <b>Open ID
+                            Connect</b> option.
+                    </p>
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/MSA/idp-1.png">
+                    </a>
+                </div>
+
+                <div id="step-8" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger8">
+                    <p>
+                        Provide the details for the live.com identity provider and the application you registered,
+                        including the application ID and application secret.
+                        For further details, please refer to the
+                        <a href="https://learn.microsoft.com/en-us/entra/external-id/customers/how-to-custom-oidc-federation-customers"
+                            target="_blank" class="link-dark link-offset-2">Custom OpenID Connect</a> document. When
+                        complete, select <b>Review + Create</b> and then <b>Create</b>.
+                    </p>
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/MSA/idp-2.png">
+                    </a>
+                </div>
+
+                <div id="step-9" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger9">
+                    <p>
+                        The live.com identity provider has been configured in your Microsoft Entra external ID. However,
+                        it is not yet accessible in any of the sign-in pages. To activate it, you must associate the
+                        live.com identity provider with a user flow.
+                    </p>
+                    <p>
+                        In your Microsoft Entra external ID tenant, navigate to <b>External Identities</b> and then
+                        <b>User flows</b>.
+                        Select the user flow where you wish to add the live.com identity provider.
+                        Then <b>within the user flow</b>, select the <b>Identity providers</b> link
+                    </p>
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/MSA/idp-3.png">
+                    </a>
+                </div>
+
+                <div id="step-10" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="steppertrigger10">
+                    <p>
+                        Under <b>Other Identity Providers</b>, select the <b>Microsoft personal account</b> (live.com).
+                        At the top of the pane, select <b>Save</b>.
+                    </p>
+                    <div class="alert alert-success" role="alert">
+                        <h4 class="alert-heading">Well done!</h4>
+                        <p>You successfully added the Microsoft personal account (live.com) identity provider to your
+                            tenant. Then you enabled the
+                            sign-in with <b>Microsoft personal account</b> in a user flow. To check the user experience,
+                            sign-in to your application
+                            and select <b>sing-in with Microsoft personal account</b> option.
+                        </p>
+                    </div>
+
+                    <a href="#" class="pop" onclick="return false;">
+                        <img class="img-fluid border" src="~/Help/MSA/idp-4.png">
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+    <div class="tab-pane" id="microsoftGraph" role="tabpanel" aria-labelledby="microsoftGraph-tab" tabindex="0">
+        Loading...
+    </div>
+
+    <div class="tab-pane" id="entraGraphPowerShell" role="tabpanel" aria-labelledby="entraGraphPowerShell-tab"
+        tabindex="0">
+        Loading...
+    </div>
+
+</div>

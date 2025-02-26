@@ -101,7 +101,7 @@ namespace MyApp.Namespace
         {
             return this.TrackAndAuth("ArkoseFraudProtection");
         }
-        
+
         public IActionResult OnGetEmailOtp()
         {
             return this.TrackAndAuth("EmailOtp");
@@ -221,6 +221,11 @@ namespace MyApp.Namespace
         public IActionResult OnGetSocial()
         {
             return this.TrackAndAuth("Social", "/", true);
+        }
+
+        public IActionResult OnGetMsa()
+        {
+            return this.TrackAndAuth("MSA", "/", true);
         }
 
         public IActionResult OnGetTokenTTL()

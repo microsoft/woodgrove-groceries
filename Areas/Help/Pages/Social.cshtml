@@ -11,19 +11,19 @@
 
 
 <p>
-    By setting up federation with social identity providers, you can allow customers to sign in to your applications
+    By setting up federation with social identity providers, you can allow users to sign in to your applications
     with their own
     social account, such as <a
         href="https://learn.microsoft.com/entra/external-id/customers/how-to-facebook-federation-customers"
         target="_blank" class="link-dark link-offset-2">Facebook</a>
     or <a href="https://learn.microsoft.com/entra/external-id/customers/how-to-google-federation-customers"
         target="_blank" class="link-dark link-offset-2">Google</a>.
-    This demo shows how to add Facebook as one of your application's sign-in options. On the sign-in page, customers
+    This demo shows how to add Facebook as one of your application's sign-in options. On the sign-in page, users
     can sign-in to Microsoft Entra ID with Facebook. The steps in this demo applies also to other
     identity providers, such as Google.
 </p>
 
-@await Html.PartialAsync("_HelpSelector.cshtml", 0)
+@await Html.PartialAsync("_HelpSelector.cshtml", 1)
 <div class="tab-content wg-tab-content">
     <div class="tab-pane active" id="microsoftEntraAdminCenter" role="tabpanel"
         aria-labelledby="microsoftEntraAdminCenter-tab" tabindex="0">
@@ -74,7 +74,7 @@
                         user
                         flow.
 
-                        In your customer tenant, browse to <b>Identity</b> > <b>External Identities</b> > <b>User
+                        In your Entra external ID tenant, browse to <b>Identity</b> > <b>External Identities</b> > <b>User
                             flows</b>.
                         Then,
                         Select the user flow where you want to add the Facebook identity provider.
@@ -94,11 +94,12 @@
 
                     <div class="alert alert-success" role="alert">
                         <h4 class="alert-heading">Well done!</h4>
-                        <p>You successfully added the Facebook identity provider to your tenant. The you enabled the
+                        <p>You successfully added the Facebook identity provider to your tenant. Then you enabled the
                             sign-in
                             with Facebook in your user flow. To check the user experience, sign-in to your application
                             and
                             select the Facebook option.
+                        </p>
                     </div>
 
                     <a href="#" class="pop" onclick="return false;">
