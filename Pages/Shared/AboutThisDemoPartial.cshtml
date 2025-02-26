@@ -12,15 +12,15 @@
         </a>
 
         <ul class="dropdown-menu" id="demosDropdown" aria-labelledby="dropdownMenuLink">
-            <li class="UseCaseSearch">
+            <li class="UseCaseSearch no-close" id="UseCaseSearchContainer" style="padding-bottom: 3px; padding-top: 3px;  min-width: 450px;">
                 <div class="dropdown-item">
-                    <i class="bi bi-search"></i><input type="text" class="form-control " style="margin-left: 5px; width: 80%; display: inline; border-style: none;" placeholder="Search..." id="serachUseCase" onkeyup="filterUseCases()">
+                    <i class="bi bi-search" style="color: rgb(1, 121, 1)!important; font-weight: 400!important;"></i><input type="text" class="form-control" style="margin-left: 5px; width: 80%; display: inline; border-style: none;" placeholder="Search..." id="serachUseCase" onkeyup="filterUseCases()">
                 </div>
             </li>
             
             <li> <a class="dropdown-item" href="#usecase=Default"><i class="bi bi-house-door"></i>&nbsp; Home</a>
             </li>
-            <li><a class="dropdown-item" href="#usecase=OnlineRetail" style="color: rgb(0, 84, 0);"><i
+            <li><a class="dropdown-item" href="#usecase=OnlineRetail"><i
                         class="bi bi-shop"></i>&nbsp; Online retail demo</a></li>
             <li>
                 <hr class="dropdown-divider">
@@ -189,6 +189,8 @@
             </li>
 
             <li><a class="dropdown-item" href="#usecase=NativeAuth"><i class="bi bi-browser-edge"></i>&nbsp; Native authentication (SPA app)</a>
+            </li>
+            <li><a class="dropdown-item" href="#usecase=SPA"><i class="bi bi-browser-edge"></i>&nbsp; Single page app (sign-in with popup and redirection)</a>
             </li>
             <li><a class="dropdown-item" href="#usecase=Saml"><i class="bi bi-globe"></i>&nbsp; SAML web app</a></li>
 
@@ -1547,6 +1549,24 @@
                     It enables you to create visually appealing, pixel-perfect authentication screens that seamlessly blend into your app’s interface. With this approach, you can fully customize the user interface, including design elements, logo placement, and layout, ensuring a consistent and branded look
                 </p>
                 <a class="btn header-button" role="button" href="/SignIn?handler=NativeAuth"><i
+                        class="bi bi-play-circle"></i>
+                    Start the use case</a>
+            </div>
+
+            <div id="useCase_SPA" class="useCase">
+                <h4>Single page application</h4>
+
+                <p>
+                    A single-page application (SPA) loads a single web page from the web server and updates the content dynamically using JavaScript. 
+                    The front end is written in <a class="link-dark" target="_blank" href="https://learn.microsoft.com/en-us/entra/external-id/customers/tutorial-single-page-app-vanillajs-prepare-tenant">JavaScript</a> or TypeScript, often utilizing frameworks 
+                    like <a class="link-dark"" target="_blank" href="https://learn.microsoft.com/en-us/entra/external-id/customers/tutorial-single-page-app-angular-sign-in-prepare-tenant">Angular</a>, 
+                    <a class="link-dark"" target="_blank" href="https://learn.microsoft.com/en-us/entra/external-id/customers/tutorial-single-page-app-react-sign-in-prepare-tenant">React</a>, or 
+                    Vue. The authentication flow is managed on the client side with JavaScript code. 
+                </p>
+                <p>
+                    This demo presents a SPA app that offers sign-in options using a popup window, maintaining the context of the app, and redirecting to Microsoft Entra External ID.
+                </p>
+                <a class="btn header-button" role="button" href="/SignIn?handler=SPA"><i
                         class="bi bi-play-circle"></i>
                     Start the use case</a>
             </div>

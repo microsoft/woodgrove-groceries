@@ -338,7 +338,12 @@ namespace MyApp.Namespace
 
             return Redirect("https://woodgroveairline.com/");
         }
+        public IActionResult OnGetSPA()
+        {
+            _telemetry.TrackPageView($"Sign-in:SPA");
 
+            return Redirect("https://travels.woodgrovedemo.com/");
+        }
         private async Task StartActAsAsync(string id)
         {
             // Input validation 

@@ -75,7 +75,8 @@ function filterUseCases() {
         if ((txtValue.toUpperCase().indexOf(filter) > -1)) {
             a[i].style.display = "";
         } else {
-            if (a[i].getAttribute("class") != "UseCaseSearch")
+            console.log(a[i].id)
+            if (a[i].id != "UseCaseSearchContainer")
                 a[i].style.display = "none";
         }
     }
@@ -96,6 +97,12 @@ function clearFilterUseCases() {
     filterUseCases();
 }
 
+document.querySelectorAll('.dropdown-menu .no-close').forEach(item => {
+    item.addEventListener('click', event => {
+        event.stopPropagation(); // Prevent Bootstrap from closing the dropdown
+    });
+});
+
 // Show the demo
 function showUseCase(trigger) {
     var myUrl = new URL(window.location.href.replace(/#/g, "?"));
@@ -112,7 +119,7 @@ function showUseCase(trigger) {
         usecase = 'Default';
     }
 
-    var useCases = ["Default", "SignUpLink", "ArkoseFraudProtection", "MSA", "NativeAuth", "EmailOtp", "OnlineRetail", "DisableAccount", "CustomDomain", "CustomEmail", "AssignmentRequired", "StepUp", "CSA", "PolicyAgreement", "EmailAndPassword", "OBO", "SSO", "GithubWorkflows", "TokenTTL", "MFA", "CA", "ForceSignIn", "UserInsights", "SignInLog", "ModifyAttributeValues", "BlockSignUp", "CompanyBranding", "Language", "PreSelectLanguage", "SSPR", "Social", "ActAs", "LoginHint", "TokenAugmentation", "TokenClaims", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "UserLastActivity", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Saml"];
+    var useCases = ["Default", "SignUpLink", "ArkoseFraudProtection", "MSA", "SPA", "NativeAuth", "EmailOtp", "OnlineRetail", "DisableAccount", "CustomDomain", "CustomEmail", "AssignmentRequired", "StepUp", "CSA", "PolicyAgreement", "EmailAndPassword", "OBO", "SSO", "GithubWorkflows", "TokenTTL", "MFA", "CA", "ForceSignIn", "UserInsights", "SignInLog", "ModifyAttributeValues", "BlockSignUp", "CompanyBranding", "Language", "PreSelectLanguage", "SSPR", "Social", "ActAs", "LoginHint", "TokenAugmentation", "TokenClaims", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "UserLastActivity", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Saml"];
 
     if (($('#offcanvasRight').length > 0) && usecase && (useCases.indexOf(usecase) > -1)) {
 
