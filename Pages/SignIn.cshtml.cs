@@ -29,11 +29,12 @@ namespace MyApp.Namespace
 
         private IActionResult TrackAndAuth(string ID,
             string redirectUri = "/",
-            bool reauth = false, string?
-            extraParam = null, string?
-            extraParamValue = null,
+            bool reauth = false,
+            string? extraParam = null,
+            string? extraParamValue = null,
             string? ui_locales = null,
-            string? login_hint = null)
+            string? login_hint = null,
+            string? queryString = null)
         {
             _telemetry.TrackPageView($"Sign-in:{ID}");
 
@@ -88,6 +89,11 @@ namespace MyApp.Namespace
                 challengeResult.Properties.Items.Add(extraParam, extraParamValue);
             }
 
+            // Extra query string parameters
+            if (!string.IsNullOrEmpty(queryString))
+            {
+                challengeResult.Properties.Items.Add("query-string", queryString);
+            }
             return challengeResult;
         }
 
@@ -302,7 +308,18 @@ namespace MyApp.Namespace
         {
             return this.TrackAndAuth("CustomDomain", "/", true, "domain", this._configuration.GetSection("Demos:CustomDomain").Value);
         }
-
+        public IActionResult OnGetCloudflareNetwork()
+        {
+            return this.TrackAndAuth("CloudflareNetwork", "/", true, "domain", "login.woodgrovegroceries.com", null, null, "enablewaf=true&r=tor");
+        }
+        public IActionResult OnGetCloudflareJsChallenge()
+        {
+            return this.TrackAndAuth("CloudflareJsChallenge", "/", true, "domain", "login.woodgrovegroceries.com", null, null, "enablewaf=true&r=jcptcha");
+        }
+        public IActionResult OnGetCloudflareInteractiveChallenge()
+        {
+            return this.TrackAndAuth("CloudflareInteractiveChallenge", "/", true, "domain", "login.woodgrovegroceries.com", null, null, "enablewaf=true&r=icptcha");
+        }
         public IActionResult OnGetCustomEmail()
         {
             return this.TrackAndAuth("CustomEmail", "/", true);

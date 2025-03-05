@@ -27,7 +27,7 @@ public class SelectUseCaseController : ControllerBase
     [HttpGet("usecase")]
     public IActionResult RecordUseCase(string ID, string trigger, string referral = null)
     {
-        string[] useCases = { "Default", "SignUpLink", "MSA", "SPA", "ArkoseFraudProtection", "NativeAuth", "SignInLog", "EmailOtp", "CustomDomain", "CustomEmail", "AssignmentRequired", "OnlineRetail", "StepUp", "CSA", "PolicyAgreement", "EmailAndPassword", "DisableAccount", "OBO", "SSO", "TokenTTL", "MFA", "CA", "ForceSignIn", "UserInsights", "ModifyAttributeValues", "BlockSignUp", "CompanyBranding", "Language", "PreSelectLanguage", "SSPR", "Social", "ActAs", "LoginHint", "TokenAugmentation", "GithubWorkflows", "TokenClaims", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "UserLastActivity", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Saml" };
+        string[] useCases = { "Default", "CloudflareInteractiveChallenge", "CloudflareJsChallenge", "CloudflareNetwork", "SignUpLink", "MSA", "SPA", "ArkoseFraudProtection", "NativeAuth", "SignInLog", "EmailOtp", "CustomDomain", "CustomEmail", "AssignmentRequired", "OnlineRetail", "StepUp", "CSA", "PolicyAgreement", "EmailAndPassword", "DisableAccount", "OBO", "SSO", "TokenTTL", "MFA", "CA", "ForceSignIn", "UserInsights", "ModifyAttributeValues", "BlockSignUp", "CompanyBranding", "Language", "PreSelectLanguage", "SSPR", "Social", "ActAs", "LoginHint", "TokenAugmentation", "GithubWorkflows", "TokenClaims", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "UserLastActivity", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Saml" };
         string[] triggers = { "Link", "Start", "Select" };
 
         string referralDomain = string.Empty;

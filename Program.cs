@@ -257,6 +257,22 @@ async Task OnRedirectToIdentityProviderFunc(RedirectContext context)
     {
         context.ProtocolMessage.LoginHint = login_hint;
     }
+
+    // Read the 'query-string' custom query string
+    var queryString = context.Properties.Items.FirstOrDefault(x => x.Key == "query-string").Value;
+
+    if (queryString != null)
+    {
+        string[] parmas = queryString.Split("&");
+        foreach (var parma in parmas)
+        {
+            string[] kv = parma.Split("=");
+            if (kv.Length == 2)
+            {
+                context.ProtocolMessage.Parameters.Add(kv[0], kv[1]);
+            }
+        }
+    }
     // Don't remove this line
     await Task.CompletedTask.ConfigureAwait(false);
 }

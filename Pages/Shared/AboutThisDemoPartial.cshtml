@@ -35,12 +35,8 @@
             <li><a class="dropdown-item" href="#usecase=EmailOtp"><i class="bi bi-at"></i>&nbsp;
                     Sign-up or sign-in with email
                     and one-time passcode</a></li>
-            <li><a class="dropdown-item" href="#usecase=SSPR"><i class="bi bi-key"></i>&nbsp; Self-service
-                    password reset</a></li>
-
-            <li><a class="dropdown-item" href="#usecase=LoginHint"><i class="bi bi-person-check"></i> </i>&nbsp;
-                    Prepopulate the sign in name</a>
-            </li>
+            <li><a class="dropdown-item" href="#usecase=SSPR"><i class="bi bi-key"></i>&nbsp; Self-service password reset</a></li>
+            <li><a class="dropdown-item" href="#usecase=LoginHint"><i class="bi bi-person-check"></i>&nbsp; Prepopulate the sign in name</a></li>
 
             <li>
                 <hr class="dropdown-divider">
@@ -64,8 +60,8 @@
             <li><a class="dropdown-item" href="#usecase=CustomAttributes"><i class="bi bi-pencil-square"></i>&nbsp;
                     Collect
                     user attributes during sign-up</a></li>
-            @* <li><a class="dropdown-item" href="#usecase=SignUpLink"><i class="bi bi-link"></i>&nbsp;
-                    Sign-up link</a></li> *@
+            <li><a class="dropdown-item" href="#usecase=SignUpLink"><i class="bi bi-link"></i>&nbsp;
+                    Sign-up link</a></li>
             <li><a class="dropdown-item" href="#usecase=PolicyAgreement"><i class="bi bi-file-earmark-text"></i>&nbsp;
                     Links to terms of use and privacy
                     policies</a></li>
@@ -80,7 +76,7 @@
             <li><a class="dropdown-item" href="#usecase=BlockSignUp"><i class="bi bi-sign-stop"></i>&nbsp; Stop
                     the sign-up process (extension)</a></li>
             <li>
-            <li><a class="dropdown-item" style="display: none1;" href="#usecase=ArkoseFraudProtection"><i class="bi bi-hand-index"></i>&nbsp; Arkose fraud protection (private preview)</a></li>
+            <li><a class="dropdown-item" href="#usecase=ArkoseFraudProtection"><i class="bi bi-hand-index"></i>&nbsp; Arkose fraud protection (private preview)</a></li>
             
             <li> <hr class="dropdown-divider"> </li>
             <li class="UseCaseHeader">
@@ -185,6 +181,17 @@
                 <hr class="dropdown-divider">
             </li>
             <li class="UseCaseHeader">
+                <h6 class="dropdown-header" style="color: var(--color-very-dark);">DDoS and bot protection</h6>
+            </li>
+            <li><a class="dropdown-item" href="#usecase=CloudflareNetwork"><i class="bi bi-robot"></i>&nbsp; Cloudflare: Blocking suspicious IP addresses</a></li>
+            <li><a class="dropdown-item" href="#usecase=CloudflareJsChallenge"><i class="bi bi-robot"></i>&nbsp; Cloudflare: Bot protection (non-interactive)</a></li>
+            <li><a class="dropdown-item" href="#usecase=CloudflareInteractiveChallenge"><i class="bi bi-robot"></i>&nbsp; Cloudflare: Bot protection (interactive)</a>
+            </li>
+
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li class="UseCaseHeader">
                 <h6 class="dropdown-header" style="color: var(--color-very-dark);">Other applications</h6>
             </li>
 
@@ -206,8 +213,9 @@
                     devices (Kiosk)</a></li>
         </ul>
     </div>
-    <div id="useCases">
-        <div id="useCase_Default" class="useCase">
+
+        <div id="useCases">
+            <div id="useCase_Default" class="useCase">
             <h4 style="color: black;">Woodgrove Groceries live demo</h4>
             <div>
                 <p>
@@ -235,7 +243,6 @@
                 </p>
             </div>
         </div>
-
 
         <div id="useCases">
             <div id="useCase_OnlineRetail" class="useCase">
@@ -651,7 +658,7 @@
                     @if (User.Identity?.IsAuthenticated == true)
                     {
                         <li>Enter a name: <input type="text" id="ActAs" placeholder="Dave" maxlength="20"
-                                oninput="document.getElementById('ActAsStart').href='/SignIn?handler=ActAs&id=' + document.getElementById('ActAs').value"><br />
+                                oninput="document.getElementById('ActAsStart').href='/SignIn?handler=ActAs&id=' + document.getElementById('ActAs').value"><br>
                             Make sure you enter an account that exists in the directory.</li>
                         <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
                         <li>After you sign-in, you will be taken to the <b>token</b> page.</li>
@@ -1538,6 +1545,61 @@
                     Start the use case</a>
             </div>
 
+            <div id="useCase_CloudflareNetwork" class="useCase">
+                <h4>Cloudflare: Blocking suspicious IP addresses</h4>
+
+                <p>
+                    The Cloudflare WAF safeguards web applications from DDoS attacks, malicious bots and more. It allows you blocking requests from specific IPs or ranges. In this example, requests from the Tor network will be blocked.
+                </p>
+                <ol>
+                    <li>For this demo, download and run the <a href="https://www.torproject.org/" target="_blank">Tor
+                            Browse</a>. It's an open-source web browser that helps people use the internet anonymously.</li>
+                    <li>In the Tor browser, reopen this page <code style="color: var(--color-very-dark);">https://woodgrovedemo.com/#usecase=CloudflareNetwork</code></li>
+                    <li>Then, select the <b>start the use case</b> button (at the bottom of this page).</li>
+                    <li>A Cloudflare page will display a message indicating that access from the Tor network is restricted.</li>
+                </ol>
+                <a class="btn header-button" role="button" href="/SignIn?handler=CloudflareNetwork"><i
+                        class="bi bi-play-circle"></i> Start the use case</a>
+            </div>
+
+            <div id="useCase_CloudflareJsChallenge" class="useCase">
+                <h4>Cloudflare: Bot protection (non-interactive)</h4>
+
+                <p>
+                    The Cloudflare Web Application Firewall (WAF) non-interactive JavaScript challenge is a security feature designed to protect websites from malicious bots and other automated threats. 
+                    When a visitor's IP address shows suspicious behavior or triggers a WAF custom rule, Cloudflare presents a challenge page that requires no interaction from the visitor. 
+                    Instead, the visitor's browser processes the JavaScript challenge automatically, typically within a few second.
+                </p>
+
+                <ol>
+                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                    <li>Cloudflare automatically presents challenge page that requires no interaction from you.</li>
+                    <li>Wait until the browser finishes processing the challenge.</li>
+                    <li>When completed, proceed to the Sign-in page.</li>
+                </ol>
+
+                <a class="btn header-button" role="button" href="/SignIn?handler=CloudflareJsChallenge"><i
+                        class="bi bi-play-circle"></i>
+                    Start the use case</a>
+            </div>
+
+            <div id="useCase_CloudflareInteractiveChallenge" class="useCase">
+                <h4>Cloudflare: Bot protection (interactive)</h4>
+
+                <p>
+                    Cloudflare Web Application Firewall (WAF) offers an interactive challenge with CAPTCHA as part of its bot protection features. This type of challenge is designed to distinguish between human users and automated bots by requiring the user to complete a CAPTCHA, such as clicking a checkbox or solving a puzzle.
+                </p>
+
+                <ol>
+                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                    <li>Cloudflare will present an interactive challenge that requires you to complete it, such as clicking a checkbox.</li>
+                    <li>When completed, you will land on the Sign-in page.</li>
+                </ol>
+
+                <a class="btn header-button" role="button" href="/SignIn?handler=CloudflareInteractiveChallenge"><i
+                        class="bi bi-play-circle"></i>
+                    Start the use case</a>
+            </div>
             <div id="useCase_NativeAuth" class="useCase">
                 <h4>Native authentication for single page application (SPA)</h4>
 
@@ -1551,7 +1613,7 @@
                 <a class="btn header-button" role="button" href="/SignIn?handler=NativeAuth"><i
                         class="bi bi-play-circle"></i>
                     Start the use case</a>
-            </div>
+                </div>
 
             <div id="useCase_SPA" class="useCase">
                 <h4>Single page application</h4>
@@ -1559,8 +1621,8 @@
                 <p>
                     A single-page application (SPA) loads a single web page from the web server and updates the content dynamically using JavaScript. 
                     The front end is written in <a class="link-dark" target="_blank" href="https://learn.microsoft.com/en-us/entra/external-id/customers/tutorial-single-page-app-vanillajs-prepare-tenant">JavaScript</a> or TypeScript, often utilizing frameworks 
-                    like <a class="link-dark"" target="_blank" href="https://learn.microsoft.com/en-us/entra/external-id/customers/tutorial-single-page-app-angular-sign-in-prepare-tenant">Angular</a>, 
-                    <a class="link-dark"" target="_blank" href="https://learn.microsoft.com/en-us/entra/external-id/customers/tutorial-single-page-app-react-sign-in-prepare-tenant">React</a>, or 
+                    like <a class="link-dark" target="_blank" href="https://learn.microsoft.com/en-us/entra/external-id/customers/tutorial-single-page-app-angular-sign-in-prepare-tenant">Angular</a>, 
+                    <a class="link-dark" target="_blank" href="https://learn.microsoft.com/en-us/entra/external-id/customers/tutorial-single-page-app-react-sign-in-prepare-tenant">React</a>, or 
                     Vue. The authentication flow is managed on the client side with JavaScript code. 
                 </p>
                 <p>
