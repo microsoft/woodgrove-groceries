@@ -19,7 +19,7 @@
         target="_blank" class="link-dark link-offset-2">custom OpenID Connect identity provider</a>.
 </p>
 
-@await Html.PartialAsync("_HelpSelector.cshtml", 0)
+@await Html.PartialAsync("_HelpSelector.cshtml", 1)
 <div class="tab-content wg-tab-content">
     <div class="tab-pane active" id="microsoftEntraAdminCenter" role="tabpanel"
         aria-labelledby="microsoftEntraAdminCenter-tab" tabindex="0">
@@ -196,8 +196,123 @@
 
     </div>
 
-    <div class="tab-pane" id="microsoftGraph" role="tabpanel" aria-labelledby="microsoftGraph-tab" tabindex="0">
-        Loading...
+<div class="tab-pane" id="microsoftGraph" role="tabpanel" aria-labelledby="microsoftGraph-tab" tabindex="0">
+
+        <h4 class="graph-header graph-header-space">Dependencies</h4>
+        <ul>
+            <li>User flow</li>
+        </ul>
+
+        <h4 class="graph-header graph-header-space">1. Register Microsoft personal accounts</h4>
+        <p>
+            To add Microsoft personal accounts as an identity provider, you first need to <a
+                href="https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-register-app"
+                target="_blank" class="link-dark link-offset-2">register an application</a> with <b>Supported account types</b> of <b>Personal Microsoft accounts</b> in any of your tenant. Then,
+            <a href="https://learn.microsoft.com/en-us/graph/api/identitycontainer-post-identityproviders?view=graph-rest-beta"
+                target="_blank" class="link-dark link-offset-2">register the identity provider</a> in your Microsoft
+            Entra
+            external ID tenant with the following Microsoft Graph.
+
+            <ul>
+                <li>Replace the <b>{MSA app ID}</b> with the MSA application ID that you created earlier.</li>
+                <li>Replace the <b>{MSA app secret}</b> with the MSA application secret that you recorded.</li>
+            </ul>
+            
+            
+        </p>
+        <code
+            style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/beta/identity/identityProviders</code>
+
+        <pre>
+
+{
+    "@@odata.type": "#microsoft.graph.oidcIdentityProvider",
+    "displayName": "Microsoft Personal account",
+    "clientId": "<span class="highlight">{MSA app ID}</span>",
+    "issuer": "https://login.live.com",
+    "wellKnownEndpoint": "https://login.microsoftonline.com/consumers/v2.0/.well-known/openid-configuration",
+    "responseType": "code",
+    "scope": "email profile openid",
+    "clientAuthentication": {
+        "@@odata.type": "#microsoft.graph.oidcClientSecretAuthentication",
+        "clientSecret": "<span class="highlight">{MSA app secret}</span>"
+    },
+    "inboundClaimMapping": {
+        "sub": "sub",
+        "name": "name",
+        "given_name": "given_name",
+        "family_name": "family_name",
+        "email": "email",
+        "email_verified": "email_verified",
+        "phone_number": "phone_number",
+        "phone_number_verified": "phone_number_verified",
+        "address": {
+            "street_address": "street_address",
+            "locality": "locality",
+            "region": "region",
+            "postal_code": "postal_code",
+            "country": "country"
+        }
+    }
+}
+</pre>
+        <h5 class="graph-header graph-header-space">1.1 Copy the identity provider ID</h5>
+        From the response, copy the value of the identity provider <b>id</b>. For example:
+        <pre class="toTable">
+{
+    "@@odata.context": "https://graph.microsoft.com/beta/$metadata#identity/identityProviders/$entity",
+    "@@odata.type": "#microsoft.graph.oidcIdentityProvider",
+    "id": "<span class="highlight">11111111-0000-0000-0000-000000000000</span>",
+    "displayName": "Microsoft Personal account",
+    "supportedTenantTypes": "externalId",
+}</pre>
+
+        </pre>
+        <h5 class="graph-header graph-header-space">1.2 Add MSA identity provider to a user flow</h5>
+        <p>
+            After you register the MSA identity provider to your Microsoft Entra external ID tenant, you can
+            <a href="https://learn.microsoft.com/en-us/graph/api/onauthenticationmethodloadstartexternalusersselfservicesignup-post-identityproviders?view=graph-rest-beta&tabs=http"
+                target="_blank" class="link-dark link-offset-2">add it to your user flow</a>. In the following Microsoft
+            Graph, replace:
+            <ul>
+                <li><b>{user-flow-ID}</b> with your <a
+                href="https://learn.microsoft.com/en-us/graph/api/identitycontainer-list-authenticationeventsflows?view=graph-rest-beta&tabs=http"
+                target="_blank" class="link-dark link-offset-2">user flow ID</a>.</li>
+                <li><b>{identity-provider-ID}</b> with the ID of the identity provider you copied earlier.</li>
+            </ul>
+            
+             
+        </p>
+        <code
+            style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/beta/identity/authenticationEventsFlows/<span class="highlight">{user-flow-ID}</span>/microsoft.graph.externalUsersSelfServiceSignUpEventsFlow/onAuthenticationMethodLoadStart/microsoft.graph.onAuthenticationMethodLoadStartExternalUsersSelfServiceSignUp/identityProviders/$ref</code>
+
+        <pre>
+{
+    "@@odata.id": "https://graph.microsoft.com/beta/identityProviders/<span class="highlight">{identity-provider-ID}</span>"
+}
+        </pre>
+
+</div>
+
+        <!-- Example-->
+        <a class="btn btn-success btn-sm" data-bs-toggle="collapse" href="#collapseRegisterAppExample" role="button"
+            aria-expanded="false" aria-controls="collapseRegisterAppExample">
+            Show example
+        </a><br>
+        <div class="collapse example" id="collapseRegisterAppExample">
+            <br>
+            <div class="function-http">
+                <code><span class="method">POST</span> https://graph.microsoft.com/beta/identity/authenticationEventsFlows/12345678-0000-0000-0000-000000000000/microsoft.graph.externalUsersSelfServiceSignUpEventsFlow/onAuthenticationMethodLoadStart/microsoft.graph.onAuthenticationMethodLoadStartExternalUsersSelfServiceSignUp/identityProviders/$ref</code>
+            </div>
+
+            <a type="button" class="link-opacity-75 copyToClipboard" href="#"><i class="bi bi-copy"></i></a>
+            <pre class="example replace">
+{
+    "@@odata.id": "https://graph.microsoft.com/beta/identityProviders/11111111-0000-0000-0000-000000000000"
+}
+
+</pre>
+
     </div>
 
     <div class="tab-pane" id="entraGraphPowerShell" role="tabpanel" aria-labelledby="entraGraphPowerShell-tab"
