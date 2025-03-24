@@ -3,7 +3,7 @@
     <li class="nav-item" role="presentation">
         <button class="nav-link active" id="microsoftEntraAdminCenter-tab" data-bs-toggle="tab"
             data-bs-target="#microsoftEntraAdminCenter" type="button" role="tab"
-            aria-controls="microsoftEntraAdminCenter" aria-selected="true">Microsoft Entra admin center</button>
+            aria-controls="microsoftEntraAdminCenter" onclick="history.pushState(null, '', '#');" aria-selected="true">Microsoft Entra admin center</button>
     </li>
 
 
@@ -18,14 +18,14 @@
     {
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="microsoftGraph-tab" data-bs-toggle="tab" data-bs-target="#microsoftGraph"
-                type="button" role="tab" aria-controls="microsoftGraph" aria-selected="false">Microsoft Graph</button>
+                type="button" role="tab" aria-controls="microsoftGraph" onclick="history.pushState(null, '', '#graph');" aria-selected="false">Microsoft Graph</button>
         </li>
     }
 
     @if (PowerShell == 2)
     {
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="graphPowerShell-tab" data-bs-toggle="tab" data-bs-target="#graphPowerShell"
+            <button class="nav-link" id="graphPowerShell-tab" data-bs-toggle="tab"  onclick="history.pushState(null, '', '#ps');" data-bs-target="#graphPowerShell"
                 type="button" role="tab" aria-controls="graphPowerShell" aria-selected="false">PowerShell</button>
         </li>
     }
