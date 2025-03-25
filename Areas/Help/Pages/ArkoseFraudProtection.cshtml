@@ -41,7 +41,7 @@
     <div class="tab-pane" id="microsoftGraph" role="tabpanel" aria-labelledby="microsoftGraph-tab" tabindex="0">
         <h4 class="graph-header">Setup Arkose Fraud protection in your tenant</h4>
         <p>
-            To setup Arkose Fraud protection in your tenant, run the following Graph. Replace:
+            To setup Arkose Fraud protection in your tenant run the following Graph (required permissions <code>RiskPreventionProviders.ReadWrite.All</code>). Replace:
         </p>
         <ul>
             <li><b>{public-key}</b> with the public Key from your Arkose account, should be in a GUID format.</li>
@@ -84,7 +84,7 @@
     "@@odata.type": "#microsoft.graph.arkoseFraudProtectionProvider",
     "displayName": "Arkose config",
     "publicKey": "12345678-1234-1234-1234-000000000000",
-    "privateKey": "abcdefghijklmnop", 
+    "privateKey": "11111111-2222-3444-5555-666667777888", 
     "clientSubDomain": "client-api",
     "verifySubDomain": "verify-api"
 }
@@ -110,7 +110,7 @@
         <h4 class="graph-header">Assign token lifetime policy to your application</h4>
         <p>
             Finally, create an AuthenticationEventListener policy to use the Arkose fraud protection config in signup
-            flow for an application. Replace:
+            flow for an application (required permissions <code>EventListener.ReadWrite.All</code>). Replace:
         </p>
 
         <ul>
