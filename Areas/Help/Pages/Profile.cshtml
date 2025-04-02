@@ -1,0 +1,113 @@
+﻿@page
+@model woodgrovedemo.Help.Pages.ArkoseFraudProtectionModel
+@{
+    ViewData["Title"] = "Profile editing";
+    Layout = "_Layout";
+}
+
+
+
+<h1 style="margin-top: 25px; margin-bottom: 25px;">Read operation</h1>
+
+<p>
+    Once users have successfully signed in to your app, they can edit their profiles. You enable the users to manage
+    their profiles by using <a href="https://learn.microsoft.com/en-us/graph/api/user-get" target="_blank"
+        class="link-dark link-offset-2">Microsoft Graph API's /me endpoint</a>. Accessing the /me endpoint requires a
+    signed-in user and
+    therefore delegated permission. Delegated permissions in Microsoft Entra ID are used in scenarios where an
+    application needs to access resources on behalf of a user, in this case Microsoft Graph API's /me endpoint.
+</p>
+
+<p>
+    By default, this operation returns only a subset of the user attributes. To retrieve attributes that are not
+    returned by default, specify the additional properties using the <a
+        href="https://learn.microsoft.com/en-us/graph/query-parameters#select-parameter" target="_blank"
+        class="link-dark link-offset-2">$select</a> option. Custom attributes can also be
+    retrieved. To get the user's “identities” collection, use the <a
+        href="https://learn.microsoft.com/en-us/graph/query-parameters#expand-parameter" target="_blank"
+        class="link-dark link-offset-2">$expand</a> parameter.
+</p>
+
+The following code snippet shows how to get the user profile using Microsoft Graph API <b>/me</b> endpoint.
+<pre style="color: white; background-color: black; padding: 10px; border-radius: 5px;">
+User? profile = await _graphServiceClient.Me.GetAsync(requestConfiguration =>
+    {
+        requestConfiguration.QueryParameters.Select = new string[] { "Id", "identities", "displayName", "GivenName", 
+                    "Surname", "Country", "City", "AccountEnabled", "CreatedDateTime", 
+                    "lastPasswordChangeDateTime", $"extension_00000000000000000000000000000000_SpecialDiet" };
+        
+        requestConfiguration.QueryParameters.Expand = new string[] { "Extensions" };
+    });
+
+if (profile == null)
+{
+    att.ErrorMessage = "Profile data could not be retrieved.";
+    return Ok(att);
+}
+
+ViewData["Greeting"] = $"Hello {profile.DisplayName}";
+</pre>
+
+<h2 style="margin-top: 25px; margin-bottom: 25px;">Write operation</h2>
+<p>
+    To update the properties of a user using the <a href="https://learn.microsoft.com/en-us/graph/api/user-update"
+        target="_blank" class="link-dark link-offset-2">POST method</a>, it is advisable to require the user to complete
+    a multi-factor
+    authentication (MFA) challenge. This ensures that only the authorized user can make changes to their profile.
+</p>
+
+<p>
+    For example, your application acquires an access token to invoke a “middleware” web API you defined (<a
+        href="https://github.com/microsoft/woodgrove-groceries-graph-middleware" target="_blank"
+        class="link-dark link-offset-2">source code</a>)
+    and registered in Microsoft Entra external ID. A Conditional Access policy enforces MFA for the “middleware”
+    application registration. Then the middleware web API exchanges the access token on behalf of the user and calls the
+    Microsoft Graph API /me endpoint.
+</p>
+
+<p>
+    In Microsoft Entra external ID, only specific built-in attributes can be modified. Read to the next section to learn
+    how to update extension attributes. The following code snippet shows how to update the user profile using Microsoft
+    Graph API.
+</p>
+
+The following code snippet shows how to update the user profile using Microsoft Graph API <b>/me</b> endpoint.
+<pre style="color: white; background-color: black; padding: 10px; border-radius: 5px;">
+public async Task<IActionResult> OnPostAsync([FromForm] UserAttributes att)
+{
+
+    // Get the user unique identifier
+    string? userObjectId = User.GetObjectId();
+
+    if (userObjectId == null)
+    {
+        att.ErrorMessage = "The account update cannot be processed because the access token lacks the necessary 'objectidentifier' claim.";
+    }
+
+    var requestBody = new User
+    {
+        DisplayName = att.DisplayName,
+        GivenName = att.GivenName,
+        Surname = att.Surname,
+        Country = att.Country,
+        City = att.City
+    };
+
+    var result = await _graphServiceClient.Me.PatchAsync(requestBody);
+}
+</pre>
+
+<h2 style="margin-top: 25px; margin-bottom: 25px;">Other operations</h2>
+
+<p>
+Other operations like security group association, application role assignment, enabling or disabling user accounts, and
+modifying extension attributes are done via application permissions. In this case the application acts on behalf of
+itself and not on behalf of the user. Therefore, it cannot call the /me endpoint; instead, it must call the <a href="https://learn.microsoft.com/en-us/graph/api/user-update"
+        target="_blank" class="link-dark link-offset-2">users
+endpoint</a> and provide the user's unique identifier.
+</p>
+
+The following code snippet shows how to get the user security groups using Microsoft Graph API <b>/users</b> endpoint.
+<pre style="color: white; background-color: black; padding: 10px; border-radius: 5px;">
+var groups = await graphClient.Users[userObjectId].MemberOf.GetAsync();
+</pre>

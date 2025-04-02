@@ -38,7 +38,7 @@ public class UserAttributesController : ControllerBase
         _telemetry = telemetry;
 
         // Get the app settings
-        ExtensionAttributes = _configuration.GetSection("MicrosoftGraph:ExtensionAttributes").Value!;
+        ExtensionAttributes = _configuration.GetSection("MicrosoftGraph:ExtensionAttributes").Value ?? string.Empty;
         _graphServiceClient = graphServiceClient;
         _authorizationHeaderProvider = authorizationHeaderProvider;
     }
@@ -50,20 +50,25 @@ public class UserAttributesController : ControllerBase
 
         try
         {
-            User profile = await _graphServiceClient.Me.GetAsync(requestConfiguration =>
+            User? profile = await _graphServiceClient.Me.GetAsync(requestConfiguration =>
                 {
                     requestConfiguration.QueryParameters.Select = new string[] { "Id", "identities", "displayName", "GivenName", "Surname", "Country", "City", "AccountEnabled", "CreatedDateTime", "lastPasswordChangeDateTime", $"{ExtensionAttributes}_SpecialDiet" };
                     requestConfiguration.QueryParameters.Expand = new string[] { "Extensions" };
                 });
 
+            if (profile == null)
+            {
+                att.ErrorMessage = "Profile data could not be retrieved.";
+                return Ok(att);
+            }
 
             // Populate the user's attributes
-            att.ObjectId = profile!.Id!;
-            att.DisplayName = profile!.DisplayName ?? "";
-            att.Surname = profile!.Surname ?? "";
-            att.GivenName = profile!.GivenName ?? "";
-            att.Country = profile!.Country ?? "";
-            att.City = profile!.City ?? "";
+            att.ObjectId = profile.Id!;
+            att.DisplayName = profile.DisplayName ?? "";
+            att.Surname = profile.Surname ?? "";
+            att.GivenName = profile.GivenName ?? "";
+            att.Country = profile.Country ?? "";
+            att.City = profile.City ?? "";
 
             if (profile!.AccountEnabled != null)
                 att.AccountEnabled = (bool)profile!.AccountEnabled;
