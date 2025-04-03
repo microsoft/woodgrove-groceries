@@ -42,45 +42,45 @@ public class UserRolesController : ControllerBase
 
         var graphClient = MsalAccessTokenHandler.GetGraphClient(_configuration);
 
-
+        // Get the user's security groups
         var groups = await graphClient.Users[userObjectId].MemberOf.GetAsync();
-        foreach (var group in groups.Value)
+
+        // Check if the user is a member of the commercial accounts security proup
+        if (groups?.Value != null)
         {
-            try
+            foreach (var group in groups.Value)
             {
-                //if (((Group)group).DisplayName == "Commercial accounts")
+
                 if (((Group)group).Id == _configuration.GetSection("AppRoles:CommercialAccountsSecurityGroup").Value)
                 {
                     userRoles.MemberOfCommercialAccounts = true;
                     break;
                 }
             }
-            catch (Exception ex)
-            {
-
-            if (((Group)group).DisplayName == "Commercial accounts")
-            {
-                userRoles.MemberOfCommercialAccounts = true;
-                break;
-            }
         }
 
+        // Get the user's app role assignments
         var appRoleAssignments = await graphClient.Users[userObjectId].AppRoleAssignments.GetAsync();
-        foreach (var appRoleAssignment in appRoleAssignments.Value)
+
+        // Check if the user has any app role assignments
+        if (appRoleAssignments != null && appRoleAssignments.Value != null)
         {
-
-            // Check the Products.Contributor role
-            if (((AppRoleAssignment)appRoleAssignment).AppRoleId.ToString() == _configuration.GetSection("AppRoles:ProductsContributor").Value)
+            foreach (var appRoleAssignment in appRoleAssignments.Value)
             {
-                userRoles.HasProductsContributorRole = true;
-                userRoles.ProductsContributorAssignmentId = (appRoleAssignment).Id.ToString();
-            }
 
-            // Check the Orders.Manager role
-            if (((AppRoleAssignment)appRoleAssignment).AppRoleId.ToString() == _configuration.GetSection("AppRoles:OrdersManager").Value)
-            {
-                userRoles.HasOrdersManagerRole = true;
-                userRoles.OrdersManagerRoleAssignmentId = ((AppRoleAssignment)appRoleAssignment).Id.ToString();
+                // Check the Products.Contributor role
+                if (((AppRoleAssignment)appRoleAssignment).AppRoleId.ToString() == _configuration.GetSection("AppRoles:ProductsContributor").Value)
+                {
+                    userRoles.HasProductsContributorRole = true;
+                    userRoles.ProductsContributorAssignmentId = appRoleAssignment.Id != null ? appRoleAssignment.Id.ToString() : string.Empty;
+                }
+
+                // Check the Orders.Manager role
+                if (((AppRoleAssignment)appRoleAssignment).AppRoleId.ToString() == _configuration.GetSection("AppRoles:OrdersManager").Value)
+                {
+                    userRoles.HasOrdersManagerRole = true;
+                    userRoles.OrdersManagerRoleAssignmentId = ((AppRoleAssignment)appRoleAssignment).Id != null ? ((AppRoleAssignment)appRoleAssignment).Id.ToString() : string.Empty;
+                }
             }
         }
 
