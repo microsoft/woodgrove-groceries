@@ -46,6 +46,17 @@ public class UserRolesController : ControllerBase
         var groups = await graphClient.Users[userObjectId].MemberOf.GetAsync();
         foreach (var group in groups.Value)
         {
+            try
+            {
+                //if (((Group)group).DisplayName == "Commercial accounts")
+                if (((Group)group).Id == _configuration.GetSection("AppRoles:CommercialAccountsSecurityGroup").Value)
+                {
+                    userRoles.MemberOfCommercialAccounts = true;
+                    break;
+                }
+            }
+            catch (Exception ex)
+            {
 
             if (((Group)group).DisplayName == "Commercial accounts")
             {
