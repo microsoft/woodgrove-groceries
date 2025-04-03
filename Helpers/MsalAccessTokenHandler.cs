@@ -43,6 +43,11 @@ namespace woodgrovedemo.Helpers
             string? clientId = configuration.GetSection("MicrosoftGraph:ClientId").Value;
             string? certificateThumbprint = configuration.GetSection("MicrosoftGraph:CertificateThumbprint").Value;
 
+            if (string.IsNullOrWhiteSpace(certificateThumbprint))
+            {
+                throw new ArgumentNullException(nameof(certificateThumbprint), "Certificate thumbprint cannot be null or empty.");
+            }
+            
             X509Certificate2 certificate = ReadCertificate(certificateThumbprint);
 
             var clientCertificateCredential = new ClientCertificateCredential(tenantId, clientId, certificate);

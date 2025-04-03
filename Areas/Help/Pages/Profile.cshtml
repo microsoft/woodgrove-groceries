@@ -7,7 +7,7 @@
 
 
 
-<h1 style="margin-top: 25px; margin-bottom: 25px;">Read operation</h1>
+<h1 style="margin-top: 35px; margin-bottom: 10px;  color: green;">Read operation</h1>
 
 <p>
     Once users have successfully signed in to your app, they can edit their profiles. You enable the users to manage
@@ -48,7 +48,7 @@ if (profile == null)
 ViewData["Greeting"] = $"Hello {profile.DisplayName}";
 </pre>
 
-<h2 style="margin-top: 25px; margin-bottom: 25px;">Write operation</h2>
+<h2 style="margin-top: 35px; margin-bottom: 10px;  color: green;">Write operation</h2>
 <p>
     To update the properties of a user using the <a href="https://learn.microsoft.com/en-us/graph/api/user-update"
         target="_blank" class="link-dark link-offset-2">POST method</a>, it is advisable to require the user to complete
@@ -97,17 +97,47 @@ public async Task<IActionResult> OnPostAsync([FromForm] UserAttributes att)
 }
 </pre>
 
-<h2 style="margin-top: 25px; margin-bottom: 25px;">Other operations</h2>
+<h2 style="margin-top: 35px; margin-bottom: 10px;  color: green;">Other operations</h2>
 
 <p>
 Other operations like security group association, application role assignment, enabling or disabling user accounts, and
-modifying extension attributes are done via application permissions. In this case the application acts on behalf of
+modifying extension attributes are done via OAuth 2.0  <b>client credentials grant flow</b> and the permissions are called <b>application permissions</b>. In this case the application acts on behalf of
 itself and not on behalf of the user. Therefore, it cannot call the /me endpoint; instead, it must call the <a href="https://learn.microsoft.com/en-us/graph/api/user-update"
         target="_blank" class="link-dark link-offset-2">users
 endpoint</a> and provide the user's unique identifier.
 </p>
 
-The following code snippet shows how to get the user security groups using Microsoft Graph API <b>/users</b> endpoint.
+The following code snippet shows how to get the user's security groups using Microsoft Graph API <b>/users</b> endpoint.
 <pre style="color: white; background-color: black; padding: 10px; border-radius: 5px;">
 var groups = await graphClient.Users[userObjectId].MemberOf.GetAsync();
 </pre>
+
+<h3 style="margin-top: 35px; margin-bottom: 10px;  color: green;">Using client credentials grant flow</h3>
+<p>
+    To call Microsoft Graph with application permissions, you need to follow these steps:
+</p>
+<ol>
+    <li>First, you need to <a href="https://learn.microsoft.com/en-us/graph/auth-register-app-v2" target="_blank" class="link-dark link-offset-2">register a Graph API application</a> in Microsoft Entra external ID. 
+        Registering your application establishes a trust relationship between your app and the Microsoft identity platform.
+        Once registered, you will receive a client ID and a tenant ID to configure in your application.</li>
+    <li style="margin: 10px 0;">Next, add credentials to your application registration. Credentials allow your application to authenticate as itself, requiring no interaction from a user at runtime. 
+        You can choose one of the following options: <a href="https://learn.microsoft.com/en-us/graph/auth-register-app-v2#option-1-add-a-certificate" target="_blank" class="link-dark link-offset-2">certificates</a> (recommended), <a href="https://learn.microsoft.com/en-us/graph/auth-register-app-v2#option-2-add-a-client-secret" target="_blank" class="link-dark link-offset-2">client secrets</a> (<b>not</b> recommended), and <a href="https://learn.microsoft.com/en-us/graph/auth-register-app-v2#option-3-add-a-federated-credential" target="_blank" class="link-dark link-offset-2">federated credentials</a>.</li>
+    <li style="margin: 10px 0;">Configure the necessary <a href="https://learn.microsoft.com/en-us/graph/auth-v2-service" target="_blank" class="link-dark link-offset-2">application permissions</a> for Microsoft Graph. 
+        These permissions always require <a href="https://learn.microsoft.com/en-us/graph/auth-v2-service#step-2-request-administrator-consent" target="_blank" class="link-dark link-offset-2">administrator consent</a>.</li>
+    <li style="margin: 10px 0;">Use the client credentials flow to obtain an access token. The client credential flow enables service applications to run without user interaction. 
+        When using the Microsoft Graph SDK, the <a href="https://learn.microsoft.com/en-us/graph/sdks/choose-authentication-providers#client-credentials-provider" target="_blank" class="link-dark link-offset-2">Client credentials provider</a> can be used.</li>
+    <li style="margin: 10px 0;">Finally, to make requests to the Microsoft Graph API, use an access token. When using the Microsoft Graph SDK, provide the Client credentials provider to the GraphServiceClient object.
+        
+        The following code snippet shows how to create a GraphServiceClient object using the client credentials provider.
+        <pre style="color: white; background-color: black; padding: 10px; border-radius: 5px; margin-top: 10px;">
+// Get the certificate from the certificate store
+X509Certificate2 certificate = ReadCertificate(certificateThumbprint);
+
+// Created the client certificate credential object
+var clientCertificateCredential = new ClientCertificateCredential(tenantId, clientId, certificate);
+
+// Initiate the GraphServiceClient with the client certificate credential
+var graphClient = new GraphServiceClient(clientCertificateCredential, new string[] { "https://graph.microsoft.com/.default" });
+        </pre>
+    </li>
+</ol>
