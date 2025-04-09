@@ -15,6 +15,11 @@ For more information about this demo application, read the [overview of the Wood
 - [Woodgrove Groceries middleware for Graph](https://github.com/microsoft/woodgrove-groceries-graph-middleware)
 - [Woodgrove Groceries clean up function](https://github.com/microsoft/woodgrove-groceries-clean-up/)
 
+### Related samples
+
+- [Microsoft Entra ID Custom authentication extension sample](https://github.com/microsoft/authentication-events-function)
+- [Microsoft Entra ID Custom authentication extension with SDK sample](https://github.com/microsoft/authentication-events-sdk-function)
+
 ## Support
 
 This sample application and its source code created by Microsoft to demonstrate some of the Microsoft Entra Extrnal ID user flows. The application and its source code is not supported under any Microsoft standard support program or service. If you find a bug, notice something but are not sure how to solve it, or want to provide product feedback, use the [Issues](https://github.com/microsoft/woodgrove-groceries/issues) tab at the top of the page. You can also @mention collaborators who have access to this repository in an issue to draw their attention to a comment. 
