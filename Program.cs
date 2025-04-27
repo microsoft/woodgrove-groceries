@@ -143,6 +143,12 @@ builder.Services.AddAuthorization(options =>
     // Check whether the account is a member of the commercial accounts security group
     options.AddPolicy("CommercialOnly", policy => policy.RequireClaim("groups", commercialAccountsSecurityGroup));
 
+    // Get the exclusive demos security group ID
+    string exclusiveDemosSecurityGroup = ((ConfigurationSection)builder.Configuration.GetSection("AppRoles:ExclusiveDemosSecurityGroup")).Value!;
+
+    // Check whether the account is a member of the exclusive demos security group
+    options.AddPolicy("ExclusiveDemosOnly", policy => policy.RequireClaim("groups", exclusiveDemosSecurityGroup));
+
     // Loyalty authorization policy
     options.AddPolicy("LoyaltyAccess", policy =>
         policy.RequireAssertion(context =>
