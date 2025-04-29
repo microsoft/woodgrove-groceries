@@ -6,8 +6,27 @@ using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using woodgrovedemo.Helpers.AzureAI;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Get the Azure OpenAI settings from the configuration
+ConfigurationSection AzureOpenAISettings = (ConfigurationSection)builder.Configuration.GetSection("Demos:AzureOpenAI");
+
+// Initialize the OpenAI client with the Azure OpenAI settings
+builder.Services.AddSingleton<OpenAI.OpenAIClient>(sp =>
+{
+    // Create a new OpenAI client using the Azure OpenAI settings
+    // The client is initialized with the endpoint and API key from the configuration
+    // The OpenAI client will be injected into the controllers (the ChatHub class)
+    return new Azure.AI.OpenAI.AzureOpenAIClient(
+    new Uri(AzureOpenAISettings["Endpoint"]),
+    new Azure.AzureKeyCredential(AzureOpenAISettings["ApiKey"]));
+});
+
+// Add the OpenAI service to the dependency injection container
+builder.Services.AddSignalR();
+
 
 builder.Services.AddControllersWithViews();
 
@@ -194,6 +213,10 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller}/{action=Index}/{id?}");
+
+// Map the chat hub endpoint
+// This endpoint is used for real-time communication between the server and clients using SignalR
+app.MapHub<ChatHub>("/chatHub");
 
 app.Run();
 

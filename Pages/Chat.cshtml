@@ -1,9 +1,360 @@
 ﻿@page
 @model woodgrovedemo.Pages.ChatModel
 @{
-    ViewData["Title"] = "Help";
+    ViewData["Title"] = "Woodgrove chat assistant";
 }
-<h1 style="color: green; padding-bottom: 15px; padding-top: 15px;">Chat page</h1>
-<div class="container">
+<h1 style="color: green; padding-bottom: 5px; padding-top: 45px;">@ViewData["Title"]</h1>
 
+<style>
+    /* Estilos para el contenido Markdown en el chat */
+    .chat-message {
+        margin-bottom: 10px;
+        padding: 15px;
+        border-radius: 15px;
+    }
+
+    .user-message {
+        background-color: rgb(251, 251, 251);
+        text-align: right;
+    }
+
+    .assistant-message {
+        background-color: rgb(251, 251, 251);
+    }
+
+    .system-message {
+        background-color: #fffde7;
+        font-style: italic;
+        color: #666;
+    }
+
+    .error-message {
+        background-color: #ffebee;
+        color: #c62828;
+    }
+
+    /* Estilos para elementos de Markdown */
+    .chat-messages table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .chat-messages th,
+    .chat-messages td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .chat-messages th {
+        background-color: #f2f2f2;
+    }
+
+    .chat-messages code {
+        font-family: Consolas, Monaco, monospace;
+        background-color: #f8f8f8;
+        padding: 2px 4px;
+        border-radius: 3px;
+        font-size: 0.9em;
+    }
+
+    .chat-messages pre {
+        background-color: #f8f8f8;
+        padding: 10px;
+        border-radius: 5px;
+        overflow-x: auto;
+        margin: 10px 0;
+    }
+
+    .chat-messages ul,
+    .chat-messages ol {
+        padding-left: 20px;
+    }
+
+    .chat-messages blockquote {
+        border-left: 4px solid #ddd;
+        padding-left: 10px;
+        margin-left: 0;
+        color: #666;
+    }
+
+    /* Estilos adicionales para mejorar responsividad */
+    .chat-container {
+        width: 80%;
+        max-width: 100%;
+        margin: 0;
+        /* Cambiado de margin: 0 auto; para alinear a la izquierda */
+    }
+
+    @@media (max-width: 992px) {
+        .chat-container {
+            width: 90%;
+        }
+    }
+
+    @@media (max-width: 576px) {
+        .chat-container {
+            width: 100%;
+        }
+    }
+
+    /* Estilos para modal de tokens */
+    .tokens-modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .tokens-modal-content {
+        background-color: #fefefe;
+        margin: 10% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 800px;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .tokens-close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .tokens-close:hover,
+    .tokens-close:focus {
+        color: black;
+        text-decoration: none;
+    }
+
+    .token-container {
+        margin-bottom: 20px;
+    }
+
+    .token-textarea {
+        width: 100%;
+        min-height: 100px;
+        font-family: monospace;
+        font-size: 0.8rem;
+        margin-bottom: 10px;
+    }
+
+    .token-tabs {
+        display: flex;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .token-tab {
+        padding: 10px 15px;
+        cursor: pointer;
+        background: #f8f8f8;
+        border: 1px solid #ddd;
+        border-bottom: none;
+        border-radius: 5px 5px 0 0;
+        margin-right: 5px;
+    }
+
+    .token-tab.active {
+        background: white;
+        border-bottom: 1px solid white;
+        margin-bottom: -1px;
+    }
+
+    .token-content {
+        display: none;
+    }
+
+    .token-content.active {
+        display: block;
+    }
+
+    /* MFA Modal Styles */
+    .mfa-modal {
+        display: none;
+        position: fixed;
+        z-index: 1100;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .mfa-modal-content {
+        background-color: #fefefe;
+        margin: 10% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 600px;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .mfa-close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .mfa-close:hover,
+    .mfa-close:focus {
+        color: black;
+        text-decoration: none;
+    }
+
+    .mfa-loading {
+        text-align: center;
+        padding: 20px;
+    }
+</style>
+
+
+<div class="row">
+    <div class="col-12">
+        <div id="errorMessageContainer" class="alert alert-danger text-start mt-5" style="display: none;" role="alert">
+            <h4 class="alert-heading">Error</h4>
+            <p id="errorMessage">
+
+            </p>
+        </div>
+    </div>
 </div>
+
+<div class="row">
+    <div class="col-12">
+        <!-- Chat Widget -->
+        <div class="mt-4">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+            </div>
+
+            <div class="chat-container p-3 ">
+                <div id="connection-status"></div>
+
+                <div id="chatMessages" class="chat-messages mb-3 padding: 10px;"
+                    style="height: 400px; overflow-y: auto;">
+                    <!-- Messages will be added dynamically here -->
+                </div>
+
+                <div class="mb-2">
+                    <textarea id="messageInput" class="form-control" rows="3"
+                        placeholder="Type your message (Enter to send, Shift+Enter for new line)..."></textarea>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <input type="hidden" id="userId" value="@Model.UserId" />
+
+                    <button id="sendButton" onclick="sendMessage()" class="btn btn-primary" title="Send message">
+                        <div class="spinner-border text-light spinner-border-sm" style="display: none;" id="spinner"
+                            role="status"> </div><i class="bi bi-send-fill" id="sendIcon"></i> Send
+                    </button>
+
+                    <button id="resetButton" class="btn btn-secondary" title="Reset conversation">
+                        <i class="bi bi-arrow-clockwise"></i> Reset
+                    </button>
+
+                    <button id="stopButton" class="btn btn-warning" title="Stop assistant">
+                        <i class="bi bi-stop-fill"></i> Stop
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+
+    <!-- Include SignalR library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.min.js"></script>
+
+    <!-- Include marked.js library for markdown rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <script>
+        var connection = null;
+        $(document).ready(function () {
+            connection = new signalR.HubConnectionBuilder().withUrl("/chathub").build();
+
+            // Receive messages from the server
+            connection.on("ReceiveMessage", messageReceived);
+
+            connection.start().catch(err => console.error(err.toString()));
+        });
+
+        // This function is called when a user sends a message to the server
+        function sendMessage() {
+
+            // Get the user ID
+            var user = $("#userId").val();
+
+            // Check if the message input is not empty, if so, don't send it
+            if ($("#messageInput").val().trim() === "") {
+                return;
+            }
+
+            // Get the message from the input field
+            var message = $("#messageInput").val().trim();
+
+            // Log the user ID and message to the console
+            console.log("Send message to user ID:", user, message);
+
+            // Append the message to the chat container
+            appendMessage(user, message, true);
+
+            // Disable button while processing
+            $("#sendButton").prop('disabled', true);
+            $("#spinner").show();
+            $("#sendIcon").hide();
+
+            // Send the message to the server
+            connection.invoke("SendMessage", user, message)
+                .catch(err =>
+                    console.error(err.toString())
+                );
+        }
+
+        function messageReceived(user, message) {
+            // Log the received message to the console
+            console.log("Received message:", user, message);
+
+            // Append the message to the chat container
+            appendMessage(user, message, false);
+
+            // Enable button after processing
+            $("#sendButton").prop('disabled', false);
+            $("#spinner").hide();
+            $("#sendIcon").show();
+        }
+
+        // Function to append messages to the chat container
+        function appendMessage(user, message, isUser) {
+
+            // Check if the message is a user message or an assistant message
+            if (isUser) {
+                message = '<b>You: </b>' + message;
+            } else {
+                message = '<b>Woodgrove: </b>' + marked.parse(message);
+            }
+
+            var messageClass = isUser ? "user-message" : "assistant-message";
+            var messageHtml = `<div class="chat-message ${messageClass}">${message}</div>`;
+            $("#chatMessages").append(messageHtml);
+            $("#chatMessages").scrollTop($("#chatMessages")[0].scrollHeight);
+        }
+    </script>
+}
