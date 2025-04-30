@@ -216,7 +216,9 @@ app.MapControllerRoute(
 
 // Map the chat hub endpoint
 // This endpoint is used for real-time communication between the server and clients using SignalR
-app.MapHub<ChatHub>("/chatHub");
+// The edpoint is protected by the "ExclusiveDemosOnly" authorization policy
+// This means that only users who are members of the exclusive demos security group can access this endpoint
+app.MapHub<ChatHub>("/chatHub").RequireAuthorization("ExclusiveDemosOnly");
 
 app.Run();
 

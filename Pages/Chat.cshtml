@@ -223,18 +223,6 @@
     }
 </style>
 
-
-<div class="row">
-    <div class="col-12">
-        <div id="errorMessageContainer" class="alert alert-danger text-start mt-5" style="display: none;" role="alert">
-            <h4 class="alert-heading">Error</h4>
-            <p id="errorMessage">
-
-            </p>
-        </div>
-    </div>
-</div>
-
 <div class="row">
     <div class="col-12">
         <!-- Chat Widget -->
@@ -253,6 +241,8 @@
                 <div class="mb-2">
                     <textarea id="messageInput" class="form-control" rows="3"
                         placeholder="Type your message (Enter to send, Shift+Enter for new line)..."></textarea>
+                    <textarea id="messageOutput" class="form-control" rows="3" placeholder=""
+                        style="display: none;"></textarea>
                 </div>
 
                 <div class="d-flex gap-2">
@@ -287,13 +277,35 @@
 
     <script>
         var connection = null;
+
         $(document).ready(function () {
+            // Initialize the connection to the SignalR hub
             connection = new signalR.HubConnectionBuilder().withUrl("/chathub").build();
 
-            // Receive messages from the server
-            connection.on("ReceiveMessage", messageReceived);
+            // Get the user ID
+            var user = $("#userId").val();
 
-            connection.start().catch(err => console.error(err.toString()));
+            // Configure the on message received event
+            // This version uses a streaming approach to receive messages in real-time, therfeore the event is not used
+            //connection.on("ReceiveMessage", onMessageReceived);
+
+            // Configure the ReceiveStartTyping event. 
+            // This event is triggered when the server starts processing the input message.
+            connection.on("ReceiveStartTyping", onReceiveStartTyping);
+
+            // Configure the on partial message received event
+            connection.on("ReceivePartialResponse", onPartialMessageReceived);
+
+            // Configure the ReceiveEndTyping event. 
+            // This event is triggered when the server is done processing the input message.
+            connection.on("ReceiveEndTyping", onReceiveEndTyping);
+
+            // Start the SignalR hub connection
+            connection.start().catch(err => {
+                console.error(err.toString());
+                // Append the error message to the chat container
+                appendMessage(user, err.toString(), "error");
+            });
         });
 
         // This function is called when a user sends a message to the server
@@ -313,8 +325,11 @@
             // Log the user ID and message to the console
             console.log("Send message to user ID:", user, message);
 
+            // Clean up the message output field
+            $("#messageOutput").val("");
+
             // Append the message to the chat container
-            appendMessage(user, message, true);
+            appendMessage(user, message, "user");
 
             // Disable button while processing
             $("#sendButton").prop('disabled', true);
@@ -323,17 +338,77 @@
 
             // Send the message to the server
             connection.invoke("SendMessage", user, message)
-                .catch(err =>
-                    console.error(err.toString())
+                .catch(err => {
+                    console.error("SendMessage error: " + err.toString())
+
+                    // Append the error message to the chat container
+                    appendMessage(user, err.toString(), "error");
+
+                    // Enable button after processing
+                    $("#sendButton").prop('disabled', false);
+                    $("#spinner").hide();
+                    $("#sendIcon").show();
+                }
                 );
         }
 
-        function messageReceived(user, message) {
+        // This function is triggered when a message is received from the server
+        // It is used to update the chat container with the response and enable the buttons
+        function onMessageReceived(user, message) {
             // Log the received message to the console
             console.log("Received message:", user, message);
 
             // Append the message to the chat container
-            appendMessage(user, message, false);
+            appendMessage(user, message, "server");
+
+            // Clear the message output field
+            $("#messageOutput").val("");
+
+            // Enable button after processing
+            $("#sendButton").prop('disabled', false);
+            $("#spinner").hide();
+            $("#sendIcon").show();
+        }
+
+        // This function is triggered when a partial message is received from the server
+        // It is used to update the chat container with the partial response
+        function onPartialMessageReceived(user, message) {
+            // Append the partial message to the messageOutput field
+            $("#messageOutput").val($("#messageOutput").val() + message);
+
+            // Using jQuery get the last message in the chat container
+            // and append the partial message to it
+            var lastMessage = $("#chatMessages").children().last();
+            if (lastMessage.length > 0) {
+
+                // Get the second element inside the last message element
+                var lastMessageContent = lastMessage.children().eq(1);
+                lastMessageContent.html(marked.parse($("#messageOutput").val()));
+            }
+        }
+
+        // This function is triggered when the server starts processing the input message
+        // It is used to create a chat UI element that will be used to show the complete response
+        function onReceiveStartTyping(user, message) {
+            // Log the start typing event to the console
+            console.log("onReceiveStartTyping:", user, message);
+
+            // Append the message to the chat container
+            appendMessage(user, message, "server");
+
+            // Clear the message output field
+            $("#messageOutput").val("");
+
+            // Clear the message input field
+            $("#messageInput").val('')
+        }
+
+        // This function is triggered when the server is done processing the input message
+        // It's used to update the UI and enable the buttons
+        function onReceiveEndTyping(user, message) {
+
+            // Log the end typing event to the console
+            console.log("onReceiveEndTyping:", user, message);
 
             // Enable button after processing
             $("#sendButton").prop('disabled', false);
@@ -342,18 +417,26 @@
         }
 
         // Function to append messages to the chat container
-        function appendMessage(user, message, isUser) {
+        function appendMessage(user, message, type) {
+
+            var messageClass = '';
 
             // Check if the message is a user message or an assistant message
-            if (isUser) {
-                message = '<b>You: </b>' + message;
-            } else {
-                message = '<b>Woodgrove: </b>' + marked.parse(message);
+            if (type === "user") {
+                message = '<b>You: </b><span>' + message + '</span>';
+                messageClass = "user-message";
+            }
+            else if (type === "server") {
+                message = '<b>Woodgrove: </b><span>' + marked.parse(message) + '</span>';
+                messageClass = "assistant-message";
+            }
+            else if (type === "error") {
+                message = '<b>Error: </b><span>' + message + '</span>';
+                messageClass = "error-message";
             }
 
-            var messageClass = isUser ? "user-message" : "assistant-message";
-            var messageHtml = `<div class="chat-message ${messageClass}">${message}</div>`;
-            $("#chatMessages").append(messageHtml);
+            var messageUi = `<div class="chat-message ${messageClass}">${message}</div>`;
+            $("#chatMessages").append(messageUi);
             $("#chatMessages").scrollTop($("#chatMessages")[0].scrollHeight);
         }
     </script>
