@@ -253,7 +253,8 @@
                             role="status"> </div><i class="bi bi-send-fill" id="sendIcon"></i> Send
                     </button>
 
-                    <button id="resetButton" class="btn btn-secondary" title="Reset conversation">
+                    <button id="resetButton" onclick="resetConversation()" class="btn btn-secondary"
+                        title="Reset conversation">
                         <i class="bi bi-arrow-clockwise"></i> Reset
                     </button>
 
@@ -286,8 +287,13 @@
             var user = $("#userId").val();
 
             // Configure the on message received event
-            // This version uses a streaming approach to receive messages in real-time, therfeore the event is not used
-            //connection.on("ReceiveMessage", onMessageReceived);
+            // Most of the time, this app uses the ReceivePartialResponse event to show the response in real time.
+            // However, this event is also used show system messages like error messages.
+            connection.on("ReceiveMessage", onValidMessageReceived);
+
+            // Configure the ReceiveErrorMessage event.
+            // This event is triggered when the server sends an error message to the client.
+            connection.on("ReceiveErrorMessage", onErrorMessageReceived);
 
             // Configure the ReceiveStartTyping event. 
             // This event is triggered when the server starts processing the input message.
@@ -352,14 +358,52 @@
                 );
         }
 
+        // This function is called when the user clicks the reset button
+        // It resets the conversation and clears the chat container
+        function resetConversation() {
+
+            // Get the user ID
+            var user = $("#userId").val();
+
+            // Clear the message input field
+            $("#messageInput").val('');
+
+            // Clear the message output fields
+            $("#messageOutput").val('');
+            $("#chatMessages").empty();
+
+            // Send the message to the server
+            connection.invoke("ResetConversation", user)
+                .catch(err => {
+                    console.error("ResetConversation error: " + err.toString())
+
+                    // Append the error message to the chat container
+                    appendMessage(user, err.toString(), "error");
+
+                    // Enable button after processing
+                    $("#sendButton").prop('disabled', false);
+                    $("#spinner").hide();
+                    $("#sendIcon").show();
+                }
+                );
+        }
+
+        function onValidMessageReceived(user, message, type) {
+            onMessageReceived(user, message, "server")
+        }
+
+        function onErrorMessageReceived(user, message, type) {
+            onMessageReceived(user, message, "error")
+        }
+
         // This function is triggered when a message is received from the server
         // It is used to update the chat container with the response and enable the buttons
-        function onMessageReceived(user, message) {
+        function onMessageReceived(user, message, type) {
             // Log the received message to the console
             console.log("Received message:", user, message);
 
             // Append the message to the chat container
-            appendMessage(user, message, "server");
+            appendMessage(user, message, type);
 
             // Clear the message output field
             $("#messageOutput").val("");
@@ -373,6 +417,9 @@
         // This function is triggered when a partial message is received from the server
         // It is used to update the chat container with the partial response
         function onPartialMessageReceived(user, message) {
+            // Log the partial message to the console
+            //console.log("onPartialMessageReceived:", user, message);
+
             // Append the partial message to the messageOutput field
             $("#messageOutput").val($("#messageOutput").val() + message);
 
