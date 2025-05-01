@@ -21,7 +21,7 @@ public class ChatHub : Hub
     {
         // Check if the user ID is the same as the one in the ID token
         // This is a security check to ensure that the user is who they say they are.
-        if (this.Context.User?.Claims?.FirstOrDefault(c => c.Type.ToLower() == "oid")?.Value != user)
+        if (!ValidRequest(user))
         {
             await Clients.All.SendAsync("ReceiveErrorMessage", "System", "You are not authorized to send messages.");
             return;
@@ -89,11 +89,22 @@ public class ChatHub : Hub
         }
     }
 
+    private bool ValidRequest(string user)
+    {
+        // Get the user ID from the ID token
+        string tokenUserID = Context.User?.Claims?.FirstOrDefault(c => c.Type.ToLower() == "oid")?.Value ?? string.Empty;
+        
+        // Check if the user ID is the same as the one in the ID token
+        return (string.IsNullOrEmpty(tokenUserID) != true && tokenUserID == user);
+
+    }
+
+
     public async Task ResetConversation(string user)
     {
         // Check if the user ID is the same as the one in the ID token
         // This is a security check to ensure that the user is who they say they are.
-        if (this.Context.User?.Claims?.FirstOrDefault(c => c.Type.ToLower() == "oid")?.Value != user)
+        if (!ValidRequest(user))
         {
             await Clients.All.SendAsync("ReceiveErrorMessage", "System", "You are not authorized to send messages.");
             return;
