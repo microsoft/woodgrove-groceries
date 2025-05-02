@@ -1,5 +1,7 @@
+using Azure;
+using Azure.AI.Projects;
+using Azure.Identity;
 using Microsoft.AspNetCore.SignalR;
-using OpenAI.Assistants;
 
 namespace woodgrovedemo.Helpers.AzureAI;
 
@@ -8,12 +10,13 @@ namespace woodgrovedemo.Helpers.AzureAI;
 // It means that only users who are members of the exclusive demos security group can access this endpoint
 public class ChatHub : Hub
 {
-    private readonly OpenAI.OpenAIClient _openAIClient;
+    //private readonly OpenAI.OpenAIClient _openAIClient;
+    private readonly AgentsClient _agentsClient;
     private readonly IConfiguration _configuration;
 
-    public ChatHub(IConfiguration configuration, OpenAI.OpenAIClient openAIClient)
+    public ChatHub(IConfiguration configuration, AgentsClient agentsClient)
     {
-        _openAIClient = openAIClient;
+        _agentsClient = agentsClient;
         _configuration = configuration;
     }
 
@@ -27,61 +30,74 @@ public class ChatHub : Hub
             return;
         }
 
+        // Inform the client that we are starting to process the message
+        await Clients.All.SendAsync("ReceiveStartTyping", user, "Processing your message...");
+
         try
         {
-            // Inform the client that we are starting to process the message
-            await Clients.All.SendAsync("ReceiveStartTyping", user, "Processing your message...");
+            Response<Agent> agentResponse = await _agentsClient.GetAgentAsync(_configuration.GetSection("Demos:AzureOpenProject:AgentId").Value);
+            Agent agent = agentResponse.Value;
 
-            // Create an assistant client to manage the assistant and its threads
-            AssistantClient assistantClient = _openAIClient.GetAssistantClient();
+            Response<AgentThread> threadResponse = await _agentsClient.CreateThreadAsync();
+            AgentThread thread = threadResponse.Value;
 
-            // Create assistant options with request details to use when creating a new assistant in the next step
-            AssistantCreationOptions assistantOptions = new AssistantCreationOptions
-            {
-                Name = "Woodgrove Assistant",
-                Instructions = "You are an AI assistant that helps people find information."
-            };
-
-            // Create the assistant with a model and the assistant options
-            // The assistant manages conversation threads, and can utilize 'tools'.
-            Assistant assistant = await assistantClient.CreateAssistantAsync(
-                _configuration.GetSection("Demos:AzureOpenAI:DeploymentName").Value!,
-                assistantOptions);
-
-            // Create a thread options with the initial message
-            // The thread options are used to create a new thread in the next step
-            ThreadCreationOptions threadOptions = new()
-            {
-                InitialMessages = { prompt }
-            };
-
-            // Create a thread but don't run it yet
-            AssistantThread thread = await assistantClient.CreateThreadAsync(threadOptions);
-
-            // Create a run options with the assistant ID
-            RunCreationOptions runOptions = new RunCreationOptions();
-
-            // Create and start the run
-            var streamingUpdates = assistantClient.CreateRunStreamingAsync(
+            Response<Azure.AI.Projects.ThreadMessage> messageResponse = await _agentsClient.CreateMessageAsync(
                 thread.Id,
-                assistant.Id,
-                runOptions
-            );
+                MessageRole.User,
+                prompt);
+            
 
-            // Stream the response
-            await foreach (var update in streamingUpdates)
+            // This code is based on the Azure OpenAI SDK for .NET sample https://github.com/Azure/azure-sdk-for-net/blob/Azure.AI.Projects_1.0.0-beta.8/sdk/ai/Azure.AI.Projects/tests/Samples/Agent/Sample_Agent_Streaming.cs
+            await foreach (StreamingUpdate streamingUpdate in _agentsClient.CreateRunStreamingAsync(thread.Id, agent.Id))
             {
-                if (update is MessageContentUpdate)
+                if (streamingUpdate.UpdateKind == StreamingUpdateReason.RunCreated)
                 {
-                    await Clients.All.SendAsync("ReceivePartialResponse", user, ((MessageContentUpdate)update).Text);
+                    Console.WriteLine($"--- Run started! ---");
+                }
+                else if (streamingUpdate is MessageContentUpdate contentUpdate)
+                {
+                    //Console.Write(contentUpdate.Text);
+                    await Clients.All.SendAsync("ReceivePartialResponse", user, contentUpdate.Text);
                 }
             }
 
-            // Cleanup
-            await assistantClient.DeleteThreadAsync(thread.Id);
-            await assistantClient.DeleteAssistantAsync(assistant.Id);
+            // ThreadMessage message = messageResponse.Value;
+
+            // Response<ThreadRun> runResponse = await client.CreateRunAsync(
+            //     thread.Id,
+            //     agent.Id);
+            // ThreadRun run = runResponse.Value;
+
+            // // Poll until the run reaches a terminal status
+            // do
+            // {
+            //     await Task.Delay(TimeSpan.FromMilliseconds(500));
+            //     runResponse = await client.GetRunAsync(thread.Id, runResponse.Value.Id);
+            // }
+            // while (runResponse.Value.Status == RunStatus.Queued
+            //     || runResponse.Value.Status == RunStatus.InProgress);
+
+            // Response<PageableList<ThreadMessage>> messagesResponse = await client.GetMessagesAsync(thread.Id);
+            // IReadOnlyList<ThreadMessage> messages = messagesResponse.Value.Data;
+
+            // // Display messages
+            // foreach (ThreadMessage threadMessage in messages)
+            // {
+            //     //Console.Write($"{threadMessage.CreatedAt:yyyy-MM-dd HH:mm:ss} - {threadMessage.Role,10}: ");
+            //     foreach (MessageContent contentItem in threadMessage.ContentItems)
+            //     {
+            //         if (contentItem is MessageTextContent textItem)
+            //         {
+            //             Console.Write(textItem.Text);
+            //             await Clients.All.SendAsync("ReceivePartialResponse", user, textItem.Text);
+            //         }
+            //     }
+            //     Console.WriteLine();
+            // }
+
 
             await Clients.All.SendAsync("ReceiveEndTyping", user, "Done processing your message.");
+
         }
         catch (Exception ex)
         {
@@ -93,7 +109,7 @@ public class ChatHub : Hub
     {
         // Get the user ID from the ID token
         string tokenUserID = Context.User?.Claims?.FirstOrDefault(c => c.Type.ToLower() == "oid")?.Value ?? string.Empty;
-        
+
         // Check if the user ID is the same as the one in the ID token
         return (string.IsNullOrEmpty(tokenUserID) != true && tokenUserID == user);
 
