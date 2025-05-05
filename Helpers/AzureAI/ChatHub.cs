@@ -1,3 +1,5 @@
+using System.ClientModel;
+using System.Diagnostics;
 using Azure;
 using Azure.AI.Projects;
 using Azure.Identity;
@@ -20,8 +22,28 @@ public class ChatHub : Hub
         _configuration = configuration;
     }
 
-    public async Task SendMessage(string user, string prompt)
+    public async Task SendMessage(string user, string prompt, string flow = "support")
     {
+        switch (flow)
+        {
+            case "support":
+                await SendSupportMessage(user, prompt);
+                break;
+            case "user":
+                await SendUserMessage(user, prompt);
+                break;
+            default:
+                await Clients.All.SendAsync("ReceiveErrorMessage", "System", "Invalid flow type.");
+                break;
+        }
+    }
+
+    private async Task SendUserMessage(string user, string prompt)
+    {
+        Stopwatch stopwatch = new Stopwatch();
+        stopwatch.Start();
+        string elapsedTime = "\nElapsed time: ";
+
         // Check if the user ID is the same as the one in the ID token
         // This is a security check to ensure that the user is who they say they are.
         if (!ValidRequest(user))
@@ -35,7 +57,128 @@ public class ChatHub : Hub
 
         try
         {
-            Response<Agent> agentResponse = await _agentsClient.GetAgentAsync(_configuration.GetSection("Demos:AzureOpenProject:AgentId").Value);
+            Response<Agent> agentResponse = await _agentsClient.GetAgentAsync(_configuration.GetSection("Demos:AzureOpenProject:WoodgroveAgentId").Value);
+            Agent agent = agentResponse.Value;
+
+            // Add the elapsed time to the satistic message
+            elapsedTime += "\nGetAgentAsync: " + stopwatch.Elapsed.ToString(@"hh\:mm\:ss");
+
+            /*
+            Don't delete thid code, it is used to create a new agent for the first time.
+
+            Agent agent = await _agentsClient.CreateAgentAsync(
+            model: "gpt-4o-mini",
+            name: "My SDK agent",
+                instructions: "You are the Woogrove online retail store. Use the provided functions to help answer questions. "
+                    + "Customize your responses to the user's preferences as much as possible and use friendly ",
+            tools: [ChatTools.GetLastSignInInfoDefinition, ChatTools.GetUserInfoDefinition]
+        );*/
+
+            Response<AgentThread> threadResponse = await _agentsClient.CreateThreadAsync();
+            AgentThread thread = threadResponse.Value;
+
+            // Add the elapsed time to the satistic message
+            elapsedTime += "\nCreateThreadAsync: " + stopwatch.Elapsed.ToString(@"hh\:mm\:ss");
+
+            Response<Azure.AI.Projects.ThreadMessage> messageResponse = await _agentsClient.CreateMessageAsync(
+                thread.Id,
+                MessageRole.User,
+                prompt);
+
+            // Add the elapsed time to the satistic message
+            elapsedTime += "\nCreateMessageAsync: " + stopwatch.Elapsed.ToString(@"hh\:mm\:ss");
+
+            List<ToolOutput> toolOutputs = [];
+            ThreadRun streamRun = null;
+            AsyncCollectionResult<StreamingUpdate> stream = _agentsClient.CreateRunStreamingAsync(thread.Id, agent.Id);
+
+            // Add the elapsed time to the satistic message
+            elapsedTime += "\nCreateRunStreamingAsync: " + stopwatch.Elapsed.ToString(@"hh\:mm\:ss");
+            do
+            {
+                toolOutputs.Clear();
+                await foreach (StreamingUpdate streamingUpdate in stream)
+                {
+                    if (streamingUpdate.UpdateKind == StreamingUpdateReason.RunCreated)
+                    {
+                        Console.WriteLine("--- Run started! ---");
+                    }
+                    else if (streamingUpdate is RequiredActionUpdate submitToolOutputsUpdate)
+                    {
+                        // Add the elapsed time to the satistic message
+                        elapsedTime += "\nGetResolvedToolOutput started: " + stopwatch.Elapsed.ToString(@"hh\:mm\:ss");
+
+                        // Call the corresponding function using the function name that required an action
+                        RequiredActionUpdate newActionUpdate = submitToolOutputsUpdate;
+                        var resolvedToolOutput = await ChatTools.GetResolvedToolOutput(
+                            _configuration,
+                            newActionUpdate.FunctionName,
+                            newActionUpdate.ToolCallId,
+                            user
+                        //newActionUpdate.FunctionArguments
+                        );
+
+                        // Add the resolved tool output to the list of tool outputs
+                        if (resolvedToolOutput != null)
+                        {
+                            toolOutputs.Add(resolvedToolOutput);
+                        }
+
+                        // Add the elapsed time to the satistic message
+                        elapsedTime += "\nGetResolvedToolOutput completed: " + stopwatch.Elapsed.ToString(@"hh\:mm\:ss");
+
+                        streamRun = submitToolOutputsUpdate.Value;
+                    }
+                    else if (streamingUpdate is MessageContentUpdate contentUpdate)
+                    {
+                        await Clients.All.SendAsync("ReceivePartialResponse", user, contentUpdate.Text);
+                    }
+                    else if (streamingUpdate.UpdateKind == StreamingUpdateReason.RunCompleted)
+                    {
+                        // Add the elapsed time to the satistic message
+                        elapsedTime += "\nCompleted: " + stopwatch.Elapsed.ToString(@"hh\:mm\:ss");
+
+                        // Inform the client that we are done processing the message
+                        await Clients.All.SendAsync("ReceiveEndTyping", user, "Done processing your message.", elapsedTime);
+                    }
+                }
+
+                // If there are any tool outputs, submit them to the agent
+                if (toolOutputs.Count > 0)
+                {
+                    stream = _agentsClient.SubmitToolOutputsToStreamAsync(streamRun, toolOutputs);
+                }
+            }
+            while (toolOutputs.Count > 0);
+
+            // Clean up the agent and thread
+            await _agentsClient.DeleteThreadAsync(thread.Id);
+            //await _agentsClient.DeleteAgentAsync(agent.Id);
+
+        }
+        catch (Exception ex)
+        {
+            await Clients.All.SendAsync("ReceiveErrorMessage", "System", $"Error: {ex.Message}");
+        }
+    }
+
+
+    private async Task SendSupportMessage(string user, string prompt)
+    {
+        // Check if the user ID is the same as the one in the ID token
+        // This is a security check to ensure that the user is who they say they are.
+        if (!ValidRequest(user))
+        {
+            await Clients.All.SendAsync("ReceiveErrorMessage", "System", "You are not authorized to send messages.");
+            return;
+        }
+
+        // Inform the client that we are starting to process the message
+        await Clients.All.SendAsync("ReceiveStartTyping", user, "Processing your support question...");
+
+        try
+        {
+            Response<Agent> agentResponse = await _agentsClient.GetAgentAsync(_configuration.GetSection("Demos:AzureOpenProject:SupportAgentId").Value);
             Agent agent = agentResponse.Value;
 
             Response<AgentThread> threadResponse = await _agentsClient.CreateThreadAsync();
@@ -45,7 +188,7 @@ public class ChatHub : Hub
                 thread.Id,
                 MessageRole.User,
                 prompt);
-            
+
 
             // This code is based on the Azure OpenAI SDK for .NET sample https://github.com/Azure/azure-sdk-for-net/blob/Azure.AI.Projects_1.0.0-beta.8/sdk/ai/Azure.AI.Projects/tests/Samples/Agent/Sample_Agent_Streaming.cs
             await foreach (StreamingUpdate streamingUpdate in _agentsClient.CreateRunStreamingAsync(thread.Id, agent.Id))
@@ -60,41 +203,6 @@ public class ChatHub : Hub
                     await Clients.All.SendAsync("ReceivePartialResponse", user, contentUpdate.Text);
                 }
             }
-
-            // ThreadMessage message = messageResponse.Value;
-
-            // Response<ThreadRun> runResponse = await client.CreateRunAsync(
-            //     thread.Id,
-            //     agent.Id);
-            // ThreadRun run = runResponse.Value;
-
-            // // Poll until the run reaches a terminal status
-            // do
-            // {
-            //     await Task.Delay(TimeSpan.FromMilliseconds(500));
-            //     runResponse = await client.GetRunAsync(thread.Id, runResponse.Value.Id);
-            // }
-            // while (runResponse.Value.Status == RunStatus.Queued
-            //     || runResponse.Value.Status == RunStatus.InProgress);
-
-            // Response<PageableList<ThreadMessage>> messagesResponse = await client.GetMessagesAsync(thread.Id);
-            // IReadOnlyList<ThreadMessage> messages = messagesResponse.Value.Data;
-
-            // // Display messages
-            // foreach (ThreadMessage threadMessage in messages)
-            // {
-            //     //Console.Write($"{threadMessage.CreatedAt:yyyy-MM-dd HH:mm:ss} - {threadMessage.Role,10}: ");
-            //     foreach (MessageContent contentItem in threadMessage.ContentItems)
-            //     {
-            //         if (contentItem is MessageTextContent textItem)
-            //         {
-            //             Console.Write(textItem.Text);
-            //             await Clients.All.SendAsync("ReceivePartialResponse", user, textItem.Text);
-            //         }
-            //     }
-            //     Console.WriteLine();
-            // }
-
 
             await Clients.All.SendAsync("ReceiveEndTyping", user, "Done processing your message.");
 

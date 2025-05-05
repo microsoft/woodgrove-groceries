@@ -239,8 +239,16 @@
                 </div>
 
                 <div class="mb-2">
+                    <div style="margin-bottom: 10px;"><label for="flowSelect" class="col-form-label">AI agent:</label>
+                        <select id="flowSelect" class="form-select" style="display: grid; color: var(--bs-gray-700);">
+                            <option value="support">Entra external ID support</option>
+                            <option value="user">Woodgrove</option>
+                        </select>
+                    </div>
+
                     <textarea id="messageInput" class="form-control" rows="3"
-                        placeholder="Type your message (Enter to send, Shift+Enter for new line)..."></textarea>
+                        placeholder="Type your message (Enter to send, Shift+Enter for new line)..."
+                        onkeydown="onEnterPressed(event)"></textarea>
                     <textarea id="messageOutput" class="form-control" rows="3" placeholder=""
                         style="display: none;"></textarea>
                 </div>
@@ -314,6 +322,15 @@
             });
         });
 
+        // This function is called when the user presses the Enter key in the message input field
+        function onEnterPressed(event) {
+            
+            if (event.keyCode === 13) { // Enter key pressed
+                event.preventDefault(); // Prevent form submission if necessary
+                sendMessage(); 
+            }
+        }
+
         // This function is called when a user sends a message to the server
         function sendMessage() {
 
@@ -343,7 +360,7 @@
             $("#sendIcon").hide();
 
             // Send the message to the server
-            connection.invoke("SendMessage", user, message)
+            connection.invoke("SendMessage", user, message, $("#flowSelect").val())
                 .catch(err => {
                     console.error("SendMessage error: " + err.toString())
 
@@ -452,10 +469,15 @@
 
         // This function is triggered when the server is done processing the input message
         // It's used to update the UI and enable the buttons
-        function onReceiveEndTyping(user, message) {
+        function onReceiveEndTyping(user, message, satistic) {
 
             // Log the end typing event to the console
             console.log("onReceiveEndTyping:", user, message);
+
+            // Check if the satistic is not null and print it to the console
+            if (satistic != null) {
+                console.log(satistic);
+            }
 
             // Enable button after processing
             $("#sendButton").prop('disabled', false);
