@@ -55,24 +55,38 @@ public class ChatHub : Hub
         // Inform the client that we are starting to process the message
         await Clients.All.SendAsync("ReceiveStartTyping", user, "Processing your message...");
 
+        Response<Agent> agentResponse = null;
+        Agent agent = null;
+
         try
         {
-            Response<Agent> agentResponse = await _agentsClient.GetAgentAsync(_configuration.GetSection("Demos:AzureOpenProject:WoodgroveAgentId").Value);
-            Agent agent = agentResponse.Value;
+            agentResponse = await _agentsClient.GetAgentAsync(_configuration.GetSection("Demos:AzureOpenProject:WoodgroveAgentId").Value);
+            agent = agentResponse.Value;
 
             // Add the elapsed time to the satistic message
             elapsedTime += "\nGetAgentAsync: " + stopwatch.Elapsed.ToString(@"hh\:mm\:ss");
+        }
+        catch (System.Exception)
+        {
 
-            /*
-            Don't delete thid code, it is used to create a new agent for the first time.
+        }
 
-            Agent agent = await _agentsClient.CreateAgentAsync(
-            model: "gpt-4o-mini",
-            name: "My SDK agent",
-                instructions: "You are the Woogrove online retail store. Use the provided functions to help answer questions. "
-                    + "Customize your responses to the user's preferences as much as possible and use friendly ",
-            tools: [ChatTools.GetLastSignInInfoDefinition, ChatTools.GetUserInfoDefinition]
-        );*/
+        try
+        {
+            // If the agent does not exist, create it
+            if (agent == null)
+            {
+                // Create a new agent
+                agent = await _agentsClient.CreateAgentAsync(
+                model: "gpt-4o-mini",
+                name: "Woodgrove groceries agent",
+                    instructions: "You are the Woogrove online retail store. Use the provided functions to help answer questions. "
+                        + "Customize your responses to the user's preferences as much as possible and use friendly ",
+                tools: [ChatTools.GetLastSignInInfoDefinition, ChatTools.GetUserInfoDefinition]);
+
+                // Add the elapsed time to the satistic message
+                elapsedTime += "\nCreateAgentAsync: " + stopwatch.Elapsed.ToString(@"hh\:mm\:ss");
+            }
 
             Response<AgentThread> threadResponse = await _agentsClient.CreateThreadAsync();
             AgentThread thread = threadResponse.Value;
