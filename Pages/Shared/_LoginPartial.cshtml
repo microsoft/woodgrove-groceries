@@ -22,6 +22,21 @@
             // - validate token with a library and check audience
             // - do exact string match on "roles" claim and expected value in the token json payload
         }
+
+        bool hasAccessToExclusiveDemos = ((User.Identity?.IsAuthenticated == true) && 
+            User.Claims.Any(c => c.Type == "groups" && c.Value == Configuration.GetSection("AppRoles:ExclusiveDemosSecurityGroup").Value));
+}
+
+@if (hasAccessToExclusiveDemos)
+{
+    // Link to the orders available only to users with Orders.Manager role
+    <li class="nav-item">
+        <a class="nav-link header-button" role="button" asp-area="" asp-page="/Chat"><i class="bi  bi-chat-dots"></i></a>
+    </li> 
+
+    <li class="nav-item woodgrove-nav-space">
+        <div style="width: 10px;"></div>
+    </li> 
 }
 
 @if (hasAccessToManageProducts)
@@ -34,6 +49,7 @@
         <div style="width: 10px;"></div>
     </li>
 }
+
 
 @if (hasAccessToOrders)
 {
