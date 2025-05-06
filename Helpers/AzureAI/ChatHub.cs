@@ -82,7 +82,7 @@ public class ChatHub : Hub
                 name: "Woodgrove groceries agent",
                     instructions: "You are the Woogrove online retail store. Use the provided functions to help answer questions. "
                         + "Customize your responses to the user's preferences as much as possible and use friendly ",
-                tools: [ChatTools.GetLastSignInInfoDefinition, ChatTools.GetUserInfoDefinition]);
+                tools: [ChatTools.GetUserInfoDefinition]);
 
                 // Add the elapsed time to the satistic message
                 elapsedTime += "\nCreateAgentAsync: " + stopwatch.Elapsed.ToString(@"hh\:mm\:ss");
@@ -126,6 +126,7 @@ public class ChatHub : Hub
                         RequiredActionUpdate newActionUpdate = submitToolOutputsUpdate;
                         var resolvedToolOutput = await ChatTools.GetResolvedToolOutput(
                             _configuration,
+                            Context.User,
                             newActionUpdate.FunctionName,
                             newActionUpdate.ToolCallId,
                             user
