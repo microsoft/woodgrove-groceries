@@ -241,8 +241,8 @@
                 <div class="mb-2">
                     <div style="margin-bottom: 10px;"><label for="flowSelect" class="col-form-label">AI agent:</label>
                         <select id="flowSelect" class="form-select" style="display: grid; color: var(--bs-gray-700);">
-                            <option value="support">Entra external ID support</option>
                             <option value="user">Woodgrove</option>
+                            <option value="support">Entra external ID deployment assistant</option>
                         </select>
                     </div>
 
@@ -324,10 +324,10 @@
 
         // This function is called when the user presses the Enter key in the message input field
         function onEnterPressed(event) {
-            
+
             if (event.keyCode === 13) { // Enter key pressed
                 event.preventDefault(); // Prevent form submission if necessary
-                sendMessage(); 
+                sendMessage();
             }
         }
 
@@ -352,7 +352,7 @@
             $("#messageOutput").val("");
 
             // Append the message to the chat container
-            appendMessage(user, message, "user");
+            appendMessage(message, "user");
 
             // Disable button while processing
             $("#sendButton").prop('disabled', true);
@@ -365,7 +365,7 @@
                     console.error("SendMessage error: " + err.toString())
 
                     // Append the error message to the chat container
-                    appendMessage(user, err.toString(), "error");
+                    appendMessage(err.toString(), "error");
 
                     // Enable button after processing
                     $("#sendButton").prop('disabled', false);
@@ -395,7 +395,7 @@
                     console.error("ResetConversation error: " + err.toString())
 
                     // Append the error message to the chat container
-                    appendMessage(user, err.toString(), "error");
+                    appendMessage(err.toString(), "error");
 
                     // Enable button after processing
                     $("#sendButton").prop('disabled', false);
@@ -405,22 +405,31 @@
                 );
         }
 
-        function onValidMessageReceived(user, message, type) {
-            onMessageReceived(user, message, "server")
+        function onValidMessageReceived(message) {
+
+            // Log the received message to the console
+            console.log("Received message:", message);
+
+            // Handle the message
+            onMessageReceived(message, "server")
         }
 
-        function onErrorMessageReceived(user, message, type) {
-            onMessageReceived(user, message, "error")
+        function onErrorMessageReceived(message) {
+
+            // Log the received message to the console
+            console.log("Received error message:", message);
+
+            // Handle the message
+            onMessageReceived(message, "error")
         }
 
         // This function is triggered when a message is received from the server
         // It is used to update the chat container with the response and enable the buttons
-        function onMessageReceived(user, message, type) {
-            // Log the received message to the console
-            console.log("Received message:", user, message);
+        function onMessageReceived(message, type) {
+
 
             // Append the message to the chat container
-            appendMessage(user, message, type);
+            appendMessage(message, type);
 
             // Clear the message output field
             $("#messageOutput").val("");
@@ -433,9 +442,7 @@
 
         // This function is triggered when a partial message is received from the server
         // It is used to update the chat container with the partial response
-        function onPartialMessageReceived(user, message) {
-            // Log the partial message to the console
-            //console.log("onPartialMessageReceived:", user, message);
+        function onPartialMessageReceived(message) {
 
             // Append the partial message to the messageOutput field
             $("#messageOutput").val($("#messageOutput").val() + message);
@@ -447,18 +454,24 @@
 
                 // Get the second element inside the last message element
                 var lastMessageContent = lastMessage.children().eq(1);
+
+                // Check the css class of the last message. If it's error-message, then don't append the message
+                if (lastMessageContent.hasClass("error-message")) {
+                    return;
+                }
+
                 lastMessageContent.html(marked.parse($("#messageOutput").val()));
             }
         }
 
         // This function is triggered when the server starts processing the input message
         // It is used to create a chat UI element that will be used to show the complete response
-        function onReceiveStartTyping(user, message) {
+        function onReceiveStartTyping(message) {
             // Log the start typing event to the console
-            console.log("onReceiveStartTyping:", user, message);
+            console.log("onReceiveStartTyping:", message);
 
             // Append the message to the chat container
-            appendMessage(user, message, "server");
+            appendMessage(message, "server");
 
             // Clear the message output field
             $("#messageOutput").val("");
@@ -469,10 +482,10 @@
 
         // This function is triggered when the server is done processing the input message
         // It's used to update the UI and enable the buttons
-        function onReceiveEndTyping(user, message, satistic) {
+        function onReceiveEndTyping(message, satistic) {
 
             // Log the end typing event to the console
-            console.log("onReceiveEndTyping:", user, message);
+            console.log("onReceiveEndTyping:", message);
 
             // Check if the satistic is not null and print it to the console
             if (satistic != null) {
@@ -486,7 +499,7 @@
         }
 
         // Function to append messages to the chat container
-        function appendMessage(user, message, type) {
+        function appendMessage(message, type) {
 
             var messageClass = '';
 
@@ -500,8 +513,16 @@
                 messageClass = "assistant-message";
             }
             else if (type === "error") {
-                message = '<b>Error: </b><span>' + message + '</span>';
-                messageClass = "error-message";
+
+                // Check if the message contains the IDW10502 error message
+                if (message.includes("IDW10502")) {
+                    message = "Your access token has expired or is invalid. Please <a href='/SignIn?handler=ChatReauth'>sign-in</a> with your credentials to continue."
+                    messageClass = "error-message";
+                    console.log("The user is not authenticated. Show the sign in link.");
+                } else {
+                    message = '<b>Error: </b><span>' + message + '</span>';
+                    messageClass = "error-message";
+                }
             }
 
             var messageUi = `<div class="chat-message ${messageClass}">${message}</div>`;

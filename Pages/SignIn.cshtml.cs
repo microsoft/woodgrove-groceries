@@ -218,7 +218,10 @@ namespace MyApp.Namespace
         {
             return this.TrackAndAuth("ProfileReauth", "/profile");
         }
-
+        public IActionResult OnGetChatReauth()
+        {
+            return this.TrackAndAuth("ChatReauth", "/chat");
+        }
         public IActionResult OnGetEmailAndPassword()
         {
             return this.TrackAndAuth("EmailAndPassword", "/", true);

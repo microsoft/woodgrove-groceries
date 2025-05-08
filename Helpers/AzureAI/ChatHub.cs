@@ -4,22 +4,26 @@ using Azure;
 using Azure.AI.Projects;
 using Azure.Identity;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Graph;
+using Microsoft.Identity.Abstractions;
 
 namespace woodgrovedemo.Helpers.AzureAI;
 
 // This class is an endpoint for the SignalR hub that handles chat messages.
 // The edpoint is protected by the "ExclusiveDemosOnly" authorization policy (defined in Startup.cs).
 // It means that only users who are members of the exclusive demos security group can access this endpoint
-public class ChatHub : Hub
+public partial class ChatHub : Hub
 {
     //private readonly OpenAI.OpenAIClient _openAIClient;
     private readonly AgentsClient _agentsClient;
     private readonly IConfiguration _configuration;
+    private readonly GraphServiceClient _graphServiceClient;
 
-    public ChatHub(IConfiguration configuration, AgentsClient agentsClient)
+    public ChatHub(IConfiguration configuration, AgentsClient agentsClient, GraphServiceClient graphServiceClient)
     {
         _agentsClient = agentsClient;
         _configuration = configuration;
+        _graphServiceClient = graphServiceClient;
     }
 
     public async Task SendMessage(string user, string prompt, string flow = "support")
@@ -33,7 +37,7 @@ public class ChatHub : Hub
                 await SendUserMessage(user, prompt);
                 break;
             default:
-                await Clients.Caller.SendAsync("ReceiveErrorMessage", "System", "Invalid flow type.");
+                await Clients.Caller.SendAsync("ReceiveErrorMessage", "Invalid flow type.");
                 break;
         }
     }
@@ -48,12 +52,12 @@ public class ChatHub : Hub
         // This is a security check to ensure that the user is who they say they are.
         if (!ValidRequest(user))
         {
-            await Clients.Caller.SendAsync("ReceiveErrorMessage", "System", "You are not authorized to send messages.");
+            await Clients.Caller.SendAsync("ReceiveErrorMessage", "You are not authorized to send messages.");
             return;
         }
 
         // Inform the client that we are starting to process the message
-        await Clients.Caller.SendAsync("ReceiveStartTyping", user, "Processing your message...");
+        await Clients.Caller.SendAsync("ReceiveStartTyping", "Processing your message...");
 
         Response<Agent> agentResponse = null;
         Agent agent = null;
@@ -82,7 +86,7 @@ public class ChatHub : Hub
                 name: "Woodgrove groceries agent",
                     instructions: "You are the Woogrove online retail store. Use the provided functions to help answer questions. "
                         + "Customize your responses to the user's preferences as much as possible and use friendly ",
-                tools: [ChatTools.GetUserInfoDefinition]);
+                tools: [ChatHubFunctionsDefinition.GetUserInfo]);
 
                 // Add the elapsed time to the satistic message
                 elapsedTime += "\nCreateAgentAsync: " + stopwatch.Elapsed.ToString(@"hh\:mm\:ss");
@@ -124,13 +128,10 @@ public class ChatHub : Hub
 
                         // Call the corresponding function using the function name that required an action
                         RequiredActionUpdate newActionUpdate = submitToolOutputsUpdate;
-                        var resolvedToolOutput = await ChatTools.GetResolvedToolOutput(
-                            _configuration,
-                            Context.User,
+                        var resolvedToolOutput = await GetResolvedToolOutput(
                             newActionUpdate.FunctionName,
                             newActionUpdate.ToolCallId,
-                            user
-                        //newActionUpdate.FunctionArguments
+                            newActionUpdate.FunctionArguments
                         );
 
                         // Add the resolved tool output to the list of tool outputs
@@ -146,7 +147,7 @@ public class ChatHub : Hub
                     }
                     else if (streamingUpdate is MessageContentUpdate contentUpdate)
                     {
-                        await Clients.Caller.SendAsync("ReceivePartialResponse", user, contentUpdate.Text);
+                        await Clients.Caller.SendAsync("ReceivePartialResponse", contentUpdate.Text);
                     }
                     else if (streamingUpdate.UpdateKind == StreamingUpdateReason.RunCompleted)
                     {
@@ -154,7 +155,7 @@ public class ChatHub : Hub
                         elapsedTime += "\nCompleted: " + stopwatch.Elapsed.ToString(@"hh\:mm\:ss");
 
                         // Inform the client that we are done processing the message
-                        await Clients.Caller.SendAsync("ReceiveEndTyping", user, "Done processing your message.", elapsedTime);
+                        await Clients.Caller.SendAsync("ReceiveEndTyping", "Done processing your message.", elapsedTime);
                     }
                 }
 
@@ -173,7 +174,7 @@ public class ChatHub : Hub
         }
         catch (Exception ex)
         {
-            await Clients.Caller.SendAsync("ReceiveErrorMessage", "System", $"Error: {ex.Message}");
+            await Clients.Caller.SendAsync("ReceiveErrorMessage", $"Error: {ex.Message}");
         }
     }
 
@@ -184,12 +185,12 @@ public class ChatHub : Hub
         // This is a security check to ensure that the user is who they say they are.
         if (!ValidRequest(user))
         {
-            await Clients.Caller.SendAsync("ReceiveErrorMessage", "System", "You are not authorized to send messages.");
+            await Clients.Caller.SendAsync("ReceiveErrorMessage", "You are not authorized to send messages.");
             return;
         }
 
         // Inform the client that we are starting to process the message
-        await Clients.Caller.SendAsync("ReceiveStartTyping", user, "Processing your support question...");
+        await Clients.Caller.SendAsync("ReceiveStartTyping", "Processing your support question...");
 
         try
         {
@@ -215,16 +216,16 @@ public class ChatHub : Hub
                 else if (streamingUpdate is MessageContentUpdate contentUpdate)
                 {
                     //Console.Write(contentUpdate.Text);
-                    await Clients.Caller.SendAsync("ReceivePartialResponse", user, contentUpdate.Text);
+                    await Clients.Caller.SendAsync("ReceivePartialResponse", contentUpdate.Text);
                 }
             }
 
-            await Clients.Caller.SendAsync("ReceiveEndTyping", user, "Done processing your message.");
+            await Clients.Caller.SendAsync("ReceiveEndTyping", "Done processing your message.");
 
         }
         catch (Exception ex)
         {
-            await Clients.Caller.SendAsync("ReceiveErrorMessage", "System", $"Error: {ex.Message}");
+            await Clients.Caller.SendAsync("ReceiveErrorMessage", $"Error: {ex.Message}");
         }
     }
 
@@ -245,17 +246,17 @@ public class ChatHub : Hub
         // This is a security check to ensure that the user is who they say they are.
         if (!ValidRequest(user))
         {
-            await Clients.Caller.SendAsync("ReceiveErrorMessage", "System", "You are not authorized to send messages.");
+            await Clients.Caller.SendAsync("ReceiveErrorMessage", "You are not authorized to send messages.");
             return;
         }
 
         try
         {
-            await Clients.Caller.SendAsync("ReceiveMessage", user, "Done resetting your conversation.");
+            await Clients.Caller.SendAsync("ReceiveMessage", "Done resetting your conversation.");
         }
         catch (Exception ex)
         {
-            await Clients.Caller.SendAsync("ReceiveErrorMessage", "System", $"Error: {ex.Message}");
+            await Clients.Caller.SendAsync("ReceiveErrorMessage", $"Error: {ex.Message}");
         }
     }
 }
