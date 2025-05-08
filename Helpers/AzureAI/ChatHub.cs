@@ -2,10 +2,8 @@ using System.ClientModel;
 using System.Diagnostics;
 using Azure;
 using Azure.AI.Projects;
-using Azure.Identity;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Graph;
-using Microsoft.Identity.Abstractions;
 
 namespace woodgrovedemo.Helpers.AzureAI;
 
@@ -14,7 +12,6 @@ namespace woodgrovedemo.Helpers.AzureAI;
 // It means that only users who are members of the exclusive demos security group can access this endpoint
 public partial class ChatHub : Hub
 {
-    //private readonly OpenAI.OpenAIClient _openAIClient;
     private readonly AgentsClient _agentsClient;
     private readonly IConfiguration _configuration;
     private readonly GraphServiceClient _graphServiceClient;
@@ -26,15 +23,15 @@ public partial class ChatHub : Hub
         _graphServiceClient = graphServiceClient;
     }
 
-    public async Task SendMessage(string user, string prompt, string flow = "support")
+    public async Task SendMessage(string prompt, string flow = "support")
     {
         switch (flow)
         {
             case "support":
-                await SendSupportMessage(user, prompt);
+                await SendSupportMessage(prompt);
                 break;
             case "user":
-                await SendUserMessage(user, prompt);
+                await SendUserMessage(prompt);
                 break;
             default:
                 await Clients.Caller.SendAsync("ReceiveErrorMessage", "Invalid flow type.");
@@ -42,7 +39,7 @@ public partial class ChatHub : Hub
         }
     }
 
-    private async Task SendUserMessage(string user, string prompt)
+    private async Task SendUserMessage(string prompt)
     {
         Stopwatch stopwatch = new Stopwatch();
         stopwatch.Start();
@@ -50,7 +47,7 @@ public partial class ChatHub : Hub
 
         // Check if the user ID is the same as the one in the ID token
         // This is a security check to ensure that the user is who they say they are.
-        if (!ValidRequest(user))
+        if (!ValidRequest())
         {
             await Clients.Caller.SendAsync("ReceiveErrorMessage", "You are not authorized to send messages.");
             return;
@@ -179,11 +176,11 @@ public partial class ChatHub : Hub
     }
 
 
-    private async Task SendSupportMessage(string user, string prompt)
+    private async Task SendSupportMessage(string prompt)
     {
         // Check if the user ID is the same as the one in the ID token
         // This is a security check to ensure that the user is who they say they are.
-        if (!ValidRequest(user))
+        if (!ValidRequest())
         {
             await Clients.Caller.SendAsync("ReceiveErrorMessage", "You are not authorized to send messages.");
             return;
@@ -229,22 +226,27 @@ public partial class ChatHub : Hub
         }
     }
 
-    private bool ValidRequest(string user)
+    private bool ValidRequest()
     {
         // Get the user ID from the ID token
         string tokenUserID = Context.User?.Claims?.FirstOrDefault(c => c.Type.ToLower() == "oid")?.Value ?? string.Empty;
 
-        // Check if the user ID is the same as the one in the ID token
-        return (string.IsNullOrEmpty(tokenUserID) != true && tokenUserID == user);
+        // Get the exclusive demos security group ID
+        string exclusiveDemosSecurityGroup = _configuration.GetSection("AppRoles:ExclusiveDemosSecurityGroup").Value!;
 
+        // Check whether the account is a member of the exclusive demos security group
+        bool isMemberOfExclusiveDemos = Context.User?.Claims?.Any(c => c.Type == "groups" && c.Value == exclusiveDemosSecurityGroup) ?? false;
+
+        // Check if the user ID is the same as the one in the ID token
+        return string.IsNullOrEmpty(tokenUserID) == false && isMemberOfExclusiveDemos;
     }
 
 
-    public async Task ResetConversation(string user)
+    public async Task ResetConversation()
     {
         // Check if the user ID is the same as the one in the ID token
         // This is a security check to ensure that the user is who they say they are.
-        if (!ValidRequest(user))
+        if (!ValidRequest())
         {
             await Clients.Caller.SendAsync("ReceiveErrorMessage", "You are not authorized to send messages.");
             return;

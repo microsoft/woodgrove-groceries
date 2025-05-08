@@ -254,7 +254,6 @@
                 </div>
 
                 <div class="d-flex gap-2">
-                    <input type="hidden" id="userId" value="@Model.UserId" />
 
                     <button id="sendButton" onclick="sendMessage()" class="btn btn-primary" title="Send message">
                         <div class="spinner-border text-light spinner-border-sm" style="display: none;" id="spinner"
@@ -291,9 +290,6 @@
             // Initialize the connection to the SignalR hub
             connection = new signalR.HubConnectionBuilder().withUrl("/chathub").build();
 
-            // Get the user ID
-            var user = $("#userId").val();
-
             // Configure the on message received event
             // Most of the time, this app uses the ReceivePartialResponse event to show the response in real time.
             // However, this event is also used show system messages like error messages.
@@ -318,7 +314,7 @@
             connection.start().catch(err => {
                 console.error(err.toString());
                 // Append the error message to the chat container
-                appendMessage(user, err.toString(), "error");
+                appendMessage(err.toString(), "error");
             });
         });
 
@@ -334,9 +330,6 @@
         // This function is called when a user sends a message to the server
         function sendMessage() {
 
-            // Get the user ID
-            var user = $("#userId").val();
-
             // Check if the message input is not empty, if so, don't send it
             if ($("#messageInput").val().trim() === "") {
                 return;
@@ -346,7 +339,7 @@
             var message = $("#messageInput").val().trim();
 
             // Log the user ID and message to the console
-            console.log("Send message to user ID:", user, message);
+            console.log("Send message: ", message);
 
             // Clean up the message output field
             $("#messageOutput").val("");
@@ -360,7 +353,7 @@
             $("#sendIcon").hide();
 
             // Send the message to the server
-            connection.invoke("SendMessage", user, message, $("#flowSelect").val())
+            connection.invoke("SendMessage", message, $("#flowSelect").val())
                 .catch(err => {
                     console.error("SendMessage error: " + err.toString())
 
@@ -379,9 +372,6 @@
         // It resets the conversation and clears the chat container
         function resetConversation() {
 
-            // Get the user ID
-            var user = $("#userId").val();
-
             // Clear the message input field
             $("#messageInput").val('');
 
@@ -390,7 +380,7 @@
             $("#chatMessages").empty();
 
             // Send the message to the server
-            connection.invoke("ResetConversation", user)
+            connection.invoke("ResetConversation")
                 .catch(err => {
                     console.error("ResetConversation error: " + err.toString())
 
