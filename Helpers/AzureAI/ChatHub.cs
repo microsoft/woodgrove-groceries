@@ -4,6 +4,7 @@ using Azure;
 using Azure.AI.Projects;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Graph;
+using Microsoft.Identity.Abstractions;
 
 namespace woodgrovedemo.Helpers.AzureAI;
 
@@ -15,12 +16,14 @@ public partial class ChatHub : Hub
     private readonly AgentsClient _agentsClient;
     private readonly IConfiguration _configuration;
     private readonly GraphServiceClient _graphServiceClient;
+    private readonly IAuthorizationHeaderProvider _authorizationHeaderProvider;
 
-    public ChatHub(IConfiguration configuration, AgentsClient agentsClient, GraphServiceClient graphServiceClient)
+    public ChatHub(IConfiguration configuration, AgentsClient agentsClient, GraphServiceClient graphServiceClient, IAuthorizationHeaderProvider authorizationHeaderProvider)
     {
         _agentsClient = agentsClient;
         _configuration = configuration;
         _graphServiceClient = graphServiceClient;
+        _authorizationHeaderProvider = authorizationHeaderProvider;
     }
 
     public async Task SendMessage(string prompt, string flow = "support")
@@ -81,9 +84,11 @@ public partial class ChatHub : Hub
                 agent = await _agentsClient.CreateAgentAsync(
                 model: "gpt-4o-mini",
                 name: "Woodgrove groceries agent",
-                    instructions: "You are the Woogrove online retail store. Use the provided functions to help answer questions. "
+                description: "Woogrove online retail store agent (v1.0)",
+
+                    instructions: "You are the Woodgrove online retail store. Use the provided functions to help answer questions. "
                         + "Customize your responses to the user's preferences as much as possible and use friendly ",
-                tools: [ChatHubFunctionsDefinition.GetUserInfo]);
+                tools: [ChatHubFunctionsDefinition.GetUserInfo, ChatHubFunctionsDefinition.UpdateUserProfile]);
 
                 // Add the elapsed time to the satistic message
                 elapsedTime += "\nCreateAgentAsync: " + stopwatch.Elapsed.ToString(@"hh\:mm\:ss");

@@ -272,6 +272,7 @@
             </div>
         </div>
     </div>
+    <div id="errorSolution" style="display: none;"></div>
 </div>
 
 
@@ -343,6 +344,9 @@
 
             // Clean up the message output field
             $("#messageOutput").val("");
+
+            // Clean up the error solution field
+            $("#errorSolution").html("");
 
             // Append the message to the chat container
             appendMessage(message, "user");
@@ -445,10 +449,6 @@
                 // Get the second element inside the last message element
                 var lastMessageContent = lastMessage.children().eq(1);
 
-                // Check the css class of the last message. If it's error-message, then don't append the message
-                if (lastMessageContent.hasClass("error-message")) {
-                    return;
-                }
 
                 lastMessageContent.html(marked.parse($("#messageOutput").val()));
             }
@@ -482,6 +482,24 @@
                 console.log(satistic);
             }
 
+            // Check if there is error solution to show. If so, show it.
+            if ($("#errorSolution").html() != "") {
+                // Using jQuery get the last message in the chat container
+                // and append the partial message to it
+                var lastMessage = $("#chatMessages").children().last();
+                if (lastMessage.length > 0) {
+
+                    // Get the second element inside the last message element
+                    var lastMessageContent = lastMessage.children().eq(1);
+
+                    // Append the error solution to the last message content
+                    lastMessageContent.html(lastMessageContent.html() + $("#errorSolution").html());
+
+                    // Scroll to the bottom of the chat container
+                    $("#chatMessages").scrollTop($("#chatMessages")[0].scrollHeight);
+                }
+            }
+
             // Enable button after processing
             $("#sendButton").prop('disabled', false);
             $("#spinner").hide();
@@ -506,10 +524,23 @@
 
                 // Check if the message contains the IDW10502 error message
                 if (message.includes("IDW10502")) {
-                    message = "Your access token has expired or is invalid. Please <a href='/SignIn?handler=ChatReauth'>sign-in</a> with your credentials to continue."
+
+                    // Set the errorSolution div to show the error message
+                    $("#errorSolution").html('<br /><a class="btn header-button" id="signInButton" style="" role="button" href="/SignIn?handler=ChatReauth"><i class="bi bi-person"></i>Sign-in</a>');
+                    message = '<b>Woodgrove: </b><span>' + marked.parse(message) + '</span>';
                     messageClass = "error-message";
                     console.log("The user is not authenticated. Show the sign in link.");
-                } else {
+                }
+                // Check if the message contains the AADSTS50076 error message
+                else if (message.includes("AADSTS50076")) {
+
+                    // Set the errorSolution div to show the error message
+                    $("#errorSolution").html('<br /><a class="btn header-button" id="signInButton" style="" role="button" href="/SignIn?handler=ChatMfa"><i class="bi bi-person"></i>Sign-in with multi-factor (MFA)</a>');
+                    message = '<b>Woodgrove: </b><span>' + marked.parse(message) + '</span>';
+                    messageClass = "error-message";
+                    console.log("MFA is required. Show the sign in link.");
+                }
+                else {
                     message = '<b>Error: </b><span>' + message + '</span>';
                     messageClass = "error-message";
                 }

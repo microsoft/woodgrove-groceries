@@ -59,7 +59,7 @@ namespace MyApp.Namespace
             }
 
             // Step up flow
-            if (ID == "StepUp" || ID == "EditProfileMfa" || ID == "MFA")
+            if (ID == "StepUp" || ID == "EditProfileMfa" || ID == "ChatMfa" || ID == "MFA")
             {
                 challengeResult.Properties.Items.Add("StepUp", "true");
             }
@@ -153,6 +153,11 @@ namespace MyApp.Namespace
         public IActionResult OnGetEditProfileMfa()
         {
             return this.TrackAndAuth("EditProfileMfa", "/profile", false);
+        }
+
+        public IActionResult OnGetChatMfa()
+        {
+            return this.TrackAndAuth("ChatMfa", "/chat", false);
         }
 
         public IActionResult OnGetUserLastActivity()

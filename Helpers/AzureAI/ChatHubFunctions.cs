@@ -27,9 +27,105 @@ public partial class ChatHub
         {
             return new ToolOutput(toolCallId, await GetUserInfoAsync());
         }
+        else if (functionName == ChatHubFunctionsDefinition.UpdateUserProfile.Name)
+        {
+            return new ToolOutput(toolCallId, await UpdateUserInfoAsync(functionArguments));
+        }
         else
         {
             return new ToolOutput(toolCallId, $"Error: AI function {functionName} not found.");
+        }
+    }
+
+    public async Task<string> UpdateUserInfoAsync(string functionArguments)
+    {
+        // Deserialize the function arguments into a dynamic object
+        var functionArgs = JsonSerializer.Deserialize<Dictionary<string, string>>(functionArguments);
+
+        // Check if the attribute and value are provided in the function arguments
+        if (functionArgs == null || functionArgs.ContainsKey("attribute") == false || functionArgs.ContainsKey("value") == false)
+        {
+            return "Unable to update your profile. Please specify the attribute you want to update and its new value. The supported attributes are display name, city, and country. For example, you may request: 'Please update my name to Ellena'.";
+        }
+
+        // Get the attribute and value from the function arguments
+        string attribute = functionArgs["attribute"];
+        string value = functionArgs["value"];
+
+        // Check if the attribute the following collection displayName, city, or country
+        if (attribute == null || value == null || (attribute != "displayName" && attribute != "city" && attribute != "country"))
+        {
+            return "Unable to update your profile. Please specify the attribute you want to update and its new value. The supported attributes are display name, city, and country. For example, you may request: 'Please update my name to Ellena'.";
+        }
+
+        // Check the attribute name and value to determine which attribute to update
+        var formContent = new FormUrlEncodedContent(new[]
+                {
+                    new KeyValuePair<string, string>(attribute, value)
+                });
+
+
+        // Read app settings
+        string baseUrl = _configuration.GetSection("GraphApiMiddleware:BaseUrl").Value!;
+        string[] scopes = _configuration.GetSection("GraphApiMiddleware:Scopes").Get<string[]>() ?? Array.Empty<string>();
+        string endpoint = _configuration.GetSection("GraphApiMiddleware:Endpoint").Value!;
+
+        // Check all of the app settings and return an error message if any of them is missing 
+        if (baseUrl == null || scopes.Length == 0 || string.IsNullOrEmpty(endpoint))
+        {
+            return "We are currently unable to access your profile due to an internal issue. Please try again later.";
+        }
+
+        // Set the scope full URL (temporary workaround should be fix)
+        for (int i = 0; i < scopes.Length; i++)
+        {
+            scopes[i] = $"{baseUrl}/{scopes[i]}";
+        }
+
+        try
+        {
+            // Get an access token to call the Graph middleware API
+            string accessToken = await _authorizationHeaderProvider.CreateAuthorizationHeaderForUserAsync(scopes);
+
+            // Use the access token to call the Graph middleware API.
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Add("Authorization", accessToken);
+            var httpResponseMessage = await client.PostAsync(endpoint, formContent);
+            var responseContent = await httpResponseMessage.Content.ReadAsStringAsync();
+            
+            // Try to parse the response content as a MiddlewareApiResponse object
+            MiddlewareApiResponse? middlewareApiResponse = MiddlewareApiResponse.Parse(responseContent);
+
+            // Check if the response contains an error message
+            if (middlewareApiResponse != null && middlewareApiResponse.errorMessage != null)
+            {
+                // Return the error message to the client
+                await Clients.Caller.SendAsync("ReceiveErrorMessage", middlewareApiResponse.errorMessage);
+                return $"Unable to update your profile. Please try again later.";
+            }
+
+            return $"Your profile has been updated successfully. Attribute: {attribute}, Value: {value}. Changes may take a few minutes to appear. Wait a few seconds, then [sign in again.](/SignIn?handler=ProfileReauth)";
+        }
+        catch (Exception ex)
+        {
+            string error = ex.Message;
+
+            // If the inner exception is available, include it in the error message
+            if (ex.InnerException != null)
+            {
+                error += $" Inner exception: {ex.InnerException.Message}";
+            }
+
+
+            // Check if the error message is related to the multi-factor authentication (MFA) requirement
+            if (error.Contains("AADSTS50076") || error.Contains("multi-factor authentication"))
+            {
+                error = "(AADSTS50076) Your profile cannot be updated because you need to complete the multi-factor authentication (MFA) process. Please [sign in](/SignIn?handler=ChatMfa) again to complete the MFA process.";
+            }
+
+            // Retrun the error message to the client
+            await Clients.Caller.SendAsync("ReceiveErrorMessage", error);
+            return $"Can't read the profile due to the following error: {error}";
         }
     }
 
@@ -152,5 +248,20 @@ public class UserInfo
     public override string ToString()
     {
         return JsonSerializer.Serialize(this, new JsonSerializerOptions { WriteIndented = true });
+    }
+}
+
+public class MiddlewareApiResponse
+{
+    public string? errorMessage { get; set; }
+
+    public static MiddlewareApiResponse? Parse(string JsonString)
+    {
+        var options = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        };
+
+        return JsonSerializer.Deserialize<MiddlewareApiResponse>(JsonString, options) ;
     }
 }

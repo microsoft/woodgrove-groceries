@@ -24,4 +24,32 @@ public class ChatHubFunctionsDefinition
                       **LoyaltyTier** - The loyalty tier of the user account.
                       **LoyaltyNumber** - The loyalty number of the user account.
                       **acrs** - The authentication context class reference (ACR) of the user account. If its value equals 'c1', it indicates that the multi-factor authentication (MFA) requirement is met. Otherwise, if the 'acrs' attribute doesn't exist or has another value, it means that user did not sign-in with MFA. Use this attribute to check if the user has passed MFA.");
+
+    public static FunctionToolDefinition UpdateUserProfile = new(
+            name: "UpdateUserInfo",
+            description: "Updates the user profile with the provided information.",
+            parameters: BinaryData.FromObjectAsJson(
+                new
+                {
+                    Type = "object",
+                    Properties = new
+                    {
+                        Attribute = new
+                        {
+                            Type = "string",
+                            Description = @"The name of the attribute to update. Possible values are: 
+                              - **displayName** - The display name of the user account.
+                              - **country** - The country of the user account.
+                              - **city** - The city of the user account.
+                            Attributes that are not listed here are not supported."
+                        },
+                        Value = new
+                        {
+                            Type = "string",
+                            Description = @"The new value for the attribute."
+                        }
+                    },
+                    Required = new[] { "attribute" },
+                },
+                new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase }));
 }
