@@ -135,11 +135,18 @@ function updateUserAttributes() {
         $("#editProfileButtonSpinner").hide();
         $("#editProfileButton").prop("disabled", false);
 
+        // Convert the result to a JSON object
+        if (typeof result === "string") {
+            result = JSON.parse(result);
+        }
+
+        // Check if the result contains an error message
         if (result.errorMessage) {
             $("#errorMessage").text(result.errorMessage);
             $("#errorMessageContainer").show();
         }
         else {
+            // If no error, show the request to sign to updat the access token
             signInAlert.show();
         }
 

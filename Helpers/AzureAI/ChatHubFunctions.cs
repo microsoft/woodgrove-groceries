@@ -61,7 +61,8 @@ public partial class ChatHub
         // Check the attribute name and value to determine which attribute to update
         var formContent = new FormUrlEncodedContent(new[]
                 {
-                    new KeyValuePair<string, string>(attribute, value)
+                    new KeyValuePair<string, string>(attribute, value),
+                    new KeyValuePair<string, string>("dontSkipEmptyString", false.ToString()),
                 });
 
 
@@ -97,7 +98,7 @@ public partial class ChatHub
             MiddlewareApiResponse? middlewareApiResponse = MiddlewareApiResponse.Parse(responseContent);
 
             // Check if the response contains an error message
-            if (middlewareApiResponse != null && middlewareApiResponse.errorMessage != null)
+            if (middlewareApiResponse != null && string.IsNullOrEmpty(middlewareApiResponse.errorMessage) == false)
             {
                 // Return the error message to the client
                 await Clients.Caller.SendAsync("ReceiveErrorMessage", middlewareApiResponse.errorMessage);
