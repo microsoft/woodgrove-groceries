@@ -25,7 +25,7 @@ var builder = WebApplication.CreateBuilder(args);
 //     new Azure.AzureKeyCredential(AzureOpenAISettings["ApiKey"]));
 // });
 
-string connectionString = builder.Configuration.GetSection("Demos:AzureOpenProject:ConnectionString").Value;
+string connectionString = builder.Configuration.GetSection("Demos:AzureOpenAiProject:ConnectionString").Value;
 Azure.AI.Projects.AgentsClient agentsClient = new Azure.AI.Projects.AgentsClient(connectionString, new DefaultAzureCredential());
 
 // Register the AIProjectClient as a singleton service

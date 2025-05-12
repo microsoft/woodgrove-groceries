@@ -64,7 +64,7 @@ public partial class ChatHub : Hub
 
         try
         {
-            agentResponse = await _agentsClient.GetAgentAsync(_configuration.GetSection("Demos:AzureOpenProject:WoodgroveAgentId").Value);
+            agentResponse = await _agentsClient.GetAgentAsync(_configuration.GetSection("Demos:AzureOpenAiProject:WoodgroveAgentId").Value);
             agent = agentResponse.Value;
 
             // Add the elapsed time to the satistic message
@@ -196,7 +196,7 @@ public partial class ChatHub : Hub
 
         try
         {
-            Response<Agent> agentResponse = await _agentsClient.GetAgentAsync(_configuration.GetSection("Demos:AzureOpenProject:SupportAgentId").Value);
+            Response<Agent> agentResponse = await _agentsClient.GetAgentAsync(_configuration.GetSection("Demos:AzureOpenAiProject:SupportAgentId").Value);
             Agent agent = agentResponse.Value;
 
             Response<AgentThread> threadResponse = await _agentsClient.CreateThreadAsync();
