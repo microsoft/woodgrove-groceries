@@ -93,7 +93,7 @@ public partial class ChatHub
             client.DefaultRequestHeaders.Add("Authorization", accessToken);
             var httpResponseMessage = await client.PostAsync(endpoint, formContent);
             var responseContent = await httpResponseMessage.Content.ReadAsStringAsync();
-            
+
             // Try to parse the response content as a MiddlewareApiResponse object
             MiddlewareApiResponse? middlewareApiResponse = MiddlewareApiResponse.Parse(responseContent);
 
@@ -186,7 +186,23 @@ public partial class ChatHub
                 userInfo.LoyaltySince = Context.User.FindFirst("loyaltySince")?.Value;
                 userInfo.LoyaltyTier = Context.User.FindFirst("loyaltyTier")?.Value;
                 userInfo.LoyaltyNumber = Context.User.FindFirst("loyaltyNumber")?.Value;
-                userInfo.acrs = Context.User.FindFirst("acr")?.Value;
+
+                // The 'acrs' claim (string collection) is used to verify whether the user has fulfilled the multi-factor authentication (MFA) requirement. 
+                // If one its values is c1, it indicates that the MFA requirement has been satisfied. 
+                userInfo.MFA = Context.User.Claims.Any(c => c.Type == "acrs" && c.Value == "c1");
+
+                // Check if the user is a member of the commercial accounts security group
+                string? commercialAccountsSecurityGroup = _configuration.GetSection("AppRoles:CommercialAccountsSecurityGroup").Value;
+                if (commercialAccountsSecurityGroup != null)
+                {
+                    userInfo.CommercialAccount = Context.User.Claims.Any(c => c.Type == "groups" && c.Value == commercialAccountsSecurityGroup);
+                }
+
+                // Check if the user has the permissions to manage orders
+                userInfo.CanManageOrders = Context.User.IsInRole("Orders.Manager");
+
+                // Check if the user has the permissions to manage products
+                userInfo.CanManageProducts = Context.User.IsInRole("Products.Contributor");
             }
 
             return userInfo.ToString()!;
@@ -240,7 +256,13 @@ public class UserInfo
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? LoyaltyNumber { get; set; }
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? acrs { get; set; }
+    public bool? MFA { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? CommercialAccount { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? CanManageOrders { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? CanManageProducts { get; set; }
 
     /// <summary>
     /// Serialize this object into a JSON string
@@ -263,6 +285,6 @@ public class MiddlewareApiResponse
             PropertyNameCaseInsensitive = true
         };
 
-        return JsonSerializer.Deserialize<MiddlewareApiResponse>(JsonString, options) ;
+        return JsonSerializer.Deserialize<MiddlewareApiResponse>(JsonString, options);
     }
 }
