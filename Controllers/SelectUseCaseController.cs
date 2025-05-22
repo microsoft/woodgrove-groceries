@@ -12,7 +12,7 @@ using Microsoft.Identity.Abstractions;
 namespace woodgrovedemo.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class SelectUseCaseController : ControllerBase
 {
 
@@ -25,10 +25,15 @@ public class SelectUseCaseController : ControllerBase
     }
 
     [HttpGet("usecase")]
-    public IActionResult RecordUseCase(string ID, string trigger, string referral = null)
+    public IActionResult RecordUseCase(string ID, string trigger, string? referral = null)
     {
-        string[] useCases = { "Default", "CloudflareInteractiveChallenge", "CloudflareJsChallenge", "CloudflareNetwork", "SignUpLink", "MSA", "SPA", "ArkoseFraudProtection", "NativeAuth", "SignInLog", "EmailOtp", "CustomDomain", "CustomEmail", "AssignmentRequired", "OnlineRetail", "StepUp", "CSA", "PolicyAgreement", "EmailAndPassword", "DisableAccount", "OBO", "SSO", "TokenTTL", "MFA", "CA", "ForceSignIn", "UserInsights", "ModifyAttributeValues", "BlockSignUp", "CompanyBranding", "Language", "PreSelectLanguage", "SSPR", "Social", "ActAs", "LoginHint", "TokenAugmentation", "GithubWorkflows", "TokenClaims", "PreAttributeCollection", "PostAttributeCollection", "ProfileEdit", "DeleteAccount", "UserLastActivity", "RBAC", "GBAC", "CustomAttributes", "Kiosk", "Saml" };
         string[] triggers = { "Link", "Start", "Select" };
+
+        // Get the demos from DemoDataList.Demos collection and filter by IsSpecialListItem is false and set to validUseCases type of string[]
+        string[] validUseCases = DemoDataList.Demos
+            .Where(d => !d.IsSpecialListItem)
+            .Select(d => d.ID)
+            .ToArray();
 
         string referralDomain = string.Empty;
 
@@ -62,7 +67,7 @@ public class SelectUseCaseController : ControllerBase
         // Check the event ID
         string eventIDToRecord = ID;
         string? UnknownValue = null;
-        if (!useCases.Contains(eventIDToRecord))
+        if (!validUseCases.Contains(eventIDToRecord))
         {
             eventIDToRecord = "Unknown";
 

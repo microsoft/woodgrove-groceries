@@ -9,7 +9,7 @@ using Microsoft.Identity.Web;
 namespace woodgrovedemo.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 [Authorize]
 public class SendCodeController : ControllerBase
 {

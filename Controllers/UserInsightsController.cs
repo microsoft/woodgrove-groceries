@@ -11,7 +11,7 @@ using woodgrovedemo.Helpers;
 namespace woodgrovedemo.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class UserInsightsController : ControllerBase
 {
     private const string baseUrl = "https://graph.microsoft.com/beta/reports/userinsights";

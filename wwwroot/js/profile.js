@@ -41,7 +41,7 @@ function disableAccount() {
 
     $("#disableAccountButtonSpinner").show();
     $.ajax({
-        url: "/DisableAccount",
+        url: "/api/DisableAccount",
         success: function (result) {
 
             if (!result.errorMessage) {
@@ -69,7 +69,7 @@ function disableAccount() {
 
 function getUserAttributes() {
     $.ajax({
-        url: "/userattributes",
+        url: "/api/userattributes",
         success: function (result) {
 
             if (!result.errorMessage) {
@@ -148,7 +148,7 @@ function updateUserAttributes() {
 
 function getUserRoles() {
     $.ajax({
-        url: "/userroles",
+        url: "/api/userroles",
         success: function (result) {
 
             if (!result.errorMessage) {
@@ -196,7 +196,7 @@ function updateUserRoles() {
 
 function getUserMoreInfo() {
     $.ajax({
-        url: "/usermoreinfo",
+        url: "/api/usermoreinfo",
         success: function (result) {
 
             if (!result.errorMessage) {
@@ -259,7 +259,7 @@ function sendCodeForSignInEmail() {
     }
 
     $.ajax({
-        url: "/SendCode",
+        url: "/api/SendCode",
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(payload),
@@ -308,7 +308,7 @@ function sendCodeForEmailMfa() {
     }
 
     $.ajax({
-        url: "/SendCode",
+        url: "/api/SendCode",
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(payload),
@@ -336,7 +336,7 @@ function verifyCode() {
     }
 
     $.ajax({
-        url: "/VerifyCode",
+        url: "/api/VerifyCode",
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(payload),

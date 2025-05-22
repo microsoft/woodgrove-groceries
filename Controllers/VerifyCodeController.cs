@@ -12,7 +12,7 @@ using woodgrovedemo.Helpers;
 namespace woodgrovedemo.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 [Authorize]
 public class VerifyCodeController : ControllerBase
 {
