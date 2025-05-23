@@ -15,6 +15,10 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddApplicationInsightsTelemetry();
 var _telemetry = builder.Services.BuildServiceProvider().GetService<TelemetryClient>();
 
+// Initialize the demo data
+DemoDataList.Initialize(builder.Configuration);
+
+// Add Microsoft Identity Web App authentication
 ConfigurationSection AzureAd = (ConfigurationSection)builder.Configuration.GetSection("AzureAd");
 ConfigurationSection WoodgroveGroceriesApi = (ConfigurationSection)builder.Configuration.GetSection("WoodgroveGroceriesApi");
 

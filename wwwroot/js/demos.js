@@ -42,11 +42,24 @@ $(document).ready(function () {
                     }
 
                     // If the AuthorizedActionUrl is not empty, send the user to the AuthorizedActionUrl
-                    if (demo.authorizedActionUrl) {
+                    if (authenticated && demo.authorizedActionUrl) {
                         actionUrl = demo.authorizedActionUrl
                     }
 
-                    startButton = `<a id="${demo.id}_start" class="btn header-button" role="button" href="${actionUrl}"><i class="bi bi-play-circle"></i> Start the use case</a>`;
+                    // Set the button text
+                    let buttonText = "Start the use case";
+                    
+                    // Get the atlernative text from the demo object
+                    if (demo.actionText) {
+                        buttonText = demo.actionText;
+                    }
+                    
+                    // If the user is authenticated, use the authorizedActionText
+                    if (authenticated && demo.authorizedActionText) {
+                        buttonText = demo.authorizedActionText;
+                    }
+
+                    startButton = `<a id="${demo.id}_start" class="btn header-button" role="button" href="${actionUrl}"><i class="bi bi-play-circle"></i> ${buttonText}</a>`;
 
                     // Prepare the configuration help button
                     let configHelpButton = ''
@@ -127,7 +140,14 @@ function filterUseCases() {
     div = document.getElementById("demosDropdown");
     a = div.getElementsByTagName("li");
 
+    // Iterate through all list items, and hide those who don't match the search query
     for (i = 0; i < a.length; i++) {
+
+        // Skip LI elements with the ID "UseCaseSearchContainer"
+        if (a[i].id === "UseCaseSearchContainer") {
+            continue;
+        }
+
         txtValue = a[i].textContent || a[i].innerText;
         if ((txtValue.toUpperCase().indexOf(filter) > -1)) {
             a[i].style.display = "";

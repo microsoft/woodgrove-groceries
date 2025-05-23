@@ -3,9 +3,16 @@
 
 <div>
     <input type="hidden" id="customDomainValue" value="@Configuration["Demos:CustomDomain"]">
+    <script>
+        var authenticated = false;
+    </script>
 
     @if (User.Identity?.IsAuthenticated == true)
     {
+        <script>
+            authenticated = true;
+        </script>
+        
         <style>
             .unauth {
                 display: none;

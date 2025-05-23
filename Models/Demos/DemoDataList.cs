@@ -1,31 +1,17 @@
-using System.Text.Json.Serialization;
-
-public class DemoData
-{
-    public required string ID { get; set; }
-    public bool IsSpecialListItem { get; set; } = false;
-    public required string Title { get; set; }
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? CardTitle { get; set; }
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Icon { get; set; }
-    public required string Content { get; set; }
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? ActionUrl { get; set; }
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? AuthorizedActionUrl { get; set; }
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? ConfigHelpUrl { get; set; }
-
-}
-
 public static class DemoDataList
 {
+    private static IConfiguration _configuration;
     public static List<DemoData> Demos { get; set; }
     const string GroupHeader = "<li><hr class='dropdown-divider'></li><li class='UseCaseHeader'><h6 class='dropdown-header' style='color: var(--color-very-dark);'>{0}</h6></li>";
 
-    static DemoDataList()
+    // static DemoDataList()
+    // {
+    //     Demos = new List<DemoData>();
+    // }
+
+    public static void Initialize(IConfiguration configuration)
     {
+        _configuration = configuration;
         Demos = new List<DemoData>();
 
         Demos.Add(new DemoData
@@ -194,7 +180,14 @@ public static class DemoDataList
                     <li>Enter your password and sign-in.</li>
                 </ol>",
             ActionUrl = "/SignIn?handler=LoginHint&id=someone@woodgrovedemo.com",
-            ConfigHelpUrl = ""
+            ExtraParams = new List<DemoDataParam>
+            {
+                new DemoDataParam
+                {
+                    Name = "login_hint",
+                    QueryStringName = "id"
+                }
+            },
         });
 
         Demos.Add(new DemoData
@@ -307,14 +300,26 @@ public static class DemoDataList
                     populates the sign-up email address, while the user only needs to validate their email address and enter their profile attributes. Make sure there is no such account in the directory.
                 </p>
                 <ol>
-                    <li>[Optimally] Enter an email: <input type='email' id='signUpLoginHint' oninput=""document.getElementById('SignUpLink_start').href='/SignIn?handler=LoginHint&id=' + document.getElementById('signUpLoginHint').value"">.</li>
+                    <li>[Optimally] Enter an email: <input type='email' id='signUpLoginHint' oninput=""document.getElementById('SignUpLink_start').href='/SignIn?handler=SignUpLink&id=' + document.getElementById('signUpLoginHint').value"">.</li>
                     <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
                     <li>Notice that the title of the page is 'Create account'</li>
                     <li>If email has been provided, notice that the email address already entered.</li>
                     <li>Continue with the sign-up flow.</li>
                 </ol>",
             ActionUrl = "/SignIn?handler=SignUpLink",
-            ConfigHelpUrl = ""
+            ExtraParams = new List<DemoDataParam>
+            {
+                new DemoDataParam
+                {
+                    Name = "prompt",
+                    FixedValue = "create"
+                },
+                new DemoDataParam
+                {
+                    Name = "login_hint",
+                    QueryStringName = "id"
+                }
+            },
         });
 
         Demos.Add(new DemoData
@@ -522,7 +527,9 @@ public static class DemoDataList
                     <li>Wait for a couple of seconds and try to sign-in again.</li>
                 </ol>",
             ActionUrl = "/SignIn?handler=DisableAccount",
-            ConfigHelpUrl = "/help/DisableAccount"
+            ConfigHelpUrl = "/help/DisableAccount",
+            PostSignInRedirectUri = "/Profile",
+            Reauth = false
         });
 
         Demos.Add(new DemoData
@@ -555,7 +562,15 @@ public static class DemoDataList
                     <li>As a second factor authenticate, Microsoft Entra ID will send you a verification code to your email or phone that you need to complete.</li>
                 </ol>",
             ActionUrl = "/SignIn?handler=MFA",
-            ConfigHelpUrl = "/help/MFA"
+            ConfigHelpUrl = "/help/MFA",
+            ExtraParams = new List<DemoDataParam>
+            {
+                new DemoDataParam
+                {
+                    Name = "StepUp",
+                    FixedValue = "true",
+                }
+            }
         });
 
         Demos.Add(new DemoData
@@ -588,6 +603,15 @@ public static class DemoDataList
 
         Demos.Add(new DemoData
         {
+            ID = "StepUpIntro",
+            Title = "This record is the first step of the 'StepUp' demo for unauthenticated users.",
+            Content = "",
+            ServerSideOnly = true,
+            PostSignInRedirectUri = "/#usecase=StepUp"
+        });
+
+        Demos.Add(new DemoData
+        {
             ID = "StepUp",
             Title = "Step-up authentication (with MFA)",
             Icon = "bi bi-arrow-up-right-square",
@@ -609,7 +633,10 @@ public static class DemoDataList
                     <li class='auth-without-mfa'>Then, select the <b>checkout</b> button. If you have not signed-in with MFA, you will be asked to do so.</li>
                 </ol>",
             ActionUrl = "/SignIn?handler=StepUpIntro",
-            ConfigHelpUrl = "/help/StepUp"
+            AuthorizedActionText = "Start over",
+            ConfigHelpUrl = "/help/StepUp",
+            PostSignInRedirectUri = "/#cmd=StepUpCompleted",
+            Reauth = false
         });
 
         Demos.Add(new DemoData
@@ -630,7 +657,8 @@ public static class DemoDataList
                     <li>Upon successful sign-in you will get an error message that you don't have access to the app.</li>
                 </ol>",
             ActionUrl = "/SignIn?handler=CSA",
-            ConfigHelpUrl = "/help/CustomSecurityAttributes"
+            ConfigHelpUrl = "/help/CustomSecurityAttributes",
+            RedirectUri = _configuration.GetSection("Demos:CustomSecurityAttributesURL").Value
         });
 
         Demos.Add(new DemoData
@@ -715,6 +743,7 @@ public static class DemoDataList
                     Note, in this demo you can't assign yourself to the <b>Woodgrove partners portal</b> app. If you are interested in app assignment, check out the <a class='link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover' href='#usecase=RBAC'>Role based access control demo</a>
                 </p>",
             ActionUrl = "/SignIn?handler=AssignmentRequired",
+            RedirectUri = _configuration.GetSection("Demos:AssignmentRequiredURL").Value,
             ConfigHelpUrl = "/help/AssignmentRequired"
         });
 
@@ -750,6 +779,8 @@ public static class DemoDataList
                 </ol>",
             ActionUrl = "/SignIn?handler=default",
             AuthorizedActionUrl = "/SignIn?handler=ActAs&id=Dave",
+            PostSignInRedirectUri = "/Token",
+            Reauth = false,
             ConfigHelpUrl = ""
         });
 
@@ -801,7 +832,14 @@ public static class DemoDataList
                     <li>You can sign-up or sign-in with local account. Do NOT use the Facebook or Google options.</li>
                 </ol>",
             ActionUrl = "/SignIn?handler=CustomDomain",
-            ConfigHelpUrl = ""
+            ExtraParams = new List<DemoDataParam>
+            {
+                new DemoDataParam
+                {
+                    Name = "domain",
+                    FixedValue = _configuration.GetSection("Demos:CustomDomain").Value,
+                }
+            },
         });
 
 
@@ -905,7 +943,14 @@ public static class DemoDataList
                 </select>
                 <br>&nbsp;<br>",
             ActionUrl = "/SignIn?handler=PreSelectLanguage&ui_locales=ar-SA",
-            ConfigHelpUrl = ""
+            ExtraParams = new List<DemoDataParam>
+            {
+                new DemoDataParam
+                {
+                    Name = "ui_locales",
+                    QueryStringName = "ui_locales"
+                }
+            },
         });
 
         Demos.Add(new DemoData
@@ -962,7 +1007,22 @@ public static class DemoDataList
             ConfigHelpUrl = "/help/TokenAugmentation"
         });
 
+        Demos.Add(new DemoData
+        {
+            ID = "SSO1",
+            Title = "This flow starts the SSO demo for unauthenticated users.",
+            Content = "",
+            ServerSideOnly = true
+        });
 
+        Demos.Add(new DemoData
+        {
+            ID = "SSO2",
+            Title = "This flow is the second step the SSO demo for authenticated users.",
+            Content = "",
+            ServerSideOnly = true,
+            RedirectUri = _configuration.GetSection("Demos:WoodgroveBankURL").Value + "/Auth/Login",
+        });
 
         Demos.Add(new DemoData
         {
@@ -1092,7 +1152,9 @@ public static class DemoDataList
             ",
             ActionUrl = "/SignIn?handler=UserLastActivity",
             AuthorizedActionUrl = "/Profile",
-            ConfigHelpUrl = "/help/UserLastActivity"
+            ConfigHelpUrl = "/help/UserLastActivity",
+            PostSignInRedirectUri = "/profile",
+            Reauth = false
         });
 
 
@@ -1152,7 +1214,20 @@ public static class DemoDataList
                     <li>A Cloudflare page will display a message indicating that access from the Tor network is restricted.</li>
                 </ol>",
             ActionUrl = "/SignIn?handler=CloudflareNetwork",
-            ConfigHelpUrl = ""
+            PostSignInRedirectUri = "/token",
+            ExtraParams = new List<DemoDataParam>
+            {
+                new DemoDataParam
+                {
+                    Name = "domain",
+                    FixedValue = "login.woodgrovegroceries.com",
+                },
+                new DemoDataParam
+                {
+                    Name = "query-string",
+                    FixedValue = "enablewaf=true&r=tor",
+                }
+            }
         });
 
 
@@ -1176,7 +1251,19 @@ public static class DemoDataList
                     <li>When completed, proceed to the Sign-in page.</li>
                 </ol>",
             ActionUrl = "/SignIn?handler=CloudflareJsChallenge",
-            ConfigHelpUrl = ""
+            ExtraParams = new List<DemoDataParam>
+            {
+                new DemoDataParam
+                {
+                    Name = "domain",
+                    FixedValue = "login.woodgrovegroceries.com",
+                },
+                new DemoDataParam
+                {
+                    Name = "query-string",
+                    FixedValue = "enablewaf=true&r=jcptcha",
+                }
+            }
         });
 
 
@@ -1196,7 +1283,19 @@ public static class DemoDataList
                     <li>When completed, you will land on the Sign-in page.</li>
                 </ol>",
             ActionUrl = "/SignIn?handler=CloudflareInteractiveChallenge",
-            ConfigHelpUrl = ""
+            ExtraParams = new List<DemoDataParam>
+            {
+                new DemoDataParam
+                {
+                    Name = "domain",
+                    FixedValue = "login.woodgrovegroceries.com",
+                },
+                new DemoDataParam
+                {
+                    Name = "query-string",
+                    FixedValue = "enablewaf=true&r=icptcha",
+                }
+            }
         });
 
         Demos.Add(new DemoData
@@ -1220,7 +1319,7 @@ public static class DemoDataList
                     It enables you to create visually appealing, pixel-perfect authentication screens that seamlessly blend into your app’s interface. With this approach, you can fully customize the user interface, including design elements, logo placement, and layout, ensuring a consistent and branded look
                 </p>",
             ActionUrl = "/SignIn?handler=NativeAuth",
-            ConfigHelpUrl = ""
+            RedirectUri = "https://woodgroveairline.com/"
         });
 
 
@@ -1241,7 +1340,7 @@ public static class DemoDataList
                     This demo presents a SPA app that offers sign-in options using a popup window, maintaining the context of the app, and redirecting to Microsoft Entra External ID.
                 </p>",
             ActionUrl = "/SignIn?handler=SPA",
-            ConfigHelpUrl = ""
+            RedirectUri = "https://travels.woodgrovedemo.com/"
         });
 
 
@@ -1256,7 +1355,7 @@ public static class DemoDataList
                     The Woodgrove Bank demo application illustrates the sign-up and sign-in authentication experiences for financial scenarios. It also demonstrates the SAML protocol federation with Microsoft Entra External ID.
                 </p>",
             ActionUrl = "/SignIn?handler=Saml",
-            ConfigHelpUrl = ""
+            RedirectUri = "https://woodgrovebanking.com/"
         });
 
         Demos.Add(new DemoData
@@ -1298,13 +1397,64 @@ public static class DemoDataList
         //             <br>&nbsp;<br> In this use case, from the Kiosk page select sign-in. Use the second device, such as smartphone and scan the QR code. On the sign-in page enters the <i>device code</i>, and completes the sign-in. Once you signed in, the Kiosk (input-constrained device) is able  to get security tokens and authenticate you. Your name should be presented on the top-right corner of the page.
         //         </p>",
         //     ActionUrl = "/SignIn?handler=kiosk",
-        //     ConfigHelpUrl = ""
+        //     ConfigHelpUrl = "",
+        //     RedirectUrl = "https://woodgroverestaurants.com",
         // });
 
+        Demos.Add(new DemoData
+        {
+            ID = "TokenSignin",
+            Title = "This flow starts from the token page and is not included in the list of demos presented to the user. It's used to update the ID token.",
+            Content = "",
+            ServerSideOnly = true,
+            Reauth = false,
+            PostSignInRedirectUri = "/token"
+        });
 
+        Demos.Add(new DemoData
+        {
+            ID = "ProfileSignin",
+            Title = "This flow starts from the profile page and is not included in the list of demos presented to the user. It's used to update the ID token.",
+            Content = "",
+            ServerSideOnly = true,
+            Reauth = false
+        });
 
+        Demos.Add(new DemoData
+        {
+            ID = "ProfileReauth",
+            Title = "This flow starts from the profile page and is not included in the list of demos presented to the user. It's used to update the ID token.",
+            Content = "",
+            ServerSideOnly = true,
+            Reauth = false,
+            PostSignInRedirectUri = "/profile"
+        });
+
+        Demos.Add(new DemoData
+        {
+            ID = "EditProfileMfa",
+            Title = "This flow starts from the profile page and is not included in the list of demos presented to the user.",
+            Content = "",
+            ServerSideOnly = true,
+            Reauth = false,
+            PostSignInRedirectUri = "/profile",
+            ExtraParams = new List<DemoDataParam>
+            {
+                new DemoDataParam
+                {
+                    Name = "StepUp",
+                    FixedValue = "true",
+                }
+            }
+        });
+
+        Demos.Add(new DemoData
+        {
+            ID = "InvalidSession",
+            Title = "This flow starts from the AuthError page and is not included in the list of demos presented to the user.",
+            Content = "",
+            ServerSideOnly = true
+        });
     }
 }
-
-
 

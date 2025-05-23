@@ -28,9 +28,16 @@ public class DemosController : ControllerBase
     {
         try
         {
-
             _logger.LogInformation("Demo endpoint called at {timestamp}", DateTime.UtcNow);
-            return Ok( DemoDataList.Demos);
+
+            // Retrieve demo data
+            List<DemoData> demoData = DemoDataList.Demos;
+
+            // Filter only demos that are not server-side only
+            demoData = demoData.Where(d => !d.ServerSideOnly).ToList();
+
+            // Return the filtered demo data    
+            return Ok(demoData);
         }
         catch (Exception ex)
         {
