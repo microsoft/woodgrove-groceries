@@ -23,6 +23,12 @@ public class DemoData
     public bool ServerSideOnly { get; set; } = false;
 
     /// <summary>
+    /// Indicates whether the demo should be hidden from the demo list.
+    /// This is useful for demos that are not ready for public use or are intended for internal testing only.
+    /// </summary>
+    public bool IsHidden { get; set; } = false;
+
+    /// <summary>
     /// The demo title, shown in the demo list and on the demo details card.
     /// </summary>
     public required string Title { get; set; }

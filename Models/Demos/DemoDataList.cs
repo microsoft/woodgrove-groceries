@@ -192,6 +192,32 @@ public static class DemoDataList
 
         Demos.Add(new DemoData
         {
+            ID = "DomainHint",
+            Title = "Direct sign-in to an external identity provider",
+            Icon = "bi bi-signpost",
+            IsHidden = true,
+            Content = @"
+                <p>
+                    The domain_hint parameter is an optional query parameter that can be added to the authorization request URL. It indicates to Microsoft Entra external ID which domain the user should use for signing in. When included, the user will bypass the Microsoft Entra external ID sign-in page and proceed directly to the external identity provider's sign-in page. This feature is currently in preview and available only for Custom OpenID Connect IDPs
+                </p>
+                <ol>
+                    <li>Select the <b>start the use case</b> button at the bottom of this page.</li>
+                    <li>Make sure the user skips the Microsoft Entra external ID sign-in page.</li>
+                    <li>Sign in with the external identity provider.</li>
+                </ol>",
+            ActionUrl = "/SignIn?handler=DomainHint",
+            ExtraParams = new List<DemoDataParam>
+            {
+                new DemoDataParam
+                {
+                    Name = "domain_hint",
+                    FixedValue = "login.live.com"
+                }
+            },
+        });
+
+        Demos.Add(new DemoData
+        {
             ID = "SignInGroup",
             Title = "Sign-in group",
             IsSpecialListItem = true,
@@ -321,6 +347,8 @@ public static class DemoDataList
                 }
             },
         });
+
+
 
         Demos.Add(new DemoData
         {

@@ -23,9 +23,16 @@ $(document).ready(function () {
                     // Add the demo ID to the valid use cases array
                     validUseCases.push(demo.id);
 
+                    // Check if the demo is hidden
+                    let isHidden = ''
+                    if (demo.isHidden) {
+                        isHidden = 'display: none;';
+                    }
+
                     // For regular items, use the standard format to add to the dropdown 
-                    let htmlListItem = `<li><a class="dropdown-item" href="#usecase=${demo.id}"><i class="${demo.icon}"></i>&nbsp; ${demo.title}</a></li>`;
+                    let htmlListItem = `<li><a class="dropdown-item" href="#usecase=${demo.id}" style="${isHidden}"><i class="${demo.icon}"></i>&nbsp; ${demo.title}</a></li>`;
                     $dropdown.append(htmlListItem);
+
 
                     // Set the title for the use case
                     let title = demo.title;
@@ -48,18 +55,21 @@ $(document).ready(function () {
 
                     // Set the button text
                     let buttonText = "Start the use case";
-                    
+
                     // Get the atlernative text from the demo object
                     if (demo.actionText) {
                         buttonText = demo.actionText;
                     }
-                    
+
                     // If the user is authenticated, use the authorizedActionText
                     if (authenticated && demo.authorizedActionText) {
                         buttonText = demo.authorizedActionText;
                     }
 
-                    startButton = `<a id="${demo.id}_start" class="btn header-button" role="button" href="${actionUrl}"><i class="bi bi-play-circle"></i> ${buttonText}</a>`;
+                    if (actionUrl !== '') {
+                        // If the actionUrl is not empty, create a button to start the use case
+                        startButton = `<a id="${demo.id}_start" class="btn header-button" role="button" href="${actionUrl}"><i class="bi bi-play-circle"></i> ${buttonText}</a>`;
+                    }
 
                     // Prepare the configuration help button
                     let configHelpButton = ''

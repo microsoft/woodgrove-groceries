@@ -268,6 +268,14 @@ async Task OnRedirectToIdentityProviderFunc(RedirectContext context)
         context.ProtocolMessage.LoginHint = login_hint;
     }
 
+    // Read the 'domain_hint' custom parameter
+    var domain_hint = context.Properties.Items.FirstOrDefault(x => x.Key == "domain_hint").Value;
+
+    if (domain_hint != null)
+    {
+        context.ProtocolMessage.DomainHint = domain_hint;
+    }
+    
     // Read the 'query-string' custom query string
     var queryString = context.Properties.Items.FirstOrDefault(x => x.Key == "query-string").Value;
 
