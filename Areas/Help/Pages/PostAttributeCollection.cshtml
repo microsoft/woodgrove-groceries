@@ -304,68 +304,8 @@
 }
         </pre>
 
-        <h5 class="graph-header graph-header-space">2.2 Create authentication event listener</h5>
-        <p>
-            After you register you registered your custom authentication extension, <a
-                href="https://learn.microsoft.com/en-us/graph/api/identitycontainer-post-authenticationeventlisteners?view=graph-rest-beta&tabs=http"
-                target="_blank" class="link-dark link-offset-2">create authentication event listener</a>.
 
-            In the next JSON, replace <b>{Custom-auth-extension-ID}</b> with the custom authentication extension you
-            just created.</li>
-            </ul>
-        </p>
-        <code
-            style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/beta/identity/authenticationEventListeners</code>
-
-        <pre>
-{
-    "@@odata.type": "#microsoft.graph.onAttributeCollectionSubmitListener",
-    "conditions": {
-        "applications": {
-            "includeAllApplications": false,
-            "includeApplications": []
-        }
-    },
-    "priority": 500,
-    "handler": {
-        "@@odata.type": "#microsoft.graph.onAttributeCollectionSubmitCustomExtensionHandler",
-        "customExtension": {
-            "id": "<span class="highlight">{Custom-auth-extension-ID}</span>"
-        }
-    }
-}
-        </pre>
-
-
-        <a class="btn btn-success btn-sm" data-bs-toggle="collapse" href="#collapseExample2" role="button"
-            aria-expanded="false" aria-controls="collapseExample2">
-            Show example
-        </a>
-        <div class="collapse example" id="collapseExample2">
-            <code
-                style="color: black;"><span class="method">POST</span> https://graph.microsoft.com/beta/identity/authenticationEventListeners</code>
-
-            <pre class="example">
-{
-    "@@odata.type": "#microsoft.graph.onAttributeCollectionSubmitListener",
-    "conditions": {
-        "applications": {
-            "includeAllApplications": false,
-            "includeApplications": []
-        }
-    },
-    "priority": 500,
-    "handler": {
-        "@@odata.type": "#microsoft.graph.onAttributeCollectionSubmitCustomExtensionHandler",
-        "customExtension": {
-            "id": "22222222-2222-3333-3333-444444444444"
-        }
-    }
-}
-            </pre>
-        </div>
-
-        <h5 class="graph-header graph-header-space">2.3Link the custom authentication extension to a user flow</h5>
+        <h5 class="graph-header graph-header-space">2.2 Link the custom authentication extension to a user flow</h5>
         <p>
             <a href="https://learn.microsoft.com/en-us/graph/api/authenticationeventsflow-update?view=graph-rest-beta&tabs=http"
                 target="_blank" class="link-dark link-offset-2">Update your user flow</a>.
