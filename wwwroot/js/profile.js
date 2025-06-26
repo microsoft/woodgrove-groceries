@@ -192,7 +192,7 @@ function updateUserRoles() {
         hasOrdersManagerRole: $('#inputHasOrdersManagerRole').prop('checked')
     }
 
-    $.post("/userroles", payload, function (result) {
+    $.post("/api/userroles", payload, function (result) {
 
         $("#rolesButtonSpinner").hide();
         $("#rolesButton").prop("disabled", false);

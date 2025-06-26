@@ -1,7 +1,7 @@
 :root {
   --color-light: #267A02;
   --color-very-light: rgb(5, 166, 2);
-  --color-dark: #1F6402;
+  --color-dark: #1c5a02;;
   --color-very-dark: #164601;
 }
 
@@ -67,29 +67,16 @@ body {
 }
 
 .card-button {
-  border-style: none!important;
-}
-
-/* .card-button .bi {
-  font-size: x-large;
-  margin-top: -5px;
-  line-height: 0;
-  padding-right: 5px;
-} */
-
-.card {
-  border-radius: 0.55rem;
-  /* background-color: rgb(244, 251, 244); */
   border-style: none !important;
-  margin-top: 25px !important;
-  /* box-shadow: 0 0 10px 3px rgb(0 0 0 / 16%) */
 }
 
 .hp_card {
-  margin-left: 10px;
-  margin-right: 10px;
-  min-width: 280px;
+  border-color: #F5F5F5 !important;
+  margin-top: 25px !important;
+  min-width: 180px;
   max-width: 280px;
+  min-height: 260px;
+  max-height: 350px;
 }
 
 /* .card-img-top
@@ -98,7 +85,7 @@ body {
 } */
 
 .hp_card:hover {
-  transform: scale(1.01);
+  transform: scale(1.02);
   /* box-shadow: 0 0 2px 0.5px var(--color-light) */
 }
 
@@ -121,12 +108,6 @@ body {
   height: 53px;
 }
 
-@media (max-width: 768px) {
-  .hp_card:hover .reveal-details {
-    max-height: 48px;
-    height: 48px;
-  }
-}
 
 .dropdown-item.focus {
   background-color: red !important;
@@ -187,7 +168,7 @@ body {
 .card-price {
   margin: 0 !important;
   font-size: medium;
-  
+
 }
 
 .card-buttons{
@@ -274,17 +255,12 @@ body {
 }
 
 .inner-header {
-  min-height: 360px;
+  /* min-height: 260px; */
   width: 100%;
   margin: 0;
-  padding: 0;
+  padding-bottom: 15px;
 }
 
-@media (max-width: 510px) {
-  .inner-header {
-    min-height: 450px;
-  }
-}
 
 .flex {
   /*Flexbox for containers*/
@@ -345,6 +321,7 @@ body {
   /*Fix for safari gap*/
   min-height: 30px;
   max-height: 60px;
+  display: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -355,29 +332,29 @@ body {
   }
 }
 
-.parallax>use {
+/* .parallax>use {
   animation: move-forever 25s cubic-bezier(.55, .5, .45, .5) infinite;
 }
 
 .parallax>use:nth-child(1) {
   animation-delay: -2s;
-  animation-duration: 14s;
+  animation-duration: 24s;
 }
 
 .parallax>use:nth-child(2) {
   animation-delay: -3s;
-  animation-duration: 20s;
+  animation-duration: 30s;
 }
 
 .parallax>use:nth-child(3) {
   animation-delay: -4s;
-  animation-duration: 26s;
+  animation-duration: 36s;
 }
 
 .parallax>use:nth-child(4) {
   animation-delay: -5s;
-  animation-duration: 20s;
-}
+  animation-duration: 30s;
+} */
 
 @keyframes move-forever {
   0% {

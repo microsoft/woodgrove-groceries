@@ -12,7 +12,9 @@ public class IndexModel : PageModel
     public bool StepUpFulfilled { get; set; } = false;
     public string Alert { get; set; } = string.Empty;
     public string LoyaltyNumber { get; set; } = string.Empty;
-    public List<string> listOfAvatars { get; set; }
+    public List<Product> Products { get; set; } = new List<Product>();
+    public List<string> Categories { get; set; } = new List<string>();
+    public Random random = new Random();
 
     private readonly ILogger<IndexModel> _logger;
     private TelemetryClient _telemetry;
@@ -56,10 +58,17 @@ public class IndexModel : PageModel
 
         _telemetry.TrackPageView(pageView);
 
-        this.listOfAvatars = new List<string>() { "01", "02", "03", "04", "05", "06", "07" };
+       // Get the products
+        Products = ProductData.GetSampleProducts()
+            .OrderBy(x => random.Next())
+            .ToList();
 
-        // Randomly Order it by Guid..
-        this.listOfAvatars = this.listOfAvatars.OrderBy(i => Guid.NewGuid()).ToList();
+        // Get unique categories for dropdown
+        Categories = Products
+            .Select(p => p.Category)
+            .Distinct()
+            .OrderBy(c => c)
+            .ToList();
 
         if (User.Identity?.IsAuthenticated == true)
         {

@@ -18,23 +18,6 @@
                 </div>
                 <div class="row align-items-center" style="padding-top: 20px;">
 
-                    <div class="col col-lg-2 avatar-container">
-                        <div id="carouselExampleAutoplaying" class="carousel slide carousel-fade" data-bs-ride="carousel"
-                            style="margin-top: -30px;">
-                            <div class="carousel-inner" style="width: 150px; padding-left: 20px">
-
-                                @for (var avatar = 0; avatar < Model.listOfAvatars.Count; avatar++)
-                                {
-                                    var avatarActive = (avatar == 0 ? " active" : "");
-
-                                    <div class='@($"carousel-item {avatarActive}")'>
-                                        <img src='@($"/images/Shopping/Shopping_{Model.listOfAvatars[avatar]}.png")'
-                                            class="d-block w-100 avatar" alt="A persong shopping illustration">
-                                    </div>
-                                }
-                            </div>
-                        </div>
-                    </div>
 
                     <div class="col lead" style="text-align: left;">
                         <span style="letter-spacing: 0.1px;">
@@ -58,42 +41,7 @@
     <!-- Welcome message end-->
 }
 
-<!-- Numbers -->
-<div id="numbers" class="col-lg-9 z-index-2 border-radius-xl mt-n10 mx-auto py-1 blur shadow-blur homepage-numbers"
-    style="width: 100%;">
-    <div class="row">
-        <div class="col-md-4 position-relative">
-            <div class="p-3 text-center">
-                <h2 class="number-text h1"> <span class="countup">1350</span>+</h2>
-                <h3 class="mt-3 h5">Stores</h3>
-                <p class="text-sm number-description">With more than 1,350 local stores and 80 distribution centers,
-                    it's easier than ever to shop online and
-                    buy locally.</p>
-            </div>
-            <hr class="vertical dark">
-        </div>
-        <div class="col-md-4 position-relative">
-            <div class="p-3 text-center">
-                <h2 class="number-text h1" id="num3" num="39"><span class="countup">7500</span>+</h2>
-                <h3 class="mt-3 h5">Products</h3>
-                <p class="text-sm number-description">We offer a variety of products, top-quality fresh and healthy
-                    foods. Friendly to your wallet and a dynamic shopping experience.</p>
-            </div>
-            <hr class="vertical dark">
-        </div>
-        <div class="col-md-4">
-            <div class="p-3 text-center">
-                <h2 class="number-text h1" id="num3" num="39"><span class="countup">3200</span>+</h2>
-                <h3 class="mt-3 h5">Employees</h3>
-                <p class="text-sm number-description">Woodgrove is committed to build a diverse workforce that
-                    reflects
-                    our core values and the communities we serve.</p>
-            </div>
-        </div>
-    </div>
-</div>
 <!-- Numbers end-->
-
 
 @if (!string.IsNullOrEmpty(Model.Alert))
 {
@@ -107,14 +55,12 @@
 }
 
 <div class="" id="specials">
-    
+
     <div style="margin-bottom: 5px;">&nbsp;</div>
 
     <div class="d-flex justify-content-between">
         <div>
-            <div class="font-weight-bold h4" style="letter-spacing: 2px; color: rgb(3, 80, 2);">
-                <strong>Get in the groove for shopping</strong>
-            </div>
+
         </div>
         <div>
             <span id="stepUpFulfilled" style="display: none;">@Model.StepUpFulfilled</span>
@@ -123,205 +69,74 @@
                     onclick="return checkout();">Checkout</a></div>
         </div>
     </div>
-
-    <div style="margin-bottom: 10px;">&nbsp;</div>
 </div>
 
-<!--First line of products-->
-<div class="row" style="margin-top: -50px;">
-    <div class="col-sm">
-        <div class="card hp_card">
-            <div class="card-body">
-                <img class="card-img-top" src="~/images/Products/grapes.jpg" alt="Grapes">
-                @if (Model.IsCommercialAccount)
+<!-- #region  Filters -->
+<div class="row mb-4" style="padding-top: 35px;">
+    <div class="col">
+        <div class="font-weight-bold h4" style="letter-spacing: 1px;">
+            <strong>Get in the groove for shopping</strong>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="input-group">
+            <span class="input-group-text">
+                <i class="bi bi-filter-square"></i>
+            </span>
+            <select class="form-select" id="categoryFilter" aria-label="Filter by category">
+                <option value="">All Categories</option>
+                @foreach (var category in Model.Categories)
                 {
-                    <a style="text-decoration: none" href="/Commercial">
-                        <div class="card-discount">20%</div>
-                    </a>
+                    <option value="@category">@category</option>
                 }
-
-                <div class="card-title">Dark purple grapes 1.5 kg</div>
-
-                <div class="row card-buttons">
-                    <div class="col card-price">
-                        $11.25
-                    </div>
-                    <div class="col text-end">
-                        <a href="#"
-                            class='btn btn-sm card-button @(User.Identity?.IsAuthenticated == true ? "" : "disabled")'
-                            onclick="return addItem(11.25)"><i class="bi bi-cart-plus"></i> Add</a>
-                    </div>
-                </div>
-            </div>
+            </select>
         </div>
     </div>
-
-    <div class="col-sm">
-        <div class="card hp_card">
-            <div class="card-body">
-                <img class="card-img-top" src="~/images/Products/tomatoes.jpg" alt="Tomatoes">
-                <div class="card-title">Organic sweet tomato 1 kg</div>
-
-                <div class="row card-buttons">
-                    <div class="col card-price">
-                        $2.75
-                    </div>
-                    <div class="col text-end">
-                        <a href="#"
-                            class='btn btn-sm card-button @(User.Identity?.IsAuthenticated == true ? "" : "disabled")'
-                            onclick="return addItem(2.75)"><i class="bi bi-cart-plus"></i> Add</a>
-                    </div>
-                </div>
-            </div>
+    <div class="col-md-2">
+        <div class="input-group">
+            <span class="input-group-text">
+                <i class="bi bi-search"></i>
+            </span>
+            <input type="text" class="form-control" id="searchInput" placeholder="Search products..."
+                aria-label="Search products">
         </div>
     </div>
-
-    <div class="col-sm">
-        <div class="card hp_card">
-            <div class="card-body">
-                <img class="card-img-top" src="~/images/Products/bread.jpg" alt="Breads">
-                @if (Model.IsCommercialAccount)
-                {
-                    <a style="text-decoration: none" href="/Commercial">
-                        <div class="card-discount">15%</div>
-                    </a>
-                }
-
-                <div class="card-title">French bread 400 g</div>
-
-                <div class="row card-buttons">
-                    <div class="col card-price">
-                        $13.0
-                    </div>
-                    <div class="col text-end">
-                        <a href="#"
-                            class='btn btn-sm card-button @(User.Identity?.IsAuthenticated == true ? "" : "disabled")'
-                            onclick="return addItem(13.0)"><i class="bi bi-cart-plus"></i> Add</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!--Second line of products-->
-    <div class="col-sm">
-        <div class="card hp_card">
-            <div class="card-body">
-                <img class="card-img-top" src="~/images/Products/eggs.jpg" alt="Eggs">
-                @if (Model.IsCommercialAccount)
-                {
-                    <a style="text-decoration: none" href="/Commercial">
-                        <div class="card-discount">25%</div>
-                    </a>
-                }
-
-                @if (Model.HasEggsAllergy)
-                {
-                    <div class="card-allergy" role="button" data-toggle="popover" data-trigger="hover"
-                        title="Egg allergy warning">
-                        <i class="bi bi-exclamation-triangle-fill"></i>
-                    </div>
-                }
-                
-                <div class="card-title">Organic eggs 12 count</div>
-
-                <div class="row card-buttons">
-                    <div class="col card-price">
-                        $34.0
-                    </div>
-                    <div class="col text-end">
-                        <a href="#"
-                            class='btn btn-sm card-button @(User.Identity?.IsAuthenticated == true ? "" : "disabled")'
-                            onclick="return addItem(34.0)"><i class="bi bi-cart-plus"></i> Add</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-sm">
-        <div class="card hp_card">
-            <div class="card-body">
-                <img class="card-img-top" src="~/images/Products/corn.jpg" alt="Corns">
-                <div class="card-title">Sweet corn 1 count</div>
-
-                <div class="row card-buttons">
-                    <div class="col card-price">
-                        $5.25
-                    </div>
-                    <div class="col text-end">
-                        <a href="#"
-                            class='btn btn-sm card-button @(User.Identity?.IsAuthenticated == true ? "" : "disabled")'
-                            onclick="return addItem(5.25)"><i class="bi bi-cart-plus"></i> Add</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-sm">
-        <div class="card hp_card">
-            <div class="card-body">
-                <img class="card-img-top" src="~/images/Products/watermelon.jpg" alt="Watermelons">
-                <div class="card-title">Watermelon 1 count</div>
-
-                <div class="row card-buttons">
-                    <div class="col card-price">
-                        $12.5
-                    </div>
-                    <div class="col text-end">
-                        <a href="#"
-                            class='btn btn-sm card-button @(User.Identity?.IsAuthenticated == true ? "" : "disabled")'
-                            onclick="return addItem(12.5)"><i class="bi bi-cart-plus"></i> Add</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-sm">
-        <div class="card hp_card">
-            <div class="card-body">
-                <img class="card-img-top" src="~/images/Products/sugar.png" alt="sugar">
-                <div class="card-title">Organic sugar 2 pack</div>
-
-                <div class="row card-buttons">
-                    <div class="col card-price">
-                        $7.0
-                    </div>
-                    <div class="col text-end">
-                        <a href="#"
-                            class='btn btn-sm card-button @(User.Identity?.IsAuthenticated == true ? "" : "disabled")'
-                            onclick="return addItem(7.0)"><i class="bi bi-cart-plus"></i> Add</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="col-sm">
-        <div class="card hp_card">
-            <div class="card-body">
-                <img class="card-img-top" src="~/images/Products/oranges.png" alt="oranges">
-                <div class="card-title">Oranges 1 kg</div>
-
-                <div class="row card-buttons">
-                    <div class="col card-price">
-                        $4.0
-                    </div>
-                    <div class="col text-end">
-                        <a href="#"
-                            class='btn btn-sm card-button @(User.Identity?.IsAuthenticated == true ? "" : "disabled")'
-                            onclick="return addItem(4.0)"><i class="bi bi-cart-plus"></i> Add</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
 </div>
 
+<div class="row row-cols-2 row-cols-md-4 g-3 align-items-center" id="productsContainer">
+
+    @foreach (var product in Model.Products)
+    {
+        <div class="col product-item" data-category="@product.Category" data-name="@product.Name.ToLower()">
+            <div class="card hp_card">
+                <div class="card-body">
+                    <img class="card-img-top" src="@product.ImageUrl" alt="@product.Name">
+
+                    @if (Model.IsCommercialAccount && (product.Discount != null && product.Discount != "-"))
+                    {
+                        <a style="text-decoration: none" href="/Commercial">
+                            <div class="card-discount">@product.Discount</div>
+                        </a>
+                    }
+
+                    <div class="card-title">@product.Name</div>
+
+                    <div class="row card-buttons">
+                        <div class="col card-price">
+                            @product.Price.ToString("C")
+                        </div>
+                        <div class="col text-end">
+                            <a href="#"
+                                class='btn btn-sm card-button @(User.Identity?.IsAuthenticated == true ? "" : "disabled")'
+                                onclick='return addItem(@product.Price.ToString())'><i class="bi bi-cart-plus"></i> Add</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
 
 
 <div class="modal" tabindex="-1" id="thanksModal">
@@ -377,95 +192,5 @@
 }
 
 @section Scripts {
-
-    <script>
-        var thanksModal, stepUpModal;
-        $(document).ready(function () {
-            $('.card-allergy').popover({ trigger: "hover", content: "Please be aware that the food may contain or come into contact with eggs." });
-
-            thanksModal = new bootstrap.Modal(document.getElementById('thanksModal'), {
-                keyboard: false
-            });
-
-            stepUpModal = new bootstrap.Modal(document.getElementById('stepUpModal'), {
-                keyboard: false
-            });
-        });
-
-        function addItem(price) {
-            var total = parseInt($("#total").text(), 0) + price;
-            $("#total").text(total);
-            $("#checkoutContainer").show();
-
-            return false;
-        }
-
-        function checkout() {
-            var total = parseInt($("#total").text(), 0);
-
-            if (total > 50 && $("#stepUpFulfilled").text() != "True") {
-                stepUpModal.show();
-            }
-            else {
-                completeOrder();
-            }
-
-            return false;
-        }
-
-        function completeOrder() {
-            $("#total").text(0);
-            $("#checkoutContainer").hide();
-
-            thanksModal.show();
-            window.location.hash = '';
-            const myTimeout = setTimeout(completeOrderHide, 5000);
-        }
-
-        function completeOrderHide() {
-            thanksModal.hide();
-        }
-
-
-        // Calculate how long each ‘frame’ should last if we want to update the animation 60 times per second
-        const frameDuration = 15;
-        // Use that to calculate how many frames we need to complete the animation
-        const totalFrames = 120;
-        // An ease-out function that slows the count as it progresses
-        const easeOutQuad = t => t * (2 - t);
-
-        // The animation function, which takes an Element
-        const animateCountUp = el => {
-            let frame = 0;
-            const countTo = parseInt(el.innerHTML, 10);
-            // Start the animation running 60 times per second
-            const counter = setInterval(() => {
-                frame++;
-                // Calculate our progress as a value between 0 and 1
-                // Pass that value to our easing function to get our
-                // progress on a curve
-                const progress = easeOutQuad(frame / totalFrames);
-                // Use the progress value to calculate the current count
-                const currentCount = Math.round(countTo * progress);
-
-                // If the current count has changed, update the element
-                if (parseInt(el.innerHTML, 10) !== currentCount) {
-                    el.innerHTML = currentCount;
-                }
-
-                // If we’ve reached our last frame, stop the animation
-                if (frame === totalFrames) {
-                    clearInterval(counter);
-                }
-            }, frameDuration);
-        };
-
-        // Run the animation on all elements with a class of ‘countup’
-        const runAnimations = () => {
-            const countupEls = document.querySelectorAll('.countup');
-            countupEls.forEach(animateCountUp);
-        };
-
-        runAnimations();
-    </script>
+    <script src="~/js/index.js"></script>
 }
