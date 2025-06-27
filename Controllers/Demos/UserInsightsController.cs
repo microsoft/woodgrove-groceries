@@ -38,7 +38,7 @@ public class UserInsightsController : ControllerBase
     /// <returns>The body of the Microsoft Graph API response</returns>
     private async Task<IActionResult> CallGraphAPI(string Url)
     {
-        string responseString;
+        string? responseString;
         if (!_memoryCache.TryGetValue(Url, out responseString))
         {
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await MsalAccessTokenHandler.AcquireToken(this._configuration));
@@ -53,6 +53,10 @@ public class UserInsightsController : ControllerBase
             _memoryCache.Set(Url, responseString, cacheEntryOptions);
         }
 
+        if (responseString == null)
+        {
+            return NotFound("No response received from the Graph API.");
+        }
         return Ok(JsonSerializer.Deserialize<dynamic>(responseString));
     }
 

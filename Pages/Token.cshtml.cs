@@ -19,12 +19,12 @@ namespace woodgrovedemo.Pages
         private TelemetryClient _telemetry;
         readonly IAuthorizationHeaderProvider _authorizationHeaderProvider;
 
-        public string IdToken { get; set; }
-        public string IdTokenExpiresIn { get; set; }
-        public string AccessToken { get; set; }
-        public string AccessTokenError { get; set; }
-        public string DownstreamAccessToken { get; set; }
-        public string DownstreamAccessTokenError { get; set; }
+        public string IdToken { get; set; } = string.Empty;
+        public string IdTokenExpiresIn { get; set; } = string.Empty;
+        public string AccessToken { get; set; } = string.Empty;
+        public string AccessTokenError { get; set; } = string.Empty;
+        public string DownstreamAccessToken { get; set; } = string.Empty;
+        public string DownstreamAccessTokenError { get; set; } = string.Empty;
         public string? ActAs { get; set; } = "";
         public string? AuthScheme { get; set; } = "";
 
@@ -46,9 +46,9 @@ namespace woodgrovedemo.Pages
             AuthScheme = User.Claims.FirstOrDefault(c => c.Type == "AuthScheme")?.Value;
 
             // Read app settings
-            string baseUrl = _configuration.GetSection("WoodgroveGroceriesApi:BaseUrl").Value!;
-            string[] scopes = _configuration.GetSection("WoodgroveGroceriesApi:Scopes").Get<string[]>();
-            string endpoint = _configuration.GetSection("WoodgroveGroceriesApi:Endpoint").Value! + "account";
+            string baseUrl = _configuration.GetSection("WoodgroveGroceriesApi:BaseUrl")!.Value!;
+            string[] scopes = _configuration.GetSection("WoodgroveGroceriesApi:Scopes")!.Get<string[]>()!;
+            string endpoint = _configuration.GetSection("WoodgroveGroceriesApi:Endpoint")!.Value! + "account";
 
             // Check the scopes application settings
             if (scopes == null)
@@ -79,7 +79,7 @@ namespace woodgrovedemo.Pages
 
             try
             {
-                this.IdToken = await HttpContext.GetTokenAsync("id_token");
+                this.IdToken = await HttpContext.GetTokenAsync("id_token") ?? "ID token is not available. Please sign-in again.";
 
                 var handler = new JwtSecurityTokenHandler();
 
@@ -98,7 +98,7 @@ namespace woodgrovedemo.Pages
                 if (AuthScheme == OpenIdConnectDefaults.AuthenticationScheme)
                 {
                     AccessToken = await _authorizationHeaderProvider.CreateAuthorizationHeaderForUserAsync(scopes);
-                    string at = await HttpContext.GetTokenAsync("access_token");
+                    string at = await HttpContext.GetTokenAsync("access_token") ?? "Access token is not available. Please sign-in again.";
                 }
                 else
                 {
@@ -145,7 +145,14 @@ namespace woodgrovedemo.Pages
 
                     if (string.IsNullOrEmpty(accountData.Error))
                     {
-                        DownstreamAccessToken = accountData.Payment.AccessTokenToCallThePaymentAPI;
+                        if (accountData.Payment != null)
+                        {
+                            DownstreamAccessToken = accountData.Payment.AccessTokenToCallThePaymentAPI ?? string.Empty;
+                        }
+                        else
+                        {
+                            DownstreamAccessTokenError = "Payment information is missing in the account data.";
+                        }
                     }
                     else
                     {

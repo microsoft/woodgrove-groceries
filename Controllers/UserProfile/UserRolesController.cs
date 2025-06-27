@@ -123,7 +123,7 @@ public class UserRolesController : ControllerBase
             userRoles.ErrorMessage = "The account cannot be updated since your access token doesn't contain the required 'objectidentifier' claim.";
         }
 
-        GraphServiceClient graphClient = null;
+        GraphServiceClient graphClient;
 
         try
         {
@@ -161,9 +161,9 @@ public class UserRolesController : ControllerBase
                 // Add the Orders.Manager application role 
                 var requestBody = new AppRoleAssignment
                 {
-                    PrincipalId = Guid.Parse(userObjectId),
-                    ResourceId = Guid.Parse(_configuration.GetSection("AppRoles:PrincipalId").Value),
-                    AppRoleId = Guid.Parse(_configuration.GetSection("AppRoles:OrdersManager").Value)
+                    PrincipalId = Guid.Parse(userObjectId!),
+                    ResourceId = Guid.Parse(_configuration.GetSection("AppRoles:PrincipalId").Value!),
+                    AppRoleId = Guid.Parse(_configuration.GetSection("AppRoles:OrdersManager").Value!)
                 };
                 var result = await graphClient.Users[userObjectId].AppRoleAssignments.PostAsync(requestBody);
                 userRoles.HasOrdersManagerRole = true;
@@ -181,9 +181,9 @@ public class UserRolesController : ControllerBase
                 // Add the Products.Contributor application role 
                 var requestBody = new AppRoleAssignment
                 {
-                    PrincipalId = Guid.Parse(userObjectId),
-                    ResourceId = Guid.Parse(_configuration.GetSection("AppRoles:PrincipalId").Value),
-                    AppRoleId = Guid.Parse(_configuration.GetSection("AppRoles:ProductsContributor").Value)
+                    PrincipalId = Guid.Parse(userObjectId!),
+                    ResourceId = Guid.Parse(_configuration.GetSection("AppRoles:PrincipalId")!.Value!),
+                    AppRoleId = Guid.Parse(_configuration.GetSection("AppRoles:ProductsContributor")!.Value!)
                 };
                 var result = await graphClient.Users[userObjectId].AppRoleAssignments.PostAsync(requestBody);
                 userRoles.HasProductsContributorRole = true;

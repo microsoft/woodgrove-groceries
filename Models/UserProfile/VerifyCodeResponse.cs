@@ -20,7 +20,7 @@ public class VerifyCodeResponse
     public bool ValidationPassed { get; set; } = false;
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string AuthValue { get; set; }
+    public string? AuthValue { get; set; }
 
     public AuthMethodType AuthType { get; set; }
 
@@ -36,7 +36,12 @@ public class VerifyCodeResponse
             PropertyNameCaseInsensitive = true
         };
 
-        return JsonSerializer.Deserialize<VerifyCodeResponse>(JsonString, options);
+        var result = JsonSerializer.Deserialize<VerifyCodeResponse>(JsonString, options);
+        if (result == null)
+        {
+            throw new JsonException("Failed to deserialize VerifyCodeResponse from the provided JSON string.");
+        }
+        return result;
     }
 }
 

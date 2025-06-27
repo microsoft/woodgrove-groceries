@@ -207,15 +207,6 @@ function showUseCase(trigger) {
         $(".useCase").hide();
         $("#" + useCaseId).show();
 
-        // Telemetry to improve the demo 
-        var triggerIDs = ["Link", "Start", "Select"];
-
-        $.get("/api/SelectUseCase/usecase?id=" + useCaseId.replace('useCase_', '') + "&trigger=" + triggerIDs[trigger - 1] + "&referral=" + document.referrer, function (data) {
-
-        }).fail(function (response) {
-            console.log("Telemetry error:");
-            console.log(response)
-        });
     }
     else {
         $("#offcanvasRight").offcanvas('hide');

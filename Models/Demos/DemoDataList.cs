@@ -1,17 +1,10 @@
 public static class DemoDataList
 {
-    private static IConfiguration _configuration;
-    public static List<DemoData> Demos { get; set; }
+    public static List<DemoData> Demos { get; set; } = new List<DemoData>();
     const string GroupHeader = "<li><hr class='dropdown-divider'></li><li class='UseCaseHeader'><h6 class='dropdown-header' style='color: var(--color-very-dark);'>{0}</h6></li>";
-
-    // static DemoDataList()
-    // {
-    //     Demos = new List<DemoData>();
-    // }
 
     public static void Initialize(IConfiguration configuration)
     {
-        _configuration = configuration;
         Demos = new List<DemoData>();
 
         Demos.Add(new DemoData
@@ -686,7 +679,7 @@ public static class DemoDataList
                 </ol>",
             ActionUrl = "/SignIn?handler=CSA",
             ConfigHelpUrl = "/help/CustomSecurityAttributes",
-            RedirectUri = _configuration.GetSection("Demos:CustomSecurityAttributesURL").Value
+            RedirectUri = configuration.GetSection("Demos:CustomSecurityAttributesURL").Value
         });
 
         Demos.Add(new DemoData
@@ -771,7 +764,7 @@ public static class DemoDataList
                     Note, in this demo you can't assign yourself to the <b>Woodgrove partners portal</b> app. If you are interested in app assignment, check out the <a class='link-dark link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover' href='#usecase=RBAC'>Role based access control demo</a>
                 </p>",
             ActionUrl = "/SignIn?handler=AssignmentRequired",
-            RedirectUri = _configuration.GetSection("Demos:AssignmentRequiredURL").Value,
+            RedirectUri = configuration.GetSection("Demos:AssignmentRequiredURL").Value,
             ConfigHelpUrl = "/help/AssignmentRequired"
         });
 
@@ -865,7 +858,7 @@ public static class DemoDataList
                 new DemoDataParam
                 {
                     Name = "domain",
-                    FixedValue = _configuration.GetSection("Demos:CustomDomain").Value,
+                    FixedValue = configuration.GetSection("Demos:CustomDomain").Value,
                 }
             },
         });
@@ -1049,7 +1042,7 @@ public static class DemoDataList
             Title = "This flow is the second step the SSO demo for authenticated users.",
             Content = "",
             ServerSideOnly = true,
-            RedirectUri = _configuration.GetSection("Demos:WoodgroveBankURL").Value + "/Auth/Login",
+            RedirectUri = configuration.GetSection("Demos:WoodgroveBankURL").Value + "/Auth/Login",
         });
 
         Demos.Add(new DemoData

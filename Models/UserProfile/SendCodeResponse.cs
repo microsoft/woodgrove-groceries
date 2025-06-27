@@ -29,7 +29,12 @@ public class SendCodeResponse
             PropertyNameCaseInsensitive = true
         };
 
-        return JsonSerializer.Deserialize<SendCodeResponse>(JsonString, options);
+        var result = JsonSerializer.Deserialize<SendCodeResponse>(JsonString, options);
+        if (result == null)
+        {
+            throw new JsonException("Deserialization returned null for SendCodeResponse.");
+        }
+        return result;
     }
 }
 

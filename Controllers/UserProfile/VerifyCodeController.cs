@@ -42,9 +42,9 @@ public class VerifyCodeController : ControllerBase
         }
 
         // Read app settings
-        string baseUrl = _configuration.GetSection("WoodgroveGroceriesApi:BaseUrl").Value!;
-        string[] scopes = _configuration.GetSection("WoodgroveGroceriesApi:Scopes").Get<string[]>();
-        string endpoint = _configuration.GetSection("WoodgroveGroceriesApi:Endpoint").Value! + "VerifyCode";
+        string baseUrl = _configuration.GetSection("WoodgroveGroceriesApi:BaseUrl")!.Value!;
+        string[] scopes = _configuration.GetSection("WoodgroveGroceriesApi:Scopes")!.Get<string[]>()!;
+        string endpoint = _configuration.GetSection("WoodgroveGroceriesApi:Endpoint")!.Value! + "VerifyCode";
 
         // Check the scopes application settings
         if (scopes == null)
@@ -143,11 +143,18 @@ public class VerifyCodeController : ControllerBase
         {
             var graphClient = MsalAccessTokenHandler.GetGraphClient(_configuration);
 
-            User profile = await graphClient.Users[User.GetObjectId()!].GetAsync(requestConfiguration =>
+            User? profile = await graphClient.Users[User.GetObjectId()!].GetAsync(requestConfiguration =>
             {
                 requestConfiguration.QueryParameters.Select = new string[] { "Id", "identities" };
             });
 
+            // Check if the user profile is null
+            if (profile == null || profile.Identities == null)
+            {
+                throw new Exception("The user profile is not available or does not contain identities.");
+            }
+
+            // Find the identity with sign-in type "emailAddress" and update its IssuerAssignedId
             for (int i = 0; i < profile!.Identities!.Count; i++)
             {
                 if (profile!.Identities![i].SignInType == "emailAddress")

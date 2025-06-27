@@ -74,10 +74,14 @@ public class UserAttributesController : ControllerBase
                 att.AccountEnabled = (bool)profile!.AccountEnabled;
 
             // Get the special diet from the extension attributes
-            object specialDiet;
+            object? specialDiet;
             if (profile.AdditionalData.TryGetValue($"{ExtensionAttributes}_SpecialDiet", out specialDiet))
             {
-                att.SpecialDiet = specialDiet.ToString();
+                if (specialDiet != null)
+                {
+                    // Convert the special diet to a string if it's not already
+                    att.SpecialDiet = specialDiet.ToString() ?? string.Empty;
+                }
             }
 
 
@@ -122,7 +126,7 @@ public class UserAttributesController : ControllerBase
 
         // Read app settings
         string baseUrl = _configuration.GetSection("GraphApiMiddleware:BaseUrl").Value!;
-        string[] scopes = _configuration.GetSection("GraphApiMiddleware:Scopes").Get<string[]>();
+        string[] scopes = _configuration.GetSection("GraphApiMiddleware:Scopes")!.Get<string[]>()!;
         string endpoint = _configuration.GetSection("GraphApiMiddleware:Endpoint").Value!;
 
         // Check the scopes application settings
@@ -162,13 +166,13 @@ public class UserAttributesController : ControllerBase
             client.DefaultRequestHeaders.Add("Authorization", accessToken);
             var formContent = new FormUrlEncodedContent(new[]
                 {
-                    new KeyValuePair<string, string>("ObjectId", att.ObjectId),
-                    new KeyValuePair<string, string>("City", att.City),
-                    new KeyValuePair<string, string>("Country", att.Country),
-                    new KeyValuePair<string, string>("DisplayName", att.DisplayName),
-                    new KeyValuePair<string, string>("GivenName", att.GivenName),
-                    new KeyValuePair<string, string>("SpecialDiet", att.SpecialDiet),
-                    new KeyValuePair<string, string>("Surname", att.Surname)
+                    new KeyValuePair<string, string>("ObjectId", att.ObjectId ?? string.Empty),
+                    new KeyValuePair<string, string>("City", att.City ?? string.Empty),
+                    new KeyValuePair<string, string>("Country", att.Country ?? string.Empty),
+                    new KeyValuePair<string, string>("DisplayName", att.DisplayName ?? string.Empty),
+                    new KeyValuePair<string, string>("GivenName", att.GivenName ?? string.Empty),
+                    new KeyValuePair<string, string>("SpecialDiet", att.SpecialDiet ?? string.Empty),
+                    new KeyValuePair<string, string>("Surname", att.Surname ?? string.Empty)
                 });
 
             var httpResponseMessage = await client.PostAsync(endpoint, formContent);

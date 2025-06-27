@@ -2,7 +2,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 public class ActAsRequest
 {
-    public string ActAs { get; set; }
+    public string ActAs { get; set; } = string.Empty;
 
     /// <summary>
     /// Serialize this object into a string

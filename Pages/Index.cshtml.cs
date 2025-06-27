@@ -45,7 +45,7 @@ public class IndexModel : PageModel
                 // Add the full URL
                 pageView.Properties.Add("ReferralURL", referer);
             }
-            catch (System.Exception ex)
+            catch (System.Exception)
             {
                 pageView.Properties.Add("Referral", "Invalid");
                 pageView.Properties.Add("ReferralURL", referer);
@@ -73,7 +73,7 @@ public class IndexModel : PageModel
         if (User.Identity?.IsAuthenticated == true)
         {
             // Check whether the account is commercial
-            string commercialAccountsSecurityGroup = Configuration.GetSection("AppRoles:CommercialAccountsSecurityGroup").Value;
+            string commercialAccountsSecurityGroup = Configuration.GetSection("AppRoles:CommercialAccountsSecurityGroup").Value!;
             IsCommercialAccount = User.Claims.Any(c => c.Type == "groups" && c.Value == commercialAccountsSecurityGroup);
 
             // Check the Eggs allergy
@@ -84,13 +84,13 @@ public class IndexModel : PageModel
             StepUpFulfilled = User.Claims.Any(c => c.Type == "acrs" && c.Value == "c1");
 
             // Read the Loyalty number claim
-            LoyaltyNumber = User.Claims.FirstOrDefault(c => c.Type.ToLower() == "loyaltynumber")?.Value;
+            LoyaltyNumber = User.Claims.FirstOrDefault(c => c.Type.ToLower() == "loyaltynumber")?.Value ?? string.Empty;
         }
 
 
 
         // Read the system alert
-        Alert = Configuration.GetSection("Demos:Alert").Value;
+        Alert = Configuration.GetSection("Demos:Alert").Value ?? string.Empty;
 
         return Page();
     }

@@ -8,19 +8,13 @@ namespace woodgrovedemo.Pages
 
     //[Authorize]
     //[Authorize(Roles = "Orders.Manager")]
-    public class OrdersModel : PageModel
+    public class OrdersModel(IConfiguration configuration, TelemetryClient telemetry) : PageModel
     {
         public bool UserHasAccess { get; private set; } = false;
-        public List<Order> Orders { get; private set; }
+        public List<Order> Orders { get; private set; } = new List<Order>();
 
-        private readonly IConfiguration Configuration;
-        private TelemetryClient _telemetry;
-
-        public OrdersModel(IConfiguration configuration, TelemetryClient telemetry)
-        {
-            Configuration = configuration;
-            _telemetry = telemetry;
-        }
+        private readonly IConfiguration Configuration = configuration;
+        private TelemetryClient _telemetry = telemetry;
 
         public IActionResult OnGet()
         {

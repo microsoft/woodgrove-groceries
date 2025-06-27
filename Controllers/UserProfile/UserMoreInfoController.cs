@@ -44,14 +44,14 @@ public class UserMoreInfoController : ControllerBase
 
         try
         {
-            User profile = await graphClient.Users[userObjectId].GetAsync(requestConfiguration =>
+            User? profile = await graphClient.Users[userObjectId].GetAsync(requestConfiguration =>
                                 {
                                     requestConfiguration.QueryParameters.Select = new string[] { "Id", "identities", "signInActivity" };
                                 });
 
 
             // Get the sign-in activity
-            if (profile.SignInActivity != null)
+            if (profile != null && profile.SignInActivity != null)
             {
                 userMoreInfo.LastSignInDateTime = profile!.SignInActivity!.LastSignInDateTime!.ToString()!;
                 userMoreInfo.LastSignInRequestId = profile!.SignInActivity.LastSignInRequestId!;
@@ -105,15 +105,18 @@ public class UserMoreInfoController : ControllerBase
         {
             var result = await graphClient.Users[userObjectId].Authentication.Methods.GetAsync();
 
-            foreach (var method in result.Value)
+            if (result != null && result.Value != null)
             {
-                if (method.OdataType == "#microsoft.graph.phoneAuthenticationMethod")
+                foreach (var method in result.Value)
                 {
-                    userMoreInfo.PhoneNumber = ((PhoneAuthenticationMethod)method).PhoneNumber;
-                }
-                else if (method.OdataType == "#microsoft.graph.emailAuthenticationMethod")
-                {
-                    userMoreInfo.EmailMfa = ((EmailAuthenticationMethod)method).EmailAddress;
+                    if (method.OdataType == "#microsoft.graph.phoneAuthenticationMethod")
+                    {
+                        userMoreInfo.PhoneNumber = ((PhoneAuthenticationMethod)method).PhoneNumber ?? string.Empty;
+                    }
+                    else if (method.OdataType == "#microsoft.graph.emailAuthenticationMethod")
+                    {
+                        userMoreInfo.EmailMfa = ((EmailAuthenticationMethod)method).EmailAddress ?? string.Empty;
+                    }
                 }
             }
 

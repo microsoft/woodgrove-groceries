@@ -39,9 +39,9 @@ public class SendCodeController : ControllerBase
         }
 
         // Read app settings
-        string baseUrl = _configuration.GetSection("WoodgroveGroceriesApi:BaseUrl").Value!;
-        string[] scopes = _configuration.GetSection("WoodgroveGroceriesApi:Scopes").Get<string[]>();
-        string endpoint = _configuration.GetSection("WoodgroveGroceriesApi:Endpoint").Value! + "SendCode";
+        string baseUrl = _configuration.GetSection("WoodgroveGroceriesApi:BaseUrl")!.Value!;
+        string[] scopes = _configuration.GetSection("WoodgroveGroceriesApi:Scopes")!.Get<string[]>()!;
+        string endpoint = _configuration.GetSection("WoodgroveGroceriesApi:Endpoint")!.Value! + "SendCode";
 
         // Check the scopes application settings
         if (scopes == null)

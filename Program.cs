@@ -208,7 +208,10 @@ async Task OnTokenValidatedFunc(TokenValidatedContext context)
     // Add the scheme name claim for non standard scenario
     var claim = new Claim("AuthScheme", context.Scheme.Name);
     var identity = new ClaimsIdentity(new[] { claim });
-    context.Principal.AddIdentity(identity);
+    if (context.Principal != null)
+    {
+        context.Principal.AddIdentity(identity);
+    }
 
     await Task.CompletedTask;
 }
@@ -275,7 +278,7 @@ async Task OnRedirectToIdentityProviderFunc(RedirectContext context)
     {
         context.ProtocolMessage.DomainHint = domain_hint;
     }
-    
+
     // Read the 'query-string' custom query string
     var queryString = context.Properties.Items.FirstOrDefault(x => x.Key == "query-string").Value;
 
@@ -348,20 +351,24 @@ async Task OnAuthenticationFailedFunc(AuthenticationFailedContext context)
 // Invoked when there is an OpenIdConnect remote failure.
 async Task OnRemoteFailureFunc(RemoteFailureContext context)
 {
+    var failureMessage = context.Failure != null ? context.Failure.Message : "Unknown error";
+
     if (_telemetry != null)
     {
         PageViewTelemetry pageView = new PageViewTelemetry("AuthError");
 
+
         // Track the error into the authentication error page
         pageView.Properties.Add("Error", "RemoteFailure");
-        pageView.Properties.Add("ErrorDescription", context.Failure.Message);
+        pageView.Properties.Add("ErrorDescription", failureMessage);
         pageView.Properties.Add("ErrorCode", "APP_AUTH_0002");
 
         _telemetry.TrackPageView(pageView);
     }
 
     context.HandleResponse();
-    context.Response.Redirect($"/AuthError?error=APP_AUTH_0002&description={context.Failure.Message}");
+
+    context.Response.Redirect($"/AuthError?error=APP_AUTH_0002&description={failureMessage}");
     await Task.CompletedTask.ConfigureAwait(false);
 }
 

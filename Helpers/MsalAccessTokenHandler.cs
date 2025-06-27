@@ -37,7 +37,7 @@ namespace woodgrovedemo.Helpers
             return certificateDescription.Certificate;
         }
 
-        public static  GraphServiceClient GetGraphClient(IConfiguration configuration, string[] scopes = null)
+        public static  GraphServiceClient GetGraphClient(IConfiguration configuration, string[]? scopes = null)
         {
             string? tenantId = configuration.GetSection("MicrosoftGraph:TenantId").Value;
             string? clientId = configuration.GetSection("MicrosoftGraph:ClientId").Value;
@@ -74,11 +74,16 @@ namespace woodgrovedemo.Helpers
             return accessToken.Item1;
         }
 
-        public static async Task<(string token, string error, string error_description)> GetAccessToken(IConfiguration configuration, string[] scopes = null)
+        public static async Task<(string token, string error, string error_description)> GetAccessToken(IConfiguration configuration, string[]? scopes = null)
         {
             string? tenantId = configuration.GetSection("MicrosoftGraph:TenantId").Value;
             string? clientId = configuration.GetSection("MicrosoftGraph:ClientId").Value;
             string? certificateThumbprint = configuration.GetSection("MicrosoftGraph:CertificateThumbprint").Value;
+
+            if (string.IsNullOrWhiteSpace(certificateThumbprint))
+            {
+                throw new ArgumentNullException(nameof(certificateThumbprint), "Certificate thumbprint cannot be null or empty.");
+            }
 
             // You can run this sample using Certificate. The code will differ only when instantiating the IConfidentialClientApplication
             //string authority = $"{configuration.GetSection("MicrosoftGraph:TenantId").Value!}{configuration.GetSection("MicrosoftGraph:TenantId").Value!}";

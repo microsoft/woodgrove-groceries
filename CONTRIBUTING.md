@@ -51,10 +51,6 @@ Every use case (demo) must have a unique **ID**, such as **MFA** (multifactor au
     }
     ``` 
 
-1. There's one more file you need to edit. The [/Controllers/SelectUseCase.cs](./Controllers/SelectUseCase.cs) collects telemetry about the usage of the demos. 
-1. To add a new use case:
-    1. Locate the **RecordUseCase** method and add your use case ID to the `string[] useCases = { "Default", "AssignmentRequired", "OnlineRetail", "StepUp", ...}` collection. 
-
 ### Help files
 
 To provide help page for your use case (recommented), do the following:

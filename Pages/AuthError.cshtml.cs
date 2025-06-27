@@ -6,9 +6,9 @@ namespace woodgrovedemo.Pages
     public class AuthErrorModel : PageModel
     {
 
-        public string Error { get; set; }
-        public string Message { get; set; }
-        public string UserMessage { get; set; }
+        public string? Error { get; set; }
+        public string? Message { get; set; }
+        public string? UserMessage { get; set; }
 
         public void OnGet(string error = "", string description = "")
         {

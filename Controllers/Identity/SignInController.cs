@@ -31,8 +31,8 @@ public class SignInController : ControllerBase
 
     public async Task<IActionResult> OnGetDefault(string handler, string? id = null)
     {
-        // Retrieve the demo by the handler ID.
-        var demo = DemoDataList.Demos.FirstOrDefault(d => d.ID == handler);
+        // Retrieve the demo by the handler ID (case-insensitive).
+        var demo = DemoDataList.Demos.FirstOrDefault(d => d.ID.Equals(handler, StringComparison.OrdinalIgnoreCase));
         if (demo == null)
         {
             // Track the error with its ID.
@@ -112,7 +112,7 @@ public class SignInController : ControllerBase
 
         // Read app settings
         string baseUrl = _configuration.GetSection("WoodgroveGroceriesAuthApi:BaseUrl").Value!;
-        string[] scopes = _configuration.GetSection("WoodgroveGroceriesAuthApi:Scopes").Get<string[]>();
+        string[] scopes = _configuration.GetSection("WoodgroveGroceriesAuthApi:Scopes")!.Get<string[]>()!;
         string endpoint = _configuration.GetSection("WoodgroveGroceriesAuthApi:Endpoint").Value! + "ActAsDemo";
 
         // Set the scope full URL (temporary workaround should be fix)
@@ -128,11 +128,11 @@ public class SignInController : ControllerBase
             // Get an access token to call the "Account" API (the first API in line)
             accessToken = await _authorizationHeaderProvider.CreateAuthorizationHeaderForUserAsync(scopes);
         }
-        catch (MicrosoftIdentityWebChallengeUserException ex)
+        catch (MicrosoftIdentityWebChallengeUserException)
         {
             // TBD
         }
-        catch (System.Exception ex)
+        catch (System.Exception)
         {
             // TBD
         }
@@ -157,7 +157,7 @@ public class SignInController : ControllerBase
                 //string responseString = await responseMessage.Content.ReadAsStringAsync();
             }
         }
-        catch (System.Exception ex)
+        catch (System.Exception)
         {
             // TBD
         }

@@ -11,6 +11,7 @@ using woodgrovedemo.Helpers;
 
 namespace MyApp.Namespace
 {
+    [Authorize]
     public class DeleteMyAccountModel : PageModel
     {
         private readonly IConfiguration Configuration;
@@ -30,8 +31,7 @@ namespace MyApp.Namespace
 
             return Page();
         }
-        
-        [Authorize]
+
         public async Task OnPostAsync()
         {
 
