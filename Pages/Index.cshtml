@@ -41,8 +41,12 @@
     <!-- Welcome message end-->
 }
 
-<!-- Numbers end-->
+<!-- #region hidden user info-->
+<div class="d-none">
+    <span id="allergy">@Model.Allergy</span>
+</div>
 
+<!-- Numbers end-->
 @if (!string.IsNullOrEmpty(Model.Alert))
 {
     <!-- System alert -->
@@ -117,6 +121,15 @@
                         <a style="text-decoration: none" href="/Commercial">
                             <div class="card-discount">@product.Discount</div>
                         </a>
+                    }
+
+                    @* Check if the Model.Allergy is not empty. If not, check whether the product contains the Model.Allergy *@
+                    @if (!string.IsNullOrEmpty(Model.Allergy) && product.AllergyInfo.Contains(Model.Allergy, StringComparer.OrdinalIgnoreCase))
+                    {
+                        <div class="card-allergy" role="button" data-toggle="popover" data-trigger="hover"
+                            title="@Model.Allergy allergy warning">
+                            <i class="bi bi-exclamation-triangle-fill"></i>
+                        </div>
                     }
 
                     <div class="card-title">@product.Name</div>

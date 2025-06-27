@@ -32,7 +32,11 @@ stepUpProductFilter();
 
 var thanksModal, stepUpModal;
 $(document).ready(function () {
-    $('.card-allergy').popover({ trigger: "hover", content: "Please be aware that the food may contain or come into contact with eggs." });
+
+    // Get the allergy info from the hidden span (lowercase)
+    var allergy = $("#allergy").text().trim().toLowerCase();
+
+    $('.card-allergy').popover({ trigger: "hover", content: "Please be aware that the food may contain or come into contact with " + allergy + "." });
 
     thanksModal = new bootstrap.Modal(document.getElementById('thanksModal'), {
         keyboard: false

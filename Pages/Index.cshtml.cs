@@ -8,7 +8,7 @@ namespace woodgrovedemo.Pages;
 public class IndexModel : PageModel
 {
     public bool IsCommercialAccount { get; set; } = false;
-    public bool HasEggsAllergy { get; set; } = false;
+    public string Allergy { get; set; } = string.Empty;
     public bool StepUpFulfilled { get; set; } = false;
     public string Alert { get; set; } = string.Empty;
     public string LoyaltyNumber { get; set; } = string.Empty;
@@ -76,9 +76,9 @@ public class IndexModel : PageModel
             string commercialAccountsSecurityGroup = Configuration.GetSection("AppRoles:CommercialAccountsSecurityGroup").Value!;
             IsCommercialAccount = User.Claims.Any(c => c.Type == "groups" && c.Value == commercialAccountsSecurityGroup);
 
-            // Check the Eggs allergy
-            string? specialDiet = User.Claims.FirstOrDefault(c => c.Type.ToLower() == "specialdiet")?.Value;
-            HasEggsAllergy = (string.IsNullOrEmpty(specialDiet) == false && specialDiet.ToLower().StartsWith("egg"));
+            // Check the allergy info
+            var specialDietClaim = User.Claims.FirstOrDefault(c => c.Type.ToLower() == "specialdiet");
+            Allergy = specialDietClaim != null ? specialDietClaim.Value : string.Empty;
 
             // Check if the step up completed
             StepUpFulfilled = User.Claims.Any(c => c.Type == "acrs" && c.Value == "c1");
