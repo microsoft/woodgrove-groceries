@@ -768,6 +768,14 @@ public static class DemoDataList
             ConfigHelpUrl = "/help/AssignmentRequired"
         });
 
+        Demos.Add(new DemoData
+        {
+            ID = "ActAsIntro",
+            Title = "This record is the first step of the 'ActAs' demo for unauthenticated users.",
+            Content = "",
+            ServerSideOnly = true,
+            PostSignInRedirectUri = "/#usecase=ActAs"
+        });
 
         Demos.Add(new DemoData
         {
@@ -798,11 +806,11 @@ public static class DemoDataList
                     <li class='unauth'>Sign-up or sign-in with your email, or a social account.</li>
                     <li class='unauth'>After you sign-in, run this use case again.</li>
                 </ol>",
-            ActionUrl = "/SignIn?handler=default",
-            AuthorizedActionUrl = "/SignIn?handler=ActAs&id=Dave",
-            PostSignInRedirectUri = "/Token",
+            ActionUrl = "/SignIn?handler=ActAsIntro", // For unauthenticated users, this is the URL to start the ActAs demo
+            AuthorizedActionUrl = "/SignIn?handler=ActAs&id=Dave", // If the user is already signed in, this is the URL to start the ActAs demo
+            PostSignInRedirectUri = "/Token", //If the user is aready signed in, redirect to the token page
             Reauth = false,
-            ConfigHelpUrl = ""
+            ConfigHelpUrl = "/help/ActAs"
         });
 
         Demos.Add(new DemoData

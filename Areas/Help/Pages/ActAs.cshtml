@@ -1,0 +1,31 @@
+﻿@page
+@model woodgrovedemo.Help.Pages.GithubWorkflowsModel
+@{
+    ViewData["Title"] = "Act as";
+    Layout = "_Layout";
+}
+
+<h1 style="margin-top: 25px; margin-bottom: 25px;">Act as flow</h1>
+
+<div>
+    <ol>
+        <li>The "act as" demonstration involves two main steps. Initially, the user is required to sign in. Upon
+            successful authentication, the demo proceeds to the next step.
+        </li>
+        <li>In the second step, the user is directed to <code>/SignIn?handler=ActAs&id={username}</code>, where the selected user's
+            ID is temporarily stored in a database. Subsequently, it redirects the user to the Microsoft Entra External
+            ID sign-in page.
+        </li>
+        <li>Typically, since the user has an active session, no additional sign-in prompt appears; however, a <b>new</b>
+            security token is issued to the Woodgrove Groceries application.
+        </li>
+        <li>Before issuing this token, Microsoft Entra External ID, through a custom authentication extension, invokes a
+            web API.
+        </li>
+        <li>The custom authentication extension web API retrieves the user ID (associated with the user who runs the demo) from the database
+            and returns it to Microsoft Entra External ID.</li>
+        <li>Finally, Microsoft Entra External ID then issues a security token to the Woodgrove Groceries application, which includes
+            the "act as" claim, allowing the application to act on behalf of the user.</li>
+        <li>Check the <a href="/token" class="link-dark link-offset-2">token</a> for the "act as" claim.</li>
+    </ol>
+</div>

@@ -55,9 +55,9 @@ public class SignInController : ControllerBase
         }
 
         // If the demo is type of "act as", call the StartActAsAsync method.
-        if (demo.ID == "ActAs")
+        if (demo.ID.ToLower() == "actas")
         {
-            await StartActAsAsync(handler);
+            await StartActAsAsync();
         }
 
         ChallengeResult challengeResult = new ChallengeResult(
@@ -102,8 +102,11 @@ public class SignInController : ControllerBase
         return challengeResult;
     }
 
-    private async Task StartActAsAsync(string id)
+    private async Task StartActAsAsync()
     {
+        // Get the user ID from the query string.
+        string id = HttpContext.Request.Query["id"].ToString();
+
         // Input validation 
         if (id.Length > 20)
         {
@@ -128,13 +131,15 @@ public class SignInController : ControllerBase
             // Get an access token to call the "Account" API (the first API in line)
             accessToken = await _authorizationHeaderProvider.CreateAuthorizationHeaderForUserAsync(scopes);
         }
-        catch (MicrosoftIdentityWebChallengeUserException)
+        catch (MicrosoftIdentityWebChallengeUserException ex)
         {
-            // TBD
+            // Try to get the inner exception. If it's null, use the outer exception message.
+            var error = ex.InnerException ?? ex;
+            AppInsights.TrackException(_telemetry, error, "StartActAsAsync");
         }
-        catch (System.Exception)
+        catch (System.Exception ex)
         {
-            // TBD
+            AppInsights.TrackException(_telemetry, ex, "StartActAsAsync");
         }
 
 
@@ -157,9 +162,9 @@ public class SignInController : ControllerBase
                 //string responseString = await responseMessage.Content.ReadAsStringAsync();
             }
         }
-        catch (System.Exception)
+        catch (System.Exception ex)
         {
-            // TBD
+            AppInsights.TrackException(_telemetry, ex, "StartActAsAsync");
         }
     }
 }
