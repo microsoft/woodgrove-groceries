@@ -141,9 +141,9 @@ Refer to the detailed graphs for a breakdown.
 
     /***** Operation systems of authentication requests *****/
     $.ajax({
-      url: "/UserInsights/monthly/summary",
+      url: "/api/UserInsights/monthly/summary",
       success: function (result) {
-        console.log("/UserInsights/monthly/summary")
+        console.log("/api/UserInsights/monthly/summary")
         console.log(result)
 
         var items = {};
@@ -203,9 +203,9 @@ Refer to the detailed graphs for a breakdown.
 
     /***** Monthly Active users  *****/
     $.ajax({
-      url: "/UserInsights/monthly/activeUsers",
+      url: "/api/UserInsights/monthly/activeUsers",
       success: function (result) {
-        console.log("/UserInsights/monthly/activeUsers")
+        console.log("/api/UserInsights/monthly/activeUsers")
         console.log(result)
 
         var items = {};
@@ -271,9 +271,9 @@ Refer to the detailed graphs for a breakdown.
 
     /**** Monthly Authentications over time ******/
     $.ajax({
-      url: "/UserInsights/monthly/authentications",
+      url: "/api/UserInsights/monthly/authentications",
       success: function (result) {
-        console.log("/UserInsights/monthly/authentications")
+        console.log("/api/UserInsights/monthly/authentications")
         console.log(result)
 
         var items = {};
@@ -328,7 +328,7 @@ Refer to the detailed graphs for a breakdown.
 
     /**** Authentications per counrty per day ******/
     $.ajax({
-      url: "/UserInsights/daily/authentications",
+      url: "/api/UserInsights/daily/authentications",
       success: function (result) {
 
         var items = {};
@@ -388,9 +388,9 @@ Refer to the detailed graphs for a breakdown.
 
     /**** Monthly signUps ******/
     $.ajax({
-      url: "/UserInsights/monthly/signUps",
+      url: "/api/UserInsights/monthly/signUps",
       success: function (result) {
-        console.log("/UserInsights/monthly/signUps")
+        console.log("/api/UserInsights/monthly/signUps")
         console.log(result)
 
 
@@ -450,9 +450,9 @@ Refer to the detailed graphs for a breakdown.
 
     /**** Total users ******/
     $.ajax({
-      url: "/UserInsights/daily/userCount",
+      url: "/api/UserInsights/daily/userCount",
       success: function (result) {
-        console.log("/UserInsights/daily/userCount")
+        console.log("/api/UserInsights/daily/userCount")
         console.log(result)
 
 
@@ -510,9 +510,9 @@ Refer to the detailed graphs for a breakdown.
 
     /***** Monthly authentications  *****/
     $.ajax({
-      url: "/UserInsights/monthly/requests",
+      url: "/api/UserInsights/monthly/requests",
       success: function (result) {
-        console.log("/UserInsights/monthly/requests")
+        console.log("/api/UserInsights/monthly/requests")
         console.log(result)
 
         var items = {};
@@ -576,16 +576,16 @@ Refer to the detailed graphs for a breakdown.
 
     /***** Daily active users  *****/
     $.ajax({
-      url: "/UserInsights/daily/activeUsers",
+      url: "/api/UserInsights/daily/activeUsers",
       success: function (activeResult) {
-        console.log("/UserInsights/daily/activeUsers")
+        console.log("/api/UserInsights/daily/activeUsers")
         console.log(activeResult)
 
         /***** Daily inactive users  *****/
         $.ajax({
-          url: "/UserInsights/daily/inactiveUsers",
+          url: "/api/UserInsights/daily/inactiveUsers",
           success: function (inactiveResult) {
-            console.log("/UserInsights/daily/inactiveUsers")
+            console.log("/api/UserInsights/daily/inactiveUsers")
             console.log(inactiveResult)
 
 
